@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "c1"
+version = "0.0.0.dev0"
+description = "C1 development harness; product implementation is pending"
+requires-python = ">=3.13,<3.14"
+license = "Apache-2.0"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "detect-secrets==1.5.0",
+  "mypy==2.3.1",
+  "pytest==9.0.2",
+  "ruff==0.16.9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/c1"]
+
+[tool.uv]
+# Isolated PEP 517 build requirements are separate from uv.lock's dev group.
+build-constraint-dependencies = [
+  "hatchling==1.27.0",
+  "editables==0.6",
+  "packaging==26.3",
+  "pathspec==1.1.1",
+  "pluggy==1.6.0",
+  "trove-classifiers==2026.9.21.13",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = [".uv-cache", ".uv-python"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+explicit_package_bases = true
+mypy_path = ["src", "."]
+files = ["src", "scripts", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+pythonpath = ["."]

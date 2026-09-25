@@ -1,0 +1,25 @@
+$ uname -srmo
+Linux 7.0.0-34-generic x86_64 GNU/Linux
+
+EXIT_CODE=0
+$ git --version
+git version 2.53.0
+
+EXIT_CODE=0
+$ make --version
+GNU Make 4.4.1
+Built for x86_64-pc-linux-gnu
+Copyright (C) 1988-2023 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+EXIT_CODE=0
+$ uv --version
+uv 0.12.2 (x86_64-unknown-linux-gnu)
+
+EXIT_CODE=0
+$ .venv/bin/python --version
+Python 3.13.14
+
+EXIT_CODE=0

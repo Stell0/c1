@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** planning scaffold; no milestone is implemented, tested, or approved by the existence of this file.  
+**Status:** M00 harness implemented locally; its gate is BLOCKED pending remote CI evidence. See [M00 report](docs/milestones/M00-report.md). Later milestones remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -68,7 +68,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 
 | ID | Milestone | Prerequisites | Verifiable result | Initial status |
 |---|---|---|---|---|
-| M00 | Baseline and development harness | None | Attributed local specification, accepted extension, and reproducible checking harness | PLANNED |
+| M00 | Baseline and development harness | None | Attributed local specification, accepted extension, and reproducible checking harness | BLOCKED |
 | M01 | Infrastructure and feasibility proofs | M00 | Pinned open-source stack with measured transaction/security/interchange proofs | PLANNED |
 | M02 | Canonical model and standards profile | M01 | Validated, portable knowledge records and software-extension boundaries | NOT_PLANNED |
 | M03 | Identity and current resource authorization | M02 | Fail-closed principals, scopes, bindings, and controlled security operations | NOT_PLANNED |

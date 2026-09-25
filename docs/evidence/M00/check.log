@@ -1,0 +1,26 @@
+$ make check
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+23 files already formatted
+uv run --locked mypy
+Success: no issues found in 6 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+testpaths: tests
+collected 19 items
+
+tests/test_baseline.py ........                                          [ 42%]
+tests/test_harness.py ...                                                [ 57%]
+tests/test_secret_hygiene.py ........                                    [100%]
+
+============================== 19 passed in 3.32s ==============================
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 43 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).
+
+EXIT_CODE=0

@@ -1,0 +1,15 @@
+.venv/
+.uv-cache/
+.uv-python/
+.env
+.env.*
+!.env.example
+docs/evidence/**/private/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.swp
+*.swo
+dist/
+*.egg-info/

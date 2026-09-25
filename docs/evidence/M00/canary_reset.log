@@ -1,0 +1,16 @@
+$ make test
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+testpaths: tests
+collected 19 items
+
+tests/test_baseline.py ........                                          [ 42%]
+tests/test_harness.py ...                                                [ 57%]
+tests/test_secret_hygiene.py ........                                    [100%]
+
+============================== 19 passed in 3.46s ==============================
+
+EXIT_CODE=0

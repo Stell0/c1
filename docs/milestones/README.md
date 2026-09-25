@@ -46,3 +46,9 @@ Decision: what was chosen, stated precisely (versions, digests, names).
 Evidence: URLs, tags, file paths, command output that support the decision, with the date checked.
 Consequences: what becomes easier, what becomes harder, what must be re-verified later.
 ```
+
+## Templates
+
+Start a selected milestone plan from [TEMPLATE-plan.md](TEMPLATE-plan.md) and its completion record from [TEMPLATE-report.md](TEMPLATE-report.md). Keep the eight required plan sections in the order above. Replace each prompt with evidence specific to the active milestone; do not copy planning-time assumptions forward as verified facts.
+
+The report gate reflects the evidence actually obtained. Mark unavailable remote services or workflows `NOT_RUN` and record the blocking reason. A required check marked `NOT_RUN` keeps the gate BLOCKED under PLAN.md §2 and AGENTS.md §11; a lower-priority plan cannot waive it.

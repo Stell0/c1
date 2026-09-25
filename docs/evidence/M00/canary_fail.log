@@ -1,0 +1,28 @@
+$ C1_HARNESS_CANARY_FAIL=1 make test
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+testpaths: tests
+collected 19 items
+
+tests/test_baseline.py ........                                          [ 42%]
+tests/test_harness.py .F.                                                [ 57%]
+tests/test_secret_hygiene.py ........                                    [100%]
+
+=================================== FAILURES ===================================
+_________________________________ test_canary __________________________________
+
+    def test_canary() -> None:
+        if os.environ.get("C1_HARNESS_CANARY_FAIL") == "1":
+>           pytest.fail("intentional M00 harness canary failure")
+E           Failed: intentional M00 harness canary failure
+
+tests/test_harness.py:29: Failed
+=========================== short test summary info ============================
+FAILED tests/test_harness.py::test_canary - Failed: intentional M00 harness c...
+========================= 1 failed, 18 passed in 4.52s =========================
+make: *** [Makefile:22: test] Error 1
+
+EXIT_CODE=2

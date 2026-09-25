@@ -1,0 +1,45 @@
+$ bash -n scripts/clean_start.sh
+
+EXIT_CODE=0
+$ git diff --check
+
+EXIT_CODE=0
+$ git diff --exit-code HEAD -- PROJECT_SPECIFICATION.md MVP_ARCHITECTURE.md
+
+EXIT_CODE=0
+$ sha256sum -c docs/evidence/M00/implementation.sha256
+.editorconfig: OK
+.github/workflows/check.yml: OK
+.gitignore: OK
+.python-version: OK
+.secrets.baseline: OK
+AGENTS.md: OK
+LICENSE: OK
+MVP_ARCHITECTURE.md: OK
+Makefile: OK
+NOTICE: OK
+PLAN.md: OK
+PROJECT_SPECIFICATION.md: OK
+README.md: OK
+docs/baseline/ATTRIBUTION.md: OK
+docs/baseline/OPEN_CHOICES.md: OK
+docs/baseline/SOFTWARE_EXTENSION_ADDENDUM.md: OK
+docs/decisions/ADR-0001-runtime.md: OK
+docs/decisions/ADR-0002-harness-tooling.md: OK
+docs/milestones/M00.md: OK
+docs/milestones/M01.md: OK
+docs/milestones/README.md: OK
+docs/milestones/TEMPLATE-plan.md: OK
+docs/milestones/TEMPLATE-report.md: OK
+pyproject.toml: OK
+scripts/check_baseline.py: OK
+scripts/check_secrets.py: OK
+scripts/clean_start.sh: OK
+src/c1/__init__.py: OK
+src/c1/py.typed: OK
+tests/test_baseline.py: OK
+tests/test_harness.py: OK
+tests/test_secret_hygiene.py: OK
+uv.lock: OK
+
+EXIT_CODE=0
