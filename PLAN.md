@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00 harness implemented locally; its gate is BLOCKED pending remote CI evidence. See [M00 report](docs/milestones/M00-report.md). Later milestones remain unimplemented.
+**Status:** M00 baseline and harness VERIFIED, including remote CI failure/recovery and committed clean-start. See [M00 report](docs/milestones/M00-report.md). Later milestones remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -68,7 +68,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 
 | ID | Milestone | Prerequisites | Verifiable result | Initial status |
 |---|---|---|---|---|
-| M00 | Baseline and development harness | None | Attributed local specification, accepted extension, and reproducible checking harness | BLOCKED |
+| M00 | Baseline and development harness | None | Attributed local specification, accepted extension, and reproducible checking harness | VERIFIED |
 | M01 | Infrastructure and feasibility proofs | M00 | Pinned open-source stack with measured transaction/security/interchange proofs | PLANNED |
 | M02 | Canonical model and standards profile | M01 | Validated, portable knowledge records and software-extension boundaries | NOT_PLANNED |
 | M03 | Identity and current resource authorization | M02 | Fail-closed principals, scopes, bindings, and controlled security operations | NOT_PLANNED |
@@ -525,4 +525,4 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S4 — Current planning instruction.** Produce AGENTS.md and PLAN.md; divide work into milestones with verifiable outputs and specific tests, and plan each milestone separately. This is the authority for the execution policy and delivery structure in this file.
 
-No product code, backend proof, security test, or milestone implementation was executed when drafting this roadmap. The next action is to select and separately plan **M00**, not to execute all milestones.
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00 is now VERIFIED as recorded above. The next bounded action is owner selection of **M01** and revalidation of its provisional plan against the M00 report; no later milestone is automatically authorized.

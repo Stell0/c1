@@ -1,7 +1,7 @@
 # M00 evidence
 
 These are local development-harness results, not product/service proofs.
-`M00-report.md` is the gate of record; remote CI remains NOT_RUN.
+`M00-report.md` is the gate of record; local and remote M00 checks are verified.
 
 - `bootstrap.log`, `check.log`, `canary_fail.log`, `canary_reset.log`:
   commands, output and exact exit codes from the final local checks.
@@ -11,6 +11,10 @@ These are local development-harness results, not product/service proofs.
 - `clean_start.log`: isolated working-tree snapshot, its Git tree ID, a new
   Python installation and environment, and bootstrap/check with the six named
   AI environment variables unset. The original working tree is not committed.
+- `committed_clean_start.log`: `make clean-start` passed from implementation
+  commit `3d50b59`, cloning tree `c909745703739778c347b07c5eb6da2e998fa648`.
+- `ci_runs.log`, `ci_*.log`: remote run commands, revision, URLs and conclusions;
+  only bootstrap/check steps are retained from the fetched job logs.
 - `implementation.sha256`: exact checked source/configuration/document inputs;
   evidence files and the report itself are excluded to avoid circular hashes.
   Verify with `sha256sum -c docs/evidence/M00/implementation.sha256`.

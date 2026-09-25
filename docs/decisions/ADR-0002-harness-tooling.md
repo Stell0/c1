@@ -35,7 +35,7 @@ AWS-style key, never a real credential.
 
 CI pins checkout and setup-uv to immutable commits and disables persisted Git
 credentials. Manual `canary_fail=true` makes the normal `make check` job fail;
-false restores normal behavior. CI has not been remotely exercised yet.
+false restores normal behavior. Remote failure and recovery have been exercised at implementation commit `3d50b59`; the M00 report links both runs.
 
 ## Evidence
 
@@ -52,8 +52,8 @@ Checked 2026-09-25:
   resolves to commit `37802adc94f370d6bfd71619e3f0bf239e1f3b78` (v7.6.0).
   [checkout v4 ref](https://api.github.com/repos/actions/checkout/git/ref/tags/v4)
   resolved to `11d5960a326750d5838078e36cf38b85af677262`.
-- `docs/evidence/M00/` contains local transcripts; remote results are explicitly
-  `NOT_RUN` until separately authorized. The top-level Apache-2.0 text was
+- `docs/evidence/M00/` contains local transcripts; remote run results and links are recorded
+  after the owner authorized the commit/push and verification step. The top-level Apache-2.0 text was
   downloaded from [Apache](https://www.apache.org/licenses/LICENSE-2.0.txt).
 
 ## Consequences and plan conflicts
@@ -62,11 +62,11 @@ The drafted M00-T04 rule demanded a VERIFIED report even for IN_PROGRESS/VERIFYI
 roadmap rows, conflicting with W7 and the higher-priority roadmap workflow.
 The implementation follows PLAN.md §2: only VERIFIED requires a VERIFIED report;
 in-progress states do not claim completion. This corrects the plan conflict
-without relaxing any completed-milestone evidence requirement. M00 is BLOCKED
-because remote evidence is unavailable.
+without relaxing any completed-milestone evidence requirement. M00 remained BLOCKED
+until the remote evidence was available.
 
 The original M00 §8 permitted closing with CI NOT_RUN, but PLAN.md §2 and AGENTS.md §11 require
-every named check. Those higher-priority requirements control: M00 stays BLOCKED.
+every named check. Those higher-priority requirements control: M00 could only be VERIFIED after remote CI passed.
 No acceptance criterion is waived.
 
 Default clean-start clones a clean committed repository. `--worktree` creates

@@ -1,9 +1,9 @@
 # M00 — Baseline and development harness report
 
-**Gate:** BLOCKED
+**Gate:** VERIFIED
 
 **Approved plan revision:** `ffd65b9eb26b43911a1d1fb16c6e7b9a427d371d`, authorized for implementation by the owner on 2026-09-25. The explicit precedence corrections in M00 §9 are part of this working-tree change.
-**Implementation revision:** uncommitted working tree based on that commit; exact reviewed inputs are listed in [implementation.sha256](../evidence/M00/implementation.sha256). The report and generated evidence are excluded from this manifest to avoid circular digests. No real repository commit or push was made.
+**Implementation revision:** `3d50b59a4392c679c6ab5bbc03fd338be6a06d3c`, committed and pushed to `origin/main` after owner authorization. Closure documentation/evidence is in the follow-up commit containing this report. [implementation.sha256](../evidence/M00/implementation.sha256) identifies the final reviewed inputs, excluding this report and generated evidence to avoid circular digests. Runtime code and dependencies are unchanged from the implementation commit.
 **Report date:** 2026-09-25.
 
 ## Delivered scope
@@ -42,21 +42,23 @@ repositories. No prior milestone regression or protected request path exists.
 | `bash -n scripts/clean_start.sh` | 0 | PASS syntax check | [final_validation.log](../evidence/M00/final_validation.log) |
 | `git diff --check` | 0 | PASS | [final_validation.log](../evidence/M00/final_validation.log) |
 | `sha256sum -c docs/evidence/M00/implementation.sha256` | 0 | PASS input identity | [final_validation.log](../evidence/M00/final_validation.log) |
-| GitHub `workflow_dispatch`, `canary_fail=true` then `false` | — | NOT_RUN: authorization pending | No run created |
+| `make clean-start` | 0 | PASS from committed checkout | [committed_clean_start.log](../evidence/M00/committed_clean_start.log) |
+| `gh workflow run check.yml --ref main -f canary_fail=true` | Dispatch 0; CI check 2 | PASS negative check: exactly one intentional canary failure, 18 tests pass | [failure run](https://github.com/Stell0/c1/actions/runs/36153660154) |
+| `gh workflow run check.yml --ref main -f canary_fail=false` | Dispatch 0; CI success | PASS: 19 tests and full gate | [recovery run](https://github.com/Stell0/c1/actions/runs/36153749620) |
 
 | Named check | Result | Observation |
 |---|---|---|
 | M00-T01 Baseline fidelity | PASS for authoritative local baseline | Exact source hashes and requirement headings; extension attribution checked. Cloud equivalence is not claimed (see local-source override below). |
-| M00-T02 Clean start | PASS | Bootstrap and all checks succeed in cloned working-tree snapshot `15e8cffb70ab429c3b195bc5454a25e761b6356a` with the six named AI variables unset. Real committed-checkout rerun is pending W8. |
-| M00-T03 CI detects failure | Local PASS; remote NOT_RUN | Local test and aggregate gate fail on canary and pass after reset; remote behavior is unproven. |
-| M00-T04 No fabricated state | PASS | No completed milestone claimed; local integrity/state checks and lead documentation review passed. |
+| M00-T02 Clean start | PASS | Bootstrap and all checks succeed in both the working-tree snapshot and the clean committed clone (tree `c909745703739778c347b07c5eb6da2e998fa648`) with the six named AI variables unset. |
+| M00-T03 CI detects failure | PASS | Local and GitHub gates reject the canary and pass after reset; both remote runs target the same implementation revision. |
+| M00-T04 No fabricated state | PASS | Only M00 is now marked VERIFIED, backed by this report; later milestones remain unimplemented. Integrity/state checks and documentation review pass. |
 | M00-T05 Secret hygiene | PASS | Both direct detector and repository gate find a runtime-generated AWS-style key; tracked/untracked files, baseline contents and unaudited exceptions are covered; repository scan passes. |
 
 Reproduce locally with `make bootstrap`, `make check`, the canary command above
 (expected nonzero), then `make test`. Use `make clean-start` after a real clean
-commit, or the explicit `--worktree` mode before it. The source snapshot and the
-final input manifest differ only in report/generated evidence, which the manifest
-deliberately excludes. [versions.log](../evidence/M00/versions.log) records host tools.
+commit, or the explicit `--worktree` mode before it. The closure commit updates documentation and evidence only; the final input
+manifest includes those documentation updates. Remote runs used the implementation
+revision above, with unchanged harness code and dependencies. [versions.log](../evidence/M00/versions.log) records host tools.
 
 ## Source fidelity
 
@@ -80,19 +82,26 @@ gate spelling and the open-choice inventory were also aligned. The independent
 reviewer reproduced the detector-disable attempt after the fix and confirmed it
 is rejected, with no new finding in that bounded review. The lead validated the
 integrated result: all 19 tests and the full local gate pass. Clean-start passed again
-for the final inputs with a new Python installation, cache and environment. There is no independent
-claim that remote CI or a product capability passed.
+for the final inputs with a new Python installation, cache and environment. Remote CI evidence now proves the harness failure/recovery path. No product
+capability is claimed.
 
 `uv sync --frozen` alone does not enforce lock freshness; bootstrap now runs
 `uv lock --check` first. No acceptance criterion was weakened. The M00 draft's
 permission to close with CI NOT_RUN was corrected under PLAN.md §2 and AGENTS.md
 §11: remote canary failure and restored pass remain required.
 
-## Remaining gate and bounded next action
+## Gate decision and bounded next action
 
-M00-T03 remote CI is NOT_RUN. M00 §4 W8 explicitly reserves implementation
-commit/push for separate owner authorization; AGENTS.md §9 also reserves remote
-workflow execution. Once authorized, commit and push this reviewed change, run
-`check.yml` with `canary_fail=true` and then `false`, and retain both run URLs and
-conclusions. Rerun clean-start from the committed checkout and update this report
-and PLAN.md only when all required evidence passes. M01 is not started.
+All M00-T01–T05 checks pass within the authoritative local-source boundary.
+The owner authorized commit/push after the implementation review. The automatic
+[push run](https://github.com/Stell0/c1/actions/runs/36153623135) and manual recovery
+run succeeded; the deliberate canary run failed solely at the expected assertion.
+[ci_runs.log](../evidence/M00/ci_runs.log) records commands, revision and run URLs.
+`make clean-start` passed from the committed repository with fresh Python/cache.
+The independent closure review checked that all CI runs target the same commit
+and that the committed clean-start tree matches it; no substantive gate issue
+remained after refreshing the input manifest and roadmap next-action wording.
+No unresolved local or remote M00 gate failure remains.
+
+The next bounded action is owner selection of M01 and revalidation of its
+provisional plan against this report. M01 is not started.

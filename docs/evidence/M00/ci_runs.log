@@ -1,0 +1,33 @@
+M00 remote verification at 3d50b59a4392c679c6ab5bbc03fd338be6a06d3c
+
+$ gh workflow run check.yml --ref main -f canary_fail=true
+EXIT_CODE=0
+$ gh workflow run check.yml --ref main -f canary_fail=false
+EXIT_CODE=0
+
+$ gh run view 36153623135 --json databaseId,headSha,event,status,conclusion,url,jobs
+EXIT_CODE=0
+input/event: push
+headSha: 3d50b59a4392c679c6ab5bbc03fd338be6a06d3c
+status: completed
+conclusion: success
+url: https://github.com/Stell0/c1/actions/runs/36153623135
+job: check success https://github.com/Stell0/c1/actions/runs/36153623135/job/108132733833
+
+$ gh run view 36153660154 --json databaseId,headSha,event,status,conclusion,url,jobs
+EXIT_CODE=0
+input/event: canary_fail=true
+headSha: 3d50b59a4392c679c6ab5bbc03fd338be6a06d3c
+status: completed
+conclusion: failure
+url: https://github.com/Stell0/c1/actions/runs/36153660154
+job: check failure https://github.com/Stell0/c1/actions/runs/36153660154/job/108132863419
+
+$ gh run view 36153749620 --json databaseId,headSha,event,status,conclusion,url,jobs
+EXIT_CODE=0
+input/event: canary_fail=false
+headSha: 3d50b59a4392c679c6ab5bbc03fd338be6a06d3c
+status: completed
+conclusion: success
+url: https://github.com/Stell0/c1/actions/runs/36153749620
+job: check success https://github.com/Stell0/c1/actions/runs/36153749620/job/108133172281

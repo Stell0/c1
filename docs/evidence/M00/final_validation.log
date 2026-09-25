@@ -4,7 +4,7 @@ EXIT_CODE=0
 $ git diff --check
 
 EXIT_CODE=0
-$ git diff --exit-code HEAD -- PROJECT_SPECIFICATION.md MVP_ARCHITECTURE.md
+$ git diff --exit-code 3d50b59 -- PROJECT_SPECIFICATION.md MVP_ARCHITECTURE.md src scripts tests pyproject.toml uv.lock .github
 
 EXIT_CODE=0
 $ sha256sum -c docs/evidence/M00/implementation.sha256
@@ -41,5 +41,12 @@ tests/test_baseline.py: OK
 tests/test_harness.py: OK
 tests/test_secret_hygiene.py: OK
 uv.lock: OK
+
+EXIT_CODE=0
+$ make baseline secrets
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 49 tracked/nonignored files (offline).
 
 EXIT_CODE=0

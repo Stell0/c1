@@ -1,0 +1,74 @@
+$ make clean-start
+bash scripts/clean_start.sh
+Checking cloned tree c909745703739778c347b07c5eb6da2e998fa648
+make[1]: Entering directory '/tmp/tmp.4MOIaubn5N/checkout'
+uv python install 3.13
+Downloading cpython-3.13.14-linux-x86_64-gnu (download) (33.2MiB)
+ Downloaded cpython-3.13.14-linux-x86_64-gnu (download)
+Installed Python 3.13.14 in 11.59s
+ + cpython-3.13.14-linux-x86_64-gnu (python3.13)
+warning: `/tmp/tmp.4MOIaubn5N/uv-python/bin` is not on your PATH. To use installed Python executables, run `export PATH="/tmp/tmp.4MOIaubn5N/uv-python/bin:$PATH"` or `uv python update-shell`.
+uv lock --check
+Using CPython 3.13.14
+Resolved 21 packages in 0.93ms
+uv sync --frozen
+Using CPython 3.13.14
+Creating virtual environment at: .venv
+   Building c1 @ file:///tmp/tmp.4MOIaubn5N/checkout
+Downloading ast-serialize (1.3MiB)
+Downloading ruff (9.9MiB)
+Downloading pygments (1.2MiB)
+Downloading mypy (14.5MiB)
+      Built c1 @ file:///tmp/tmp.4MOIaubn5N/checkout
+ Downloaded pygments
+ Downloaded ast-serialize
+ Downloaded ruff
+ Downloaded mypy
+Prepared 20 packages in 19.36s
+Installed 20 packages in 10ms
+ + ast-serialize==0.11.2
+ + c1==0.0.0.dev0 (from file:///tmp/tmp.4MOIaubn5N/checkout)
+ + certifi==2026.7.22
+ + charset-normalizer==3.5.1
+ + detect-secrets==1.5.0
+ + idna==3.20
+ + iniconfig==2.3.0
+ + librt==0.15.0
+ + mypy==2.3.1
+ + mypy-extensions==1.1.0
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pluggy==1.6.0
+ + pygments==2.21.0
+ + pytest==9.0.2
+ + pyyaml==6.0.3
+ + requests==2.34.2
+ + ruff==0.16.9
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+23 files already formatted
+uv run --locked mypy
+Success: no issues found in 6 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /tmp/tmp.4MOIaubn5N/checkout
+configfile: pyproject.toml
+testpaths: tests
+collected 19 items
+
+tests/test_baseline.py ........                                          [ 42%]
+tests/test_harness.py ...                                                [ 57%]
+tests/test_secret_hygiene.py ........                                    [100%]
+
+============================== 19 passed in 3.33s ==============================
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 44 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).
+make[1]: Leaving directory '/tmp/tmp.4MOIaubn5N/checkout'
+
+EXIT_CODE=0

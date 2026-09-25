@@ -1,0 +1,93 @@
+$ gh run view 36153660154 --log
+Only make bootstrap/check steps retained; checkout/setup metadata omitted; trailing whitespace trimmed.
+check	Run make bootstrap	﻿2026-09-25T15:22:01.9199576Z ##[group]Run make bootstrap
+check	Run make bootstrap	2026-09-25T15:22:01.9199964Z ^[[36;1mmake bootstrap^[[0m
+check	Run make bootstrap	2026-09-25T15:22:02.1084512Z shell: /usr/bin/bash -e {0}
+check	Run make bootstrap	2026-09-25T15:22:02.1084870Z env:
+check	Run make bootstrap	2026-09-25T15:22:02.1085095Z   C1_HARNESS_CANARY_FAIL: 1
+check	Run make bootstrap	2026-09-25T15:22:02.1085443Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+check	Run make bootstrap	2026-09-25T15:22:02.1085818Z ##[endgroup]
+check	Run make bootstrap	2026-09-25T15:22:02.1469306Z uv python install 3.13
+check	Run make bootstrap	2026-09-25T15:22:02.2550739Z Downloading cpython-3.13.14-linux-x86_64-gnu (download) (33.2MiB)
+check	Run make bootstrap	2026-09-25T15:22:03.4435493Z  Downloaded cpython-3.13.14-linux-x86_64-gnu (download)
+check	Run make bootstrap	2026-09-25T15:22:03.4579334Z Installed Python 3.13.14 in 1.30s
+check	Run make bootstrap	2026-09-25T15:22:03.4580525Z  + cpython-3.13.14-linux-x86_64-gnu (python3.13)
+check	Run make bootstrap	2026-09-25T15:22:03.4583502Z warning: `/home/runner/work/c1/c1/.uv-python/bin` is not on your PATH. To use installed Python executables, run `$env:PATH = "/home/runner/work/c1/c1/.uv-python/bin;$env:PATH"` or `uv python update-shell`.
+check	Run make bootstrap	2026-09-25T15:22:03.4628099Z uv lock --check
+check	Run make bootstrap	2026-09-25T15:22:03.6246093Z Using CPython 3.13.14
+check	Run make bootstrap	2026-09-25T15:22:03.6259318Z Resolved 21 packages in 0.67ms
+check	Run make bootstrap	2026-09-25T15:22:03.6269913Z uv sync --frozen
+check	Run make bootstrap	2026-09-25T15:22:03.6375593Z Using CPython 3.13.14
+check	Run make bootstrap	2026-09-25T15:22:03.6376757Z Creating virtual environment at: .venv
+check	Run make bootstrap	2026-09-25T15:22:03.6489160Z    Building c1 @ file:///home/runner/work/c1/c1
+check	Run make bootstrap	2026-09-25T15:22:03.7110883Z Downloading ast-serialize (1.3MiB)
+check	Run make bootstrap	2026-09-25T15:22:03.7228199Z Downloading mypy (14.5MiB)
+check	Run make bootstrap	2026-09-25T15:22:03.7241385Z Downloading pygments (1.2MiB)
+check	Run make bootstrap	2026-09-25T15:22:03.7245252Z Downloading ruff (9.9MiB)
+check	Run make bootstrap	2026-09-25T15:22:03.8503200Z  Downloaded ast-serialize
+check	Run make bootstrap	2026-09-25T15:22:04.0779159Z  Downloaded ruff
+check	Run make bootstrap	2026-09-25T15:22:04.1581340Z  Downloaded pygments
+check	Run make bootstrap	2026-09-25T15:22:04.3548499Z  Downloaded mypy
+check	Run make bootstrap	2026-09-25T15:22:04.6313196Z       Built c1 @ file:///home/runner/work/c1/c1
+check	Run make bootstrap	2026-09-25T15:22:04.6324236Z Prepared 20 packages in 992ms
+check	Run make bootstrap	2026-09-25T15:22:04.6807059Z Installed 20 packages in 47ms
+check	Run make bootstrap	2026-09-25T15:22:04.6808303Z  + ast-serialize==0.11.2
+check	Run make bootstrap	2026-09-25T15:22:04.6809034Z  + c1==0.0.0.dev0 (from file:///home/runner/work/c1/c1)
+check	Run make bootstrap	2026-09-25T15:22:04.6809775Z  + certifi==2026.7.22
+check	Run make bootstrap	2026-09-25T15:22:04.6810430Z  + charset-normalizer==3.5.1
+check	Run make bootstrap	2026-09-25T15:22:04.6811044Z  + detect-secrets==1.5.0
+check	Run make bootstrap	2026-09-25T15:22:04.6811919Z  + idna==3.20
+check	Run make bootstrap	2026-09-25T15:22:04.6812435Z  + iniconfig==2.3.0
+check	Run make bootstrap	2026-09-25T15:22:04.6812957Z  + librt==0.15.0
+check	Run make bootstrap	2026-09-25T15:22:04.6813483Z  + mypy==2.3.1
+check	Run make bootstrap	2026-09-25T15:22:04.6814079Z  + mypy-extensions==1.1.0
+check	Run make bootstrap	2026-09-25T15:22:04.6814702Z  + packaging==26.3
+check	Run make bootstrap	2026-09-25T15:22:04.6815425Z  + pathspec==1.1.1
+check	Run make bootstrap	2026-09-25T15:22:04.6816014Z  + pluggy==1.6.0
+check	Run make bootstrap	2026-09-25T15:22:04.6816575Z  + pygments==2.21.0
+check	Run make bootstrap	2026-09-25T15:22:04.6817131Z  + pytest==9.0.2
+check	Run make bootstrap	2026-09-25T15:22:04.6818015Z  + pyyaml==6.0.3
+check	Run make bootstrap	2026-09-25T15:22:04.6818584Z  + requests==2.34.2
+check	Run make bootstrap	2026-09-25T15:22:04.6819125Z  + ruff==0.16.9
+check	Run make bootstrap	2026-09-25T15:22:04.6819696Z  + typing-extensions==4.16.0
+check	Run make bootstrap	2026-09-25T15:22:04.6820321Z  + urllib3==2.8.0
+check	Run make check	﻿2026-09-25T15:22:04.7022273Z ##[group]Run make check
+check	Run make check	2026-09-25T15:22:04.7022581Z ^[[36;1mmake check^[[0m
+check	Run make check	2026-09-25T15:22:04.7086362Z shell: /usr/bin/bash -e {0}
+check	Run make check	2026-09-25T15:22:04.7086640Z env:
+check	Run make check	2026-09-25T15:22:04.7086841Z   C1_HARNESS_CANARY_FAIL: 1
+check	Run make check	2026-09-25T15:22:04.7087170Z   UV_PYTHON_INSTALL_DIR: /home/runner/work/_temp/uv-python-dir
+check	Run make check	2026-09-25T15:22:04.7087845Z ##[endgroup]
+check	Run make check	2026-09-25T15:22:04.7188415Z uv run --locked ruff check .
+check	Run make check	2026-09-25T15:22:04.7829391Z All checks passed!
+check	Run make check	2026-09-25T15:22:04.7843622Z uv run --locked ruff format --check .
+check	Run make check	2026-09-25T15:22:04.8050759Z 23 files already formatted
+check	Run make check	2026-09-25T15:22:04.8064826Z uv run --locked mypy
+check	Run make check	2026-09-25T15:22:07.4398369Z Success: no issues found in 6 source files
+check	Run make check	2026-09-25T15:22:07.4499558Z uv run --locked pytest
+check	Run make check	2026-09-25T15:22:07.9221023Z ============================= test session starts ==============================
+check	Run make check	2026-09-25T15:22:07.9222148Z platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+check	Run make check	2026-09-25T15:22:07.9223032Z rootdir: /home/runner/work/c1/c1
+check	Run make check	2026-09-25T15:22:07.9223748Z configfile: pyproject.toml
+check	Run make check	2026-09-25T15:22:07.9224318Z testpaths: tests
+check	Run make check	2026-09-25T15:22:07.9224824Z collected 19 items
+check	Run make check	2026-09-25T15:22:07.9225163Z
+check	Run make check	2026-09-25T15:22:07.9568536Z tests/test_baseline.py ........                                          [ 42%]
+check	Run make check	2026-09-25T15:22:07.9951269Z tests/test_harness.py .F.                                                [ 57%]
+check	Run make check	2026-09-25T15:22:12.2278785Z tests/test_secret_hygiene.py ........                                    [100%]
+check	Run make check	2026-09-25T15:22:12.2287810Z
+check	Run make check	2026-09-25T15:22:12.2288434Z =================================== FAILURES ===================================
+check	Run make check	2026-09-25T15:22:12.2289313Z _________________________________ test_canary __________________________________
+check	Run make check	2026-09-25T15:22:12.2289927Z
+check	Run make check	2026-09-25T15:22:12.2290475Z     def test_canary() -> None:
+check	Run make check	2026-09-25T15:22:12.2291133Z         if os.environ.get("C1_HARNESS_CANARY_FAIL") == "1":
+check	Run make check	2026-09-25T15:22:12.2291931Z >           pytest.fail("intentional M00 harness canary failure")
+check	Run make check	2026-09-25T15:22:12.2292746Z E           Failed: intentional M00 harness canary failure
+check	Run make check	2026-09-25T15:22:12.2293691Z
+check	Run make check	2026-09-25T15:22:12.2293998Z tests/test_harness.py:29: Failed
+check	Run make check	2026-09-25T15:22:12.2294650Z =========================== short test summary info ============================
+check	Run make check	2026-09-25T15:22:12.2295731Z FAILED tests/test_harness.py::test_canary - Failed: intentional M00 harness canary failure
+check	Run make check	2026-09-25T15:22:12.2296733Z ========================= 1 failed, 18 passed in 4.31s =========================
+check	Run make check	2026-09-25T15:22:12.2558922Z make: *** [Makefile:22: test] Error 1
+check	Run make check	2026-09-25T15:22:12.2576738Z ##[error]Process completed with exit code 2.
+GH_LOG_FETCH_EXIT_CODE=0

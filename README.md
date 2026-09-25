@@ -7,7 +7,7 @@ C1 is planned as an open-source, versioned knowledge framework for people, appli
 - Harness: Python project metadata and a lockfile, Make targets for bootstrapping/checking, a clean-start helper, and a GitHub Actions check workflow.
 - Baseline: repository-local, attributed specification and architecture documents, with the software-use-case extension recorded separately.
 - Checks: local code-quality, type, test, secret-hygiene, and baseline-consistency checks.
-- CI: a GitHub Actions workflow is defined; its remote run remains **BLOCKED** pending an authorized run that confirms it.
+- CI: the pinned GitHub Actions workflow passed; deliberate canary failure and restored success are verified in the [M00 report](docs/milestones/M00-report.md).
 - Conventions: milestone plan and report guidance and templates are provided.
 - License: Apache-2.0 project license and a third-party notices placeholder are present.
 
