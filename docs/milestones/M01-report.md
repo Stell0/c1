@@ -70,7 +70,10 @@ not counted as its passing evidence. Explicit `make probe` requires `C1_STACK=1`
 The full regression output is [check.log](../evidence/M01/check.log);
 [clean-start.log](../evidence/M01/clean-start.log) records the independent fresh environment.
 [Secret review](../evidence/M01/secret-audit.md) found no new candidates and
-made no baseline or detector exceptions.
+initially required no new exceptions. The subsequent CI JSON produced one
+public commit-SHA false positive, audited as an exact baseline entry; detector
+settings and filters are unchanged. The full follow-up gate passed in
+[closure-check.log](../evidence/M01/closure-check.log).
 GitHub [CI run 36261615854](https://github.com/Stell0/c1/actions/runs/36261615854)
 passed at the exact implementation revision; [ci.json](../evidence/M01/ci.json)
 records the result. CI runs the default gate, with real-service tests skipped;

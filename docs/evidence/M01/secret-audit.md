@@ -26,3 +26,13 @@ or classify.
 tracked and nonignored untracked files, validates existing exceptions, and
 rejects detector/filter configuration drift. No detector, filter, threshold,
 or exclusion was changed for this audit.
+
+## Closure metadata finding
+
+The compact GitHub CI JSON added one Hex High Entropy String finding at line 1:
+its `headSha` is the public Git commit identifier for the M01 implementation.
+It was compared to `git rev-parse f19bd18` and the detector fingerprint before
+being marked an exact false positive. No token or credential is present.
+This single audited exception is added to the baseline; detector settings and
+filters are unchanged. The first closure scan rejected this new finding; the
+follow-up gate verifies the audited baseline.

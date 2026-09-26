@@ -1,0 +1,53 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+50 files already formatted
+uv run --locked mypy
+Success: no issues found in 26 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collected 40 items
+
+tests/integration/m01/test_t01_inventory.py s                            [  2%]
+tests/integration/m01/test_t02_atomic.py s                               [  5%]
+tests/integration/m01/test_t03_stale_and_reconcile.py s                  [  7%]
+tests/integration/m01/test_t04_revisions.py s                            [ 10%]
+tests/integration/m01/test_t05_freshness.py ss                           [ 15%]
+tests/integration/m01/test_t06_publication.py ssss                       [ 25%]
+tests/integration/m01/test_t07_interchange.py ss                         [ 30%]
+tests/test_baseline.py ........                                          [ 50%]
+tests/test_harness.py ...                                                [ 57%]
+tests/test_interchange.py .....                                          [ 70%]
+tests/test_secret_hygiene.py ........                                    [ 90%]
+tests/test_terminus_contract.py ....                                     [100%]
+
+=============================== warnings summary ===============================
+tests/test_interchange.py::test_assertion_round_trip_preserves_identity_literals_and_provenance
+tests/test_interchange.py::test_assertion_round_trip_preserves_identity_literals_and_provenance
+tests/test_interchange.py::test_assertion_round_trip_preserves_identity_literals_and_provenance
+tests/test_interchange.py::test_shacl_rejects_missing_provenance
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/m01/test_t01_inventory.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t02_atomic.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t03_stale_and_reconcile.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t04_revisions.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m01/test_t05_freshness.py: M01 live stack requires C1_STACK=1
+SKIPPED [3] tests/integration/m01/test_t06_publication.py:58: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t06_publication.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m01/test_t07_interchange.py: M01 live stack requires C1_STACK=1
+================== 28 passed, 12 skipped, 4 warnings in 3.29s ==================
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 99 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).
+
+EXIT 0
