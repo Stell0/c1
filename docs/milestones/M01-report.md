@@ -5,8 +5,10 @@
 **Approved plan revision:** `d045ab4200f37c065cf7ea50033911f40be5acd9`,
 authorized by the owner's M01 implementation and commit/push request. Execution
 corrections are recorded in M01 §9; roadmap acceptance criteria are unchanged.
-**Implementation revision:** the implementation commit identified in the final
-closure update. The accompanying `docs/evidence/M01/implementation.sha256`
+**Implementation revision:** `f19bd18195278a76170c90aeb8df86bcc86f8ccf`,
+committed and pushed to `origin/main`. This closure update changes only the
+report/evidence; tested runtime inputs are unchanged. The accompanying
+`docs/evidence/M01/implementation.sha256`
 identifies tested inputs without circular report/evidence hashes.
 **Report date:** 2026-09-26.
 
@@ -63,11 +65,18 @@ not counted as its passing evidence. Explicit `make probe` requires `C1_STACK=1`
 | `git diff --cached --check` | 0 | PASS; exact upstream license EOF bytes retained via file-specific whitespace attribute |
 | `bash scripts/clean_start.sh --worktree` | 0 | PASS; clean disposable checkout, interpreter and dependency environment |
 | `make stack-down` | 0 | PASS; development volumes preserved |
+| `gh run watch 36261615854 --exit-status --interval 10` | 0 | PASS; remote bootstrap and full default check at the implementation SHA |
 
 The full regression output is [check.log](../evidence/M01/check.log);
 [clean-start.log](../evidence/M01/clean-start.log) records the independent fresh environment.
 [Secret review](../evidence/M01/secret-audit.md) found no new candidates and
 made no baseline or detector exceptions.
+GitHub [CI run 36261615854](https://github.com/Stell0/c1/actions/runs/36261615854)
+passed at the exact implementation revision; [ci.json](../evidence/M01/ci.json)
+records the result. CI runs the default gate, with real-service tests skipped;
+the 12-test local pinned-stack run supplies those results. GitHub noted the
+existing pinned checkout action's Node 20 deprecation and automatic Node 24
+execution; the action and all checks succeeded.
 
 ## Named gate checks
 
