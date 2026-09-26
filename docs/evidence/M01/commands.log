@@ -1,0 +1,57 @@
+M01 real-stack gate, 2026-09-26; no AI provider variables; synthetic fixtures only.
+
+$ make stack-up
+uv run --locked python -m scripts.stack up
+c1-dev compose up completed
+keycloak: ready
+openfga: ready
+terminusdb: ready
+EXIT 0
+
+$ make inventory
+uv run --locked python -m scripts.inventory
+M01 inventory: 4 images, 42 installed Python packages
+EXIT 0
+
+$ C1_STACK=1 make probe
+uv run --locked pytest -s -m integration tests/integration/m01 -p no:cacheprovider --junitxml docs/evidence/M01/junit.xml
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 12 items
+
+tests/integration/m01/test_t01_inventory.py .
+tests/integration/m01/test_t02_atomic.py .
+tests/integration/m01/test_t03_stale_and_reconcile.py .
+tests/integration/m01/test_t04_revisions.py .
+tests/integration/m01/test_t05_freshness.py .openfga: ready
+keycloak: ready
+terminusdb: ready
+openfga: ready
+keycloak: ready
+terminusdb: ready
+.
+tests/integration/m01/test_t06_publication.py {"crash": "journal", "journal_write_ms": [101.01222401135601, 103.76472500502132, 102.75385100976564]}
+.{"crash": "content", "journal_write_ms": [102.48220301582478, 98.55034301290289, 103.5618820169475]}
+.{"crash": "binding", "journal_write_ms": [74.9911600141786, 109.93797902483493, 102.41383299580775]}
+..
+tests/integration/m01/test_t07_interchange.py ..
+
+=============================== warnings summary ===============================
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+-- generated xml file: /home/tux/personalbuild/c1/docs/evidence/M01/junit.xml --
+======================= 12 passed, 3 warnings in 26.23s ========================
+EXIT 0
+
+$ make stack-down
+uv run --locked python -m scripts.stack down
+c1-dev compose down completed
+EXIT 0

@@ -1,0 +1,17 @@
+model
+  schema 1.1
+
+type user
+
+type group
+  relations
+    define member: [user]
+
+type scope
+  relations
+    define reader: [user, group#member]
+
+type resource
+  relations
+    define bound_to: [scope]
+    define reader: reader from bound_to

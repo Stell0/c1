@@ -1,0 +1,17 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "c1": "urn:c1:m01:",
+    "prov": "http://www.w3.org/ns/prov#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "subject": {"@id": "rdf:subject", "@type": "@id"},
+    "predicate": {"@id": "rdf:predicate", "@type": "@id"},
+    "object": {"@id": "rdf:object", "@type": "@id"},
+    "label": "rdfs:label",
+    "amount": {"@id": "c1:amount", "@type": "xsd:decimal"},
+    "wasGeneratedBy": {"@id": "prov:wasGeneratedBy", "@type": "@id"},
+    "wasAttributedTo": {"@id": "prov:wasAttributedTo", "@type": "@id"}
+  }
+}

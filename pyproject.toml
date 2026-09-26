@@ -16,6 +16,10 @@ dev = [
   "mypy==2.3.1",
   "pytest==9.0.2",
   "ruff==0.16.9",
+  "httpx==0.28.1",
+  "openfga-sdk==0.10.4",
+  "rdflib==7.6.0",
+  "pyshacl==0.40.1",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -45,9 +49,10 @@ python_version = "3.13"
 strict = true
 explicit_package_bases = true
 mypy_path = ["src", "."]
-files = ["src", "scripts", "tests"]
+files = ["src", "scripts", "probes", "tests"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
 pythonpath = ["."]
+markers = ["integration: requires the isolated real M01 stack (C1_STACK=1)"]

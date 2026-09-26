@@ -31,3 +31,17 @@ check: lint typecheck test secrets baseline
 
 clean-start:
 	bash scripts/clean_start.sh
+
+export COMPOSE ?= podman compose
+.PHONY: stack-up stack-down stack-reset probe inventory
+stack-up:
+	$(UV) run --locked python -m scripts.stack up
+stack-down:
+	$(UV) run --locked python -m scripts.stack down
+stack-reset:
+	$(UV) run --locked python -m scripts.stack reset
+probe:
+	@test "$$C1_STACK" = 1 || (echo "Set C1_STACK=1 to run the real-service gate"; exit 1)
+	$(UV) run --locked pytest -s -m integration tests/integration/m01 -p no:cacheprovider --junitxml docs/evidence/M01/junit.xml
+inventory:
+	$(UV) run --locked python -m scripts.inventory

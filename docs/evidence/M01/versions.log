@@ -1,0 +1,28 @@
+$ uv --version
+uv 0.12.2 (x86_64-unknown-linux-gnu)
+EXIT 0
+$ podman --version
+podman version 5.7.0
+EXIT 0
+$ podman-compose --version
+podman version 5.7.0
+podman-compose version 1.5.0
+EXIT 0
+$ .venv/bin/python --version
+Python 3.13.14
+EXIT 0
+$ podman exec 0ed65c83ff76 postgres --version
+postgres (PostgreSQL) 17.11
+EXIT 0
+$ podman exec 4d6804934275 /openfga version
+2026/09/26 18:07:21 OpenFGA version `v1.21.0` build from `ab557c5592670c899de35297e7aa067015f06502` on `2026-09-20T16:11:15Z`
+EXIT 0
+$ podman exec 6fade416024d /opt/keycloak/bin/kc.sh --version
+Keycloak 26.7.4
+JVM: 21.0.12.1 (Red Hat, Inc. OpenJDK 64-Bit Server VM 21.0.12.1+1-LTS)
+OS: Linux 7.0.0-34-generic amd64
+EXIT 0
+$ podman exec d691a19e075a /app/terminusdb/terminusdb --version
+TerminusDB v12.0.7 (57f2093baeafd65e16004e84b7b58e0c5cf72858)
+terminusdb-store v0.19.8
+EXIT 0

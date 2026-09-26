@@ -1,0 +1,16 @@
+{
+  "realm": "c1-dev",
+  "enabled": true,
+  "registrationAllowed": false,
+  "clients": [
+    {
+      "clientId": "c1-m01-probe",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": ["http://127.0.0.1:18091/callback"],
+      "attributes": {"pkce.code.challenge.method": "S256"}
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+Mode: disposable working-tree snapshot; source repository is not committed.
+Checking cloned tree 92ffd24132e109fd7c264428fdd85e6925704bef
+uv python install 3.13
+Downloading cpython-3.13.14-linux-x86_64-gnu (download) (33.2MiB)
+ Downloaded cpython-3.13.14-linux-x86_64-gnu (download)
+Installed Python 3.13.14 in 38.86s
+ + cpython-3.13.14-linux-x86_64-gnu (python3.13)
+warning: `/tmp/tmp.GRXdAk8Njd/uv-python/bin` is not on your PATH. To use installed Python executables, run `export PATH="/tmp/tmp.GRXdAk8Njd/uv-python/bin:$PATH"` or `uv python update-shell`.
+uv lock --check
+Using CPython 3.13.14
+Resolved 44 packages in 1ms
+uv sync --frozen
+Using CPython 3.13.14
+Creating virtual environment at: .venv
+   Building c1 @ file:///tmp/tmp.GRXdAk8Njd/checkout
+Downloading aiohttp (1.7MiB)
+Downloading ruff (9.9MiB)
+Downloading ast-serialize (1.3MiB)
+Downloading pygments (1.2MiB)
+Downloading pyshacl (1.2MiB)
+Downloading mypy (14.5MiB)
+      Built c1 @ file:///tmp/tmp.GRXdAk8Njd/checkout
+ Downloaded pygments
+ Downloaded ast-serialize
+ Downloaded pyshacl
+ Downloaded aiohttp
+ Downloaded ruff
+ Downloaded mypy
+Prepared 43 packages in 30.86s
+Installed 43 packages in 15ms
+ + aiohappyeyeballs==2.7.1
+ + aiohttp==3.14.3
+ + aiosignal==1.4.0
+ + anyio==4.15.1
+ + ast-serialize==0.11.2
+ + attrs==26.1.0
+ + c1==0.0.0.dev0 (from file:///tmp/tmp.GRXdAk8Njd/checkout)
+ + certifi==2026.7.22
+ + charset-normalizer==3.5.1
+ + detect-secrets==1.5.0
+ + frozenlist==1.8.0
+ + h11==0.16.0
+ + html5rdf==1.2.1
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + iniconfig==2.3.0
+ + librt==0.15.0
+ + multidict==6.9.1
+ + mypy==2.3.1
+ + mypy-extensions==1.1.0
+ + openfga-sdk==0.10.4
+ + opentelemetry-api==1.45.0
+ + owlrl==7.6.2
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pluggy==1.6.0
+ + prettytable==3.18.0
+ + propcache==0.5.4
+ + pygments==2.21.0
+ + pyparsing==3.3.3
+ + pyshacl==0.40.1
+ + pytest==9.0.2
+ + python-dateutil==2.9.0.post0
+ + pyyaml==6.0.3
+ + rdflib==7.6.0
+ + requests==2.34.2
+ + ruff==0.16.9
+ + six==1.17.0
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0
+ + wcwidth==0.9.1
+ + yarl==1.25.1
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+50 files already formatted
+uv run --locked mypy
+Success: no issues found in 26 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /tmp/tmp.GRXdAk8Njd/checkout
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collected 40 items
+
+tests/integration/m01/test_t01_inventory.py s                            [  2%]
+tests/integration/m01/test_t02_atomic.py s                               [  5%]
+tests/integration/m01/test_t03_stale_and_reconcile.py s                  [  7%]
+tests/integration/m01/test_t04_revisions.py s                            [ 10%]
+tests/integration/m01/test_t05_freshness.py ss                           [ 15%]
+tests/integration/m01/test_t06_publication.py ssss                       [ 25%]
+tests/integration/m01/test_t07_interchange.py ss                         [ 30%]
+tests/test_baseline.py ........                                          [ 50%]
+tests/test_harness.py ...                                                [ 57%]
+tests/test_interchange.py .....                                          [ 70%]
+tests/test_secret_hygiene.py ........                                    [ 90%]
+tests/test_terminus_contract.py ....                                     [100%]
+
+=============================== warnings summary ===============================
+tests/test_interchange.py::test_assertion_round_trip_preserves_identity_literals_and_provenance
+tests/test_interchange.py::test_assertion_round_trip_preserves_identity_literals_and_provenance
+tests/test_interchange.py::test_assertion_round_trip_preserves_identity_literals_and_provenance
+tests/test_interchange.py::test_shacl_rejects_missing_provenance
+  /tmp/tmp.GRXdAk8Njd/checkout/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/m01/test_t01_inventory.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t02_atomic.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t03_stale_and_reconcile.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t04_revisions.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m01/test_t05_freshness.py: M01 live stack requires C1_STACK=1
+SKIPPED [3] tests/integration/m01/test_t06_publication.py:58: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t06_publication.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m01/test_t07_interchange.py: M01 live stack requires C1_STACK=1
+================== 28 passed, 12 skipped, 4 warnings in 3.93s ==================
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 95 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).
+
+EXIT 0

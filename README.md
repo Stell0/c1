@@ -23,6 +23,26 @@ make clean-start
 
 `make bootstrap` installs the locked development environment, and `make check` runs the local checks. `make clean-start` requires a clean, committed checkout. To check an ephemeral snapshot of the current uncommitted work, run `bash scripts/clean_start.sh --worktree`. None of these commands needs an AI-provider credential.
 
+## Isolated infrastructure proofs
+
+M01 adds a local experimental stack and probes outside the product package.
+With Podman 5.x, podman-compose, and about 4 GB free RAM:
+
+```sh
+make stack-up
+make inventory
+C1_STACK=1 make probe
+make stack-down
+```
+
+First startup downloads pinned images and creates private random credentials in
+ignored `deployment/.env`. Services bind only to loopback. Tests use synthetic
+records, pause/restart the owned OpenFGA service, and remove their databases and
+stores. Run this gate sequentially on the dedicated development stack.
+`make stack-down` preserves volumes; `make stack-reset` deletes only this stack's
+development volumes. Default `make check` skips these real-service tests.
+The [M01 plan](docs/milestones/M01.md) records scope and limitations.
+
 ## Milestone status
 
 See [PLAN.md](PLAN.md) for scope and status. Roadmap entries describe future acceptance contracts; they do not imply that the corresponding product features exist or have passed verification. Each milestone has its own plan and evidence report.

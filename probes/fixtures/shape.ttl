@@ -1,0 +1,23 @@
+@prefix c1: <urn:c1:m01:> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+c1:StatementShape a sh:NodeShape ;
+  sh:targetNode c1:statement-1 ;
+  sh:property [ sh:path rdf:type ; sh:hasValue rdf:Statement ] ;
+  sh:property [ sh:path rdf:subject ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+  sh:property [ sh:path rdf:predicate ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+  sh:property [ sh:path rdf:object ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+  sh:property [ sh:path prov:wasGeneratedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class prov:Activity ] ;
+  sh:property [ sh:path prov:wasAttributedTo ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:class prov:Agent ] .
+
+c1:EntityShape a sh:NodeShape ;
+  sh:targetNode c1:entity-tesla ;
+  sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:maxCount 1 ; sh:languageIn ( "en" ) ] .
+
+c1:AmountShape a sh:NodeShape ;
+  sh:targetNode c1:amount-1 ;
+  sh:property [ sh:path c1:amount ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ] .

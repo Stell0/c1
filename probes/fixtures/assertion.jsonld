@@ -1,0 +1,18 @@
+{
+  "@context": "urn:c1:m01:context",
+  "@graph": [
+    {
+      "@id": "urn:c1:m01:statement-1",
+      "@type": "rdf:Statement",
+      "subject": "urn:c1:m01:entity-tesla",
+      "predicate": "urn:c1:m01:hasAmount",
+      "object": "urn:c1:m01:amount-1",
+      "wasGeneratedBy": "urn:c1:m01:import-1",
+      "wasAttributedTo": "urn:c1:m01:agent-1"
+    },
+    {"@id": "urn:c1:m01:entity-tesla", "label": {"@value": "Tesla", "@language": "en"}},
+    {"@id": "urn:c1:m01:amount-1", "amount": {"@value": "42.5000", "@type": "xsd:decimal"}},
+    {"@id": "urn:c1:m01:import-1", "@type": "prov:Activity"},
+    {"@id": "urn:c1:m01:agent-1", "@type": "prov:Agent"}
+  ]
+}

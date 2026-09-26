@@ -1,0 +1,2 @@
+# Preserve the exact upstream license bytes and their recorded hashes.
+docs/evidence/M01/licenses/openfga-LICENSE whitespace=-blank-at-eof

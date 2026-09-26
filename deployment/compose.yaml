@@ -1,0 +1,87 @@
+name: c1-dev
+services:
+  terminusdb:
+    image: docker.io/terminusdb/terminusdb-server@sha256:385faf298ad77aaf2d4d6df5e84a4cbe3596d01dab2e3b991af905639ae56388
+    environment:
+      TERMINUSDB_ADMIN_PASS: ${C1_TERMINUS_PASSWORD:?run make stack-up}
+      TERMINUSDB_SERVER_PORT: "6363"
+      TERMINUSDB_PLUGINS_PATH: /nonexistent-c1-probe-plugins
+    ports: ["127.0.0.1:16363:6363"]
+    volumes: ["terminus-data:/app/terminusdb/storage"]
+    mem_limit: 1536m
+    healthcheck:
+      test: ["CMD", "swipl", "-q", "-g", "use_module(library(http/http_open)),getenv('TERMINUSDB_ADMIN_PASS',P),setup_call_cleanup(http_open('http://127.0.0.1:6363/api/info',S,[authorization(basic(admin,P)),timeout(4)]),read_string(S,_,_),close(S)),halt"]
+      interval: 5s
+      timeout: 8s
+      retries: 30
+      start_period: 20s
+  postgres:
+    image: docker.io/library/postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: c1_dev
+      POSTGRES_PASSWORD: ${C1_POSTGRES_PASSWORD:?run make stack-up}
+      OPENFGA_DB_PASSWORD: ${C1_FGA_DB_PASSWORD:?run make stack-up}
+      KEYCLOAK_DB_PASSWORD: ${C1_KEYCLOAK_DB_PASSWORD:?run make stack-up}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres/init.sh:/docker-entrypoint-initdb.d/10-c1.sh:ro
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U c1_dev -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  openfga-migrate:
+    image: docker.io/openfga/openfga@sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55
+    command: ["migrate"]
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga:${C1_FGA_DB_PASSWORD:?run make stack-up}@postgres:5432/openfga?sslmode=disable
+    depends_on:
+      postgres: {condition: service_healthy}
+    mem_limit: 256m
+  openfga:
+    image: docker.io/openfga/openfga@sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55
+    command: ["run"]
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga:${C1_FGA_DB_PASSWORD:?run make stack-up}@postgres:5432/openfga?sslmode=disable
+      OPENFGA_AUTHN_METHOD: preshared
+      OPENFGA_AUTHN_PRESHARED_KEYS: ${C1_FGA_TOKEN:?run make stack-up}
+      OPENFGA_PLAYGROUND_ENABLED: "false"
+    depends_on:
+      openfga-migrate: {condition: service_completed_successfully}
+    ports: ["127.0.0.1:18080:8080"]
+    mem_limit: 384m
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/grpc_health_probe", "-addr=:8081"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  keycloak:
+    image: quay.io/keycloak/keycloak@sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${C1_KEYCLOAK_DB_PASSWORD:?run make stack-up}
+      KC_BOOTSTRAP_ADMIN_USERNAME: c1-dev-admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${C1_KEYCLOAK_ADMIN_PASSWORD:?run make stack-up}
+      KC_HEALTH_ENABLED: "true"
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME: http://127.0.0.1:18090
+    depends_on:
+      postgres: {condition: service_healthy}
+    ports: ["127.0.0.1:18090:8080"]
+    volumes: ["./keycloak/c1-dev-realm.json:/opt/keycloak/data/import/c1-dev-realm.json:ro"]
+    mem_limit: 1024m
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9000; printf 'GET /health/ready HTTP/1.0\r\n\r\n' >&3; read -r line <&3; [[ $$line == *' 200 '* ]]"]
+      interval: 5s
+      timeout: 5s
+      retries: 36
+      start_period: 30s
+volumes:
+  terminus-data: {name: c1-dev-terminus-data}
+  postgres-data: {name: c1-dev-postgres-data}
