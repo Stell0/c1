@@ -70,7 +70,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 |---|---|---|---|---|
 | M00 | Baseline and development harness | None | Attributed local specification, accepted extension, and reproducible checking harness | VERIFIED |
 | M01 | Infrastructure and feasibility proofs | M00 | Pinned open-source stack with measured transaction/security/interchange proofs | VERIFIED |
-| M02 | Canonical model and standards profile | M01 | Validated, portable knowledge records and software-extension boundaries | NOT_PLANNED |
+| M02 | Canonical model and standards profile | M01 | Validated, portable knowledge records and software-extension boundaries | PLANNED |
 | M03 | Identity and current resource authorization | M02 | Fail-closed principals, scopes, bindings, and controlled security operations | NOT_PLANNED |
 | M04 | Reviewed knowledge writes and history | M03 | Atomic, retry-safe ChangeSets and policy-safe historical reads | NOT_PLANNED |
 | M05 | Shared identity and deterministic query API | M04 | Keyword/structured retrieval and a permission-correct multi-company directory | NOT_PLANNED |
