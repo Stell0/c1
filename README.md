@@ -101,10 +101,11 @@ Stop the services with `make stack-down` when finished; it preserves volumes.
 ## Reviewed changes and history (M04)
 
 M04 adds ChangeSet drafts, validation, independent review, atomic application,
-authorized resource reads, and resource history. Its implementation is under
-verification; the [M04 API notes](docs/milestones/M04-api.md) describe the
-current request contract and access rules. Ordinary knowledge writes use
-ChangeSets. The synthetic probe routes remain a development test surface.
+authorized resource reads, and resource history. The
+[M04 report](docs/milestones/M04-report.md) records its verified gate; the
+[M04 API notes](docs/milestones/M04-api.md) describe the request contract and
+access rules. Ordinary knowledge writes use ChangeSets. The synthetic probe
+routes remain a development test surface.
 
 To run the reviewed-write demonstration against the pinned local services:
 

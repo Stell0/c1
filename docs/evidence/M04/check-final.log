@@ -2,4 +2,4 @@ command: make check
 exit_code: 0
 ruff check: PASS; ruff format: PASS (187 files); mypy: PASS (134 source files).
 pytest: 235 passed, 53 skipped (live stack tests are covered by integration/probe gates), 16 warnings.
-secrets: PASS (330 tracked/nonignored files, offline); baseline: PASS; profile check: PASS.
+secret audit PASS (330 tracked/nonignored files, offline); baseline PASS; profile check PASS.
