@@ -1,0 +1,181 @@
+{
+  "@id": "urn:c1:ns:example-vehicle:context:2.0.0",
+  "@context": {
+    "c1": "urn:c1:ns:core#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "time": "http://www.w3.org/2006/time#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Entity": "urn:c1:ns:core#Entity",
+    "Assertion": "urn:c1:ns:core#Assertion",
+    "Source": "urn:c1:ns:core#Source",
+    "Evidence": "urn:c1:ns:core#Evidence",
+    "Activity": "http://www.w3.org/ns/prov#Activity",
+    "ResolutionRecord": "urn:c1:ns:core#ResolutionRecord",
+    "Document": "urn:c1:ns:core#Document",
+    "DocumentPart": "urn:c1:ns:core#DocumentPart",
+    "SchemaProfile": "urn:c1:ns:core#SchemaProfile",
+    "ChangeSet": "urn:c1:ns:core#ChangeSet",
+    "ValidationReport": "urn:c1:ns:core#ValidationReport",
+    "ReviewDecision": "urn:c1:ns:core#ReviewDecision",
+    "ApplyReceipt": "urn:c1:ns:core#ApplyReceipt",
+    "Keyword": "urn:c1:ns:core#Keyword",
+    "TimeBoundary": "urn:c1:ns:core#TimeBoundary",
+    "TimeInterval": "urn:c1:ns:core#TimeInterval",
+    "Selector": "urn:c1:ns:core#Selector",
+    "Agent": "http://www.w3.org/ns/prov#Agent",
+    "label": {
+      "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
+      "@container": "@set"
+    },
+    "altLabel": {
+      "@id": "http://www.w3.org/2004/02/skos/core#altLabel",
+      "@container": "@set"
+    },
+    "description": "http://purl.org/dc/terms/description",
+    "subject": {
+      "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject",
+      "@type": "@id"
+    },
+    "predicate": {
+      "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate",
+      "@type": "@id"
+    },
+    "object": "http://www.w3.org/1999/02/22-rdf-syntax-ns#object",
+    "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+    "keyword": {
+      "@id": "urn:c1:ns:core#keyword",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "keywordText": "urn:c1:ns:core#keywordText",
+    "keywordLanguage": "urn:c1:ns:core#keywordLanguage",
+    "normalizedKeyword": "urn:c1:ns:core#normalizedKeyword",
+    "normalizationVersion": "urn:c1:ns:core#normalizationVersion",
+    "origin": "urn:c1:ns:core#origin",
+    "reviewState": "urn:c1:ns:core#reviewState",
+    "lifecycle": "urn:c1:ns:core#lifecycle",
+    "validDuring": {
+      "@id": "urn:c1:ns:core#validDuring",
+      "@type": "@id"
+    },
+    "boundaryState": "urn:c1:ns:core#boundaryState",
+    "hasBeginning": {
+      "@id": "http://www.w3.org/2006/time#hasBeginning",
+      "@type": "@id"
+    },
+    "hasEnd": {
+      "@id": "http://www.w3.org/2006/time#hasEnd",
+      "@type": "@id"
+    },
+    "inXSDDateTimeStamp": "http://www.w3.org/2006/time#inXSDDateTimeStamp",
+    "inXSDDateTime": "http://www.w3.org/2006/time#inXSDDateTime",
+    "inXSDDate": "http://www.w3.org/2006/time#inXSDDate",
+    "inXSDgYearMonth": "http://www.w3.org/2006/time#inXSDgYearMonth",
+    "inXSDgYear": "http://www.w3.org/2006/time#inXSDgYear",
+    "title": "http://purl.org/dc/terms/title",
+    "identifier": "http://purl.org/dc/terms/identifier",
+    "issued": "http://purl.org/dc/terms/issued",
+    "creator": {
+      "@id": "http://purl.org/dc/terms/creator",
+      "@type": "@id"
+    },
+    "sourceKind": "urn:c1:ns:core#sourceKind",
+    "sourceRevision": "urn:c1:ns:core#sourceRevision",
+    "contentDigest": "urn:c1:ns:core#contentDigest",
+    "assertionRef": {
+      "@id": "urn:c1:ns:core#assertionRef",
+      "@type": "@id"
+    },
+    "hasSource": {
+      "@id": "http://www.w3.org/ns/oa#hasSource",
+      "@type": "@id"
+    },
+    "hasSelector": {
+      "@id": "http://www.w3.org/ns/oa#hasSelector",
+      "@type": "@id"
+    },
+    "excerpt": "urn:c1:ns:core#excerpt",
+    "wasGeneratedBy": {
+      "@id": "http://www.w3.org/ns/prov#wasGeneratedBy",
+      "@type": "@id"
+    },
+    "wasAttributedTo": {
+      "@id": "http://www.w3.org/ns/prov#wasAttributedTo",
+      "@type": "@id"
+    },
+    "used": {
+      "@id": "http://www.w3.org/ns/prov#used",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "startedAtTime": "http://www.w3.org/ns/prov#startedAtTime",
+    "endedAtTime": "http://www.w3.org/ns/prov#endedAtTime",
+    "toolName": "urn:c1:ns:core#toolName",
+    "toolVersion": "urn:c1:ns:core#toolVersion",
+    "method": "urn:c1:ns:core#method",
+    "candidate": {
+      "@id": "urn:c1:ns:core#candidate",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "decision": "urn:c1:ns:core#decision",
+    "rationale": "urn:c1:ns:core#rationale",
+    "partOfDocument": {
+      "@id": "urn:c1:ns:core#partOfDocument",
+      "@type": "@id"
+    },
+    "orderKey": "urn:c1:ns:core#orderKey",
+    "text": "urn:c1:ns:core#text",
+    "partKind": "urn:c1:ns:core#partKind",
+    "profileName": "urn:c1:ns:core#profileName",
+    "profileVersion": "urn:c1:ns:core#profileVersion",
+    "baseRevision": "urn:c1:ns:core#baseRevision",
+    "status": "urn:c1:ns:core#status",
+    "requestDigest": "urn:c1:ns:core#requestDigest",
+    "proposedOperation": {
+      "@id": "urn:c1:ns:core#proposedOperation",
+      "@container": "@set"
+    },
+    "changeSet": {
+      "@id": "urn:c1:ns:core#changeSet",
+      "@type": "@id"
+    },
+    "knowledgeCommit": "urn:c1:ns:core#knowledgeCommit",
+    "worksFor": {
+      "@id": "urn:c1:ns:core#worksFor",
+      "@type": "@id"
+    },
+    "revenue": "urn:c1:ns:core#revenue",
+    "provisionedScopeHint": {
+      "@id": "urn:c1:ns:core#provisionedScopeHint",
+      "@type": "@id"
+    },
+    "confidence": "urn:c1:ns:core#confidence",
+    "confidenceMethod": "urn:c1:ns:core#confidenceMethod",
+    "manualStatement": "urn:c1:ns:core#manualStatement",
+    "evidence": {
+      "@id": "urn:c1:ns:core#evidence",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "locator": "http://purl.org/dc/terms/identifier",
+    "selectorKind": "urn:c1:ns:core#selectorKind",
+    "exact": "http://www.w3.org/ns/oa#exact",
+    "start": "http://www.w3.org/ns/oa#start",
+    "end": "http://www.w3.org/ns/oa#end",
+    "projectReference": {
+      "@id": "urn:c1:ns:core#projectReference",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "observedAt": "urn:c1:ns:core#observedAt",
+    "vehicle": "urn:c1:ns:example-vehicle#",
+    "Vehicle": "urn:c1:ns:example-vehicle#Vehicle",
+    "wheelCount": "urn:c1:ns:example-vehicle#wheelCount"
+  }
+}

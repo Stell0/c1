@@ -37,6 +37,8 @@ packages = ["src/c1"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "profiles/core" = "c1/profiles/core"
+"profiles/available/example-vehicle" = "c1/profiles/available/example-vehicle"
+"profiles/available/example-vehicle-v2-incompatible" = "c1/profiles/available/example-vehicle-v2-incompatible"
 "deployment/openfga/c1-v1.json" = "c1/authorization/c1-v1.json"
 
 [tool.uv]

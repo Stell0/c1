@@ -22,7 +22,13 @@ class AuthorizationPlane:
         return await self.current.get(resource_id)
 
     async def _resource(
-        self, p: Principal, identifier: str, relation: str, prechecked: bool | None = None
+        self,
+        p: Principal,
+        identifier: str,
+        relation: str,
+        prechecked: bool | None = None,
+        *,
+        excluding: str = "",
     ) -> Decision:
         try:
             before = await self.journal.head()
@@ -32,7 +38,7 @@ class AuthorizationPlane:
             scope = await self.current.scope(binding.scope_id)
             if scope is None or scope.state != "active":
                 return Decision(False, "unresolved_scope")
-            if await self.current.pending(identifier, binding.scope_id):
+            if await self.current.pending(identifier, binding.scope_id, excluding=excluding):
                 return Decision(False, "pending_security_operation")
             obj = resource_object(identifier)
             if await self.fga.bindings(obj) != [scope_object(binding.scope_id)]:
@@ -50,7 +56,9 @@ class AuthorizationPlane:
     async def check_read(self, p: Principal, resource_id: str) -> Decision:
         return await self._resource(p, resource_id, "can_read")
 
-    async def check_operation(self, p: Principal, op: str, resource_id: str) -> Decision:
+    async def check_operation(
+        self, p: Principal, op: str, resource_id: str, *, excluding: str = ""
+    ) -> Decision:
         relation = {
             "contribute": "can_contribute",
             "edit": "can_contribute",
@@ -59,7 +67,7 @@ class AuthorizationPlane:
         return (
             Decision(False, "unsupported_operation")
             if relation is None
-            else await self._resource(p, resource_id, relation)
+            else await self._resource(p, resource_id, relation, excluding=excluding)
         )
 
     async def check_scope(self, p: Principal, op: str, scope_id: str) -> Decision:

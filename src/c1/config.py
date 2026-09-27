@@ -12,7 +12,7 @@ from c1.model.ids import validate_iri
 
 _NAME = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*$")
 _ALIAS = re.compile(r"^[a-z][a-z0-9_-]*$")
-_CRASH_POINTS = frozenset({"journal", "tuple", "confirm"})
+_CRASH_POINTS = frozenset({"journal", "commit", "tuple", "confirm"})
 
 
 def _url(value: str, name: str, *, allow_path: bool = False) -> None:

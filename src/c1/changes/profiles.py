@@ -1,0 +1,112 @@
+"""Trusted bundled profile catalog for reviewed schema installation.
+
+The caller selects an exact bundled alias, never a filesystem path. A manifest
+may have a different profile name from its catalog alias.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import TYPE_CHECKING
+
+from c1.model.diagnostics import Diagnostic
+from c1.model.nodes import NodeRecord
+from c1.model.profiles import ProfileRegistry, compare_profiles
+from c1.storage.mapping import installed_profile_iri, record_to_document
+from c1.storage.schema import (
+    assert_installed_profiles,
+    generated_classes,
+    generated_core_schema,
+)
+from c1.storage.terminus import StorageError
+
+if TYPE_CHECKING:
+    from c1.storage.terminus import Terminus
+
+_CORE = "urn:c1:ns:core#"
+
+
+def _catalog_root() -> Path:
+    package = Path(__file__).resolve().parents[1] / "profiles" / "available"
+    repository = Path(__file__).resolve().parents[3] / "profiles" / "available"
+    root = package if package.is_dir() else repository
+    if root.is_symlink() or not root.is_dir():
+        raise ValueError("trusted local profile catalog is unavailable")
+    return root
+
+
+def _catalog_entries() -> dict[str, Path]:
+    root = _catalog_root()
+    result: dict[str, Path] = {}
+    for item in sorted(root.iterdir()):
+        if item.is_symlink():
+            raise ValueError("catalog symlink is unsupported")
+        if item.is_dir() and (item / "profile.json").is_file():
+            result[item.name] = item
+    return result
+
+
+def available_profile_names() -> tuple[str, ...]:
+    """Return aliases found under the fixed, bundled catalog root."""
+    return tuple(_catalog_entries())
+
+
+def load_candidate(alias: str) -> tuple[ProfileRegistry, str]:
+    """Load core and one trusted candidate; return its manifest profile name."""
+    directory = _catalog_entries().get(alias)
+    if directory is None:
+        raise ValueError("profile is not in the trusted local catalog")
+    registry = ProfileRegistry()
+    registry.load(directory)
+    names = set(registry.profiles) - {"core"}
+    if len(names) != 1:
+        raise ValueError("bundled candidate must declare exactly one extension profile")
+    return registry, names.pop()
+
+
+def compare_candidate(installed: ProfileRegistry, alias: str) -> list[Diagnostic]:
+    """Compare a candidate to the installed profile; migration remains refused."""
+    candidate, name = load_candidate(alias)
+    previous = installed.profiles.get(name)
+    if previous is None:
+        return []
+    return compare_profiles(previous, candidate.profiles[name])
+
+
+def _marker_id(registry: ProfileRegistry, client: Terminus, name: str) -> str:
+    marker = NodeRecord(
+        id=installed_profile_iri(name),
+        types=[_CORE + "SchemaProfile"],
+        properties={},
+    )
+    return str(record_to_document(marker, registry, client.config.instance_base)["@id"])
+
+
+async def detect_installed_registry(client: Terminus) -> ProfileRegistry:
+    """Return installed registry only when both schema and marker agree.
+
+    A schema commit without its marker, an orphan marker, or an unknown class
+    is not accepted as an installed profile at startup.
+    """
+    core = ProfileRegistry()
+    await assert_installed_profiles(client, core)
+    actual_schema = await client.schema_documents()
+    core_schema = generated_core_schema(core)
+    candidates = [load_candidate(alias) for alias in available_profile_names()]
+
+    if len(actual_schema) == len(core_schema) and all(
+        document in actual_schema for document in core_schema
+    ):
+        for registry, name in candidates:
+            if await client.get(_marker_id(registry, client, name)) is not None:
+                raise StorageError("C1-ST-006", "extension marker exists without its schema")
+        return core
+
+    for registry, name in candidates:
+        expected = [*core_schema, *generated_classes(registry, name)]
+        if len(actual_schema) == len(expected) and all(
+            document in actual_schema for document in expected
+        ):
+            await assert_installed_profiles(client, registry)
+            return registry
+    raise StorageError("C1-ST-006", "installed profile schema is partial or unknown")

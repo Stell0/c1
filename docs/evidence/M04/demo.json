@@ -1,0 +1,26 @@
+{
+  "changeset_id": "urn:c1:instance:dev:changeset-51316ea17dcd42b3b6f58e2ee9351a2f",
+  "history": {
+    "items": [
+      {
+        "attempt": 1,
+        "changeset_id": "urn:c1:instance:dev:changeset-51316ea17dcd42b3b6f58e2ee9351a2f",
+        "recorded_at": "2026-09-27T16:24:31.180532Z",
+        "revision": "branch:x2js63uwrh1c9q5snirl9ilbqok3hay"
+      }
+    ],
+    "next_cursor": null,
+    "resource_id": "urn:c1:instance:dev:assertion/c6fa3157-b4c7-4411-b38f-15a1a9d1518c",
+    "revision": "branch:x2js63uwrh1c9q5snirl9ilbqok3hay"
+  },
+  "knowledge_commits_added": 1,
+  "receipt": {
+    "attempt": 1,
+    "c1": 2,
+    "changeset": "urn:c1:instance:dev:changeset-51316ea17dcd42b3b6f58e2ee9351a2f",
+    "digest": "<SHA-256 digest omitted from versioned evidence>",
+    "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9",
+    "repository": "c1_m03_k_c233bedfe3aa4d4c805e0e0c480e8002"
+  },
+  "state": "applied"
+}

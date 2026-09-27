@@ -1,0 +1,20 @@
+command=make bootstrap
+exit_code=0
+command=make check
+exit_code=2
+command=make check (escalated retry)
+exit_code=0
+command=make stack-up
+exit_code=0
+command=C1_STACK=1 make integration (stopped before M04)
+pytest_partial=28 passed, interrupted in M03; harness exit_code=2; controlling exec exit_code=130
+command=C1_STACK=1 make integration (restart after history guard fix, stopped before M04 for T04 paging correction)
+controlling exec exit_code=130
+command=C1_STACK=1 make integration (final after history and paging fixes)
+exit_code=0
+command=C1_STACK=1 make probe
+exit_code=0
+command=make check (final implementation)
+exit_code=0
+command=make stack-down
+exit_code=0

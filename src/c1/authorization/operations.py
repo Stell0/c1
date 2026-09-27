@@ -560,5 +560,5 @@ class SecurityOperations:
             )
             for entry in entries:
                 op = Operation.model_validate(entry)
-                if op.state == "pending":
+                if op.state == "pending" and op.kind != "changeset_apply":
                     await self._reconcile(op)

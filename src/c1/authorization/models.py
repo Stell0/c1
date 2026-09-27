@@ -37,6 +37,7 @@ class Operation(SecurityRecord):
         "rescope",
         "recover",
         "probe_revision",
+        "changeset_apply",
     ]
     actor: str
     target: str

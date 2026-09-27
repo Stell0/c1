@@ -17,7 +17,19 @@ import httpx
 
 from c1.storage.terminus import StorageConfig, StorageError, Terminus
 
-_KINDS = frozenset({"Scope", "Binding", "Operation"})
+_KINDS = frozenset(
+    {
+        "Scope",
+        "Binding",
+        "Operation",
+        "ChangeSet",
+        "ValidationReport",
+        "ReviewDecision",
+        "ApplyReceipt",
+        "Idempotency",
+        "MigrationProposal",
+    }
+)
 _ENTRY_CLASS = {
     "@type": "Class",
     "@id": "WorkflowEntry",
@@ -36,7 +48,7 @@ _BAD_KEY = re.compile(r"[\x00-\x1f\x7f]")
 
 def _validate_address(kind: str, key: str) -> None:
     if kind not in _KINDS:
-        raise ValueError("journal kind must be Scope, Binding, or Operation")
+        raise ValueError("unsupported journal kind")
     if not isinstance(key, str) or not key or len(key) > 2048 or _BAD_KEY.search(key):
         raise ValueError("journal key must be nonempty, bounded text without controls")
 
@@ -140,7 +152,7 @@ class Journal:
 
     async def list(self, kind: str) -> list[dict[str, Any]]:
         if kind not in _KINDS:
-            raise ValueError("journal kind must be Scope, Binding, or Operation")
+            raise ValueError("unsupported journal kind")
         documents = await self._storage.documents()
         decoded = [_decode(document) for document in documents]
         return [payload for actual_kind, _key, payload in decoded if actual_kind == kind]

@@ -98,6 +98,27 @@ The full `C1_STACK=1 make integration` gate additionally runs real API process
 crashes and service outages, so run it without another development API process.
 Stop the services with `make stack-down` when finished; it preserves volumes.
 
+## Reviewed changes and history (M04)
+
+M04 adds ChangeSet drafts, validation, independent review, atomic application,
+authorized resource reads, and resource history. Its implementation is under
+verification; the [M04 API notes](docs/milestones/M04-api.md) describe the
+current request contract and access rules. Ordinary knowledge writes use
+ChangeSets. The synthetic probe routes remain a development test surface.
+
+To run the reviewed-write demonstration against the pinned local services:
+
+```sh
+make stack-up
+uv run --locked python -m scripts.demo_m04
+make stack-down
+```
+
+The script creates and cleans up isolated test databases and an OpenFGA store.
+It obtains real synthetic user tokens without printing them, then prints the
+ChangeSet receipt and the authorized history listing. It does not need a running
+`make api-up` process.
+
 ## Milestone status
 
 See [PLAN.md](PLAN.md) for scope and status. Roadmap entries describe future acceptance contracts; they do not imply that the corresponding product features exist or have passed verification. Each milestone has its own plan and evidence report.

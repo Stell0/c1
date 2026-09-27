@@ -9,6 +9,8 @@ from c1.authorization.operations import SecurityOperations
 from c1.authorization.plane import AuthorizationPlane
 from c1.authorization.principal import Principal
 from c1.authorization.tokens import TokenValidator
+from c1.changes.apply import ChangeService
+from c1.changes.profiles import detect_installed_registry
 from c1.config import Settings
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
@@ -39,6 +41,16 @@ class Runtime:
         self.operations = SecurityOperations(
             settings, self.journal, self.fga, self.plane, self.knowledge, self.registry, self.audit
         )
+        self.changes = ChangeService(
+            settings,
+            self.journal,
+            self.knowledge,
+            self.registry,
+            self.plane,
+            self.fga,
+            self.operations.writer,
+            self.audit,
+        )
         self._started = False
 
     async def start(self) -> None:
@@ -47,6 +59,19 @@ class Runtime:
         self._started = True
         try:
             await self.operations.recover()
+            try:
+                self.registry = await detect_installed_registry(self.knowledge)
+            except Exception:
+                # A half-installed schema needs the ChangeSet recovery path.
+                pass
+            self.operations.registry = self.registry
+            self.changes.registry = self.registry
+            self.changes.history_service.registry = self.registry
+            await self.changes.recover()
+            self.registry = await detect_installed_registry(self.knowledge)
+            self.operations.registry = self.registry
+            self.changes.registry = self.registry
+            self.changes.history_service.registry = self.registry
         except Exception:
             # Keep the process live and unready so an operator can recover after
             # dependencies return. No credential/backend text is logged.
@@ -70,6 +95,9 @@ class Runtime:
                 or not await self.journal.ready()
             ):
                 return False
+            installed = await detect_installed_registry(self.knowledge)
+            if set(installed.profiles) != set(self.registry.profiles):
+                return False
             await assert_installed_profiles(self.knowledge, self.registry)
             if self.operations.writer.fd is None:
                 return False
@@ -83,6 +111,13 @@ class Runtime:
         self, principal: Principal, id: str, revision: str | None = None
     ) -> NodeRecord | None:
         try:
+            if any(
+                value.get("kind") == "changeset_apply"
+                and value.get("state") == "pending"
+                and value.get("payload", {}).get("profile_alias")
+                for value in await self.journal.list("Operation")
+            ):
+                return None
             before = await self.journal.head()
             if not (await self.plane.check_read(principal, id)).allowed:
                 return None

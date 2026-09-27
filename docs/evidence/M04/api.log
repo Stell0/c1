@@ -1,0 +1,10 @@
+Sanitized aggregate of 147 API audit events appended during the completed live integration run; no actor IDs, resource IDs, tokens, or record bodies retained.
+
+changeset_read allowed: 6
+probe_read allowed: 3
+probe_read denied: 6
+rescope applied: 3
+resource_read allowed: 6
+security_operation_read allowed: 3
+security_recover allowed: 9
+startup_recovery unavailable: 3

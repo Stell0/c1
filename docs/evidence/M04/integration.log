@@ -1,0 +1,5 @@
+command: C1_STACK=1 make integration
+exit_code: 0
+result: PASS — 53 passed, 13 warnings in 1314.68s (21:54).
+coverage: M01–M03 live regression tests and M04 storage paging plus T01–T07; real pinned stack services.
+JUnit: integration-junit.xml

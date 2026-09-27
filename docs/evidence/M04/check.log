@@ -1,0 +1,1 @@
+Initial sandbox attempt: `make check` returned exit 2 because local socket creation was denied by the execution sandbox. Fifteen socket-based tests errored with PermissionError; this was an environment limitation. The escalated rerun passed.

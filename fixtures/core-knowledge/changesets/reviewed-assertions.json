@@ -1,0 +1,17 @@
+{
+  "name": "reviewed-assertions",
+  "derived_from": "fixtures/core-knowledge/fixture.jsonld",
+  "source": {
+    "title": "Synthetic FY2020 report",
+    "kind": "document",
+    "revision": "fixture-report-r1"
+  },
+  "evidence": {
+    "source_revision": "fixture-report-r1",
+    "excerpt": "Reported revenue 42.5000 units."
+  },
+  "assertions": [
+    {"origin": "imported", "evidence": true, "manual_statement": false},
+    {"origin": "manual", "evidence": false, "manual_statement": true}
+  ]
+}

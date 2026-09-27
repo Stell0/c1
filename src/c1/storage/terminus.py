@@ -222,11 +222,33 @@ class Terminus:
             found = record
         return found
 
-    async def log(self) -> list[dict[str, Any]]:
-        response = await self._request("GET", f"/api/log/{self._database_path}")
+    async def log(
+        self, *, start: int | None = None, count: int | None = None
+    ) -> list[dict[str, Any]]:
+        """Read commits, optionally in bounded pages; no arguments preserve old callers."""
+        if start is not None and (type(start) is not int or start < 0):
+            raise ValueError("start must be a nonnegative integer")
+        if count is not None and (type(count) is not int or not 1 <= count <= 100):
+            raise ValueError("count must be an integer from 1 to 100")
+        if start is not None and count is None:
+            raise ValueError("count is required when start is supplied")
+        params = {"start": start or 0, "count": count} if count is not None else None
+        response = await self._request("GET", f"/api/log/{self._database_path}", params=params)
         payload = response.json()
-        if not isinstance(payload, list):
+        if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
             raise StorageError("C1-ST-003", "backend returned an invalid log")
+        return payload
+
+    async def history(self, document_id: str) -> list[dict[str, Any]]:
+        """Read per-document revisions; callers enforce current authorization first."""
+        if not document_id:
+            raise ValueError("document_id must not be empty")
+        response = await self._request(
+            "GET", f"/api/history/{self._database_path}", params={"id": document_id}
+        )
+        payload = response.json()
+        if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
+            raise StorageError("C1-ST-003", "backend returned an invalid history")
         return payload
 
     async def _insert(
@@ -289,7 +311,12 @@ class Terminus:
         return await install_additive_profile(self, registry, profile_name)
 
     async def write_records(
-        self, batch: ValidatedBatch, registry: ProfileRegistry, *, expected_head: str
+        self,
+        batch: ValidatedBatch,
+        registry: ProfileRegistry,
+        *,
+        expected_head: str,
+        message: str = "C1 model records",
     ) -> str:
         from c1.interchange.jsonld import validate_records
         from c1.model.nodes import ValidatedBatch as BatchType
@@ -305,9 +332,27 @@ class Terminus:
         checked = validate_records(batch.records, registry)
         documents = records_to_documents(checked.records, registry, self.config.instance_base)
         await assert_installed_profiles(self, registry)
-        return await self._insert(
-            documents, expected_head=expected_head, message="C1 model records"
-        )
+        return await self._insert(documents, expected_head=expected_head, message=message)
+
+    async def upsert_records(
+        self, batch: ValidatedBatch, registry: ProfileRegistry, *, expected_head: str, message: str
+    ) -> str:
+        """Commit validated creates and replacements with one durable message receipt."""
+        from c1.interchange.jsonld import validate_records
+        from c1.model.nodes import ValidatedBatch as BatchType
+        from c1.storage.mapping import records_to_documents, reject_reserved_id
+        from c1.storage.schema import assert_installed_profiles
+
+        if not isinstance(batch, BatchType):
+            raise TypeError("upsert_records requires a ValidatedBatch")
+        if not message:
+            raise ValueError("message must carry a commit receipt")
+        for record in batch.records:
+            reject_reserved_id(record.id)
+        checked = validate_records(batch.records, registry)
+        documents = records_to_documents(checked.records, registry, self.config.instance_base)
+        await assert_installed_profiles(self, registry)
+        return await self._put(documents, expected_head=expected_head, message=message, create=True)
 
     async def read_records(
         self, registry: ProfileRegistry, *, include_metadata: bool = False
@@ -324,7 +369,12 @@ class Terminus:
         )
 
     async def replace_records(
-        self, batch: ValidatedBatch, registry: ProfileRegistry, *, expected_head: str
+        self,
+        batch: ValidatedBatch,
+        registry: ProfileRegistry,
+        *,
+        expected_head: str,
+        message: str = "C1 probe record revision",
     ) -> str:
         """Trusted test/revision helper; no client-facing knowledge write path."""
         from c1.interchange.jsonld import validate_records
@@ -339,6 +389,4 @@ class Terminus:
         checked = validate_records(batch.records, registry)
         documents = records_to_documents(checked.records, registry, self.config.instance_base)
         await assert_installed_profiles(self, registry)
-        return await self._put(
-            documents, expected_head=expected_head, message="C1 probe record revision"
-        )
+        return await self._put(documents, expected_head=expected_head, message=message)

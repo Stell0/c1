@@ -1,0 +1,4 @@
+command: C1_STACK=1 make probe
+exit_code: 0
+result: PASS — 12 passed, 3 warnings in 40.32s.
+JUnit: probe-junit.xml

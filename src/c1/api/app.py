@@ -14,7 +14,7 @@ from starlette.requests import ClientDisconnect
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from c1.api.problems import http_problem, problem, profile_problem, validation_problem
-from c1.api.routes import probe, security, system
+from c1.api.routes import changesets, history, probe, resources, security, system
 from c1.authorization.errors import SecurityError
 from c1.authorization.fga import FGAError
 from c1.authorization.tokens import AuthenticationError
@@ -31,6 +31,10 @@ def _query_allowed(request: Request) -> set[str]:
     path = request.url.path
     if request.method == "GET" and path.startswith("/v1/probe/resources/"):
         return {"revision"}
+    if request.method == "GET" and path.startswith("/v1/resources/"):
+        return {"revision"}
+    if request.method == "GET" and path == "/v1/history":
+        return {"resource_id", "limit", "cursor"}
     if request.method == "DELETE" and "/members/" in path and path.startswith("/v1/access-scopes/"):
         return {"role"}
     return set()
@@ -309,6 +313,9 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
 
     app.include_router(system.router)
     app.include_router(security.router)
+    app.include_router(changesets.router)
+    app.include_router(resources.router)
+    app.include_router(history.router)
     if settings.enable_probe_routes:
         app.include_router(probe.router)
     return app

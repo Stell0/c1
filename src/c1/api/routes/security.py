@@ -139,6 +139,7 @@ async def recover(
             "operator_required",
         )
     await runtime.operations.recover()
+    await runtime.changes.recover()
     audit(request, principal, "security_recover")
     return {"status": "recovered"}
 

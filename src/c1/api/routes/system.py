@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict, ValidationError
 
 from c1.api.deps import audit, get_principal, get_runtime
 from c1.api.problems import problem
+from c1.authorization.errors import SecurityError
 from c1.authorization.principal import Principal
 from c1.runtime import Runtime
 
@@ -45,10 +46,16 @@ async def instance(
     principal: Annotated[Principal, Depends(get_principal)],
     runtime: Annotated[Runtime, Depends(get_runtime)],
 ) -> dict[str, str]:
+    if not await runtime.ready():
+        raise SecurityError(503, "repository_unavailable")
+    revision = await runtime.knowledge.head()
+    if not await runtime.ready():
+        raise SecurityError(503, "repository_unavailable")
     audit(request, principal, "instance_read", target=runtime.settings.instance_id)
     return {
         "instance_id": runtime.settings.instance_id,
         "instance_base": runtime.settings.instance_base,
+        "knowledge_revision": revision,
     }
 
 
