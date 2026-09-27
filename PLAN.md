@@ -75,7 +75,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M04 | Reviewed knowledge writes and history | M03 | Atomic, retry-safe ChangeSets and policy-safe historical reads | VERIFIED |
 | M05 | Shared identity and deterministic query API | M04 | Keyword/structured retrieval and a permission-correct multi-company directory | VERIFIED |
 | M06 | Scoped documents and reconstruction | M05 | Ordered text retrieval with mixed visibility and preserved evidence | PLANNED |
-| M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | NOT_PLANNED |
+| M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | PLANNED |
 | M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | NOT_PLANNED |
 | M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | NOT_PLANNED |
 | M10 | Documentation-first support context | M09 | Two-stage support retrieval with a stable software target and controlled fallback | NOT_PLANNED |
