@@ -5,6 +5,7 @@ C1 is planned as an open-source, versioned knowledge framework for people, appli
 ## What exists today
 
 - Harness: Python project metadata and a lockfile, Make targets for bootstrapping/checking, a clean-start helper, and a GitHub Actions check workflow.
+- Model: the M02 canonical record layer, bundled standards profile, and internal storage mapping are under implementation; the full milestone gate is pending.
 - Baseline: repository-local, attributed specification and architecture documents, with the software-use-case extension recorded separately.
 - Checks: local code-quality, type, test, secret-hygiene, and baseline-consistency checks.
 - CI: the pinned GitHub Actions workflow passed; deliberate canary failure and restored success are verified in the [M00 report](docs/milestones/M00-report.md).
@@ -42,6 +43,14 @@ stores. Run this gate sequentially on the dedicated development stack.
 `make stack-down` preserves volumes; `make stack-reset` deletes only this stack's
 development volumes. Default `make check` skips these real-service tests.
 The [M01 plan](docs/milestones/M01.md) records scope and limitations.
+
+## Canonical model development
+
+M02 adds a versioned profile in `profiles/core/` and the synthetic fixture in
+`fixtures/core-knowledge/`. The model has no HTTP endpoint or authorization bypass.
+Profile and pure-model checks are part of `make check`; the full real-service
+regression gate is `C1_STACK=1 make integration`. See the
+[M02 plan](docs/milestones/M02.md) for the supported subset and active decisions.
 
 ## Milestone status
 

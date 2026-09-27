@@ -1,0 +1,74 @@
+[
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#string",
+    "lexical": "Battery capacity nominal",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/00000006-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+    "lexical": "Batterie",
+    "language": "de",
+    "assertion": "urn:c1:instance:dev:assertion/00000007-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+    "lexical": "1",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/00000008-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+    "lexical": "+001",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/00000009-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#decimal",
+    "lexical": "1.2300",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/0000000a-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#double",
+    "lexical": "-0.0",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/0000000b-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#anyURI",
+    "lexical": "https://example.invalid/battery",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/0000000c-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#date",
+    "lexical": "2020-05-03",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/0000000d-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+    "lexical": "2020-05-03T10:15:00",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/0000000e-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#dateTimeStamp",
+    "lexical": "2020-05-03T10:15:00+02:00",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/0000000f-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+    "lexical": "2020",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/00000010-0000-4000-8000-000000000000"
+  },
+  {
+    "datatype": "http://www.w3.org/2001/XMLSchema#gYearMonth",
+    "lexical": "2020-05",
+    "language": null,
+    "assertion": "urn:c1:instance:dev:assertion/00000011-0000-4000-8000-000000000000"
+  }
+]

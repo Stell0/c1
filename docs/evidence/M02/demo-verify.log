@@ -1,0 +1,2 @@
+PASS: demo JSON equals frozen canonical export and RDF graphs are isomorphic
+nodes: 49

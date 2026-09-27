@@ -1,0 +1,1674 @@
+{
+  "@context": "urn:c1:ns:core:context:1",
+  "@graph": [
+    {
+      "@id": "urn:c1:instance:dev:activity/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "http://www.w3.org/ns/prov#Activity"
+      ],
+      "http://www.w3.org/ns/prov#endedAtTime": [
+        {
+          "@value": "2021-04-01T10:00:01Z",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+        }
+      ],
+      "http://www.w3.org/ns/prov#startedAtTime": [
+        {
+          "@value": "2021-04-01T10:00:00Z",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+        }
+      ],
+      "http://www.w3.org/ns/prov#used": [
+        {
+          "@id": "urn:c1:instance:dev:source/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-importer"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:activity/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "http://www.w3.org/ns/prov#Activity"
+      ],
+      "http://www.w3.org/ns/prov#endedAtTime": [
+        {
+          "@value": "2021-04-02T10:00:01Z",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+        }
+      ],
+      "http://www.w3.org/ns/prov#startedAtTime": [
+        {
+          "@value": "2021-04-02T10:00:00Z",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+        }
+      ],
+      "http://www.w3.org/ns/prov#used": [
+        {
+          "@id": "urn:c1:instance:dev:source/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-importer"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "42.5000",
+          "@type": "http://www.w3.org/2001/XMLSchema#decimal"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "urn:c1:ns:core#revenue"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasGeneratedBy": [
+        {
+          "@id": "urn:c1:instance:dev:activity/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#evidence": [
+        {
+          "@id": "urn:c1:instance:dev:evidence/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "imported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#validDuring": [
+        {
+          "@id": "urn:c1:instance:dev:interval/00000001-0000-4000-8000-000000000000"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "41.7500",
+          "@type": "http://www.w3.org/2001/XMLSchema#decimal"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "urn:c1:ns:core#revenue"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasGeneratedBy": [
+        {
+          "@id": "urn:c1:instance:dev:activity/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#evidence": [
+        {
+          "@id": "urn:c1:instance:dev:evidence/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "imported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#validDuring": [
+        {
+          "@id": "urn:c1:instance:dev:interval/00000001-0000-4000-8000-000000000000"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000003-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "urn:c1:ns:core#worksFor"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasGeneratedBy": [
+        {
+          "@id": "urn:c1:instance:dev:activity/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#evidence": [
+        {
+          "@id": "urn:c1:instance:dev:evidence/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "imported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#validDuring": [
+        {
+          "@id": "urn:c1:instance:dev:interval/00000002-0000-4000-8000-000000000000"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000004-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "urn:c1:ns:core#worksFor"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasGeneratedBy": [
+        {
+          "@id": "urn:c1:instance:dev:activity/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#evidence": [
+        {
+          "@id": "urn:c1:instance:dev:evidence/00000004-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "imported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#validDuring": [
+        {
+          "@id": "urn:c1:instance:dev:interval/00000003-0000-4000-8000-000000000000"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000005-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "A manually described product",
+          "@language": "en"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#validDuring": [
+        {
+          "@id": "urn:c1:instance:dev:interval/00000003-0000-4000-8000-000000000000"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000006-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "Battery capacity nominal",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000007-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "Batterie",
+          "@language": "de"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000008-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "1",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000009-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "+001",
+          "@type": "http://www.w3.org/2001/XMLSchema#integer"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/0000000a-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "1.2300",
+          "@type": "http://www.w3.org/2001/XMLSchema#decimal"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/0000000b-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "-0.0",
+          "@type": "http://www.w3.org/2001/XMLSchema#double"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/0000000c-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "https://example.invalid/battery",
+          "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/0000000d-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "2020-05-03",
+          "@type": "http://www.w3.org/2001/XMLSchema#date"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/0000000e-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "2020-05-03T10:15:00",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/0000000f-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "2020-05-03T10:15:00+02:00",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000010-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "2020",
+          "@type": "http://www.w3.org/2001/XMLSchema#gYear"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:assertion/00000011-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Assertion"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        {
+          "@value": "2020-05",
+          "@type": "http://www.w3.org/2001/XMLSchema#gYearMonth"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        {
+          "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value"
+        }
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        {
+          "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        {
+          "@id": "urn:c1:principal:fixture-editor"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "@value": "true",
+          "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "@value": "manual",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "@value": "reported",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:boundary/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeBoundary"
+      ],
+      "http://www.w3.org/2006/time#inXSDgYear": [
+        {
+          "@value": "2020",
+          "@type": "http://www.w3.org/2001/XMLSchema#gYear"
+        }
+      ],
+      "urn:c1:ns:core#boundaryState": [
+        {
+          "@value": "known",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:boundary/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeBoundary"
+      ],
+      "http://www.w3.org/2006/time#inXSDgYear": [
+        {
+          "@value": "2021",
+          "@type": "http://www.w3.org/2001/XMLSchema#gYear"
+        }
+      ],
+      "urn:c1:ns:core#boundaryState": [
+        {
+          "@value": "known",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:boundary/00000003-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeBoundary"
+      ],
+      "http://www.w3.org/2006/time#inXSDgYearMonth": [
+        {
+          "@value": "2020-05",
+          "@type": "http://www.w3.org/2001/XMLSchema#gYearMonth"
+        }
+      ],
+      "urn:c1:ns:core#boundaryState": [
+        {
+          "@value": "known",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:boundary/00000004-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeBoundary"
+      ],
+      "urn:c1:ns:core#boundaryState": [
+        {
+          "@value": "unknown",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:boundary/00000005-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeBoundary"
+      ],
+      "http://www.w3.org/2006/time#inXSDgYear": [
+        {
+          "@value": "2019",
+          "@type": "http://www.w3.org/2001/XMLSchema#gYear"
+        }
+      ],
+      "urn:c1:ns:core#boundaryState": [
+        {
+          "@value": "known",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:boundary/00000006-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeBoundary"
+      ],
+      "urn:c1:ns:core#boundaryState": [
+        {
+          "@value": "unbounded",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:document/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Document"
+      ],
+      "http://purl.org/dc/terms/title": [
+        {
+          "@value": "Synthetic source notes",
+          "@language": "en"
+        }
+      ],
+      "urn:c1:ns:core#sourceRevision": [
+        {
+          "@value": "fixture-v1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:entity/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Entity"
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@value": "Tesla Motors",
+          "@language": "en"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@value": "Tesla",
+          "@language": "de"
+        },
+        {
+          "@value": "Tesla",
+          "@language": "en"
+        }
+      ],
+      "urn:c1:ns:core#keyword": [
+        {
+          "@id": "urn:c1:instance:dev:keyword/00000001-0000-4000-8000-000000000000"
+        },
+        {
+          "@id": "urn:c1:instance:dev:keyword/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:entity/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Entity"
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@value": "A. Example",
+          "@language": "en"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@value": "Ada Beispiel",
+          "@language": "de"
+        },
+        {
+          "@value": "Ada Example",
+          "@language": "en"
+        }
+      ],
+      "urn:c1:ns:core#keyword": [
+        {
+          "@id": "urn:c1:instance:dev:keyword/00000005-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Entity"
+      ],
+      "http://www.w3.org/2004/02/skos/core#altLabel": [
+        {
+          "@value": "Pack One",
+          "@language": "en"
+        }
+      ],
+      "http://www.w3.org/2004/02/skos/core#prefLabel": [
+        {
+          "@value": "Batteriepaket v1",
+          "@language": "de"
+        },
+        {
+          "@value": "Battery Pack v1",
+          "@language": "en"
+        }
+      ],
+      "urn:c1:ns:core#keyword": [
+        {
+          "@id": "urn:c1:instance:dev:keyword/00000003-0000-4000-8000-000000000000"
+        },
+        {
+          "@id": "urn:c1:instance:dev:keyword/00000004-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "@value": "active",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:evidence/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Evidence"
+      ],
+      "http://www.w3.org/ns/oa#hasSelector": [
+        {
+          "@id": "urn:c1:instance:dev:selector/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/oa#hasSource": [
+        {
+          "@id": "urn:c1:instance:dev:source/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#assertionRef": [
+        {
+          "@id": "urn:c1:instance:dev:assertion/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#excerpt": [
+        {
+          "@value": "Reported revenue 42.5000 units.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#sourceRevision": [
+        {
+          "@value": "fixture-report-r1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:evidence/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Evidence"
+      ],
+      "http://www.w3.org/ns/oa#hasSelector": [
+        {
+          "@id": "urn:c1:instance:dev:selector/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/oa#hasSource": [
+        {
+          "@id": "urn:c1:instance:dev:source/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#assertionRef": [
+        {
+          "@id": "urn:c1:instance:dev:assertion/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#excerpt": [
+        {
+          "@value": "Ledger revenue 41.7500 units.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#sourceRevision": [
+        {
+          "@value": "fixture-ledger-r1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:evidence/00000003-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Evidence"
+      ],
+      "http://www.w3.org/ns/oa#hasSelector": [
+        {
+          "@id": "urn:c1:instance:dev:selector/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/oa#hasSource": [
+        {
+          "@id": "urn:c1:instance:dev:source/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#assertionRef": [
+        {
+          "@id": "urn:c1:instance:dev:assertion/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#excerpt": [
+        {
+          "@value": "Ada works for Tesla.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#sourceRevision": [
+        {
+          "@value": "fixture-report-r1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:evidence/00000004-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Evidence"
+      ],
+      "http://www.w3.org/ns/oa#hasSelector": [
+        {
+          "@id": "urn:c1:instance:dev:selector/00000004-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/ns/oa#hasSource": [
+        {
+          "@id": "urn:c1:instance:dev:source/00000002-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#assertionRef": [
+        {
+          "@id": "urn:c1:instance:dev:assertion/00000004-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#excerpt": [
+        {
+          "@value": "Ada works for Battery Pack v1.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#sourceRevision": [
+        {
+          "@value": "fixture-ledger-r1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:interval/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeInterval"
+      ],
+      "http://www.w3.org/2006/time#hasBeginning": [
+        {
+          "@id": "urn:c1:instance:dev:boundary/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/2006/time#hasEnd": [
+        {
+          "@id": "urn:c1:instance:dev:boundary/00000002-0000-4000-8000-000000000000"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:interval/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeInterval"
+      ],
+      "http://www.w3.org/2006/time#hasBeginning": [
+        {
+          "@id": "urn:c1:instance:dev:boundary/00000003-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/2006/time#hasEnd": [
+        {
+          "@id": "urn:c1:instance:dev:boundary/00000004-0000-4000-8000-000000000000"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:interval/00000003-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#TimeInterval"
+      ],
+      "http://www.w3.org/2006/time#hasBeginning": [
+        {
+          "@id": "urn:c1:instance:dev:boundary/00000005-0000-4000-8000-000000000000"
+        }
+      ],
+      "http://www.w3.org/2006/time#hasEnd": [
+        {
+          "@id": "urn:c1:instance:dev:boundary/00000006-0000-4000-8000-000000000000"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:keyword/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Keyword"
+      ],
+      "urn:c1:ns:core#keywordLanguage": [
+        {
+          "@value": "en",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#keywordText": [
+        {
+          "@value": "  ELECTRIC   Vehicle  ",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizationVersion": [
+        {
+          "@value": "c1-kw-1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizedKeyword": [
+        {
+          "@value": "electric vehicle",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:keyword/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Keyword"
+      ],
+      "urn:c1:ns:core#keywordText": [
+        {
+          "@value": "\uff45\uff56",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizationVersion": [
+        {
+          "@value": "c1-kw-1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizedKeyword": [
+        {
+          "@value": "ev",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:keyword/00000003-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Keyword"
+      ],
+      "urn:c1:ns:core#keywordLanguage": [
+        {
+          "@value": "en",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#keywordText": [
+        {
+          "@value": " Battery   Pack ",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizationVersion": [
+        {
+          "@value": "c1-kw-1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizedKeyword": [
+        {
+          "@value": "battery pack",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:keyword/00000004-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Keyword"
+      ],
+      "urn:c1:ns:core#keywordLanguage": [
+        {
+          "@value": "de",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#keywordText": [
+        {
+          "@value": "Batterie",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizationVersion": [
+        {
+          "@value": "c1-kw-1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizedKeyword": [
+        {
+          "@value": "batterie",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:keyword/00000005-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Keyword"
+      ],
+      "urn:c1:ns:core#keywordText": [
+        {
+          "@value": "Engineer",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizationVersion": [
+        {
+          "@value": "c1-kw-1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#normalizedKeyword": [
+        {
+          "@value": "engineer",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:part/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#DocumentPart"
+      ],
+      "urn:c1:ns:core#orderKey": [
+        {
+          "@value": "001",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#partOfDocument": [
+        {
+          "@id": "urn:c1:instance:dev:document/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#text": [
+        {
+          "@value": "The synthetic report lists revenue 42.5000 units.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:part/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#DocumentPart"
+      ],
+      "urn:c1:ns:core#orderKey": [
+        {
+          "@value": "002",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#partOfDocument": [
+        {
+          "@id": "urn:c1:instance:dev:document/00000001-0000-4000-8000-000000000000"
+        }
+      ],
+      "urn:c1:ns:core#text": [
+        {
+          "@value": "The synthetic ledger lists revenue 41.7500 units.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:selector/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Selector"
+      ],
+      "http://www.w3.org/ns/oa#exact": [
+        {
+          "@value": "Reported revenue 42.5000 units.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#selectorKind": [
+        {
+          "@value": "TextQuoteSelector",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:selector/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Selector"
+      ],
+      "http://www.w3.org/ns/oa#exact": [
+        {
+          "@value": "Ledger revenue 41.7500 units.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#selectorKind": [
+        {
+          "@value": "TextQuoteSelector",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:selector/00000003-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Selector"
+      ],
+      "http://www.w3.org/ns/oa#exact": [
+        {
+          "@value": "Ada works for Tesla.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#selectorKind": [
+        {
+          "@value": "TextQuoteSelector",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:selector/00000004-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Selector"
+      ],
+      "http://www.w3.org/ns/oa#exact": [
+        {
+          "@value": "Ada works for Battery Pack v1.",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#selectorKind": [
+        {
+          "@value": "TextQuoteSelector",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:source/00000001-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Source"
+      ],
+      "http://purl.org/dc/terms/identifier": [
+        {
+          "@value": "https://example.invalid/report-2020",
+          "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "http://purl.org/dc/terms/issued": [
+        {
+          "@value": "2021-02-01",
+          "@type": "http://www.w3.org/2001/XMLSchema#date"
+        }
+      ],
+      "http://purl.org/dc/terms/title": [
+        {
+          "@value": "Synthetic FY2020 report",
+          "@language": "en"
+        }
+      ],
+      "urn:c1:ns:core#sourceKind": [
+        {
+          "@value": "document",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#sourceRevision": [
+        {
+          "@value": "fixture-report-r1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    },
+    {
+      "@id": "urn:c1:instance:dev:source/00000002-0000-4000-8000-000000000000",
+      "@type": [
+        "urn:c1:ns:core#Source"
+      ],
+      "http://purl.org/dc/terms/identifier": [
+        {
+          "@value": "https://example.invalid/ledger/2020",
+          "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+        }
+      ],
+      "http://purl.org/dc/terms/issued": [
+        {
+          "@value": "2021-03-15",
+          "@type": "http://www.w3.org/2001/XMLSchema#date"
+        }
+      ],
+      "http://purl.org/dc/terms/title": [
+        {
+          "@value": "Synthetic ledger snapshot",
+          "@language": "en"
+        }
+      ],
+      "urn:c1:ns:core#sourceKind": [
+        {
+          "@value": "data",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#sourceRevision": [
+        {
+          "@value": "fixture-ledger-r1",
+          "@type": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ]
+    }
+  ]
+}

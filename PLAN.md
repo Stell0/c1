@@ -70,7 +70,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 |---|---|---|---|---|
 | M00 | Baseline and development harness | None | Attributed local specification, accepted extension, and reproducible checking harness | VERIFIED |
 | M01 | Infrastructure and feasibility proofs | M00 | Pinned open-source stack with measured transaction/security/interchange proofs | VERIFIED |
-| M02 | Canonical model and standards profile | M01 | Validated, portable knowledge records and software-extension boundaries | PLANNED |
+| M02 | Canonical model and standards profile | M01 | Validated, portable knowledge records and software-extension boundaries | IN_PROGRESS |
 | M03 | Identity and current resource authorization | M02 | Fail-closed principals, scopes, bindings, and controlled security operations | PLANNED |
 | M04 | Reviewed knowledge writes and history | M03 | Atomic, retry-safe ChangeSets and policy-safe historical reads | NOT_PLANNED |
 | M05 | Shared identity and deterministic query API | M04 | Keyword/structured retrieval and a permission-correct multi-company directory | NOT_PLANNED |
@@ -525,4 +525,4 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S4 — Current planning instruction.** Produce AGENTS.md and PLAN.md; divide work into milestones with verifiable outputs and specific tests, and plan each milestone separately. This is the authority for the execution policy and delivery structure in this file.
 
-No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00 and M01 are now VERIFIED as recorded in their milestone reports. M01 has pinned-stack transaction, freshness, publication-recovery and interchange evidence. The next bounded action is owner selection and planning of **M02**; no later milestone is automatically authorized.
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00 and M01 are now VERIFIED as recorded in their milestone reports. M01 has pinned-stack transaction, freshness, publication-recovery and interchange evidence. M02 implementation is authorized and IN_PROGRESS; its report records pending plan decisions and gate evidence. The next bounded action is completing **M02**; no later milestone is automatically authorized.

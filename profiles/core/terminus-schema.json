@@ -1,0 +1,632 @@
+[
+  {
+    "@type": "@context",
+    "@base": "terminusdb:///data/",
+    "@schema": "terminusdb:///schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "@documentation": {
+      "@title": "C1 core 1.0.0",
+      "@description": "C1 core knowledge storage schema; public vocabulary uses urn:c1:ns:core#; manifest sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "LiteralValue",
+    "@key": {
+      "@type": "Random"
+    },
+    "@subdocument": [],
+    "lexical": "xsd:string",
+    "datatype": "xsd:string",
+    "language": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "value_integer": {
+      "@type": "Optional",
+      "@class": "xsd:integer"
+    },
+    "value_decimal": {
+      "@type": "Optional",
+      "@class": "xsd:decimal"
+    },
+    "value_boolean": {
+      "@type": "Optional",
+      "@class": "xsd:boolean"
+    },
+    "value_double": {
+      "@type": "Optional",
+      "@class": "xsd:double"
+    },
+    "value_earliest": {
+      "@type": "Optional",
+      "@class": "xsd:dateTime"
+    },
+    "value_latest": {
+      "@type": "Optional",
+      "@class": "xsd:dateTime"
+    },
+    "timezone_unknown": {
+      "@type": "Optional",
+      "@class": "xsd:boolean"
+    },
+    "projection_status": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "Value",
+    "@key": {
+      "@type": "Random"
+    },
+    "@subdocument": [],
+    "iri": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "literal": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "Activity",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "endedAtTime": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "startedAtTime": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "used": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "wasAttributedTo": "xsd:string",
+    "method": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "outcome": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "output": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "resultRevision": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "toolName": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "toolVersion": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "Agent",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "label": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "ApplyReceipt",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "changeSet": "xsd:string",
+    "knowledgeCommit": "LiteralValue",
+    "requestDigest": "LiteralValue"
+  },
+  {
+    "@type": "Class",
+    "@id": "Assertion",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "object": "Value",
+    "predicate": "xsd:string",
+    "subject": "xsd:string",
+    "wasAttributedTo": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "wasGeneratedBy": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "confidence": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "confidenceMethod": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "evidence": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "lifecycle": "LiteralValue",
+    "manualStatement": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "origin": "LiteralValue",
+    "provisionedScopeHint": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "reviewState": "LiteralValue",
+    "validDuring": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "ChangeSet",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "applyReceipt": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "baseRevision": "LiteralValue",
+    "intendedCreationScope": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "profileVersion": "LiteralValue",
+    "proposedEvidence": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "proposedOperation": {
+      "@type": "Set",
+      "@class": "LiteralValue"
+    },
+    "requestDigest": "LiteralValue",
+    "reviewDecision": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "status": "LiteralValue",
+    "targetResource": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "validationReport": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "Document",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "issued": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "title": "LiteralValue",
+    "contentDigest": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "sourceRevision": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "DocumentPart",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "title": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "orderKey": "LiteralValue",
+    "partKind": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "partOfDocument": "xsd:string",
+    "text": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "Entity",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "description": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "altLabel": {
+      "@type": "Set",
+      "@class": "LiteralValue"
+    },
+    "label": {
+      "@type": "Set",
+      "@class": "LiteralValue"
+    },
+    "keyword": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "lifecycle": "LiteralValue",
+    "projectReference": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "provisionedScopeHint": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "Evidence",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "hasSelector": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "hasSource": "xsd:string",
+    "wasGeneratedBy": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "assertionRef": "xsd:string",
+    "excerpt": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "observedAt": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "sourceRevision": "LiteralValue"
+  },
+  {
+    "@type": "Class",
+    "@id": "Keyword",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "keywordLanguage": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "keywordText": "LiteralValue",
+    "normalizationVersion": "LiteralValue",
+    "normalizedKeyword": "LiteralValue"
+  },
+  {
+    "@type": "Class",
+    "@id": "ResolutionRecord",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "wasAttributedTo": "xsd:string",
+    "candidate": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "decision": "LiteralValue",
+    "rationale": "LiteralValue"
+  },
+  {
+    "@type": "Class",
+    "@id": "ReviewDecision",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "wasAttributedTo": "xsd:string",
+    "changeSet": "xsd:string",
+    "decision": "LiteralValue",
+    "rationale": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "SchemaProfile",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "contentDigest": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "profileName": "LiteralValue",
+    "profileVersion": "LiteralValue"
+  },
+  {
+    "@type": "Class",
+    "@id": "Selector",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "end": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "exact": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "start": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "selectorKind": "LiteralValue"
+  },
+  {
+    "@type": "Class",
+    "@id": "Source",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "creator": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "locator": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "issued": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "title": "LiteralValue",
+    "contentDigest": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "observedAt": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "sourceKind": "LiteralValue",
+    "sourceRevision": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "TimeBoundary",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "inXSDDate": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "inXSDDateTime": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "inXSDDateTimeStamp": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "inXSDgYear": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "inXSDgYearMonth": {
+      "@type": "Optional",
+      "@class": "LiteralValue"
+    },
+    "boundaryState": "LiteralValue"
+  },
+  {
+    "@type": "Class",
+    "@id": "TimeInterval",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "hasBeginning": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    },
+    "hasEnd": {
+      "@type": "Optional",
+      "@class": "xsd:string"
+    }
+  },
+  {
+    "@type": "Class",
+    "@id": "ValidationReport",
+    "@key": {
+      "@type": "Random"
+    },
+    "@documentation": {
+      "@comment": "C1 profile core 1.0.0 sha256:a3bda34201011334116d8d0f91595c3d86b7d255bf85d4ccaccc938cb87fcadc"
+    },
+    "canonical_iri": "xsd:string",
+    "types": {
+      "@type": "Set",
+      "@class": "xsd:string"
+    },
+    "changeSet": "xsd:string",
+    "diagnostic": {
+      "@type": "Set",
+      "@class": "LiteralValue"
+    },
+    "requestDigest": "LiteralValue",
+    "status": "LiteralValue"
+  }
+]

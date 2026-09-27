@@ -116,10 +116,13 @@ def state_errors(root: Path) -> list[str]:
             "- CI:",
             "- Conventions:",
             "- License:",
+            "- Model:",
         )
         for line in section.group(1).splitlines():
             if line.strip() and not line.startswith(allowed):
-                errors.append("README.md:1: implemented inventory must list only M00 harness items")
+                errors.append(
+                    "README.md:1: implemented inventory contains an unrecognized capability heading"
+                )
     paths = [root / "README.md", *sorted((root / "docs/baseline").glob("*.md"))]
     for path in paths:
         if not path.is_file():

@@ -1,0 +1,14 @@
+{
+  "name": "core-knowledge",
+  "version": "1.0.0",
+  "profile": "core@1.0.0",
+  "context": "urn:c1:ns:core:context:1",
+  "input": "fixture.jsonld",
+  "expected": [
+    "expected/canonical.jsonld",
+    "expected/identities.json",
+    "expected/keywords.json",
+    "expected/literal-values.json",
+    "expected/time.json"
+  ]
+}

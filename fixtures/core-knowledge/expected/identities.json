@@ -1,0 +1,22 @@
+{
+  "tesla": "urn:c1:instance:dev:entity/00000001-0000-4000-8000-000000000000",
+  "ada": "urn:c1:instance:dev:entity/00000002-0000-4000-8000-000000000000",
+  "battery": "urn:c1:instance:dev:entity/00000003-0000-4000-8000-000000000000",
+  "revenue_assertions": [
+    "urn:c1:instance:dev:assertion/00000001-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000002-0000-4000-8000-000000000000"
+  ],
+  "employment_assertions": [
+    "urn:c1:instance:dev:assertion/00000003-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000004-0000-4000-8000-000000000000"
+  ],
+  "manual_assertion": "urn:c1:instance:dev:assertion/00000005-0000-4000-8000-000000000000",
+  "sources": [
+    "urn:c1:instance:dev:source/00000001-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:source/00000002-0000-4000-8000-000000000000"
+  ],
+  "activities": [
+    "urn:c1:instance:dev:activity/00000001-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:activity/00000002-0000-4000-8000-000000000000"
+  ]
+}

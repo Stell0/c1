@@ -27,7 +27,7 @@ secrets:
 baseline:
 	$(UV) run --locked python scripts/check_baseline.py
 
-check: lint typecheck test secrets baseline
+check: lint typecheck test secrets baseline profile
 
 clean-start:
 	bash scripts/clean_start.sh
@@ -45,3 +45,11 @@ probe:
 	$(UV) run --locked pytest -s -m integration tests/integration/m01 -p no:cacheprovider --junitxml docs/evidence/M01/junit.xml
 inventory:
 	$(UV) run --locked python -m scripts.inventory
+
+.PHONY: integration profile
+integration:
+	@test "$$C1_STACK" = 1 || (echo "Set C1_STACK=1 to run real-service integration"; exit 1)
+	@mkdir -p docs/evidence/M02
+	$(UV) run --locked pytest -s -m integration tests/integration -p no:cacheprovider --junitxml docs/evidence/M02/junit.xml
+profile:
+	$(UV) run --locked python scripts/build_profile.py --check

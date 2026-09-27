@@ -46,3 +46,14 @@ Python/package sources. No AI credential or backend service is required.
 Checkout-local ignored uv cache/runtime directories keep the harness usable in a
 restricted workspace. This does not prove future product compatibility, runtime
 services, or no-AI operation of later milestones. Revisit Python 3.14 in M02.
+
+## M02 revalidation (2026-09-27)
+
+Keep Python 3.13 for the tested milestone. The installed pySHACL 0.40.1 metadata
+and its [official PyPI metadata](https://pypi.org/pypi/pyshacl/0.40.1/json)
+state `Requires-Python: >=3.9`, with classifiers through Python 3.13. The M02
+planning claim of a 3.13 dependency ceiling was incorrect: classifiers are not
+an upper-bound constraint or a Python 3.14 compatibility test. Python 3.14 is
+NOT_RUN and remains outside C1's selected runtime; future upgrades require
+explicit compatibility checks. Pydantic 2.13.5 is MIT-licensed and declares
+Python >=3.9; its installed artifact and transitive licenses are in M02 evidence.

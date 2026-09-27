@@ -1,0 +1,7 @@
+{
+  "command": "UV_CACHE_DIR=.uv-cache UV_PYTHON_INSTALL_DIR=.uv-python UV_PYTHON_BIN_DIR=.uv-python/bin uv build --offline",
+  "exit_code": 0,
+  "wheel": "c1-0.0.0.dev0-py3-none-any.whl",
+  "bundled_core_profile": "PASS",
+  "isolated_extracted_wheel_import": "PASS"
+}

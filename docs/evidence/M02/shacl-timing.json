@@ -1,0 +1,8 @@
+{
+  "check": "one local pySHACL validation, not a capacity benchmark",
+  "fixture": "fixtures/core-knowledge/fixture.jsonld",
+  "records": 49,
+  "triples": 295,
+  "elapsed_seconds": 0.030005,
+  "result": "PASS"
+}

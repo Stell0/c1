@@ -5,10 +5,15 @@ build-backend = "hatchling.build"
 [project]
 name = "c1"
 version = "0.0.0.dev0"
-description = "C1 development harness; product implementation is pending"
+description = "C1 canonical knowledge model and development harness"
 requires-python = ">=3.13,<3.14"
 license = "Apache-2.0"
-dependencies = []
+dependencies = [
+  "pydantic==2.13.5",
+  "rdflib==7.6.0",
+  "pyshacl==0.40.1",
+  "httpx==0.28.1",
+]
 
 [dependency-groups]
 dev = [
@@ -24,6 +29,9 @@ dev = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/c1"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"profiles/core" = "c1/profiles/core"
 
 [tool.uv]
 # Isolated PEP 517 build requirements are separate from uv.lock's dev group.

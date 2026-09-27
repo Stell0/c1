@@ -1,0 +1,74 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+95 files already formatted
+uv run --locked mypy
+Success: no issues found in 62 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collected 144 items
+
+tests/integration/m01/test_t01_inventory.py s                            [  0%]
+tests/integration/m01/test_t02_atomic.py s                               [  1%]
+tests/integration/m01/test_t03_stale_and_reconcile.py s                  [  2%]
+tests/integration/m01/test_t04_revisions.py s                            [  2%]
+tests/integration/m01/test_t05_freshness.py ss                           [  4%]
+tests/integration/m01/test_t06_publication.py ssss                       [  6%]
+tests/integration/m01/test_t07_interchange.py ss                         [  8%]
+tests/integration/m02/test_install_guards.py ss                          [  9%]
+tests/integration/m02/test_t01_roundtrip.py s                            [ 10%]
+tests/integration/m02/test_t02_conflicts.py s                            [ 11%]
+tests/integration/m02/test_t03_no_partial.py ss                          [ 12%]
+tests/integration/m02/test_t04_identity.py s                             [ 13%]
+tests/integration/m02/test_t07_extension.py ss                           [ 14%]
+tests/test_baseline.py ........                                          [ 20%]
+tests/test_harness.py ...                                                [ 22%]
+tests/test_interchange.py .....                                          [ 25%]
+tests/test_secret_hygiene.py ........                                    [ 31%]
+tests/test_terminus_contract.py ....                                     [ 34%]
+tests/unit/m02/test_export.py .....                                      [ 37%]
+tests/unit/m02/test_extension.py ..........                              [ 44%]
+tests/unit/m02/test_identity_values.py ..........                        [ 51%]
+tests/unit/m02/test_keywords.py ..                                       [ 52%]
+tests/unit/m02/test_literals.py ........................                 [ 69%]
+tests/unit/m02/test_records.py .....                                     [ 72%]
+tests/unit/m02/test_storage_guard.py .................                   [ 84%]
+tests/unit/m02/test_time.py ........                                     [ 90%]
+tests/unit/m02/test_unsupported.py ........                              [ 95%]
+tests/unit/m02/test_validation.py ......                                 [100%]
+
+=============================== warnings summary ===============================
+tests/test_interchange.py: 4 warnings
+tests/unit/m02/test_export.py: 5 warnings
+tests/unit/m02/test_extension.py: 4 warnings
+tests/unit/m02/test_validation.py: 1 warning
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/m01/test_t01_inventory.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t02_atomic.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t03_stale_and_reconcile.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t04_revisions.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m01/test_t05_freshness.py: M01 live stack requires C1_STACK=1
+SKIPPED [3] tests/integration/m01/test_t06_publication.py:58: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t06_publication.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m01/test_t07_interchange.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m02/test_install_guards.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m02/test_t01_roundtrip.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m02/test_t02_conflicts.py: M02 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m02/test_t03_no_partial.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m02/test_t04_identity.py: M02 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m02/test_t07_extension.py: M02 live stack requires C1_STACK=1
+================= 123 passed, 21 skipped, 14 warnings in 6.21s =================
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 187 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).
+uv run --locked python scripts/build_profile.py --check

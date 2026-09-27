@@ -1,0 +1,33 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+unformatted: File would be reformatted
+  --> src/c1/storage/schema.py:77:28
+   |
+76 |         "@key": {"@type": definition.key_strategy},
+   -         "@documentation": {
+   -             "@comment": f"C1 profile {profile_name} {version} sha256:{digest}"
+   -         },
+77 +         "@documentation": {"@comment": f"C1 profile {profile_name} {version} sha256:{digest}"},
+78 |         "canonical_iri": "xsd:string",
+   |
+
+unformatted: File would be reformatted
+  --> tests/integration/m02/test_t01_roundtrip.py:51:20
+   |
+50 |             )
+   -             assert sum(
+   -                 active_literal in item.properties.get(C1 + "lifecycle", [])
+   -                 for item in restored
+   -             ) >= 3
+51 +             assert (
+52 +                 sum(
+53 +                     active_literal in item.properties.get(C1 + "lifecycle", []) for item in restored
+54 +                 )
+55 +                 >= 3
+56 +             )
+57 |             exported = export_jsonld(restored, registry)
+   |
+
+2 files would be reformatted, 92 files already formatted
+make: *** [Makefile:16: lint] Error 1

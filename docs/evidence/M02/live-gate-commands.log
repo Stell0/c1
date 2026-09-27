@@ -1,0 +1,22 @@
+M02 live gate (pinned local stack, 2026-09-27)
+
+Command: C1_STACK=1 make integration
+Exit code: 0
+Result: final combined run 21 passed, 0 failed, 0 errors, 0 skipped, 12 rdflib deprecation warnings
+Output: integration.log
+JUnit: junit.xml
+
+Command: UV_CACHE_DIR=.uv-cache UV_PYTHON_INSTALL_DIR=.uv-python UV_PYTHON_BIN_DIR=.uv-python/bin uv run --locked python -m scripts.demo_m02 --fixture fixtures/core-knowledge
+Exit code: 0
+Output: demo.jsonld
+Standard error: demo.log (empty)
+
+Command: UV_CACHE_DIR=.uv-cache UV_PYTHON_INSTALL_DIR=.uv-python UV_PYTHON_BIN_DIR=.uv-python/bin uv run --locked python - (inline comparison of demo.jsonld against fixtures/core-knowledge/expected/canonical.jsonld and RDF isomorphism via import_jsonld)
+Exit code: 0
+Output: demo-verify.log (PASS, 49 nodes)
+
+The M01 inventory.json rewritten by its integration test was captured as
+m01-regression/inventory-full-integration.json; the tracked M01 evidence was
+restored byte-for-byte against the pre-run snapshot.
+
+The final run includes both installation guards; see final-integration-command.log.

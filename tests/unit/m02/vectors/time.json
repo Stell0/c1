@@ -1,0 +1,51 @@
+[
+  {
+    "datatype": "gYear",
+    "lexical": "2020",
+    "earliest": "2020-01-01T00:00:00Z",
+    "latest": "2021-01-01T00:00:00Z",
+    "timezone_unknown": true
+  },
+  {
+    "datatype": "gYearMonth",
+    "lexical": "2020-02",
+    "earliest": "2020-02-01T00:00:00Z",
+    "latest": "2020-03-01T00:00:00Z",
+    "timezone_unknown": true
+  },
+  {
+    "datatype": "date",
+    "lexical": "2020-02-29Z",
+    "earliest": "2020-02-29T00:00:00Z",
+    "latest": "2020-03-01T00:00:00Z",
+    "timezone_unknown": false
+  },
+  {
+    "datatype": "dateTime",
+    "lexical": "2020-05-03T12:30:25.1234567",
+    "earliest": "2020-05-03T12:30:25.1234567Z",
+    "latest": "2020-05-03T12:30:25.1234567Z",
+    "timezone_unknown": true
+  },
+  {
+    "datatype": "dateTimeStamp",
+    "lexical": "2020-05-03T01:15:00+02:00",
+    "earliest": "2020-05-02T23:15:00Z",
+    "latest": "2020-05-02T23:15:00Z",
+    "timezone_unknown": false
+  },
+  {
+    "datatype": "gYear",
+    "lexical": "10000Z",
+    "earliest": "10000-01-01T00:00:00Z",
+    "latest": "10001-01-01T00:00:00Z",
+    "timezone_unknown": false
+  },
+  {
+    "datatype": "gYear",
+    "lexical": "0000Z",
+    "earliest": "0000-01-01T00:00:00Z",
+    "latest": "0001-01-01T00:00:00Z",
+    "timezone_unknown": false
+  }
+]

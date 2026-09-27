@@ -1,0 +1,157 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<urn:c1:ns:core#shape-Entity> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#Entity> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:core#shape-Assertion> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#Assertion> ;
+    sh:property [ sh:path <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:nodeKind sh:IRI ] [ sh:nodeKind sh:Literal ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#validDuring> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#origin> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "imported"^^<http://www.w3.org/2001/XMLSchema#string> "manual"^^<http://www.w3.org/2001/XMLSchema#string> "derived"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#reviewState> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "reported"^^<http://www.w3.org/2001/XMLSchema#string> "confirmed"^^<http://www.w3.org/2001/XMLSchema#string> "disputed"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#confidence> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#decimal> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#confidenceMethod> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#manualStatement> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#boolean> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#wasGeneratedBy> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#wasAttributedTo> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#evidence> ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:core#shape-Source> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#Source> ;
+    sh:property [ sh:path <http://purl.org/dc/terms/title> ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#sourceKind> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/identifier> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/2001/XMLSchema#anyURI> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#sourceRevision> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#contentDigest> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/issued> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/2001/XMLSchema#date> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#dateTime> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/creator> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#observedAt> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/2001/XMLSchema#dateTime> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ) ] .
+
+<urn:c1:ns:core#shape-Evidence> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#Evidence> ;
+    sh:property [ sh:path <urn:c1:ns:core#assertionRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/oa#hasSource> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#sourceRevision> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/oa#hasSelector> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#excerpt> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#wasGeneratedBy> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#observedAt> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/2001/XMLSchema#dateTime> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ) ] .
+
+<urn:c1:ns:core#shape-Activity> a sh:NodeShape ;
+    sh:targetClass <http://www.w3.org/ns/prov#Activity> ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#wasAttributedTo> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#used> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#startedAtTime> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#endedAtTime> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#toolName> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#toolVersion> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#method> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#output> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#outcome> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#resultRevision> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:core#shape-ResolutionRecord> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#ResolutionRecord> ;
+    sh:property [ sh:path <urn:c1:ns:core#candidate> ; sh:minCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#decision> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#rationale> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#wasAttributedTo> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:core#shape-Document> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#Document> ;
+    sh:property [ sh:path <http://purl.org/dc/terms/title> ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#sourceRevision> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#contentDigest> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/issued> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/2001/XMLSchema#date> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#dateTime> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ) ] .
+
+<urn:c1:ns:core#shape-DocumentPart> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#DocumentPart> ;
+    sh:property [ sh:path <urn:c1:ns:core#partOfDocument> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#orderKey> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#text> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/title> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#partKind> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:core#shape-SchemaProfile> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#SchemaProfile> ;
+    sh:property [ sh:path <urn:c1:ns:core#profileName> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#profileVersion> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#contentDigest> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:core#shape-ChangeSet> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#ChangeSet> ;
+    sh:property [ sh:path <urn:c1:ns:core#baseRevision> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#profileVersion> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#status> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#requestDigest> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#proposedOperation> ; sh:minCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#proposedEvidence> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#targetResource> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#intendedCreationScope> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#validationReport> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#reviewDecision> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#applyReceipt> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:core#shape-ValidationReport> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#ValidationReport> ;
+    sh:property [ sh:path <urn:c1:ns:core#changeSet> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#status> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#requestDigest> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#diagnostic> ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:core#shape-ReviewDecision> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#ReviewDecision> ;
+    sh:property [ sh:path <urn:c1:ns:core#changeSet> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#decision> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#wasAttributedTo> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#rationale> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:core#shape-ApplyReceipt> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#ApplyReceipt> ;
+    sh:property [ sh:path <urn:c1:ns:core#changeSet> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#knowledgeCommit> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#requestDigest> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:core#shape-Keyword> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#Keyword> ;
+    sh:property [ sh:path <urn:c1:ns:core#keywordText> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keywordLanguage> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#normalizedKeyword> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#normalizationVersion> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:core#shape-TimeBoundary> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#TimeBoundary> ;
+    sh:property [ sh:path <urn:c1:ns:core#boundaryState> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "known"^^<http://www.w3.org/2001/XMLSchema#string> "unknown"^^<http://www.w3.org/2001/XMLSchema#string> "unbounded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2006/time#inXSDDateTimeStamp> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ;
+    sh:property [ sh:path <http://www.w3.org/2006/time#inXSDDateTime> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTime> ] ;
+    sh:property [ sh:path <http://www.w3.org/2006/time#inXSDDate> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#date> ] ;
+    sh:property [ sh:path <http://www.w3.org/2006/time#inXSDgYearMonth> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#gYearMonth> ] ;
+    sh:property [ sh:path <http://www.w3.org/2006/time#inXSDgYear> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#gYear> ] .
+
+<urn:c1:ns:core#shape-TimeInterval> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#TimeInterval> ;
+    sh:property [ sh:path <http://www.w3.org/2006/time#hasBeginning> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <http://www.w3.org/2006/time#hasEnd> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:core#shape-Selector> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:core#Selector> ;
+    sh:property [ sh:path <http://www.w3.org/ns/oa#exact> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/oa#start> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/oa#end> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <urn:c1:ns:core#selectorKind> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:core#shape-Agent> a sh:NodeShape ;
+    sh:targetClass <http://www.w3.org/ns/prov#Agent> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] .

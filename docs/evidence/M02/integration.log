@@ -1,0 +1,45 @@
+uv run --locked pytest -s -m integration tests/integration -p no:cacheprovider --junitxml docs/evidence/M02/junit.xml
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 21 items
+
+tests/integration/m01/test_t01_inventory.py .
+tests/integration/m01/test_t02_atomic.py .
+tests/integration/m01/test_t03_stale_and_reconcile.py .
+tests/integration/m01/test_t04_revisions.py .
+tests/integration/m01/test_t05_freshness.py .terminusdb: ready
+keycloak: ready
+openfga: ready
+terminusdb: ready
+keycloak: ready
+openfga: ready
+.
+tests/integration/m01/test_t06_publication.py {"crash": "journal", "journal_write_ms": [102.80762700131163, 102.61093699955381, 104.86277300515212]}
+.{"crash": "content", "journal_write_ms": [109.0171950054355, 105.42808801983483, 103.98513899417594]}
+.{"crash": "binding", "journal_write_ms": [77.29836099315435, 103.22470701066777, 102.34269298962317]}
+..
+tests/integration/m01/test_t07_interchange.py ..
+tests/integration/m02/test_install_guards.py ..
+tests/integration/m02/test_t01_roundtrip.py .
+tests/integration/m02/test_t02_conflicts.py .
+tests/integration/m02/test_t03_no_partial.py ..
+tests/integration/m02/test_t04_identity.py .
+tests/integration/m02/test_t07_extension.py ..
+
+=============================== warnings summary ===============================
+tests/integration/m01/test_t07_interchange.py: 3 warnings
+tests/integration/m02/test_install_guards.py: 1 warning
+tests/integration/m02/test_t01_roundtrip.py: 2 warnings
+tests/integration/m02/test_t02_conflicts.py: 1 warning
+tests/integration/m02/test_t03_no_partial.py: 1 warning
+tests/integration/m02/test_t04_identity.py: 2 warnings
+tests/integration/m02/test_t07_extension.py: 2 warnings
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+-- generated xml file: /home/tux/personalbuild/c1/docs/evidence/M02/junit.xml --
+======================= 21 passed, 12 warnings in 37.54s =======================

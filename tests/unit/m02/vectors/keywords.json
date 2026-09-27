@@ -1,0 +1,25 @@
+{
+  "normalize": [
+    ["  BaTtErY   pack  ", "battery pack"],
+    ["ﬁ", "fi"],
+    ["Ｆｕｌｌ　Ｗｉｄｔｈ", "full width"],
+    ["MÜLLER", "müller"],
+    ["Müller", "müller"],
+    ["muller", "muller"],
+    ["Straße", "strasse"]
+  ],
+  "coalesce": [
+    {"text": "Batterie", "language": "de"},
+    {"text": " batterie ", "language": "DE"},
+    {"text": "battery", "language": "en"},
+    {"text": "battery", "language": "de"}
+  ],
+  "coalesced_text": ["Batterie", "battery", "battery"],
+  "matches": [
+    {"query": [{"text": "batterie", "language": "de"}], "any": true, "all": true},
+    {"query": [{"text": "BATTERY"}], "any": true, "all": true},
+    {"query": [{"text": "battery", "language": "fr"}], "any": false, "all": false},
+    {"query": [{"text": "battery"}, {"text": "unknown"}], "any": true, "all": false},
+    {"query": [], "any": true, "all": true}
+  ]
+}

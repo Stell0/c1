@@ -1,0 +1,67 @@
+{
+  "intervals": [
+    {
+      "id": "urn:c1:instance:dev:interval/00000001-0000-4000-8000-000000000000",
+      "start": {
+        "state": "known",
+        "lexical": "2020",
+        "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+        "earliest": "2020-01-01T00:00:00Z",
+        "latest": "2021-01-01T00:00:00Z",
+        "id": "urn:c1:instance:dev:boundary/00000001-0000-4000-8000-000000000000",
+        "timezone_unknown": true
+      },
+      "end": {
+        "state": "known",
+        "lexical": "2021",
+        "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+        "earliest": "2021-01-01T00:00:00Z",
+        "latest": "2022-01-01T00:00:00Z",
+        "id": "urn:c1:instance:dev:boundary/00000002-0000-4000-8000-000000000000",
+        "timezone_unknown": true
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:interval/00000002-0000-4000-8000-000000000000",
+      "start": {
+        "state": "known",
+        "lexical": "2020-05",
+        "datatype": "http://www.w3.org/2001/XMLSchema#gYearMonth",
+        "earliest": "2020-05-01T00:00:00Z",
+        "latest": "2020-06-01T00:00:00Z",
+        "id": "urn:c1:instance:dev:boundary/00000003-0000-4000-8000-000000000000",
+        "timezone_unknown": true
+      },
+      "end": {
+        "state": "unknown",
+        "lexical": null,
+        "datatype": null,
+        "earliest": null,
+        "latest": null,
+        "id": "urn:c1:instance:dev:boundary/00000004-0000-4000-8000-000000000000",
+        "timezone_unknown": false
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:interval/00000003-0000-4000-8000-000000000000",
+      "start": {
+        "state": "known",
+        "lexical": "2019",
+        "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+        "earliest": "2019-01-01T00:00:00Z",
+        "latest": "2020-01-01T00:00:00Z",
+        "id": "urn:c1:instance:dev:boundary/00000005-0000-4000-8000-000000000000",
+        "timezone_unknown": true
+      },
+      "end": {
+        "state": "unbounded",
+        "lexical": null,
+        "datatype": null,
+        "earliest": null,
+        "latest": null,
+        "id": "urn:c1:instance:dev:boundary/00000006-0000-4000-8000-000000000000",
+        "timezone_unknown": false
+      }
+    }
+  ]
+}

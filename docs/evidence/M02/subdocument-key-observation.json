@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-27",
+  "backend": "TerminusDB v12.0.7, pinned M01 image",
+  "fixture": "fixtures/core-knowledge/fixture.jsonld (49 named records)",
+  "database_lifecycle": "fresh isolated c1_m02_* database; dropped after each check",
+  "value_hash_subdocuments": {
+    "classes": ["LiteralValue", "Value"],
+    "result": "HTTP 400",
+    "backend_error_type": "api:SameDocumentIdsMutatedInOneTransaction",
+    "reason_observed": "Repeated equal embedded literal values yielded duplicate ValueHash subdocument IDs in one batch."
+  },
+  "random_subdocuments": {
+    "classes": ["LiteralValue", "Value"],
+    "result": "HTTP 200",
+    "named_documents_written": 49,
+    "integration_command": "C1_STACK=1 .venv/bin/python -m pytest -q tests/integration/m02/test_t01_roundtrip.py tests/integration/m02/test_t07_extension.py",
+    "integration_result": "3 passed"
+  },
+  "public_identity": "Named records retain explicit stable storage IDs and canonical_iri fields; embedded subdocument IDs are not exported."
+}

@@ -4,7 +4,7 @@ These decisions remain open until their owning milestone plan verifies the relev
 
 | Choice | Planned decision point | Required evidence or boundary |
 |---|---|---|
-| Python 3.14 compatibility | M02 | M00 selects Python 3.13 and locks development tools; re-check the proposed pySHACL dependency before upgrading. |
+| Python 3.14 compatibility | M02 decision: retain 3.13 | pySHACL 0.40.1 requires >=3.9 (no upper bound), classifiers end at 3.13. Python 3.14 is NOT_RUN; any upgrade needs a new compatibility gate (ADR-0001). |
 | HTTP framework and service configuration | M01, refined in M03 | Python is selected in M00; verify the framework, deployment wiring, and security-service settings with the infrastructure proofs. |
 | Backend, identity, and authorization service versions, editions, and licenses | M01 | Inspect pinned artifacts and demonstrate required open-source operations. |
 | Transaction, revision, receipt, and durable workflow boundary | M01, refined in M04 | Demonstrate behavior against the selected services; do not assume a cross-service transaction. |

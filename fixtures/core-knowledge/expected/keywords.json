@@ -1,0 +1,35 @@
+{
+  "normalization_version": "c1-kw-1",
+  "keywords": [
+    {
+      "id": "urn:c1:instance:dev:keyword/00000001-0000-4000-8000-000000000000",
+      "text": "  ELECTRIC   Vehicle  ",
+      "language": "en",
+      "normalized": "electric vehicle"
+    },
+    {
+      "id": "urn:c1:instance:dev:keyword/00000002-0000-4000-8000-000000000000",
+      "text": "ｅｖ",
+      "language": null,
+      "normalized": "ev"
+    },
+    {
+      "id": "urn:c1:instance:dev:keyword/00000003-0000-4000-8000-000000000000",
+      "text": " Battery   Pack ",
+      "language": "en",
+      "normalized": "battery pack"
+    },
+    {
+      "id": "urn:c1:instance:dev:keyword/00000004-0000-4000-8000-000000000000",
+      "text": "Batterie",
+      "language": "de",
+      "normalized": "batterie"
+    },
+    {
+      "id": "urn:c1:instance:dev:keyword/00000005-0000-4000-8000-000000000000",
+      "text": "Engineer",
+      "language": null,
+      "normalized": "engineer"
+    }
+  ]
+}

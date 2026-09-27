@@ -1,0 +1,8 @@
+M01 real-service regression during M02
+Command: C1_STACK=1 make probe
+Exit code: 0
+Result: 12 passed, 0 failed, 0 errors, 0 skipped, 3 rdflib deprecation warnings
+Captured stdout/stderr: probe.log
+Fresh JUnit: junit.xml
+Fresh inventory from M01-T01: inventory.json
+The tracked docs/evidence/M01 files were restored byte-for-byte after capture.

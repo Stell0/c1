@@ -1,0 +1,1109 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "requires_core": null,
+  "context": "context.jsonld",
+  "shapes": "shapes.ttl",
+  "classes": {
+    "urn:c1:ns:core#Entity": {
+      "storage_name": "Entity",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": {
+          "name": "label",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "http://www.w3.org/2004/02/skos/core#altLabel": {
+          "name": "altLabel",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/description": {
+          "name": "description",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#keyword": {
+          "name": "keyword",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#lifecycle": {
+          "name": "lifecycle",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "active",
+            "retracted",
+            "superseded"
+          ]
+        },
+        "urn:c1:ns:core#projectReference": {
+          "name": "projectReference",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#provisionedScopeHint": {
+          "name": "provisionedScopeHint",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#Assertion": {
+      "storage_name": "Assertion",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": {
+          "name": "subject",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": {
+          "name": "predicate",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": {
+          "name": "object",
+          "ranges": [
+            "@id",
+            "http://www.w3.org/2000/01/rdf-schema#Literal"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#validDuring": {
+          "name": "validDuring",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#origin": {
+          "name": "origin",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "imported",
+            "manual",
+            "derived"
+          ]
+        },
+        "urn:c1:ns:core#reviewState": {
+          "name": "reviewState",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "reported",
+            "confirmed",
+            "disputed"
+          ]
+        },
+        "urn:c1:ns:core#lifecycle": {
+          "name": "lifecycle",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "active",
+            "retracted",
+            "superseded"
+          ]
+        },
+        "urn:c1:ns:core#confidence": {
+          "name": "confidence",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#decimal"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#confidenceMethod": {
+          "name": "confidenceMethod",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#manualStatement": {
+          "name": "manualStatement",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#boolean"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#provisionedScopeHint": {
+          "name": "provisionedScopeHint",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/prov#wasGeneratedBy": {
+          "name": "wasGeneratedBy",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/prov#wasAttributedTo": {
+          "name": "wasAttributedTo",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#evidence": {
+          "name": "evidence",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#Source": {
+      "storage_name": "Source",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "http://purl.org/dc/terms/title": {
+          "name": "title",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#sourceKind": {
+          "name": "sourceKind",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/identifier": {
+          "name": "locator",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#anyURI",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#sourceRevision": {
+          "name": "sourceRevision",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#contentDigest": {
+          "name": "contentDigest",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/issued": {
+          "name": "issued",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#date",
+            "http://www.w3.org/2001/XMLSchema#dateTime",
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/creator": {
+          "name": "creator",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#observedAt": {
+          "name": "observedAt",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#dateTime",
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#Evidence": {
+      "storage_name": "Evidence",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#assertionRef": {
+          "name": "assertionRef",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/oa#hasSource": {
+          "name": "hasSource",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#sourceRevision": {
+          "name": "sourceRevision",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/oa#hasSelector": {
+          "name": "hasSelector",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#excerpt": {
+          "name": "excerpt",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/prov#wasGeneratedBy": {
+          "name": "wasGeneratedBy",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#observedAt": {
+          "name": "observedAt",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#dateTime",
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "http://www.w3.org/ns/prov#Activity": {
+      "storage_name": "Activity",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/ns/prov#wasAttributedTo": {
+          "name": "wasAttributedTo",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/prov#used": {
+          "name": "used",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "http://www.w3.org/ns/prov#startedAtTime": {
+          "name": "startedAtTime",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/prov#endedAtTime": {
+          "name": "endedAtTime",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#toolName": {
+          "name": "toolName",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#toolVersion": {
+          "name": "toolVersion",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#method": {
+          "name": "method",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#output": {
+          "name": "output",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#outcome": {
+          "name": "outcome",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#resultRevision": {
+          "name": "resultRevision",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#ResolutionRecord": {
+      "storage_name": "ResolutionRecord",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#candidate": {
+          "name": "candidate",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#decision": {
+          "name": "decision",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#rationale": {
+          "name": "rationale",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/prov#wasAttributedTo": {
+          "name": "wasAttributedTo",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#Document": {
+      "storage_name": "Document",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "http://purl.org/dc/terms/title": {
+          "name": "title",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#sourceRevision": {
+          "name": "sourceRevision",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#contentDigest": {
+          "name": "contentDigest",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/issued": {
+          "name": "issued",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#date",
+            "http://www.w3.org/2001/XMLSchema#dateTime",
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#DocumentPart": {
+      "storage_name": "DocumentPart",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": {
+          "name": "partOfDocument",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#orderKey": {
+          "name": "orderKey",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#text": {
+          "name": "text",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/title": {
+          "name": "title",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#partKind": {
+          "name": "partKind",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#SchemaProfile": {
+      "storage_name": "SchemaProfile",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#profileName": {
+          "name": "profileName",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#profileVersion": {
+          "name": "profileVersion",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#contentDigest": {
+          "name": "contentDigest",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#ChangeSet": {
+      "storage_name": "ChangeSet",
+      "kind": "workflow",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#baseRevision": {
+          "name": "baseRevision",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#profileVersion": {
+          "name": "profileVersion",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#status": {
+          "name": "status",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#requestDigest": {
+          "name": "requestDigest",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#proposedOperation": {
+          "name": "proposedOperation",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#proposedEvidence": {
+          "name": "proposedEvidence",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#targetResource": {
+          "name": "targetResource",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#intendedCreationScope": {
+          "name": "intendedCreationScope",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#validationReport": {
+          "name": "validationReport",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#reviewDecision": {
+          "name": "reviewDecision",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#applyReceipt": {
+          "name": "applyReceipt",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#ValidationReport": {
+      "storage_name": "ValidationReport",
+      "kind": "workflow",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#changeSet": {
+          "name": "changeSet",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#status": {
+          "name": "status",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#requestDigest": {
+          "name": "requestDigest",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#diagnostic": {
+          "name": "diagnostic",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#ReviewDecision": {
+      "storage_name": "ReviewDecision",
+      "kind": "workflow",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#changeSet": {
+          "name": "changeSet",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#decision": {
+          "name": "decision",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/prov#wasAttributedTo": {
+          "name": "wasAttributedTo",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#rationale": {
+          "name": "rationale",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#ApplyReceipt": {
+      "storage_name": "ApplyReceipt",
+      "kind": "workflow",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#changeSet": {
+          "name": "changeSet",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#knowledgeCommit": {
+          "name": "knowledgeCommit",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#requestDigest": {
+          "name": "requestDigest",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#Keyword": {
+      "storage_name": "Keyword",
+      "kind": "auxiliary",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#keywordText": {
+          "name": "keywordText",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#keywordLanguage": {
+          "name": "keywordLanguage",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#normalizedKeyword": {
+          "name": "normalizedKeyword",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#normalizationVersion": {
+          "name": "normalizationVersion",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#TimeBoundary": {
+      "storage_name": "TimeBoundary",
+      "kind": "auxiliary",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:core#boundaryState": {
+          "name": "boundaryState",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "known",
+            "unknown",
+            "unbounded"
+          ]
+        },
+        "http://www.w3.org/2006/time#inXSDDateTimeStamp": {
+          "name": "inXSDDateTimeStamp",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/2006/time#inXSDDateTime": {
+          "name": "inXSDDateTime",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#dateTime"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/2006/time#inXSDDate": {
+          "name": "inXSDDate",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#date"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/2006/time#inXSDgYearMonth": {
+          "name": "inXSDgYearMonth",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#gYearMonth"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/2006/time#inXSDgYear": {
+          "name": "inXSDgYear",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#gYear"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#TimeInterval": {
+      "storage_name": "TimeInterval",
+      "kind": "auxiliary",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/2006/time#hasBeginning": {
+          "name": "hasBeginning",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/2006/time#hasEnd": {
+          "name": "hasEnd",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:core#Selector": {
+      "storage_name": "Selector",
+      "kind": "auxiliary",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/ns/oa#exact": {
+          "name": "exact",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/oa#start": {
+          "name": "start",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#integer"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/ns/oa#end": {
+          "name": "end",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#integer"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#selectorKind": {
+          "name": "selectorKind",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "http://www.w3.org/ns/prov#Agent": {
+      "storage_name": "Agent",
+      "kind": "auxiliary",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": {
+          "name": "label",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    }
+  },
+  "predicates": {
+    "urn:c1:ns:core#worksFor": {
+      "name": "worksFor",
+      "ranges": [
+        "@id"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:core#revenue": {
+      "name": "revenue",
+      "ranges": [
+        "http://www.w3.org/2001/XMLSchema#decimal"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": {
+      "name": "value",
+      "ranges": [
+        "http://www.w3.org/2000/01/rdf-schema#Literal"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    }
+  }
+}
