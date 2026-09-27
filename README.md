@@ -120,6 +120,34 @@ It obtains real synthetic user tokens without printing them, then prints the
 ChangeSet receipt and the authorized history listing. It does not need a running
 `make api-up` process.
 
+## Shared identity and queries (M05)
+
+M05 adds a deterministic query API over the one shared repository. Authenticated
+clients can use `/v1/catalog`, `/v1/entities`, `/v1/entities/search`,
+`/v1/assertions`, `/v1/sources`, `/v1/evidence`, `/v1/export`, and an entity's
+`/neighborhood` route. Simple filters are URL parameters; combined entity
+filters use the strict JSON body of `POST /v1/entities/search`. Every result is
+selected under current resource bindings, including when reading an older
+knowledge revision. Cursors pin the content revision and are reauthorized on
+continuation. Query limits and explicit failure behavior are in
+[the M05 plan](docs/milestones/M05.md) and [execution report](docs/milestones/M05-report.md).
+
+The synthetic directory fixture uses one Person ID for Company A and Company B
+and protects each contact assertion independently. To load it into the configured
+local development database and see the four principals' authorized IDs and
+counts:
+
+```sh
+make stack-up
+uv run --locked python scripts/load_fixture.py --fixture directory --database c1_m03_dev_knowledge
+uv run --locked python scripts/demo_m05.py
+make stack-down
+```
+
+The loader uses local development credentials and authenticated C1 APIs. Its
+service principal authors the knowledge ChangeSet; a separate reviewer approves
+it. Use a fresh local stack for a fresh fixture load.
+
 ## Milestone status
 
 See [PLAN.md](PLAN.md) for scope and status. Roadmap entries describe future acceptance contracts; they do not imply that the corresponding product features exist or have passed verification. Each milestone has its own plan and evidence report.
