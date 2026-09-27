@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import argparse
 import os
-import secrets
 import shlex
 import subprocess
 import time
@@ -12,29 +11,11 @@ import time
 import httpx
 
 from probes.config import ENV_FILE, ROOT, Settings, environment, runtime
-
-SECRET_KEYS = (
-    "C1_TERMINUS_PASSWORD",
-    "C1_POSTGRES_PASSWORD",
-    "C1_FGA_DB_PASSWORD",
-    "C1_FGA_TOKEN",
-    "C1_KEYCLOAK_DB_PASSWORD",
-    "C1_KEYCLOAK_ADMIN_PASSWORD",
-)
+from scripts.bootstrap_security import bootstrap, ensure_environment
 
 
 def generate_environment() -> None:
-    if ENV_FILE.exists():
-        values = environment()
-        if any(not values.get(key) for key in SECRET_KEYS):
-            raise RuntimeError("Existing deployment/.env is incomplete; refusing to overwrite it")
-        return
-    ENV_FILE.parent.mkdir(parents=True, exist_ok=True)
-    descriptor = os.open(ENV_FILE, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-    with os.fdopen(descriptor, "w") as stream:
-        stream.write("# Private random development credentials; never commit this file.\n")
-        for key in SECRET_KEYS:
-            stream.write(f"{key}={secrets.token_hex(24)}\n")
+    ensure_environment()
 
 
 def redact(text: str) -> str:
@@ -119,6 +100,7 @@ def main() -> None:
         generate_environment()
         compose(["up", "-d"])
         wait_ready()
+        bootstrap()
     elif args.action == "down":
         compose(["down"])
     elif args.action == "reset":

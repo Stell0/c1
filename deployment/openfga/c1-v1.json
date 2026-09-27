@@ -1,0 +1,216 @@
+{
+  "schema_version": "1.1",
+  "type_definitions": [
+    {
+      "type": "user"
+    },
+    {
+      "type": "group",
+      "relations": {
+        "member": {
+          "this": {}
+        }
+      },
+      "metadata": {
+        "relations": {
+          "member": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "instance",
+      "relations": {
+        "schema_admin": {
+          "this": {}
+        },
+        "access_admin": {
+          "this": {}
+        },
+        "operator": {
+          "this": {}
+        }
+      },
+      "metadata": {
+        "relations": {
+          "schema_admin": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              },
+              {
+                "type": "group",
+                "relation": "member"
+              }
+            ]
+          },
+          "access_admin": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              },
+              {
+                "type": "group",
+                "relation": "member"
+              }
+            ]
+          },
+          "operator": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              },
+              {
+                "type": "group",
+                "relation": "member"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "scope",
+      "relations": {
+        "reader": {
+          "this": {}
+        },
+        "contributor": {
+          "this": {}
+        },
+        "creator": {
+          "this": {}
+        },
+        "reviewer": {
+          "this": {}
+        },
+        "access_admin": {
+          "this": {}
+        }
+      },
+      "metadata": {
+        "relations": {
+          "reader": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              },
+              {
+                "type": "group",
+                "relation": "member"
+              }
+            ]
+          },
+          "contributor": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              },
+              {
+                "type": "group",
+                "relation": "member"
+              }
+            ]
+          },
+          "creator": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              },
+              {
+                "type": "group",
+                "relation": "member"
+              }
+            ]
+          },
+          "reviewer": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              },
+              {
+                "type": "group",
+                "relation": "member"
+              }
+            ]
+          },
+          "access_admin": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              },
+              {
+                "type": "group",
+                "relation": "member"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "resource",
+      "relations": {
+        "bound_to": {
+          "this": {}
+        },
+        "inherits_from": {
+          "this": {}
+        },
+        "can_read": {
+          "tuple_to_userset": {
+            "tupleset": {
+              "relation": "bound_to"
+            },
+            "computed_userset": {
+              "relation": "reader"
+            }
+          }
+        },
+        "can_contribute": {
+          "tuple_to_userset": {
+            "tupleset": {
+              "relation": "bound_to"
+            },
+            "computed_userset": {
+              "relation": "contributor"
+            }
+          }
+        },
+        "can_review": {
+          "tuple_to_userset": {
+            "tupleset": {
+              "relation": "bound_to"
+            },
+            "computed_userset": {
+              "relation": "reviewer"
+            }
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "bound_to": {
+            "directly_related_user_types": [
+              {
+                "type": "scope"
+              }
+            ]
+          },
+          "inherits_from": {
+            "directly_related_user_types": [
+              {
+                "type": "resource"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

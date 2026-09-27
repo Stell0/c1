@@ -1,0 +1,197 @@
+"""Bounded native OpenFGA operations against one configured store/model."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+from pathlib import Path
+from typing import Any, Self
+
+import httpx
+
+Tuple = tuple[str, str, str]
+_FRESH = "HIGHER_CONSISTENCY"
+
+
+class FGAError(RuntimeError):
+    pass
+
+
+def resource_object(identifier: str) -> str:
+    return "resource:" + hashlib.sha256(identifier.encode()).hexdigest()
+
+
+def scope_object(identifier: str) -> str:
+    if not re.fullmatch(r"[A-Za-z0-9_-]{1,128}", identifier):
+        raise ValueError("invalid scope identifier")
+    return "scope:" + identifier
+
+
+def model_definition() -> dict[str, Any]:
+    packaged = Path(__file__).parent / "c1-v1.json"
+    path = (
+        packaged
+        if packaged.is_file()
+        else Path(__file__).resolve().parents[3] / "deployment/openfga/c1-v1.json"
+    )
+    value: dict[str, Any] = json.loads(path.read_text())
+    return value
+
+
+class FGA:
+    def __init__(self, url: str, token: str, store_id: str = "", model_id: str = "") -> None:
+        self.store_id = store_id
+        self.model_id = model_id
+        self._client = httpx.AsyncClient(
+            base_url=url.rstrip("/"),
+            timeout=2.0,
+            trust_env=False,
+            headers={"Authorization": "Bearer " + token},
+        )
+
+    async def __aenter__(self) -> Self:
+        return self
+
+    async def __aexit__(self, *_args: object) -> None:
+        await self.close()
+
+    async def close(self) -> None:
+        await self._client.aclose()
+
+    async def _request(self, method: str, path: str, **kwargs: Any) -> dict[str, Any]:
+        try:
+            response = await self._client.request(method, path, **kwargs)
+            if response.is_error:
+                raise FGAError("authorization service rejected request")
+            if not response.content:
+                return {}
+            payload = response.json()
+            if not isinstance(payload, dict):
+                raise FGAError("invalid authorization response")
+            return payload
+        except (httpx.HTTPError, ValueError):
+            raise FGAError("authorization service unavailable") from None
+
+    @property
+    def _path(self) -> str:
+        if not re.fullmatch(r"[A-Za-z0-9]+", self.store_id):
+            raise FGAError("authorization store is not configured")
+        return "/stores/" + self.store_id
+
+    async def create_store(self, name: str) -> None:
+        store = await self._request("POST", "/stores", json={"name": name})
+        self.store_id = str(store["id"])
+        model = await self._request(
+            "POST", self._path + "/authorization-models", json=model_definition()
+        )
+        self.model_id = str(model["authorization_model_id"])
+
+    async def delete_store(self) -> None:
+        await self._request("DELETE", self._path)
+
+    async def ready(self) -> bool:
+        try:
+            await self._request("GET", self._path + "/authorization-models/" + self.model_id)
+            return True
+        except FGAError:
+            return False
+
+    async def check(self, user: str, relation: str, object: str) -> bool:
+        result = await self._request(
+            "POST",
+            self._path + "/check",
+            json={
+                "authorization_model_id": self.model_id,
+                "consistency": _FRESH,
+                "tuple_key": {"user": user, "relation": relation, "object": object},
+            },
+        )
+        return result.get("allowed") is True
+
+    async def batch_check(self, checks: list[Tuple]) -> list[bool]:
+        decisions: list[bool] = []
+        for start in range(0, len(checks), 50):
+            chunk = checks[start : start + 50]
+            payload = await self._request(
+                "POST",
+                self._path + "/batch-check",
+                json={
+                    "authorization_model_id": self.model_id,
+                    "consistency": _FRESH,
+                    "checks": [
+                        {
+                            "correlation_id": str(i),
+                            "tuple_key": {"user": u, "relation": r, "object": o},
+                        }
+                        for i, (u, r, o) in enumerate(chunk)
+                    ],
+                },
+            )
+            result = payload.get("result")
+            if not isinstance(result, dict):
+                raise FGAError("invalid batch authorization response")
+            for i in range(len(chunk)):
+                item = result.get(str(i), {})
+                decisions.append(
+                    isinstance(item, dict) and item.get("allowed") is True and not item.get("error")
+                )
+        return decisions
+
+    async def read(self, *, user: str = "", relation: str = "", object: str = "") -> list[Tuple]:
+        key = {k: v for k, v in {"user": user, "relation": relation, "object": object}.items() if v}
+        result: list[Tuple] = []
+        token = ""
+        seen: set[str] = set()
+        for _ in range(100):
+            body = {
+                "tuple_key": key,
+                "page_size": 100,
+                "consistency": _FRESH,
+                "continuation_token": token,
+            }
+            payload = await self._request("POST", self._path + "/read", json=body)
+            try:
+                for item in payload.get("tuples", []):
+                    k = item["key"]
+                    result.append((str(k["user"]), str(k["relation"]), str(k["object"])))
+            except (KeyError, TypeError):
+                raise FGAError("invalid tuple response") from None
+            token = payload.get("continuation_token", "")
+            if not token:
+                return result
+            if token in seen:
+                raise FGAError("authorization pagination did not advance")
+            seen.add(token)
+        raise FGAError("authorization tuple limit exceeded")
+
+    async def bindings(self, resource: str) -> list[str]:
+        return [u for u, _, _ in await self.read(relation="bound_to", object=resource)]
+
+    async def write(self, tuples: list[Tuple], deletes: list[Tuple] | None = None) -> None:
+        if not tuples and not deletes:
+            return
+        if len(tuples) + len(deletes or []) > 100:
+            raise FGAError("authorization mutation limit exceeded")
+        body: dict[str, Any] = {"authorization_model_id": self.model_id}
+        for name, entries in (("writes", tuples), ("deletes", deletes or [])):
+            if entries:
+                body[name] = {
+                    "tuple_keys": [{"user": u, "relation": r, "object": o} for u, r, o in entries]
+                }
+        await self._request("POST", self._path + "/write", json=body)
+
+    async def ensure_tuple(self, user: str, relation: str, object: str, *, grant: bool) -> None:
+        existing = (user, relation, object) in await self.read(
+            user=user, relation=relation, object=object
+        )
+        if existing != grant:
+            entry = (user, relation, object)
+            await self.write([entry] if grant else [], [] if grant else [entry])
+
+    async def bind(self, resource: str, scope: str) -> None:
+        current = await self.bindings(resource)
+        await self.write(
+            [(scope, "bound_to", resource)] if scope not in current else [],
+            [(old, "bound_to", resource) for old in current if old != scope],
+        )

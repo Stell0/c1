@@ -1,0 +1,45 @@
+{
+  "cases": [
+    {
+      "binding_after_crash": "transitioning",
+      "durable_operation_after_crash": "pending",
+      "final_binding_count": 1,
+      "final_operation": "applied",
+      "new_scope_reader": 200,
+      "old_scope_reader": 404,
+      "operator_recover": 200,
+      "point": "journal",
+      "process_died": true,
+      "read_while_pending": 404,
+      "readiness_during_openfga_pause": 503
+    },
+    {
+      "binding_after_crash": "transitioning",
+      "durable_operation_after_crash": "pending",
+      "final_binding_count": 1,
+      "final_operation": "applied",
+      "new_scope_reader": 200,
+      "old_scope_reader": 404,
+      "operator_recover": 200,
+      "point": "tuple",
+      "process_died": true,
+      "read_while_pending": 404,
+      "readiness_during_openfga_pause": 503
+    },
+    {
+      "binding_after_crash": "transitioning",
+      "durable_operation_after_crash": "pending",
+      "final_binding_count": 1,
+      "final_operation": "applied",
+      "new_scope_reader": 200,
+      "old_scope_reader": 404,
+      "operator_recover": 200,
+      "point": "confirm",
+      "process_died": true,
+      "read_while_pending": 404,
+      "readiness_during_openfga_pause": 503
+    }
+  ],
+  "exit_code": 0,
+  "source": "C1_STACK=1 .venv/bin/pytest -q -x tests/integration/m03/test_t06_crash.py --tb=short"
+}

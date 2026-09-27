@@ -74,7 +74,7 @@ services:
     depends_on:
       postgres: {condition: service_healthy}
     ports: ["127.0.0.1:18090:8080"]
-    volumes: ["./keycloak/c1-dev-realm.json:/opt/keycloak/data/import/c1-dev-realm.json:ro"]
+    volumes: ["./keycloak:/opt/keycloak/data/import:ro"]
     mem_limit: 1024m
     healthcheck:
       test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9000; printf 'GET /health/ready HTTP/1.0\r\n\r\n' >&3; read -r line <&3; [[ $$line == *' 200 '* ]]"]

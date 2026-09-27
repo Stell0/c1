@@ -1,0 +1,53 @@
+{
+  "source": "real pinned Keycloak tokens; decoded claim summary only",
+  "tokens": {
+    "alice_access": {
+      "has_c1_api_audience": true,
+      "has_subject": true,
+      "issuer_realm": "c1-dev",
+      "lifetime_seconds": 300,
+      "principal_kind": "human",
+      "token_type": "Bearer"
+    },
+    "alice_id_token": {
+      "has_c1_api_audience": false,
+      "has_subject": true,
+      "issuer_realm": "c1-dev",
+      "lifetime_seconds": 300,
+      "principal_kind": null,
+      "token_type": "ID"
+    },
+    "no_audience_access": {
+      "has_c1_api_audience": false,
+      "has_subject": true,
+      "issuer_realm": "c1-dev",
+      "lifetime_seconds": 300,
+      "principal_kind": "human",
+      "token_type": "Bearer"
+    },
+    "papertrader_access": {
+      "has_c1_api_audience": true,
+      "has_subject": true,
+      "issuer_realm": "c1-dev",
+      "lifetime_seconds": 300,
+      "principal_kind": "service",
+      "token_type": "Bearer"
+    },
+    "short_lived_access": {
+      "has_c1_api_audience": true,
+      "has_subject": true,
+      "issuer_realm": "c1-dev",
+      "lifetime_seconds": 1,
+      "principal_kind": "human",
+      "token_type": "Bearer"
+    },
+    "wrong_issuer_access": {
+      "has_c1_api_audience": true,
+      "has_subject": true,
+      "issuer_realm": "c1-other",
+      "lifetime_seconds": 300,
+      "principal_kind": "human",
+      "token_type": "Bearer"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+uv python install 3.13
+Python 3.13 is already installed
+uv lock --check
+Resolved 57 packages in 0.95ms
+uv sync --frozen
+   Building c1 @ file:///home/tux/personalbuild/c1
+      Built c1 @ file:///home/tux/personalbuild/c1
+Prepared 1 package in 540ms
+Uninstalled 1 package in 0.93ms
+Installed 1 package in 1ms
+ ~ c1==0.0.0.dev0 (from file:///home/tux/personalbuild/c1)

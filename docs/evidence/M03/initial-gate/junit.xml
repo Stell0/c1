@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="37" time="408.405" timestamp="2026-09-27T13:44:51.664610+02:00" hostname="tux-ThinkBook-13s-G4-ARB"><testcase classname="tests.integration.m01.test_t01_inventory" name="test_t01_inventory" time="2.581" /><testcase classname="tests.integration.m01.test_t02_atomic" name="test_t02_atomic_batch_and_durable_receipt" time="1.439" /><testcase classname="tests.integration.m01.test_t03_stale_and_reconcile" name="test_t03_stale_base_and_lost_response" time="3.228" /><testcase classname="tests.integration.m01.test_t04_revisions" name="test_t04_independent_revisions" time="1.159" /><testcase classname="tests.integration.m01.test_t05_freshness" name="test_t05_current_bindings_and_revocation" time="2.068" /><testcase classname="tests.integration.m01.test_t05_freshness" name="test_t05_live_outage_and_timeout" time="6.583" /><testcase classname="tests.integration.m01.test_t06_publication" name="test_t06_reconcile_after_process_crash[journal]" time="2.446" /><testcase classname="tests.integration.m01.test_t06_publication" name="test_t06_reconcile_after_process_crash[content]" time="2.523" /><testcase classname="tests.integration.m01.test_t06_publication" name="test_t06_reconcile_after_process_crash[binding]" time="2.626" /><testcase classname="tests.integration.m01.test_t06_publication" name="test_t06_invalid_content_leaves_durable_deny_tombstone" time="1.066" /><testcase classname="tests.integration.m01.test_t07_interchange" name="test_t07_interchange_round_trip" time="0.728" /><testcase classname="tests.integration.m01.test_t07_interchange" name="test_t07_remote_context_rejected_without_fetch_or_write" time="1.003" /><testcase classname="tests.integration.m02.test_install_guards" name="test_schema_commit_without_marker_fails_closed" time="1.139" /><testcase classname="tests.integration.m02.test_install_guards" name="test_reserved_marker_cannot_be_written_as_ordinary_record" time="0.867" /><testcase classname="tests.integration.m02.test_t01_roundtrip" name="test_t01_supported_roundtrip" time="2.239" /><testcase classname="tests.integration.m02.test_t02_conflicts" name="test_t02_conflicts_and_multiple_employments_are_separate_assertions" time="1.282" /><testcase classname="tests.integration.m02.test_t03_no_partial" name="test_t03_invalid_tenth_record_persists_nothing" time="1.002" /><testcase classname="tests.integration.m02.test_t03_no_partial" name="test_t03_remote_context_causes_zero_http_requests" time="1.002" /><testcase classname="tests.integration.m02.test_t04_identity" name="test_t04_identity_survives_label_project_and_scope_hint_changes" time="2.223" /><testcase classname="tests.integration.m02.test_t07_extension" name="test_t07_additive_profile_roundtrip_and_incompatible_revision" time="2.195" /><testcase classname="tests.integration.m02.test_t07_extension" name="test_t07_core_implementation_has_no_extension_name" time="0.002" /><testcase classname="tests.integration.m03.test_authority_contract" name="test_native_batch_check_and_plane_chunk_over_fifty_resources" time="22.092" /><testcase classname="tests.integration.m03.test_authority_contract" name="test_rescope_authority_is_rechecked_before_any_apply_mutation" time="22.948" /><testcase classname="tests.integration.m03.test_cascade" name="test_stale_approved_cascade_refuses_mutation_and_explicit_child_stays_put" time="41.081" /><testcase classname="tests.integration.m03.test_journal_contract" name="test_journal_mixed_upsert_is_one_commit_and_stale_or_invalid_batch_is_atomic" time="1.421" /><testcase classname="tests.integration.m03.test_journal_contract" name="test_historical_record_read_preserves_old_revision" time="1.792"><failure message="assert NodeRecord(id...guage=None)]}) == NodeRecord(id...guage=None)]})&#10;  &#10;  Use -v to get more diff">def test_historical_record_read_preserves_old_revision() -&gt; None:
+        async def run() -&gt; None:
+            registry = ProfileRegistry()
+            batch = import_jsonld(fixture_payload(), registry)
+            original = next(record for record in batch.records if _ENTITY in record.types)
+            async with Terminus(_config("history")) as db:
+                await db.create()
+                try:
+                    await db.install_profile(registry)
+                    first = await db.write_records(batch, registry, expected_head=await db.head())
+                    old = await db.get_record(original.id, registry, commit=first)
+                    assert old == original
+
+                    changed_properties = dict(original.properties)
+                    changed_properties[_LABEL] = [
+                        LiteralValue(lexical="M03 revised label", datatype=_XSD_STRING)
+                    ]
+                    changed = original.model_copy(update={"properties": changed_properties})
+                    second = await db.replace_records(
+                        ValidatedBatch(records=[changed]), registry, expected_head=first
+                    )
+                    assert second != first
+                    assert await db.get_record(original.id, registry) == changed
+                    assert await db.get_record(original.id, registry, commit=first) == original
+                finally:
+                    await db.drop()
+
+&gt;       asyncio.run(run())
+
+tests/integration/m03/test_journal_contract.py:152:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:196: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:119: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    async def run() -&gt; None:
+        registry = ProfileRegistry()
+        batch = import_jsonld(fixture_payload(), registry)
+        original = next(record for record in batch.records if _ENTITY in record.types)
+        async with Terminus(_config("history")) as db:
+            await db.create()
+            try:
+                await db.install_profile(registry)
+                first = await db.write_records(batch, registry, expected_head=await db.head())
+                old = await db.get_record(original.id, registry, commit=first)
+&gt;               assert old == original
+E               assert NodeRecord(id...guage=None)]}) == NodeRecord(id...guage=None)]})
+E
+E                 Use -v to get more diff
+
+tests/integration/m03/test_journal_contract.py:136: AssertionError</failure></testcase><testcase classname="tests.integration.m03.test_t01_tokens" name="test_t01_real_issuer_audience_purpose_expiry_and_delegation" time="33.349" /><testcase classname="tests.integration.m03.test_t02_separation" name="test_t02_reader_contributor_reviewer_operator_and_admin_are_separate" time="17.804" /><testcase classname="tests.integration.m03.test_t03_independent" name="test_t03_relation_evidence_source_and_project_grants_are_independent" time="34.414" /><testcase classname="tests.integration.m03.test_t04_historical" name="test_t04_old_revision_loses_old_scope_access_after_rescope" time="22.989" /><testcase classname="tests.integration.m03.test_t05_bindings" name="test_t05_missing_ambiguous_unknown_and_inactive_bindings" time="19.696" /><testcase classname="tests.integration.m03.test_t05_bindings" name="test_t05_document_part_inheritance_cascades_with_current_policy" time="29.673" /><testcase classname="tests.integration.m03.test_t06_crash" name="test_t06_real_process_crash_and_recovery[journal]" time="28.037" /><testcase classname="tests.integration.m03.test_t06_crash" name="test_t06_real_process_crash_and_recovery[tuple]" time="28.415" /><testcase classname="tests.integration.m03.test_t06_crash" name="test_t06_real_process_crash_and_recovery[confirm]" time="29.570" /><testcase classname="tests.integration.m03.test_t07_boundary" name="test_t07_untrusted_selectors_grants_and_scope_fields_are_rejected" time="12.128" /><testcase classname="tests.integration.m03.test_t07_boundary" name="test_t07_real_openfga_and_keycloak_outages_fail_closed" time="23.143" /></testsuite></testsuites>

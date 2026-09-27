@@ -1,0 +1,4 @@
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 270 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).

@@ -1,0 +1,30 @@
+model
+  schema 1.1
+
+type user
+
+type group
+  relations
+    define member: [user]
+
+type instance
+  relations
+    define schema_admin: [user, group#member]
+    define access_admin: [user, group#member]
+    define operator: [user, group#member]
+
+type scope
+  relations
+    define reader: [user, group#member]
+    define contributor: [user, group#member]
+    define creator: [user, group#member]
+    define reviewer: [user, group#member]
+    define access_admin: [user, group#member]
+
+type resource
+  relations
+    define bound_to: [scope]
+    define inherits_from: [resource]
+    define can_read: reader from bound_to
+    define can_contribute: contributor from bound_to
+    define can_review: reviewer from bound_to

@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from c1.model.profiles import ProfileRegistry
 
 _SAFE_PATH_PART = re.compile(r"[a-z][a-z0-9_-]*\Z")
-_TEST_DATABASE = re.compile(r"c1_m02_[a-z0-9_]+\Z")
+_TEST_DATABASE = re.compile(r"c1_m0[23]_[a-z0-9_]+\Z")
 _VERSION_HEADER = "TerminusDB-Data-Version"
 _AUTHOR = "c1-model"
 
@@ -131,20 +131,20 @@ class Terminus:
         return {_VERSION_HEADER: expected_head}
 
     async def create(self) -> None:
-        """Create only an isolated M02 test database."""
+        """Create only an isolated M02/M03 test database."""
         self._check_test_database()
         await self._request(
             "POST", f"/api/db/{self._database_path}", json={"label": self.config.database}
         )
 
     async def drop(self) -> None:
-        """Drop only an isolated M02 test database."""
+        """Drop only an isolated M02/M03 test database."""
         self._check_test_database()
         await self._request("DELETE", f"/api/db/{self._database_path}")
 
     def _check_test_database(self) -> None:
         if not _TEST_DATABASE.fullmatch(self.config.database):
-            raise StorageError("C1-ST-007", "database create/drop is limited to M02 test databases")
+            raise StorageError("C1-ST-007", "database create/drop is limited to M02/M03 tests")
 
     async def head(self) -> str:
         response = await self._request(
@@ -166,10 +166,14 @@ class Terminus:
     async def schema_documents(self) -> list[dict[str, Any]]:
         return await self.documents(graph_type="schema")
 
-    async def get(self, document_id: str) -> dict[str, Any] | None:
-        response = await self._request(
-            "GET", self._document_path, params={"id": document_id, "as_list": "true"}
-        )
+    async def get(self, document_id: str, commit: str | None = None) -> dict[str, Any] | None:
+        path = self._document_path
+        if commit is not None:
+            commit_id = commit.removeprefix("branch:").removeprefix("commit:")
+            if not re.fullmatch(r"[A-Za-z0-9_-]+", commit_id):
+                raise ValueError("commit must be an identifier or branch:<identifier>")
+            path += f"/local/commit/{commit_id}"
+        response = await self._request("GET", path, params={"id": document_id, "as_list": "true"})
         payload = response.json()
         if not isinstance(payload, list) or len(payload) > 1:
             raise StorageError("C1-ST-003", "backend returned an invalid single document")
@@ -178,6 +182,45 @@ class Terminus:
         if not isinstance(payload[0], dict):
             raise StorageError("C1-ST-003", "backend returned an invalid single document")
         return payload[0]
+
+    async def get_record(
+        self,
+        canonical_iri: str,
+        registry: ProfileRegistry,
+        commit: str | None = None,
+    ) -> NodeRecord | None:
+        """Resolve one declared class at a revision under current schema authority.
+
+        Authorization is performed by the caller against current bindings before
+        this internal storage method. This method never grants access by itself.
+        """
+        from c1.model.nodes import NodeRecord as NodeType
+        from c1.storage.mapping import document_to_record, storage_id
+        from c1.storage.schema import assert_installed_profiles
+
+        validate_iri(canonical_iri)
+        await assert_installed_profiles(self, registry)
+        found: NodeRecord | None = None
+        for definition in registry.classes.values():
+            candidate = NodeType(id=canonical_iri, types=[definition.iri], properties={})
+            try:
+                document_id = storage_id(candidate, definition, self.config.instance_base)
+            except StorageError as exc:
+                if exc.code == "C1-ST-004":
+                    continue
+                raise
+            document = await self.get(document_id, commit=commit)
+            if document is None:
+                continue
+            record = document_to_record(document, registry)
+            if record.id != canonical_iri:
+                raise StorageError(
+                    "C1-ST-005", "stored document ID collides with canonical identity"
+                )
+            if found is not None:
+                raise StorageError("C1-ST-005", "canonical identity resolves to multiple documents")
+            found = record
+        return found
 
     async def log(self) -> list[dict[str, Any]]:
         response = await self._request("GET", f"/api/log/{self._database_path}")
@@ -207,6 +250,28 @@ class Terminus:
                 "author": _AUTHOR,
                 "message": message,
                 **({"full_replace": "true"} if full_replace else {}),
+            },
+            headers=self._expected_headers(expected_head),
+            json=documents,
+        )
+        return self._head_from(response)
+
+    async def _put(
+        self,
+        documents: list[dict[str, Any]],
+        *,
+        expected_head: str,
+        message: str,
+        create: bool = False,
+    ) -> str:
+        response = await self._request(
+            "PUT",
+            self._document_path,
+            params={
+                "graph_type": "instance",
+                "author": _AUTHOR,
+                "message": message,
+                **({"create": "true"} if create else {}),
             },
             headers=self._expected_headers(expected_head),
             json=documents,
@@ -256,4 +321,24 @@ class Terminus:
             registry,
             self.config.instance_base,
             include_metadata=include_metadata,
+        )
+
+    async def replace_records(
+        self, batch: ValidatedBatch, registry: ProfileRegistry, *, expected_head: str
+    ) -> str:
+        """Trusted test/revision helper; no client-facing knowledge write path."""
+        from c1.interchange.jsonld import validate_records
+        from c1.model.nodes import ValidatedBatch as BatchType
+        from c1.storage.mapping import records_to_documents, reject_reserved_id
+        from c1.storage.schema import assert_installed_profiles
+
+        if not isinstance(batch, BatchType):
+            raise TypeError("replace_records requires a ValidatedBatch")
+        for record in batch.records:
+            reject_reserved_id(record.id)
+        checked = validate_records(batch.records, registry)
+        documents = records_to_documents(checked.records, registry, self.config.instance_base)
+        await assert_installed_profiles(self, registry)
+        return await self._put(
+            documents, expected_head=expected_head, message="C1 probe record revision"
         )

@@ -1,0 +1,4 @@
+warning: The cache directory `.uv-cache` is inside the build source directory `.` and may be included in distributions
+Building wheel...
+Successfully built /tmp/c1-m03-wheel/c1-0.0.0.dev0-py3-none-any.whl
+PASS: packaged API, operations and model exactly match tested source

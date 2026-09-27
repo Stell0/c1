@@ -49,7 +49,13 @@ inventory:
 .PHONY: integration profile
 integration:
 	@test "$$C1_STACK" = 1 || (echo "Set C1_STACK=1 to run real-service integration"; exit 1)
-	@mkdir -p docs/evidence/M02
-	$(UV) run --locked pytest -s -m integration tests/integration -p no:cacheprovider --junitxml docs/evidence/M02/junit.xml
+	@mkdir -p docs/evidence/M03
+	$(UV) run --locked pytest -s -m integration tests/integration -p no:cacheprovider --junitxml docs/evidence/M03/junit.xml
 profile:
 	$(UV) run --locked python scripts/build_profile.py --check
+
+.PHONY: api-up api-down
+api-up:
+	$(UV) run --locked python -m scripts.api up $(if $(C1_CRASH_AFTER),--crash-after $(C1_CRASH_AFTER),)
+api-down:
+	$(UV) run --locked python -m scripts.api down

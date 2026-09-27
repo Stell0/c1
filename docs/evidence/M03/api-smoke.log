@@ -1,0 +1,5 @@
+uv run --locked python -m scripts.api up
+C1 API listening on 127.0.0.1:18000; pid 2720083
+readiness 200; real Alice whoami 200, kind human; token not logged
+uv run --locked python -m scripts.api down
+C1 API stopped

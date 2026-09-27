@@ -117,6 +117,7 @@ def state_errors(root: Path) -> list[str]:
             "- Conventions:",
             "- License:",
             "- Model:",
+            "- Security:",
         )
         for line in section.group(1).splitlines():
             if line.strip() and not line.startswith(allowed):

@@ -1,0 +1,13 @@
+uv run --locked ruff check .
+   Building c1 @ file:///home/tux/personalbuild/c1
+  × Failed to build `c1 @ file:///home/tux/personalbuild/c1`
+  ├─▶ Failed to resolve requirements from `build-system.requires`
+  ├─▶ No solution found when resolving: `hatchling==1.27.0`
+  ├─▶ Request failed after 3 retries in 7.6s
+  ├─▶ Failed to fetch: `https://pypi.org/simple/hatchling/`
+  ├─▶ error sending request for url (https://pypi.org/simple/hatchling/)
+  ├─▶ client error (Connect)
+  ├─▶ dns error
+  ╰─▶ failed to lookup address information: Temporary failure in name
+      resolution
+make: *** [Makefile:15: lint] Error 1
