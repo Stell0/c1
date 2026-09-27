@@ -12,8 +12,9 @@ from typing import TYPE_CHECKING
 from c1.model.diagnostics import Diagnostic
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry, compare_profiles
-from c1.storage.mapping import installed_profile_iri, record_to_document
+from c1.storage.mapping import document_to_record, installed_profile_iri, record_to_document
 from c1.storage.schema import (
+    _profile_marker,
     assert_installed_profiles,
     generated_classes,
     generated_core_schema,
@@ -69,6 +70,20 @@ def compare_candidate(installed: ProfileRegistry, alias: str) -> list[Diagnostic
     candidate, name = load_candidate(alias)
     previous = installed.profiles.get(name)
     if previous is None:
+        # Check collisions with every already installed extension, not only core.
+        combined = ProfileRegistry()
+        entries = _catalog_entries()
+        for installed_name in sorted(set(installed.profiles) - {"core"}):
+            matches = [
+                path
+                for path in entries.values()
+                if load_candidate(path.name)[0].profiles.get(installed_name)
+                == installed.profiles[installed_name]
+            ]
+            if len(matches) != 1:
+                raise ValueError("installed profile is not in the trusted catalog")
+            combined.load(matches[0])
+        combined.load(entries[alias])
         return []
     return compare_profiles(previous, candidate.profiles[name])
 
@@ -92,21 +107,33 @@ async def detect_installed_registry(client: Terminus) -> ProfileRegistry:
     await assert_installed_profiles(client, core)
     actual_schema = await client.schema_documents()
     core_schema = generated_core_schema(core)
-    candidates = [load_candidate(alias) for alias in available_profile_names()]
-
-    if len(actual_schema) == len(core_schema) and all(
-        document in actual_schema for document in core_schema
-    ):
-        for registry, name in candidates:
-            if await client.get(_marker_id(registry, client, name)) is not None:
-                raise StorageError("C1-ST-006", "extension marker exists without its schema")
-        return core
-
-    for registry, name in candidates:
-        expected = [*core_schema, *generated_classes(registry, name)]
-        if len(actual_schema) == len(expected) and all(
-            document in actual_schema for document in expected
-        ):
-            await assert_installed_profiles(client, registry)
-            return registry
-    raise StorageError("C1-ST-006", "installed profile schema is partial or unknown")
+    entries = _catalog_entries()
+    grouped: dict[str, list[tuple[Path, ProfileRegistry]]] = {}
+    for alias, directory in entries.items():
+        candidate, name = load_candidate(alias)
+        grouped.setdefault(name, []).append((directory, candidate))
+    selected: list[Path] = []
+    for name, alternatives in sorted(grouped.items()):
+        marker_id = _marker_id(alternatives[0][1], client, name)
+        stored = await client.get(marker_id)
+        if stored is None:
+            continue
+        matches = [
+            directory
+            for directory, candidate in alternatives
+            if document_to_record(stored, candidate) == _profile_marker(candidate, name)
+        ]
+        if len(matches) != 1:
+            raise StorageError("C1-ST-006", "extension marker is unknown or ambiguous")
+        selected.extend(matches)
+    registry = ProfileRegistry()
+    for directory in selected:
+        registry.load(directory)
+    expected = [*core_schema]
+    for name in registry.profiles:
+        if name != "core":
+            expected.extend(generated_classes(registry, name))
+    if len(actual_schema) != len(expected) or any(item not in actual_schema for item in expected):
+        raise StorageError("C1-ST-006", "installed profile schema is partial or unknown")
+    await assert_installed_profiles(client, registry)
+    return registry

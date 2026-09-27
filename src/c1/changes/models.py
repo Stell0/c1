@@ -36,8 +36,54 @@ class InstallProfileOperation(_StrictModel):
     profile: str = Field(min_length=1)
 
 
+class AssertionAssignment(_StrictModel):
+    assertion_id: str = Field(min_length=1)
+    action: Literal["move", "keep", "retract"]
+
+
+class ResolveOperation(_StrictModel):
+    kind: Literal["resolve"] = "resolve"
+    candidates: list[str] = Field(min_length=1)
+    decision: str = Field(min_length=1)
+    rationale: str = Field(min_length=1)
+    scope_id: str = Field(min_length=1)
+
+
+class MergeOperation(_StrictModel):
+    kind: Literal["merge"] = "merge"
+    surviving_id: str = Field(min_length=1)
+    merged_id: str = Field(min_length=1)
+    alias_plan: Literal["copy", "drop"]
+    assertion_plan: list[AssertionAssignment]
+    rationale: str = Field(min_length=1)
+    scope_id: str = Field(min_length=1)
+
+
+class SplitOperation(_StrictModel):
+    kind: Literal["split"] = "split"
+    source_id: str = Field(min_length=1)
+    new_entity: dict[str, Any]
+    assertion_plan: list[AssertionAssignment]
+    rationale: str = Field(min_length=1)
+    scope_id: str = Field(min_length=1)
+
+
+class UndoMergeOperation(_StrictModel):
+    kind: Literal["undo_merge"] = "undo_merge"
+    resolution_id: str = Field(min_length=1)
+    reassignment_plan: list[AssertionAssignment]
+    rationale: str = Field(min_length=1)
+    scope_id: str = Field(min_length=1)
+
+
 ChangeOperation = Annotated[
-    CreateOperation | ReplaceOperation | InstallProfileOperation,
+    CreateOperation
+    | ReplaceOperation
+    | InstallProfileOperation
+    | ResolveOperation
+    | MergeOperation
+    | SplitOperation
+    | UndoMergeOperation,
     Field(discriminator="kind"),
 ]
 ChangeSetState = Literal[

@@ -1,0 +1,22 @@
+{
+  "name": "identity",
+  "version": "1.0.0",
+  "requires_core": "1.0.0",
+  "context": "context.jsonld",
+  "shapes": "shapes.ttl",
+  "classes": {
+    "urn:c1:ns:identity#Redirect": {
+      "storage_name": "Redirect",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:identity#from": {"name": "fromEntity", "ranges": ["@id"], "min_count": 1, "max_count": 1, "enum": []},
+        "urn:c1:ns:identity#to": {"name": "toEntity", "ranges": ["@id"], "min_count": 1, "max_count": 1, "enum": []},
+        "urn:c1:ns:identity#resolution": {"name": "resolution", "ranges": ["@id"], "min_count": 1, "max_count": 1, "enum": []},
+        "urn:c1:ns:identity#copiedAlias": {"name": "copiedAlias", "ranges": ["http://www.w3.org/1999/02/22-rdf-syntax-ns#langString", "http://www.w3.org/2001/XMLSchema#string"], "min_count": 0, "max_count": null, "enum": []},
+        "urn:c1:ns:core#lifecycle": {"name": "lifecycle", "ranges": ["http://www.w3.org/2001/XMLSchema#string"], "min_count": 1, "max_count": 1, "enum": ["active", "retracted"]}
+      }
+    }
+  },
+  "predicates": {}
+}

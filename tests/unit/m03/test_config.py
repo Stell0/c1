@@ -62,6 +62,7 @@ def test_from_env_reads_only_startup_owned_fields(monkeypatch: pytest.MonkeyPatc
     values = {
         "C1_ISSUER": configured.issuer,
         "C1_FGA_TOKEN": configured.fga_token,
+        "C1_CURSOR_SECRET": "synthetic-test-cursor-key-" * 2,  # pragma: allowlist secret
         "C1_FGA_STORE": configured.fga_store,
         "C1_FGA_MODEL": configured.fga_model,
         "C1_TERMINUS_PASSWORD": configured.terminus_password,

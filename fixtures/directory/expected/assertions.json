@@ -1,0 +1,22 @@
+{
+  "alice": [
+    "urn:c1:instance:dev:assertion/00000021-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000022-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000024-0000-4000-8000-000000000000"
+  ],
+  "bob": [
+    "urn:c1:instance:dev:assertion/00000021-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000023-0000-4000-8000-000000000000"
+  ],
+  "carol": [
+    "urn:c1:instance:dev:assertion/00000021-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000022-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000023-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000024-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000025-0000-4000-8000-000000000000"
+  ],
+  "dave": [
+    "urn:c1:instance:dev:assertion/00000021-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:assertion/00000025-0000-4000-8000-000000000000"
+  ]
+}

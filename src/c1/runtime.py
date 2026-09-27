@@ -14,6 +14,9 @@ from c1.changes.profiles import detect_installed_registry
 from c1.config import Settings
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
+from c1.model.records import C1, RDF
+from c1.model.references import is_independent_reference
+from c1.query.service import QueryService
 from c1.storage.schema import assert_installed_profiles
 from c1.storage.terminus import StorageConfig, Terminus
 
@@ -51,6 +54,7 @@ class Runtime:
             self.operations.writer,
             self.audit,
         )
+        self.query = QueryService(self)
         self._started = False
 
     async def start(self) -> None:
@@ -124,6 +128,104 @@ class Runtime:
             record = await self.knowledge.get_record(id, self.registry, commit=revision)
             if record is None or not (await self.plane.check_read(principal, id)).allowed:
                 return None
+            references: list[str] = []
+            if C1 + "Assertion" in record.types:
+                claim_predicate = next(
+                    (
+                        value
+                        for value in record.properties.get(RDF + "predicate", ())
+                        if isinstance(value, str)
+                    ),
+                    None,
+                )
+                definition = (
+                    self.registry.predicates.get(claim_predicate)
+                    if claim_predicate is not None
+                    else None
+                )
+                relation = definition is not None and any(
+                    item in self.registry.classes for item in definition.ranges
+                )
+                references.extend(
+                    value
+                    for predicate in (RDF + "subject", RDF + "object")
+                    for value in record.properties.get(predicate, ())
+                    if isinstance(value, str)
+                    and (
+                        predicate == RDF + "subject"
+                        or relation
+                        or value.startswith(self.settings.instance_base)
+                    )
+                )
+                references.extend(
+                    value
+                    for value in record.properties.get(C1 + "validDuring", ())
+                    if isinstance(value, str)
+                )
+            elif C1 + "Evidence" in record.types:
+                references.extend(
+                    value
+                    for predicate in (
+                        C1 + "assertionRef",
+                        "http://www.w3.org/ns/oa#hasSource",
+                    )
+                    for value in record.properties.get(predicate, ())
+                    if isinstance(value, str)
+                )
+            elif C1 + "TimeInterval" in record.types:
+                references.extend(
+                    value
+                    for predicate in (
+                        "http://www.w3.org/2006/time#hasBeginning",
+                        "http://www.w3.org/2006/time#hasEnd",
+                    )
+                    for value in record.properties.get(predicate, ())
+                    if isinstance(value, str)
+                )
+            elif C1 + "ResolutionRecord" in record.types:
+                references.extend(
+                    value
+                    for value in record.properties.get(C1 + "candidate", ())
+                    if isinstance(value, str)
+                )
+            elif "urn:c1:ns:identity#Redirect" in record.types:
+                references.extend(
+                    value
+                    for part in ("from", "to", "resolution")
+                    for value in record.properties.get("urn:c1:ns:identity#" + part, ())
+                    if isinstance(value, str)
+                )
+            for reference in references:
+                if not (await self.plane.check_read(principal, reference)).allowed:
+                    return None
+            visible_refs: set[str] = set(references)
+            for predicate, values in record.properties.items():
+                if not is_independent_reference(predicate, self.registry):
+                    continue
+                for value in values:
+                    if isinstance(value, str) and value not in visible_refs:
+                        decision = await self.plane.check_read(principal, value)
+                        if decision.reason == "security_unavailable":
+                            return None
+                        if decision.allowed:
+                            visible_refs.add(value)
+            record = record.model_copy(
+                update={
+                    "properties": {
+                        predicate: visible_values
+                        for predicate, values in record.properties.items()
+                        if (
+                            visible_values := [
+                                value
+                                for value in values
+                                if not isinstance(value, str)
+                                or not is_independent_reference(predicate, self.registry)
+                                or value in visible_refs
+                            ]
+                        )
+                    }
+                }
+            )
             if before != await self.journal.head():
                 return None
             return record

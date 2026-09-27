@@ -14,16 +14,18 @@ from starlette.requests import ClientDisconnect
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from c1.api.problems import http_problem, problem, profile_problem, validation_problem
-from c1.api.routes import changesets, history, probe, resources, security, system
+from c1.api.routes import changesets, history, probe, query, resources, security, system
 from c1.authorization.errors import SecurityError
 from c1.authorization.fga import FGAError
 from c1.authorization.tokens import AuthenticationError
 from c1.config import Settings
 from c1.model.diagnostics import ProfileError
+from c1.query.plan import QueryPlanError
 from c1.runtime import Runtime
 from c1.storage.terminus import StorageError
 
 _SELECTORS = frozenset({"database", "repository", "store", "issuer", "principal"})
+_RAW_QUERY_KEYS = frozenset({"woql", "graphql", "sparql", "query"})
 _MAX_BODY_BYTES = 1024 * 1024
 
 
@@ -35,6 +37,51 @@ def _query_allowed(request: Request) -> set[str]:
         return {"revision"}
     if request.method == "GET" and path == "/v1/history":
         return {"resource_id", "limit", "cursor"}
+    if request.method == "GET" and path == "/v1/catalog":
+        return set()
+    if request.method == "GET" and path == "/v1/entities":
+        return {
+            "types",
+            "ids",
+            "label",
+            "label_mode",
+            "alias",
+            "alias_mode",
+            "keywords_any",
+            "keywords_all",
+            "scope_ids",
+            "project_ref",
+            "valid_at",
+            "include_unknown",
+            "revision",
+            "order",
+            "limit",
+            "cursor",
+            "lifecycle",
+            "review_state",
+        }
+    if request.method == "GET" and path == "/v1/assertions":
+        return {
+            "subject",
+            "predicate",
+            "object",
+            "review_state",
+            "lifecycle",
+            "valid_at",
+            "include_unknown",
+            "revision",
+            "limit",
+            "cursor",
+            "competing_for",
+        }
+    if request.method == "GET" and path in {"/v1/sources", "/v1/evidence"}:
+        return {"revision", "limit", "cursor"}
+    if request.method == "GET" and path == "/v1/export":
+        return {"revision", "types", "limit", "cursor"}
+    if request.method == "GET" and path.startswith("/v1/entities/"):
+        if path.endswith("/neighborhood"):
+            return {"direction", "predicates", "depth", "limit", "cursor", "revision"}
+        return {"revision"}
     if request.method == "DELETE" and "/members/" in path and path.startswith("/v1/access-scopes/"):
         return {"role"}
     return set()
@@ -58,6 +105,29 @@ def _invalid_selectors(request: Request) -> bool:
         }:
             return True
     return False
+
+
+def _query_problem(request: Request, *, body: object = None) -> JSONResponse:
+    raw = any(key.lower() in _RAW_QUERY_KEYS for key in request.query_params)
+    if isinstance(body, dict):
+        raw = raw or any(str(key).lower() in _RAW_QUERY_KEYS for key in body)
+    response = problem(400)
+    payload = json.loads(bytes(response.body))
+    payload["code"] = "C1-QY-002" if raw else "C1-QY-001"
+    return JSONResponse(status_code=400, media_type="application/problem+json", content=payload)
+
+
+def _is_query_route(request: Request) -> bool:
+    path = request.url.path
+    return path in {
+        "/v1/catalog",
+        "/v1/entities",
+        "/v1/entities/search",
+        "/v1/assertions",
+        "/v1/sources",
+        "/v1/evidence",
+        "/v1/export",
+    } or path.startswith("/v1/entities/")
 
 
 def _emit(
@@ -207,6 +277,8 @@ class BoundaryMiddleware:
                         outcome="ignored",
                         reason="client_body",
                     )
+            else:
+                parsed = None
             if _invalid_selectors(request):
                 _emit(
                     self.runtime,
@@ -216,7 +288,17 @@ class BoundaryMiddleware:
                     outcome="denied",
                     reason="request_selector",
                 )
-                await reject(400)
+                if _is_query_route(request):
+                    await _query_problem(request, body=parsed)(scope, receive, send)
+                else:
+                    await reject(400)
+                return
+            if (
+                _is_query_route(request)
+                and isinstance(parsed, dict)
+                and any(str(key).lower() in _RAW_QUERY_KEYS for key in parsed)
+            ):
+                await _query_problem(request, body=parsed)(scope, receive, send)
                 return
 
         sent = False
@@ -265,6 +347,20 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
             outcome="denied",
             reason="invalid_request",
         )
+        if _is_query_route(request):
+            if any(
+                "limit" in error.get("loc", ()) or "ids" in error.get("loc", ())
+                for error in exc.errors()
+            ):
+                response = problem(422)
+                payload = json.loads(bytes(response.body))
+                payload["code"] = "C1-QY-010"
+                return JSONResponse(
+                    status_code=422,
+                    media_type="application/problem+json",
+                    content=payload,
+                )
+            return _query_problem(request, body=exc.body)
         return await validation_problem(request, exc)
 
     @app.exception_handler(ProfileError)
@@ -292,6 +388,23 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
         )
         return problem(status)
 
+    @app.exception_handler(QueryPlanError)
+    async def query_handler(request: Request, exc: QueryPlanError) -> JSONResponse:
+        _emit(
+            service,
+            request,
+            principal=getattr(getattr(request.state, "principal", None), "id", ""),
+            operation=_operation_name(request),
+            outcome="unavailable" if exc.status >= 500 else "denied",
+            reason=exc.reason,
+        )
+        response = problem(exc.status)
+        payload = json.loads(bytes(response.body))
+        payload["code"] = exc.code
+        return JSONResponse(
+            status_code=exc.status, media_type="application/problem+json", content=payload
+        )
+
     @app.exception_handler(StarletteHTTPException)
     async def http_handler(request: Request, exc: StarletteHTTPException) -> JSONResponse:
         return await http_problem(request, exc)
@@ -316,6 +429,7 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
     app.include_router(changesets.router)
     app.include_router(resources.router)
     app.include_router(history.router)
+    app.include_router(query.router)
     if settings.enable_probe_routes:
         app.include_router(probe.router)
     return app

@@ -1,0 +1,4 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Directory predicates describe assertion values; the canonical assertion
+# shape in the core profile validates the subject, predicate, and object.

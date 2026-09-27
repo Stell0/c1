@@ -109,6 +109,24 @@ class FGA:
         )
         return result.get("allowed") is True
 
+    async def list_objects(self, user: str, relation: str, type: str) -> list[str]:
+        """Enumerate live objects; callers must reject the server's unmarked cap."""
+        result = await self._request(
+            "POST",
+            self._path + "/list-objects",
+            json={
+                "authorization_model_id": self.model_id,
+                "consistency": _FRESH,
+                "user": user,
+                "relation": relation,
+                "type": type,
+            },
+        )
+        objects = result.get("objects")
+        if not isinstance(objects, list) or any(not isinstance(item, str) for item in objects):
+            raise FGAError("invalid object enumeration response")
+        return objects
+
     async def batch_check(self, checks: list[Tuple]) -> list[bool]:
         decisions: list[bool] = []
         for start in range(0, len(checks), 50):
@@ -132,10 +150,14 @@ class FGA:
             if not isinstance(result, dict):
                 raise FGAError("invalid batch authorization response")
             for i in range(len(chunk)):
-                item = result.get(str(i), {})
-                decisions.append(
-                    isinstance(item, dict) and item.get("allowed") is True and not item.get("error")
-                )
+                item = result.get(str(i))
+                if (
+                    not isinstance(item, dict)
+                    or item.get("error")
+                    or not isinstance(item.get("allowed"), bool)
+                ):
+                    raise FGAError("invalid batch authorization decision")
+                decisions.append(item["allowed"] is True)
         return decisions
 
     async def read(self, *, user: str = "", relation: str = "", object: str = "") -> list[Tuple]:

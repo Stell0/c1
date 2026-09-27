@@ -1,0 +1,11 @@
+{
+  "@id": "urn:c1:ns:directory:context:1.0.0",
+  "@context": {
+    "directory": "urn:c1:ns:directory#",
+    "hasEmail": "urn:c1:ns:directory#hasEmail",
+    "hasPhone": "urn:c1:ns:directory#hasPhone",
+    "hasNote": "urn:c1:ns:directory#hasNote",
+    "memberOf": {"@id": "urn:c1:ns:directory#memberOf", "@type": "@id"},
+    "worksFor": {"@id": "urn:c1:ns:core#worksFor", "@type": "@id"}
+  }
+}

@@ -18,6 +18,7 @@ from c1.authorization.models import Decision
 from c1.changes.models import (
     ChangeOperation,
     ChangeSet,
+    CreateOperation,
     InstallProfileOperation,
     ReplaceOperation,
 )
@@ -47,6 +48,9 @@ _REFERENCE_PROPERTIES = frozenset(
         C1 + "partOfDocument",
         C1 + "candidate",
         C1 + "keyword",
+        "urn:c1:ns:identity#from",
+        "urn:c1:ns:identity#to",
+        "urn:c1:ns:identity#resolution",
         OA + "hasSource",
         OA + "hasSelector",
         PROV + "wasGeneratedBy",
@@ -209,6 +213,13 @@ async def validate_changeset(
                     diagnostics.extend(await validate_profile(operation.profile))
                 except ProfileError as exc:
                     diagnostics.extend(exc.diagnostics)
+            continue
+
+        if not isinstance(operation, (CreateOperation, ReplaceOperation)):
+            diagnostics.append(
+                _diagnostic("C1-CS-040", "error", path, "Identity operation must be expanded")
+            )
+            normalized.append(operation)
             continue
 
         raw: dict[str, Any] = dict(operation.record)

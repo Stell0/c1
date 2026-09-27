@@ -1,0 +1,9 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<urn:c1:ns:identity#shape-Redirect> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:identity#Redirect> ;
+    sh:property [ sh:path <urn:c1:ns:identity#from> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:identity#to> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:identity#resolution> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:identity#copiedAlias> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> ) ] .

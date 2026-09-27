@@ -1,0 +1,38 @@
+{
+  "name": "directory",
+  "version": "1.0.0",
+  "requires_core": "1.0.0",
+  "context": "context.jsonld",
+  "shapes": "shapes.ttl",
+  "classes": {},
+  "predicates": {
+    "urn:c1:ns:directory#hasEmail": {
+      "name": "hasEmail",
+      "ranges": ["http://www.w3.org/2001/XMLSchema#string"],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:directory#hasPhone": {
+      "name": "hasPhone",
+      "ranges": ["http://www.w3.org/2001/XMLSchema#string"],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:directory#hasNote": {
+      "name": "hasNote",
+      "ranges": ["http://www.w3.org/2001/XMLSchema#string"],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:directory#memberOf": {
+      "name": "memberOf",
+      "ranges": ["@id"],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    }
+  }
+}

@@ -318,6 +318,7 @@ async def live_case() -> AsyncIterator[LiveCase]:
                 lock_path=ROOT / "deployment/.state" / ("m03_" + suffix + ".lock"),
                 independent_review=True,
                 enable_probe_routes=True,
+                cursor_secret=uuid.uuid4().hex + uuid.uuid4().hex,
             )
             knowledge_config = StorageConfig(
                 settings.terminus_url,

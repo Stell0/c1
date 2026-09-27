@@ -65,6 +65,10 @@ class Settings:
     independent_review: bool = True
     enable_probe_routes: bool = False
     crash_after: str | None = None
+    cursor_secret: str = field(default="", repr=False)
+    query_candidate_limit: int = 5000
+    max_readable_scopes: int = 500
+    query_time_budget_ms: int = 2000
 
     def __post_init__(self) -> None:
         if not _NAME.fullmatch(self.instance_id):
@@ -98,6 +102,15 @@ class Settings:
             not self.enable_probe_routes or self.crash_after not in _CRASH_POINTS
         ):
             raise ValueError("Crash points require the enabled probe routes")
+        for setting_name, setting_value, maximum in (
+            ("C1_QUERY_CANDIDATE_LIMIT", self.query_candidate_limit, 5000),
+            ("C1_MAX_READABLE_SCOPES", self.max_readable_scopes, 500),
+            ("C1_QUERY_TIME_BUDGET_MS", self.query_time_budget_ms, 2000),
+        ):
+            if setting_value < 1 or setting_value > maximum:
+                raise ValueError(f"{setting_name} must be between 1 and {maximum}")
+        if self.cursor_secret and len(self.cursor_secret) < 32:
+            raise ValueError("C1_CURSOR_SECRET must contain at least 32 characters")
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -105,6 +118,7 @@ class Settings:
         required = (
             "C1_ISSUER",
             "C1_FGA_TOKEN",
+            "C1_CURSOR_SECRET",
             "C1_FGA_STORE",
             "C1_FGA_MODEL",
             "C1_TERMINUS_PASSWORD",
@@ -138,4 +152,8 @@ class Settings:
                 get("C1_ENABLE_PROBE_ROUTES", "false"), "C1_ENABLE_PROBE_ROUTES"
             ),
             crash_after=get("C1_CRASH_AFTER"),
+            cursor_secret=os.environ["C1_CURSOR_SECRET"],
+            query_candidate_limit=int(get("C1_QUERY_CANDIDATE_LIMIT", "5000")),
+            max_readable_scopes=int(get("C1_MAX_READABLE_SCOPES", "500")),
+            query_time_budget_ms=int(get("C1_QUERY_TIME_BUDGET_MS", "2000")),
         )

@@ -1,0 +1,12 @@
+{
+  "@id": "urn:c1:ns:identity:context:1.0.0",
+  "@context": {
+    "identity": "urn:c1:ns:identity#",
+    "Redirect": "urn:c1:ns:identity#Redirect",
+    "redirectFrom": {"@id": "urn:c1:ns:identity#from", "@type": "@id"},
+    "redirectTo": {"@id": "urn:c1:ns:identity#to", "@type": "@id"},
+    "redirectResolution": {"@id": "urn:c1:ns:identity#resolution", "@type": "@id"},
+    "copiedAlias": {"@id": "urn:c1:ns:identity#copiedAlias", "@container": "@set"},
+    "lifecycle": "urn:c1:ns:core#lifecycle"
+  }
+}

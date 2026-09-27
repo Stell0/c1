@@ -7,6 +7,7 @@ commit. This does not imply a transaction with knowledge or OpenFGA.
 
 from __future__ import annotations
 
+import builtins
 import hashlib
 import json
 import re
@@ -156,6 +157,17 @@ class Journal:
         documents = await self._storage.documents()
         decoded = [_decode(document) for document in documents]
         return [payload for actual_kind, _key, payload in decoded if actual_kind == kind]
+
+    async def list_many(self, kinds: set[str]) -> dict[str, builtins.list[dict[str, Any]]]:
+        """Read one consistent workflow document enumeration for several kinds."""
+        if not kinds or not kinds.issubset(_KINDS):
+            raise ValueError("unsupported journal kind")
+        result: dict[str, builtins.list[dict[str, Any]]] = {kind: [] for kind in kinds}
+        for document in await self._storage.documents():
+            kind, _key, payload = _decode(document)
+            if kind in result:
+                result[kind].append(payload)
+        return result
 
     async def save_many(
         self,

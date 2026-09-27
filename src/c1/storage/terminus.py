@@ -163,6 +163,30 @@ class Terminus:
             raise StorageError("C1-ST-003", "backend returned an invalid document list")
         return payload
 
+    async def documents_page(
+        self, *, skip: int, count: int, commit: str | None = None
+    ) -> list[dict[str, Any]]:
+        """Read a bounded instance snapshot page at a selected knowledge commit."""
+        if type(skip) is not int or skip < 0:
+            raise ValueError("skip must be a nonnegative integer")
+        if type(count) is not int or not 1 <= count <= 200:
+            raise ValueError("count must be an integer from 1 to 200")
+        path = self._document_path
+        if commit is not None:
+            commit_id = commit.removeprefix("branch:").removeprefix("commit:")
+            if not re.fullmatch(r"[A-Za-z0-9_-]+", commit_id):
+                raise ValueError("commit must be an identifier or branch:<identifier>")
+            path += f"/local/commit/{commit_id}"
+        response = await self._request(
+            "GET",
+            path,
+            params={"as_list": "true", "graph_type": "instance", "skip": skip, "count": count},
+        )
+        payload = response.json()
+        if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
+            raise StorageError("C1-ST-003", "backend returned an invalid document page")
+        return payload
+
     async def schema_documents(self) -> list[dict[str, Any]]:
         return await self.documents(graph_type="schema")
 

@@ -1,0 +1,121 @@
+{
+  "name": "directory",
+  "profile": "directory",
+  "version": "1.0.0",
+  "scopes": {
+    "dir-shared": "Directory shared contacts",
+    "dir-company-a": "Directory Company A",
+    "dir-company-b": "Directory Company B",
+    "dir-selected": "Directory selected contacts"
+  },
+  "principals": {
+    "alice": ["dir-shared", "dir-company-a"],
+    "bob": ["dir-shared", "dir-company-b"],
+    "carol": ["dir-shared", "dir-company-a", "dir-company-b", "dir-selected"],
+    "dave": ["dir-shared", "dir-selected"]
+  },
+  "records": [
+    {
+      "id": "urn:c1:instance:dev:entity/00000011-0000-4000-8000-000000000000",
+      "types": ["urn:c1:ns:core#Entity"],
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": [{"lexical": "Example Company A", "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString", "language": "en"}],
+        "urn:c1:ns:core#lifecycle": [{"lexical": "active", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      },
+      "scope": "dir-company-a"
+    },
+    {
+      "id": "urn:c1:instance:dev:entity/00000012-0000-4000-8000-000000000000",
+      "types": ["urn:c1:ns:core#Entity"],
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": [{"lexical": "Example Company B", "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString", "language": "en"}],
+        "urn:c1:ns:core#lifecycle": [{"lexical": "active", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      },
+      "scope": "dir-company-b"
+    },
+    {
+      "id": "urn:c1:instance:dev:entity/00000013-0000-4000-8000-000000000000",
+      "types": ["urn:c1:ns:core#Entity", "https://schema.org/Person"],
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": [{"lexical": "Ada Example", "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString", "language": "en"}],
+        "urn:c1:ns:core#lifecycle": [{"lexical": "active", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      },
+      "scope": "dir-shared"
+    },
+    {
+      "id": "urn:c1:instance:dev:assertion/00000021-0000-4000-8000-000000000000",
+      "types": ["urn:c1:ns:core#Assertion"],
+      "properties": {
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": ["urn:c1:instance:dev:entity/00000013-0000-4000-8000-000000000000"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": ["urn:c1:ns:directory#hasEmail"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [{"lexical": "ada@example.invalid", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#origin": [{"lexical": "manual", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#reviewState": [{"lexical": "reported", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#lifecycle": [{"lexical": "active", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#manualStatement": [{"lexical": "true", "datatype": "http://www.w3.org/2001/XMLSchema#boolean"}],
+        "http://www.w3.org/ns/prov#wasAttributedTo": ["urn:c1:agent:directory-fixture"]
+      },
+      "scope": "dir-shared"
+    },
+    {
+      "id": "urn:c1:instance:dev:assertion/00000022-0000-4000-8000-000000000000",
+      "types": ["urn:c1:ns:core#Assertion"],
+      "properties": {
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": ["urn:c1:instance:dev:entity/00000013-0000-4000-8000-000000000000"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": ["urn:c1:ns:core#worksFor"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": ["urn:c1:instance:dev:entity/00000011-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#origin": [{"lexical": "manual", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#reviewState": [{"lexical": "reported", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#lifecycle": [{"lexical": "active", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#manualStatement": [{"lexical": "true", "datatype": "http://www.w3.org/2001/XMLSchema#boolean"}],
+        "http://www.w3.org/ns/prov#wasAttributedTo": ["urn:c1:agent:directory-fixture"]
+      },
+      "scope": "dir-company-a"
+    },
+    {
+      "id": "urn:c1:instance:dev:assertion/00000023-0000-4000-8000-000000000000",
+      "types": ["urn:c1:ns:core#Assertion"],
+      "properties": {
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": ["urn:c1:instance:dev:entity/00000013-0000-4000-8000-000000000000"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": ["urn:c1:ns:core#worksFor"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": ["urn:c1:instance:dev:entity/00000012-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#origin": [{"lexical": "manual", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#reviewState": [{"lexical": "reported", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#lifecycle": [{"lexical": "active", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#manualStatement": [{"lexical": "true", "datatype": "http://www.w3.org/2001/XMLSchema#boolean"}],
+        "http://www.w3.org/ns/prov#wasAttributedTo": ["urn:c1:agent:directory-fixture"]
+      },
+      "scope": "dir-company-b"
+    },
+    {
+      "id": "urn:c1:instance:dev:assertion/00000024-0000-4000-8000-000000000000",
+      "types": ["urn:c1:ns:core#Assertion"],
+      "properties": {
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": ["urn:c1:instance:dev:entity/00000013-0000-4000-8000-000000000000"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": ["urn:c1:ns:directory#hasNote"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [{"lexical": "Prefers email for routine contact.", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#origin": [{"lexical": "manual", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#reviewState": [{"lexical": "reported", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#lifecycle": [{"lexical": "active", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#manualStatement": [{"lexical": "true", "datatype": "http://www.w3.org/2001/XMLSchema#boolean"}],
+        "http://www.w3.org/ns/prov#wasAttributedTo": ["urn:c1:agent:directory-fixture"]
+      },
+      "scope": "dir-company-a"
+    },
+    {
+      "id": "urn:c1:instance:dev:assertion/00000025-0000-4000-8000-000000000000",
+      "types": ["urn:c1:ns:core#Assertion"],
+      "properties": {
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": ["urn:c1:instance:dev:entity/00000013-0000-4000-8000-000000000000"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": ["urn:c1:ns:directory#hasPhone"],
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [{"lexical": "+1-555-0100", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#origin": [{"lexical": "manual", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#reviewState": [{"lexical": "reported", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#lifecycle": [{"lexical": "active", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#manualStatement": [{"lexical": "true", "datatype": "http://www.w3.org/2001/XMLSchema#boolean"}],
+        "http://www.w3.org/ns/prov#wasAttributedTo": ["urn:c1:agent:directory-fixture"]
+      },
+      "scope": "dir-selected"
+    }
+  ]
+}

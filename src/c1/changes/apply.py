@@ -26,18 +26,27 @@ from c1.changes.idempotency import (
     lookup_idempotency,
     validate_request_key,
 )
+from c1.changes.identity import (
+    IdentityPlanError,
+    expand_identity,
+    snapshot_identity_records,
+)
 from c1.changes.models import (
     ChangeOperation,
     ChangeSet,
     CreateOperation,
     InstallProfileOperation,
+    MergeOperation,
     ReplaceOperation,
+    ResolveOperation,
+    SplitOperation,
     TransitionError,
+    UndoMergeOperation,
 )
 from c1.changes.profiles import compare_candidate, detect_installed_registry, load_candidate
 from c1.changes.validation import _REFERENCE_PROPERTIES, validate_changeset
 from c1.interchange import validate_records
-from c1.model.diagnostics import Diagnostic
+from c1.model.diagnostics import Diagnostic, ProfileError
 from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
 from c1.model.records import ActivityRecord
@@ -116,6 +125,32 @@ class ChangeService:
                 503 if decision.reason == "security_unavailable" else 403,
                 "authorization_denied",
             )
+
+    async def _identity_scope_safe(
+        self, record: NodeRecord, scope_id: str, staged_scopes: dict[str, str]
+    ) -> bool:
+        if "urn:c1:ns:core#ResolutionRecord" in record.types:
+            endpoints = record.properties.get("urn:c1:ns:core#candidate", [])
+        elif "urn:c1:ns:identity#Redirect" in record.types:
+            endpoints = [
+                *record.properties.get("urn:c1:ns:identity#from", []),
+                *record.properties.get("urn:c1:ns:identity#to", []),
+            ]
+        else:
+            return True
+        if not endpoints or not all(isinstance(value, str) for value in endpoints):
+            return False
+        for identifier in endpoints:
+            assert isinstance(identifier, str)
+            target_scope = staged_scopes.get(identifier)
+            if target_scope is None:
+                binding = await self.plane.bindings(identifier)
+                if binding is None or binding.state != "active":
+                    return False
+                target_scope = binding.scope_id
+            if target_scope != scope_id:
+                return False
+        return True
 
     @staticmethod
     def _transition(changeset: ChangeSet, action: Any, **kwargs: Any) -> ChangeSet:
@@ -296,6 +331,109 @@ class ChangeService:
         async def permission(operation: ChangeOperation) -> Decision:
             return await self._permission(p, operation, review=False)
 
+        identity_types = (ResolveOperation, MergeOperation, SplitOperation, UndoMergeOperation)
+        if any(isinstance(item, identity_types) for item in changeset.operations):
+            try:
+                if any(not isinstance(item, identity_types) for item in changeset.operations):
+                    raise IdentityPlanError("Identity operations need a separate ChangeSet")
+                if await self.knowledge.head() != changeset.base_revision:
+                    raise IdentityPlanError("Identity base revision is stale")
+                all_records = await snapshot_identity_records(
+                    self.knowledge, self.registry, changeset.base_revision
+                )
+                assertions = []
+                for record in all_records:
+                    if "urn:c1:ns:core#Assertion" in record.types:
+                        assertions.append(record)
+
+                async def authorize(identifier: str) -> bool:
+                    contribute = await self.plane.check_operation(p, "contribute", identifier)
+                    readable = await self.plane.check_read(p, identifier)
+                    return contribute.allowed and readable.allowed
+
+                async def list_assertions(subject: str) -> builtins.list[NodeRecord]:
+                    predicate = "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject"
+                    return [
+                        item for item in assertions if item.properties.get(predicate) == [subject]
+                    ]
+
+                async def check_identity_scope(item: Any) -> None:
+                    if isinstance(item, ResolveOperation):
+                        identifiers = item.candidates
+                    elif isinstance(item, MergeOperation):
+                        identifiers = [item.surviving_id, item.merged_id]
+                    elif isinstance(item, SplitOperation):
+                        identifiers = [item.source_id]
+                    else:
+                        resolution = await reference(item.resolution_id, changeset.base_revision)
+                        if resolution is None:
+                            raise IdentityPlanError("Resolution is unavailable")
+                        identifiers = [
+                            value
+                            for value in resolution.properties.get("urn:c1:ns:core#candidate", [])
+                            if isinstance(value, str)
+                        ]
+                        if len(identifiers) != 2:
+                            raise IdentityPlanError("Resolution is unavailable")
+                    for identifier in identifiers:
+                        binding = await self.plane.bindings(identifier)
+                        if (
+                            binding is None
+                            or binding.state != "active"
+                            or binding.scope_id != item.scope_id
+                        ):
+                            raise IdentityPlanError("Identity scope is unavailable")
+
+                expanded: builtins.list[ChangeOperation] = []
+                for item in changeset.operations:
+                    assert isinstance(item, identity_types)
+                    await check_identity_scope(item)
+                    created = await expand_identity(
+                        item,
+                        base=self.settings.instance_base,
+                        actor=_actor_iri(p.id),
+                        resolve=lambda identifier: reference(identifier, changeset.base_revision),
+                        authorize=authorize,
+                        list_assertions=list_assertions,
+                        all_records=all_records,
+                    )
+                    expanded.extend(created)
+                if len(expanded) > 200 or not expanded:
+                    raise IdentityPlanError("Identity plan exceeds ChangeSet limits")
+                changeset = changeset.model_copy(
+                    update={
+                        "operations": expanded,
+                        "request_digest": request_digest(
+                            changeset.base_revision, expanded, changeset.rationale
+                        ),
+                    }
+                )
+            except IdentityPlanError as exc:
+                report_id = self.settings.instance_base + "validation/" + uuid4().hex
+                diagnostic = Diagnostic(
+                    code=exc.code, severity="error", path="/operations", message=str(exc)
+                )
+                rejected = self._transition(changeset, "reject", reason="validation")
+                rejected = rejected.model_copy(update={"validation_report_id": report_id})
+                await self._save(
+                    rejected,
+                    (
+                        "ValidationReport",
+                        report_id,
+                        {
+                            "id": report_id,
+                            "changeset_id": changeset.id,
+                            "attempt": changeset.attempt,
+                            "request_digest": changeset.request_digest,
+                            "diagnostics": [diagnostic.model_dump(mode="json")],
+                            "permission_preview": [],
+                            "minted_ids": {},
+                            "status": "rejected",
+                        },
+                    ),
+                )
+                return _public(rejected)
+
         async def restore(identifier: str, revision: str) -> NodeRecord | None:
             if not (await self.plane.check_read(p, identifier)).allowed:
                 return None
@@ -394,6 +532,11 @@ class ChangeService:
             ),
         )
         extra_diagnostics: builtins.list[Diagnostic] = []
+        staged_scopes = {
+            str(operation.record.get("id")): operation.scope_id
+            for operation in result.normalized_operations
+            if isinstance(operation, CreateOperation)
+        }
         for index, operation in enumerate(result.normalized_operations):
             if isinstance(operation, CreateOperation):
                 identifier = operation.record.get("id")
@@ -406,6 +549,21 @@ class ChangeService:
                             severity="error",
                             path=f"/operations/{index}/record/id",
                             message="Created resource ID must use the configured instance base",
+                        )
+                    )
+                try:
+                    identity_record = NodeRecord.model_validate(operation.record)
+                except Exception:
+                    continue
+                if not await self._identity_scope_safe(
+                    identity_record, operation.scope_id, staged_scopes
+                ):
+                    extra_diagnostics.append(
+                        Diagnostic(
+                            code="C1-CS-040",
+                            severity="error",
+                            path=f"/operations/{index}",
+                            message="Identity scope is unavailable",
                         )
                     )
         normalized = list(result.normalized_operations)
@@ -429,6 +587,7 @@ class ChangeService:
             ],
             "permission_preview": [vars(item) for item in result.permission_preview],
             "minted_ids": result.minted_ids,
+            "expanded_operations": [operation.model_dump(mode="json") for operation in normalized],
             "status": "accepted" if result.accepted and not extra_diagnostics else "rejected",
         }
         if result.accepted and not extra_diagnostics:
@@ -620,6 +779,8 @@ class ChangeService:
         for operation in changeset.operations:
             if isinstance(operation, InstallProfileOperation):
                 raise SecurityError(503, "profile_apply_not_ready")
+            if not isinstance(operation, (CreateOperation, ReplaceOperation)):
+                raise SecurityError(503, "identity_operation_not_expanded")
             try:
                 record = NodeRecord.model_validate(operation.record)
             except Exception:
@@ -661,6 +822,11 @@ class ChangeService:
         if len(checked.records) != len(raw):
             raise SecurityError(422, "record_canonicalization_changed_targets")
         staged = {record.id for record in checked.records}
+        for record in checked.records:
+            if not await self._identity_scope_safe(
+                record, scope_by_record[record.id], scope_by_record
+            ):
+                raise SecurityError(422, "identity_scope_conflict")
         for record in checked.records:
             for predicate, values in record.properties.items():
                 if predicate not in _REFERENCE_PROPERTIES:
@@ -905,6 +1071,8 @@ class ChangeService:
         try:
             _candidate, name = load_candidate(alias)
             diagnostics = compare_candidate(self.registry, alias)
+        except ProfileError as exc:
+            return list(exc.diagnostics)
         except (ValueError, OSError):
             return [
                 Diagnostic(
@@ -1014,12 +1182,16 @@ class ChangeService:
             raise SecurityError(503, "profile_catalog_unavailable") from None
         schema = await self.knowledge.schema_documents()
         core = generated_core_schema(candidate)
-        target = [*core, *generated_classes(candidate, name)]
+        current = [*core]
+        for installed_name in self.registry.profiles:
+            if installed_name != "core":
+                current.extend(generated_classes(self.registry, installed_name))
+        target = [*current, *generated_classes(candidate, name)]
         marker = record_to_document(
             _profile_marker(candidate, name), candidate, self.knowledge.config.instance_base
         )
         existing_marker = await self.knowledge.get(str(marker["@id"]))
-        if _same_documents(schema, core) and existing_marker is None:
+        if _same_documents(schema, current) and existing_marker is None:
             if await self.knowledge.head() != changeset.base_revision:
                 raise SecurityError(503, "unreconciled_schema_head")
             await self.knowledge._insert(

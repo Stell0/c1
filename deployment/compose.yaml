@@ -49,6 +49,8 @@ services:
       OPENFGA_AUTHN_METHOD: preshared
       OPENFGA_AUTHN_PRESHARED_KEYS: ${C1_FGA_TOKEN:?run make stack-up}
       OPENFGA_PLAYGROUND_ENABLED: "false"
+      OPENFGA_LIST_OBJECTS_MAX_RESULTS: "1000"
+      OPENFGA_LIST_OBJECTS_DEADLINE: "3s"
     depends_on:
       openfga-migrate: {condition: service_completed_successfully}
     ports: ["127.0.0.1:18080:8080"]

@@ -51,9 +51,9 @@ class FakeClient:
 
 
 def test_catalog_only_loads_fixed_local_aliases() -> None:
-    assert available_profile_names() == (
-        "example-vehicle",
-        "example-vehicle-v2-incompatible",
+    fixtures = Path(__file__).resolve().parents[3] / "tests" / "fixtures" / "profiles"
+    assert available_profile_names() == tuple(
+        sorted(item.name for item in fixtures.iterdir() if (item / "profile.json").is_file())
     )
     registry, name = load_candidate("example-vehicle")
     assert name == "example-vehicle"
