@@ -6,7 +6,7 @@ C1 is planned as an open-source, versioned knowledge framework for people, appli
 
 - Harness: Python project metadata and a lockfile, Make targets for bootstrapping/checking, a clean-start helper, and a GitHub Actions check workflow.
 - Model: canonical records, bundled JSON-LD/SHACL profiles, exact lexical values, keywords and time qualifiers, with a verified internal TerminusDB round-trip; see the [M02 report](docs/milestones/M02-report.md).
-- Security: M03 is in progress; the implementation contains an authenticated HTTP boundary, OIDC token validation, current-binding authorization checks, a durable security journal, and security-operation routes. The milestone gate is not yet complete; see the [M03 plan](docs/milestones/M03.md) and [implementation contracts](docs/milestones/M03-interfaces.md).
+- Security: authenticated HTTP boundaries, OIDC tokens, current-binding authorization, durable security operations and crash recovery passed the real-service gate; see the [M03 report](docs/milestones/M03-report.md).
 - Baseline: repository-local, attributed specification and architecture documents, with the software-use-case extension recorded separately.
 - Checks: local code-quality, type, test, secret-hygiene, and baseline-consistency checks.
 - CI: the pinned GitHub Actions workflow passed; deliberate canary failure and restored success are verified in the [M00 report](docs/milestones/M00-report.md).
@@ -54,15 +54,16 @@ regression gate is `C1_STACK=1 make integration`. See the
 [M02 plan](docs/milestones/M02.md) for the supported subset and accepted decisions,
 and the [M02 report](docs/milestones/M02-report.md) for executed evidence.
 
-## Identity and authorization (M03 in progress)
+## Identity and authorization (M03)
 
 The current M03 implementation adds bearer-token authentication, a current
 OpenFGA authorization plane, workflow-journaled scope and binding operations,
 and readiness checks for identity, authorization, and storage services. The
 probe routes are disabled by default and limited to synthetic records; ordinary
-knowledge CRUD remains out of scope. M03 is still **IN_PROGRESS** and has not
-passed its real-service acceptance gate. See the [M03 plan](docs/milestones/M03.md)
-and [implementation contracts](docs/milestones/M03-interfaces.md).
+knowledge CRUD remains out of scope. M03 is **VERIFIED**: 185 local tests and
+39 real-service integration tests passed, including historical access denial,
+three process crash points and identity/authorization outages. See the
+[M03 report](docs/milestones/M03-report.md) for evidence and limits.
 
 For a local development demonstration, `make stack-up` creates the pinned
 services and synthetic identity fixtures; `make api-up` starts the loopback API

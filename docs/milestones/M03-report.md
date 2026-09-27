@@ -1,9 +1,11 @@
 # M03 — Identity and current resource authorization: execution report
 
-**Gate:** IN_PROGRESS — final real-service gate and closure pending.
+**Gate:** VERIFIED
 
 Approved plan revision: `88d40ed`. Starting revision: `7db3326`.
-Implementation revision will be recorded after the verified implementation commit.
+Implementation revision: `7cb84587b58cc7da024317ef0fc450914c81539a`.
+All M03-T01–T07 checks and applicable regressions passed. The closure commit
+changes documentation only; no unresolved gate failure remains.
 Execution date: 2026-09-27.
 
 ## Delivered behavior
