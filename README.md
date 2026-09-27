@@ -5,7 +5,7 @@ C1 is planned as an open-source, versioned knowledge framework for people, appli
 ## What exists today
 
 - Harness: Python project metadata and a lockfile, Make targets for bootstrapping/checking, a clean-start helper, and a GitHub Actions check workflow.
-- Model: the M02 canonical record layer, bundled standards profile, and internal storage mapping are under implementation; the full milestone gate is pending.
+- Model: canonical records, bundled JSON-LD/SHACL profiles, exact lexical values, keywords and time qualifiers, with a verified internal TerminusDB round-trip; see the [M02 report](docs/milestones/M02-report.md).
 - Baseline: repository-local, attributed specification and architecture documents, with the software-use-case extension recorded separately.
 - Checks: local code-quality, type, test, secret-hygiene, and baseline-consistency checks.
 - CI: the pinned GitHub Actions workflow passed; deliberate canary failure and restored success are verified in the [M00 report](docs/milestones/M00-report.md).
@@ -50,7 +50,8 @@ M02 adds a versioned profile in `profiles/core/` and the synthetic fixture in
 `fixtures/core-knowledge/`. The model has no HTTP endpoint or authorization bypass.
 Profile and pure-model checks are part of `make check`; the full real-service
 regression gate is `C1_STACK=1 make integration`. See the
-[M02 plan](docs/milestones/M02.md) for the supported subset and active decisions.
+[M02 plan](docs/milestones/M02.md) for the supported subset and accepted decisions,
+and the [M02 report](docs/milestones/M02-report.md) for executed evidence.
 
 ## Milestone status
 
