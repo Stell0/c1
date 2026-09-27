@@ -73,7 +73,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M02 | Canonical model and standards profile | M01 | Validated, portable knowledge records and software-extension boundaries | VERIFIED |
 | M03 | Identity and current resource authorization | M02 | Fail-closed principals, scopes, bindings, and controlled security operations | VERIFIED |
 | M04 | Reviewed knowledge writes and history | M03 | Atomic, retry-safe ChangeSets and policy-safe historical reads | PLANNED |
-| M05 | Shared identity and deterministic query API | M04 | Keyword/structured retrieval and a permission-correct multi-company directory | NOT_PLANNED |
+| M05 | Shared identity and deterministic query API | M04 | Keyword/structured retrieval and a permission-correct multi-company directory | PLANNED |
 | M06 | Scoped documents and reconstruction | M05 | Ordered text retrieval with mixed visibility and preserved evidence | NOT_PLANNED |
 | M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | NOT_PLANNED |
 | M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | NOT_PLANNED |
