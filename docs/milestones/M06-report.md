@@ -9,15 +9,16 @@ test-only helper now refreshes real tokens, and the full M05 group rerun passed
 all 12 cases against the final input snapshot. Therefore all named M06 checks
 and M01–M05 regression checks passed across the combined run and the M05
 rerun. The initial combined command still records its actual exit-1 result;
-it is not represented as a single all-pass invocation. The milestone lead will fill in
-the implementation revision after the feature commit. M07 implementation has
-not started.
+it is not represented as a single all-pass invocation. M07 implementation had
+not started when this gate closed.
 
 Approved plan: [M06.md](M06.md), authorized by the owner's request to implement
 planned, unfinished milestones and commit/push each completed milestone.
 Original plan revision: `f4c828e97289e05d9e2ed48de3bf89cd48264374`.
 Starting revision: `29ddc193cd28ff777b62daf21caea35e0b83f6d5`.
-Implementation revision: pending feature commit; the closure commit records its SHA.
+Implementation revision: `b1c2b1a3b65fe7d07de5c539e3f2b30b643eb003`.
+The final source manifest matches this implementation commit; this closure
+adds its revision to the report without changing tested source inputs.
 Execution date: 2026-09-28 (Europe/Rome).
 
 ## Delivered behavior
@@ -165,6 +166,9 @@ executed service results.
 |---|---|---|
 | `UV_OFFLINE=1 make lint secrets baseline profile` | 0 | PASS; [closure check](../evidence/M06/closure-check.log) |
 
+Raw failed-run logs and JUnit retain their original whitespace; a staged
+whitespace check reported only those preserved evidence lines.
+
 ## Limits and next action
 
 Parts are flat. Reconstruction/export has a 2000-readable-part bound; paging
@@ -184,6 +188,5 @@ cached token expired. The scoped test helper now requests a fresh real token
 for each action. The complete M05 group passed with this fix; the production
 token validator and token lifetime were not relaxed. All M06, M01–M05, and
 M01 probe checks passed, and the local stack was stopped with volumes retained.
-The implementation revision remains for the milestone lead to fill after the feature
-commit. Only after M06 is committed and pushed may M07's provisional plan be
-revalidated and implemented under the owner's request.
+The next bounded action, authorized by the owner, is to revalidate and
+implement M07 after pushing the M06 implementation and report closure.

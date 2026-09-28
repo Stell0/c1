@@ -43,3 +43,6 @@ log, and JUnit evidence are recorded in
 also passed 12 tests. The isolated stack was then stopped with volumes
 retained. The gate is PASS; the implementation revision remains for the owner
 to record after the feature commit.
+
+Implementation revision: `b1c2b1a3b65fe7d07de5c539e3f2b30b643eb003`. The final 271-input manifest
+matches the committed source and test files. No unresolved gate failure remains.
