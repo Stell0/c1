@@ -177,10 +177,12 @@ class Loader:
             json_body={"member": member, "role": role},
         )
 
-    async def create_scopes(self, fixture: dict[str, Any]) -> dict[str, str]:
+    async def create_scopes(
+        self, fixture: dict[str, Any], *, scope_prefix: str = "directory"
+    ) -> dict[str, str]:
         values: dict[str, str] = {}
         for key, label in fixture["scopes"].items():
-            scope_id = "directory_" + key.replace("-", "_")
+            scope_id = scope_prefix + "_" + key.replace("-", "_")
             await self.request(
                 "POST",
                 "/v1/access-scopes",
@@ -285,12 +287,67 @@ async def load(database: str | None) -> dict[str, str]:
         return {"fixture": fixture["name"], "state": str(result["state"])}
 
 
+async def load_scoped_document(database: str | None) -> dict[str, str]:
+    fixture_path = ROOT / "fixtures/scoped-document/fixture.json"
+    fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    async with api_client(database) as client:
+        loader = await Loader.connect(client)
+        await loader.grant_instance(await loader.whoami("admin"), "schema_admin")
+        await loader.grant_instance(await loader.whoami("reviewer"), "schema_admin")
+        scopes = await loader.create_scopes(fixture, scope_prefix="scoped_document")
+        operations = []
+        for item in fixture["revision1"]:
+            record = {key: item[key] for key in ("id", "types", "properties")}
+            operations.append(
+                {"kind": "create", "record": record, "scope_id": scopes[item["scope"]]}
+            )
+        first = await loader.apply_changeset(
+            operations,
+            author="service",
+            reviewer="reviewer",
+            base=(await loader.request("GET", "/v1/instance", actor="service"))[
+                "knowledge_revision"
+            ],
+        )
+        if first.get("state") != "applied":
+            raise RuntimeError("Scoped document revision 1 was not applied")
+
+        replacements = []
+        by_id = {item["id"]: item for item in fixture["revision1"]}
+        for change in fixture["revision2"]["changes"]:
+            original = by_id.get(change["id"])
+            if original is None:
+                raise RuntimeError("Scoped document update references an unknown fixture record")
+            record = {key: original[key] for key in ("id", "types", "properties")}
+            record["properties"] = {**record["properties"], **change["properties"]}
+            replacements.append(
+                {
+                    "kind": "replace",
+                    "resource_id": change["id"],
+                    "record": record,
+                    "reason": "Load deterministic scoped document revision 2",
+                }
+            )
+        second = await loader.apply_changeset(
+            replacements,
+            author="service",
+            reviewer="reviewer",
+            base=(await loader.request("GET", "/v1/instance", actor="service"))[
+                "knowledge_revision"
+            ],
+        )
+        if second.get("state") != "applied":
+            raise RuntimeError("Scoped document revision 2 was not applied")
+        return {"fixture": fixture["name"], "state": str(second["state"])}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--fixture", choices=("directory",), required=True)
+    parser.add_argument("--fixture", choices=("directory", "scoped-document"), required=True)
     parser.add_argument("--database", help="must match the trusted local knowledge database")
     args = parser.parse_args()
-    print(json.dumps(asyncio.run(load(args.database)), sort_keys=True))
+    loader = load if args.fixture == "directory" else load_scoped_document
+    print(json.dumps(asyncio.run(loader(args.database)), sort_keys=True))
 
 
 if __name__ == "__main__":

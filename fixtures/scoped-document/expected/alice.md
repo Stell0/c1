@@ -1,0 +1,5 @@
+# Handbook
+
+The public edition reflects the reviewed source revision\.
+
+Troubleshooting starts with the documented checks\.

@@ -1,0 +1,818 @@
+{
+  "images": {
+    "keycloak": {
+      "config_digest": "sha256:b2f3e1b85071d17a1da8d2cbcc54707853d19c74ae027071789ea1bb12b3ec89",
+      "embedded_license_paths_checked": [
+        "/opt/keycloak/LICENSE.txt",
+        "/LICENSE.txt"
+      ],
+      "embedded_licenses": {
+        "/opt/keycloak/LICENSE.txt": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      "embedded_notice_paths_checked": [
+        "/opt/keycloak/NOTICE",
+        "/opt/keycloak/NOTICE.txt"
+      ],
+      "embedded_notices": {},
+      "image": "quay.io/keycloak/keycloak",
+      "index_digest": "sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c",
+      "license": "Apache-2.0",
+      "license_artifact": "docs/evidence/M01/licenses/keycloak-LICENSE.txt",
+      "license_sha256": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "license_source": "https://raw.githubusercontent.com/keycloak/keycloak/26.7.4/LICENSE.txt",
+      "platform": "linux/amd64",
+      "platform_digest": "sha256:3d911baa186f352563854039b95f21a7e2c01c76b527fdc64f24a0885b927bdf",
+      "reference": "quay.io/keycloak/keycloak@sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c",
+      "tag": "26.7.4"
+    },
+    "openfga": {
+      "config_digest": "sha256:e7bc1233d821701d8f39b1c837fc1c09eb863637ce81b0cf7db3368d72c0d69b",
+      "embedded_license_paths_checked": [
+        "/LICENSE",
+        "/LICENSE.txt",
+        "/usr/share/licenses/openfga/LICENSE"
+      ],
+      "embedded_licenses": {},
+      "embedded_notice_paths_checked": [
+        "/NOTICE",
+        "/NOTICE.txt"
+      ],
+      "embedded_notices": {},
+      "image": "docker.io/openfga/openfga",
+      "index_digest": "sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55",
+      "license": "Apache-2.0",
+      "license_artifact": "docs/evidence/M01/licenses/openfga-LICENSE",
+      "license_sha256": "sha256:1c46d7b2bed94d457d745f28cabeb31f8d6c81dd9035bc5d24039989ee1e1bff",
+      "license_source": "https://raw.githubusercontent.com/openfga/openfga/v1.21.0/LICENSE",
+      "platform": "linux/amd64",
+      "platform_digest": "sha256:51bece5c31783bfeb150eae0f1c818ae804c50d39e0a311c43ff5357fed6debd",
+      "reference": "docker.io/openfga/openfga@sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55",
+      "tag": "v1.21.0"
+    },
+    "postgres": {
+      "config_digest": "sha256:79bd7c99e923138f136f8009d6bffa66e21e9d4fda5c0c561b00fc9c90cfe537",
+      "embedded_license_paths_checked": [
+        "/usr/share/doc/postgresql/COPYRIGHT",
+        "/usr/share/doc/postgresql-17/copyright",
+        "/usr/share/licenses/postgresql/COPYRIGHT"
+      ],
+      "embedded_licenses": {},
+      "embedded_notice_paths_checked": [
+        "/NOTICE",
+        "/usr/share/doc/postgresql/NOTICE"
+      ],
+      "embedded_notices": {},
+      "image": "docker.io/library/postgres",
+      "index_digest": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "license": "PostgreSQL",
+      "license_artifact": "docs/evidence/M01/licenses/postgres-COPYRIGHT",
+      "license_sha256": "sha256:3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+      "license_source": "https://raw.githubusercontent.com/postgres/postgres/REL_17_11/COPYRIGHT",
+      "platform": "linux/amd64",
+      "platform_digest": "sha256:aa90e97ee862e558111d34cfb8b2c4bec768c2b039fb791341686928560263b3",
+      "reference": "docker.io/library/postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "tag": "17-alpine"
+    },
+    "terminusdb": {
+      "config_digest": "sha256:3308827f2e9e76d259fdd1fa04d546330b24d3b912363172f6ced84a4e2b8243",
+      "embedded_license_paths_checked": [
+        "/LICENSE",
+        "/app/terminusdb/LICENSE",
+        "/usr/share/doc/terminusdb/copyright"
+      ],
+      "embedded_licenses": {},
+      "embedded_notice_paths_checked": [
+        "/NOTICE",
+        "/app/terminusdb/NOTICE"
+      ],
+      "embedded_notices": {},
+      "image": "docker.io/terminusdb/terminusdb-server",
+      "index_digest": "sha256:385faf298ad77aaf2d4d6df5e84a4cbe3596d01dab2e3b991af905639ae56388",
+      "license": "Apache-2.0",
+      "license_artifact": "docs/evidence/M01/licenses/terminusdb-LICENSE",
+      "license_sha256": "sha256:d6f15456b303e6be4ac8796b969f3e402f3bddd9699bf302ad08b2a1abc9434f",
+      "license_source": "https://raw.githubusercontent.com/terminusdb/terminusdb/v12.0.7/LICENSE",
+      "platform": "linux/amd64",
+      "platform_digest": "sha256:c5c70435f944a0e91b6846fa6a70c8b6956cb36e5712e60789cd7a45a7084f73",
+      "reference": "docker.io/terminusdb/terminusdb-server@sha256:385faf298ad77aaf2d4d6df5e84a4cbe3596d01dab2e3b991af905639ae56388",
+      "tag": "v12.0.7"
+    }
+  },
+  "python": {
+    "locked_but_not_installed_on_this_platform": [
+      "colorama"
+    ],
+    "packages": [
+      {
+        "license_expression": "PSF-2.0",
+        "license_files": [
+          {
+            "path": "aiohappyeyeballs-2.7.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+          }
+        ],
+        "name": "aiohappyeyeballs",
+        "notice_files": [],
+        "version": "2.7.1"
+      },
+      {
+        "license_expression": "Apache-2.0 AND MIT",
+        "license_files": [
+          {
+            "path": "aiohttp-3.14.3.dist-info/licenses/LICENSE.txt",
+            "sha256": "sha256:2e4be5fc6c4c72a466fcb665d726e049a6891981fe536c4f04b6366749461d23"
+          },
+          {
+            "path": "aiohttp-3.14.3.dist-info/licenses/vendor/llhttp/LICENSE",
+            "sha256": "sha256:628168d68bb5a8a17e0bbefb3bd74e326e1edc20583d76f52f457c82c921867d"
+          }
+        ],
+        "name": "aiohttp",
+        "notice_files": [],
+        "version": "3.14.3"
+      },
+      {
+        "license_expression": "Apache 2.0",
+        "license_files": [
+          {
+            "path": "aiosignal-1.4.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:6fd5243e92dd7f98ec69c7ac377728e74905709ff527a5bf98d6d0263c04f5b6"
+          }
+        ],
+        "name": "aiosignal",
+        "notice_files": [],
+        "version": "1.4.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "annotated_doc-0.0.5.dist-info/licenses/LICENSE",
+            "sha256": "sha256:fff170779a6acbf65abdb405c087f1cee1786691e4a96a4034517e4a504a0cdf"
+          }
+        ],
+        "name": "annotated-doc",
+        "notice_files": [],
+        "version": "0.0.5"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "annotated_types-0.8.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:fe1049884b1a0d9342901e88e07f32925d24b3121d9972b6a6805fb9824b095d"
+          }
+        ],
+        "name": "annotated-types",
+        "notice_files": [],
+        "version": "0.8.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "anyio-4.15.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:5361ac9dc58f2ef5fd2e9b09c68297c17f04950909bbc8023bdb82eacf22c2b0"
+          }
+        ],
+        "name": "anyio",
+        "notice_files": [],
+        "version": "4.15.1"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "ast_serialize-0.11.2.dist-info/licenses/LICENSE",
+            "sha256": "sha256:db90b8fd0ae1748117ab467680a5193bfd057a3119846cb53ee3b64f16577b3b"
+          },
+          {
+            "path": "ast_serialize-0.11.2.dist-info/licenses/crates/LICENSE",
+            "sha256": "sha256:2597d854122b77ddc71971564ca2350a37608575ce324adc5650a2b2051c8f18"
+          }
+        ],
+        "name": "ast_serialize",
+        "notice_files": [],
+        "version": "0.11.2"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "attrs-26.1.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:882115c95dfc2af1eeb6714f8ec6d5cbcabf667caff8729f42420da63f714e9f"
+          }
+        ],
+        "name": "attrs",
+        "notice_files": [],
+        "version": "26.1.0"
+      },
+      {
+        "license_expression": "MPL-2.0",
+        "license_files": [
+          {
+            "path": "certifi-2026.7.22.dist-info/licenses/LICENSE",
+            "sha256": "sha256:e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7"
+          }
+        ],
+        "name": "certifi",
+        "notice_files": [],
+        "version": "2026.7.22"
+      },
+      {
+        "license_expression": "MIT-0",
+        "license_files": [
+          {
+            "path": "cffi-2.1.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:5ba24ddc57067f9249add644c3afc41a5d6dc37e23433ef759d95df370b0af63"
+          }
+        ],
+        "name": "cffi",
+        "notice_files": [],
+        "version": "2.1.1"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "charset_normalizer-3.5.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:6d0d41bfe170ac6c7dc248c9a63e254d0fb45a60d50a8257d0af92c6e249b887"
+          }
+        ],
+        "name": "charset-normalizer",
+        "notice_files": [],
+        "version": "3.5.1"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "click-8.5.0.dist-info/licenses/LICENSE.txt",
+            "sha256": "sha256:9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d"
+          }
+        ],
+        "name": "click",
+        "notice_files": [],
+        "version": "8.5.0"
+      },
+      {
+        "license_expression": "Apache-2.0 OR BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "cryptography-50.0.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:3e0c7c091a948b82533ba98fd7cbb40432d6f1a9acbf85f5922d2f99a93ae6bb"
+          },
+          {
+            "path": "cryptography-50.0.1.dist-info/licenses/LICENSE.APACHE",
+            "sha256": "sha256:aac73b3148f6d1d7111dbca32099f68d26c644c6813ae1e4f05f6579aa2663fe"
+          },
+          {
+            "path": "cryptography-50.0.1.dist-info/licenses/LICENSE.BSD",
+            "sha256": "sha256:602c4c7482de6479dd2e9793cda275e5e63d773dacd1eca689232ab7008fb4fb"
+          }
+        ],
+        "name": "cryptography",
+        "notice_files": [],
+        "version": "50.0.1"
+      },
+      {
+        "license_expression": "UNKNOWN",
+        "license_files": [
+          {
+            "path": "detect_secrets-1.5.0.dist-info/LICENSE",
+            "sha256": "sha256:cd6e5b5e743ad29917fb1b13c81cbf9795a8959cb8b94df59ce2ef384642a455"
+          }
+        ],
+        "name": "detect-secrets",
+        "notice_files": [],
+        "version": "1.5.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "fastapi-0.141.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:4ec89ffc81485b97fec584b2d4a961032eeffe834453894fd9c1274906cc744e"
+          }
+        ],
+        "name": "fastapi",
+        "notice_files": [],
+        "version": "0.141.1"
+      },
+      {
+        "license_expression": "Apache-2.0",
+        "license_files": [
+          {
+            "path": "frozenlist-1.8.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:6fd5243e92dd7f98ec69c7ac377728e74905709ff527a5bf98d6d0263c04f5b6"
+          }
+        ],
+        "name": "frozenlist",
+        "notice_files": [],
+        "version": "1.8.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "h11-0.16.0.dist-info/licenses/LICENSE.txt",
+            "sha256": "sha256:37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361"
+          }
+        ],
+        "name": "h11",
+        "notice_files": [],
+        "version": "0.16.0"
+      },
+      {
+        "license_expression": "Copyright (c) 2006-2013 James Graham and other contributors\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of this software and associated documentation files (the\n\"Software\"), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to\nthe following conditions:\n\nThe above copyright notice and this permission notice shall be\nincluded in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND\nNONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE\nLIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION\nOF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\nWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n",
+        "license_files": [
+          {
+            "path": "html5rdf-1.2.1.dist-info/LICENSE",
+            "sha256": "sha256:16a39991619e92f18680932da2a9199fdf7d95df3ecaedc52ea06218aabafd6f"
+          }
+        ],
+        "name": "html5rdf",
+        "notice_files": [],
+        "version": "1.2.1"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "httpcore-1.0.9.dist-info/licenses/LICENSE.md",
+            "sha256": "sha256:fdcb59154c74cbaba16a11242f7740bea9f23d6feb5547917d8c5f94a80392a5"
+          }
+        ],
+        "name": "httpcore",
+        "notice_files": [],
+        "version": "1.0.9"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "httpx-0.28.1.dist-info/licenses/LICENSE.md",
+            "sha256": "sha256:4ec59d544f12b5f539a3a716fd321ac58ccd8030b465221f2c880200cdf28d8d"
+          }
+        ],
+        "name": "httpx",
+        "notice_files": [],
+        "version": "0.28.1"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "idna-3.20.dist-info/licenses/LICENSE.md",
+            "sha256": "sha256:1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04"
+          }
+        ],
+        "name": "idna",
+        "notice_files": [],
+        "version": "3.20"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "iniconfig-2.3.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:3409fa91f7ace557894632676656e32264fe5ef7581535725dc9a23774551bd4"
+          }
+        ],
+        "name": "iniconfig",
+        "notice_files": [],
+        "version": "2.3.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "librt-0.15.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:88f9e379c684580053c58e75e296ca2eb243b6edcc6e5357f247310e96eeef8a"
+          }
+        ],
+        "name": "librt",
+        "notice_files": [],
+        "version": "0.15.0"
+      },
+      {
+        "license_expression": "Apache License 2.0",
+        "license_files": [
+          {
+            "path": "multidict-6.9.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:2e4be5fc6c4c72a466fcb665d726e049a6891981fe536c4f04b6366749461d23"
+          }
+        ],
+        "name": "multidict",
+        "notice_files": [],
+        "version": "6.9.1"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "mypy-2.3.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:fdf1cd17f50e1305ed8cfd37467312d27a984648dba622cef70573b5512e4e1b"
+          },
+          {
+            "path": "mypy-2.3.1.dist-info/licenses/mypy/typeshed/LICENSE",
+            "sha256": "sha256:295f8538c94ae5c3043301cf7cff1c852dab6a786a8ddee471e061b40d5ecabe"
+          },
+          {
+            "path": "mypy/typeshed/LICENSE",
+            "sha256": "sha256:295f8538c94ae5c3043301cf7cff1c852dab6a786a8ddee471e061b40d5ecabe"
+          }
+        ],
+        "name": "mypy",
+        "notice_files": [],
+        "version": "2.3.1"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "mypy_extensions-1.1.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:a50450da1d53cd777b80ced77c58ff96abe0ccd879706bd142c3ec20e245f0b4"
+          }
+        ],
+        "name": "mypy_extensions",
+        "notice_files": [],
+        "version": "1.1.0"
+      },
+      {
+        "license_expression": "Apache-2.0",
+        "license_files": [
+          {
+            "path": "openfga_sdk-0.10.4.dist-info/licenses/LICENSE",
+            "sha256": "sha256:1c46d7b2bed94d457d745f28cabeb31f8d6c81dd9035bc5d24039989ee1e1bff"
+          }
+        ],
+        "name": "openfga-sdk",
+        "notice_files": [],
+        "version": "0.10.4"
+      },
+      {
+        "license_expression": "Apache-2.0",
+        "license_files": [
+          {
+            "path": "opentelemetry_api-1.45.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+          }
+        ],
+        "name": "opentelemetry-api",
+        "notice_files": [],
+        "version": "1.45.0"
+      },
+      {
+        "license_expression": "W3C-20150513",
+        "license_files": [
+          {
+            "path": "owlrl-7.6.2.dist-info/LICENSE.txt",
+            "sha256": "sha256:4314f05aad7a217e792d310af1b4381d132e03d2f823c29bb7ab0f87c6849257"
+          }
+        ],
+        "name": "owlrl",
+        "notice_files": [],
+        "version": "7.6.2"
+      },
+      {
+        "license_expression": "Apache-2.0 OR BSD-2-Clause",
+        "license_files": [
+          {
+            "path": "packaging-26.3.dist-info/licenses/LICENSE",
+            "sha256": "sha256:cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+          },
+          {
+            "path": "packaging-26.3.dist-info/licenses/LICENSE.APACHE",
+            "sha256": "sha256:0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+          },
+          {
+            "path": "packaging-26.3.dist-info/licenses/LICENSE.BSD",
+            "sha256": "sha256:b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+          }
+        ],
+        "name": "packaging",
+        "notice_files": [],
+        "version": "26.3"
+      },
+      {
+        "license_expression": "not declared",
+        "license_files": [
+          {
+            "path": "pathspec-1.1.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85"
+          }
+        ],
+        "name": "pathspec",
+        "notice_files": [],
+        "version": "1.1.1"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "pluggy-1.6.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:d6b65e6c213a5d0b577911d34d6e5949b9f59d76c238c5071a2f3fc16cfb2606"
+          }
+        ],
+        "name": "pluggy",
+        "notice_files": [],
+        "version": "1.6.0"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "prettytable-3.18.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:0c8adcc204c8af6cdfdf7887dfd1f99c29901f6c1d505a78bba96efa4fb2cb05"
+          }
+        ],
+        "name": "prettytable",
+        "notice_files": [],
+        "version": "3.18.0"
+      },
+      {
+        "license_expression": "Apache-2.0",
+        "license_files": [
+          {
+            "path": "propcache-0.5.4.dist-info/licenses/LICENSE",
+            "sha256": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+          }
+        ],
+        "name": "propcache",
+        "notice_files": [
+          {
+            "path": "propcache-0.5.4.dist-info/licenses/NOTICE",
+            "sha256": "sha256:56d6ac6c8105c0a51304c21db060e361af9a8ea0af9a75c239c28b5d13693838"
+          }
+        ],
+        "version": "0.5.4"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "pycparser-3.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:0c846399369ea76ddd7b5c44fe6d16497415fcf015f5cbb508c24bf98b81c5b1"
+          }
+        ],
+        "name": "pycparser",
+        "notice_files": [],
+        "version": "3.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "pydantic-2.13.5.dist-info/licenses/LICENSE",
+            "sha256": "sha256:a9e186f3ca16b5eef84318e7a701721351a00cb7b8ae3a4394b67b49e3529ef3"
+          }
+        ],
+        "name": "pydantic",
+        "notice_files": [],
+        "version": "2.13.5"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "pydantic_core-2.46.5.dist-info/licenses/LICENSE",
+            "sha256": "sha256:2afdd30d54b4d62b6f488a6bcc1546e84ec5061f13f4209c03d012348783795a"
+          }
+        ],
+        "name": "pydantic_core",
+        "notice_files": [],
+        "version": "2.46.5"
+      },
+      {
+        "license_expression": "BSD-2-Clause",
+        "license_files": [
+          {
+            "path": "pygments-2.21.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17"
+          }
+        ],
+        "name": "Pygments",
+        "notice_files": [],
+        "version": "2.21.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "pyjwt-2.15.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5"
+          }
+        ],
+        "name": "PyJWT",
+        "notice_files": [],
+        "version": "2.15.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "pyparsing-3.3.3.dist-info/licenses/LICENSE",
+            "sha256": "sha256:a5425f9dc14ac74d4c5f0b679e941f2442e32cca7452a4418d5b1a49893ebe4e"
+          }
+        ],
+        "name": "pyparsing",
+        "notice_files": [],
+        "version": "3.3.3"
+      },
+      {
+        "license_expression": "Apache License\n                            Version 2.0, January 2004\n                         http://www.apache.org/licenses/\n\n    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n    1. Definitions.\n\n       \"License\" shall mean the terms and conditions for use, reproduction,\n       and distribution as defined by Sections 1 through 9 of this document.\n\n       \"Licensor\" shall mean the copyright owner or entity authorized by\n       the copyright owner that is granting the License.\n\n       \"Legal Entity\" shall mean the union of the acting entity and all\n       other entities that control, are controlled by, or are under common\n       control with that entity. For the purposes of this definition,\n       \"control\" means (i) the power, direct or indirect, to cause the\n       direction or management of such entity, whether by contract or\n       otherwise, or (ii) ownership of fifty percent (50%) or more of the\n       outstanding shares, or (iii) beneficial ownership of such entity.\n\n       \"You\" (or \"Your\") shall mean an individual or Legal Entity\n       exercising permissions granted by this License.\n\n       \"Source\" form shall mean the preferred form for making modifications,\n       including but not limited to software source code, documentation\n       source, and configuration files.\n\n       \"Object\" form shall mean any form resulting from mechanical\n       transformation or translation of a Source form, including but\n       not limited to compiled object code, generated documentation,\n       and conversions to other media types.\n\n       \"Work\" shall mean the work of authorship, whether in Source or\n       Object form, made available under the License, as indicated by a\n       copyright notice that is included in or attached to the work\n       (an example is provided in the Appendix below).\n\n       \"Derivative Works\" shall mean any work, whether in Source or Object\n       form, that is based on (or derived from) the Work and for which the\n       editorial revisions, annotations, elaborations, or other modifications\n       represent, as a whole, an original work of authorship. For the purposes\n       of this License, Derivative Works shall not include works that remain\n       separable from, or merely link (or bind by name) to the interfaces of,\n       the Work and Derivative Works thereof.\n\n       \"Contribution\" shall mean any work of authorship, including\n       the original version of the Work and any modifications or additions\n       to that Work or Derivative Works thereof, that is intentionally\n       submitted to Licensor for inclusion in the Work by the copyright owner\n       or by an individual or Legal Entity authorized to submit on behalf of\n       the copyright owner. For the purposes of this definition, \"submitted\"\n       means any form of electronic, verbal, or written communication sent\n       to the Licensor or its representatives, including but not limited to\n       communication on electronic mailing lists, source code control systems,\n       and issue tracking systems that are managed by, or on behalf of, the\n       Licensor for the purpose of discussing and improving the Work, but\n       excluding communication that is conspicuously marked or otherwise\n       designated in writing by the copyright owner as \"Not a Contribution.\"\n\n       \"Contributor\" shall mean Licensor and any individual or Legal Entity\n       on behalf of whom a Contribution has been received by Licensor and\n       subsequently incorporated within the Work.\n\n    2. Grant of Copyright License. Subject to the terms and conditions of\n       this License, each Contributor hereby grants to You a perpetual,\n       worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n       copyright license to reproduce, prepare Derivative Works of,\n       publicly display, publicly perform, sublicense, and distribute the\n       Work and such Derivative Works in Source or Object form.\n\n    3. Grant of Patent License. Subject to the terms and conditions of\n       this License, each Contributor hereby grants to You a perpetual,\n       worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n       (except as stated in this section) patent license to make, have made,\n       use, offer to sell, sell, import, and otherwise transfer the Work,\n       where such license applies only to those patent claims licensable\n       by such Contributor that are necessarily infringed by their\n       Contribution(s) alone or by combination of their Contribution(s)\n       with the Work to which such Contribution(s) was submitted. If You\n       institute patent litigation against any entity (including a\n       cross-claim or counterclaim in a lawsuit) alleging that the Work\n       or a Contribution incorporated within the Work constitutes direct\n       or contributory patent infringement, then any patent licenses\n       granted to You under this License for that Work shall terminate\n       as of the date such litigation is filed.\n\n    4. Redistribution. You may reproduce and distribute copies of the\n       Work or Derivative Works thereof in any medium, with or without\n       modifications, and in Source or Object form, provided that You\n       meet the following conditions:\n\n       (a) You must give any other recipients of the Work or\n           Derivative Works a copy of this License; and\n\n       (b) You must cause any modified files to carry prominent notices\n           stating that You changed the files; and\n\n       (c) You must retain, in the Source form of any Derivative Works\n           that You distribute, all copyright, patent, trademark, and\n           attribution notices from the Source form of the Work,\n           excluding those notices that do not pertain to any part of\n           the Derivative Works; and\n\n       (d) If the Work includes a \"NOTICE\" text file as part of its\n           distribution, then any Derivative Works that You distribute must\n           include a readable copy of the attribution notices contained\n           within such NOTICE file, excluding those notices that do not\n           pertain to any part of the Derivative Works, in at least one\n           of the following places: within a NOTICE text file distributed\n           as part of the Derivative Works; within the Source form or\n           documentation, if provided along with the Derivative Works; or,\n           within a display generated by the Derivative Works, if and\n           wherever such third-party notices normally appear. The contents\n           of the NOTICE file are for informational purposes only and\n           do not modify the License. You may add Your own attribution\n           notices within Derivative Works that You distribute, alongside\n           or as an addendum to the NOTICE text from the Work, provided\n           that such additional attribution notices cannot be construed\n           as modifying the License.\n\n       You may add Your own copyright statement to Your modifications and\n       may provide additional or different license terms and conditions\n       for use, reproduction, or distribution of Your modifications, or\n       for any such Derivative Works as a whole, provided Your use,\n       reproduction, and distribution of the Work otherwise complies with\n       the conditions stated in this License.\n\n    5. Submission of Contributions. Unless You explicitly state otherwise,\n       any Contribution intentionally submitted for inclusion in the Work\n       by You to the Licensor shall be under the terms and conditions of\n       this License, without any additional terms or conditions.\n       Notwithstanding the above, nothing herein shall supersede or modify\n       the terms of any separate license agreement you may have executed\n       with Licensor regarding such Contributions.\n\n    6. Trademarks. This License does not grant permission to use the trade\n       names, trademarks, service marks, or product names of the Licensor,\n       except as required for reasonable and customary use in describing the\n       origin of the Work and reproducing the content of the NOTICE file.\n\n    7. Disclaimer of Warranty. Unless required by applicable law or\n       agreed to in writing, Licensor provides the Work (and each\n       Contributor provides its Contributions) on an \"AS IS\" BASIS,\n       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or\n       implied, including, without limitation, any warranties or conditions\n       of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A\n       PARTICULAR PURPOSE. You are solely responsible for determining the\n       appropriateness of using or redistributing the Work and assume any\n       risks associated with Your exercise of permissions under this License.\n\n    8. Limitation of Liability. In no event and under no legal theory,\n       whether in tort (including negligence), contract, or otherwise,\n       unless required by applicable law (such as deliberate and grossly\n       negligent acts) or agreed to in writing, shall any Contributor be\n       liable to You for damages, including any direct, indirect, special,\n       incidental, or consequential damages of any character arising as a\n       result of this License or out of the use or inability to use the\n       Work (including but not limited to damages for loss of goodwill,\n       work stoppage, computer failure or malfunction, or any and all\n       other commercial damages or losses), even if such Contributor\n       has been advised of the possibility of such damages.\n\n    9. Accepting Warranty or Additional Liability. While redistributing\n       the Work or Derivative Works thereof, You may choose to offer,\n       and charge a fee for, acceptance of support, warranty, indemnity,\n       or other liability obligations and/or rights consistent with this\n       License. However, in accepting such obligations, You may act only\n       on Your own behalf and on Your sole responsibility, not on behalf\n       of any other Contributor, and only if You agree to indemnify,\n       defend, and hold each Contributor harmless for any liability\n       incurred by, or claims asserted against, such Contributor by reason\n       of your accepting any such warranty or additional liability.\n\n    END OF TERMS AND CONDITIONS\n\n    APPENDIX: How to apply the Apache License to your work.\n\n       To apply the Apache License to your work, attach the following\n       boilerplate notice, with the fields enclosed by brackets \"[]\"\n       replaced with your own identifying information. (Don't include\n       the brackets!)  The text should be enclosed in the appropriate\n       comment syntax for the file format. We also recommend that a\n       file or class name and description of purpose be included on the\n       same \"printed page\" as the copyright notice for easier\n       identification within third-party archives.\n\n    Copyright [yyyy] [name of copyright owner]\n\n    Licensed under the Apache License, Version 2.0 (the \"License\");\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n        http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.",
+        "license_files": [
+          {
+            "path": "pyshacl-0.40.1.dist-info/licenses/LICENSE.txt",
+            "sha256": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+          }
+        ],
+        "name": "pyshacl",
+        "notice_files": [],
+        "version": "0.40.1"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "pytest-9.0.2.dist-info/licenses/LICENSE",
+            "sha256": "sha256:ca836a5f9ecca3b2f350230faa20a48fb8b145653b5568d784862df864706b9b"
+          }
+        ],
+        "name": "pytest",
+        "notice_files": [],
+        "version": "9.0.2"
+      },
+      {
+        "license_expression": "Dual License",
+        "license_files": [
+          {
+            "path": "python_dateutil-2.9.0.post0.dist-info/LICENSE",
+            "sha256": "sha256:ba00f51a0d92823b5a1cde27d8b5b9d2321e67ed8da9bc163eff96d5e17e577e"
+          }
+        ],
+        "name": "python-dateutil",
+        "notice_files": [],
+        "version": "2.9.0.post0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "pyyaml-6.0.3.dist-info/licenses/LICENSE",
+            "sha256": "sha256:8d3928f9dc4490fd635707cb88eb26bd764102a7282954307d3e5167a577e8a4"
+          }
+        ],
+        "name": "PyYAML",
+        "notice_files": [],
+        "version": "6.0.3"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "rdflib-7.6.0.dist-info/LICENSE",
+            "sha256": "sha256:53a705e51bfd199e8c97d0442376cb4bbd4ffcf13ba4f2c4c2794211400e4012"
+          }
+        ],
+        "name": "rdflib",
+        "notice_files": [],
+        "version": "7.6.0"
+      },
+      {
+        "license_expression": "Apache-2.0",
+        "license_files": [
+          {
+            "path": "requests-2.34.2.dist-info/licenses/LICENSE",
+            "sha256": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b"
+          }
+        ],
+        "name": "requests",
+        "notice_files": [
+          {
+            "path": "requests-2.34.2.dist-info/licenses/NOTICE",
+            "sha256": "sha256:f5110972dedad2b4e9d314518daf3b7d72d6e02e499acd802181de6f74571dcc"
+          }
+        ],
+        "version": "2.34.2"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "ruff-0.16.9.dist-info/licenses/LICENSE",
+            "sha256": "sha256:2597d854122b77ddc71971564ca2350a37608575ce324adc5650a2b2051c8f18"
+          }
+        ],
+        "name": "ruff",
+        "notice_files": [],
+        "version": "0.16.9"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "six-1.17.0.dist-info/LICENSE",
+            "sha256": "sha256:4375ba20e2b9c6c4e7cad2940a628fd90e95cc3d50ee92aae755715d8ba1fbd0"
+          }
+        ],
+        "name": "six",
+        "notice_files": [],
+        "version": "1.17.0"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "starlette-1.7.0.dist-info/licenses/LICENSE.md",
+            "sha256": "sha256:dcb95677a02240243187e964f941847d19b17821cf99e5afae684fab328c19bf"
+          }
+        ],
+        "name": "starlette",
+        "notice_files": [],
+        "version": "1.7.0"
+      },
+      {
+        "license_expression": "PSF-2.0",
+        "license_files": [
+          {
+            "path": "typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+            "sha256": "sha256:3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+          }
+        ],
+        "name": "typing_extensions",
+        "notice_files": [],
+        "version": "4.16.0"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "typing_inspection-0.4.4.dist-info/licenses/LICENSE",
+            "sha256": "sha256:804b59b25f2c31bd278f9202a19ae49a3945aa2664387e2d0a128c7cacc61ec3"
+          }
+        ],
+        "name": "typing-inspection",
+        "notice_files": [],
+        "version": "0.4.4"
+      },
+      {
+        "license_expression": "MIT",
+        "license_files": [
+          {
+            "path": "urllib3-2.8.0.dist-info/licenses/LICENSE.txt",
+            "sha256": "sha256:130e3a64d5fdd5d096a752694634a7d9df284469de86e5732100268041e3d686"
+          }
+        ],
+        "name": "urllib3",
+        "notice_files": [],
+        "version": "2.8.0"
+      },
+      {
+        "license_expression": "BSD-3-Clause",
+        "license_files": [
+          {
+            "path": "uvicorn-0.54.0.dist-info/licenses/LICENSE.md",
+            "sha256": "sha256:efe1acf3e62fb99c288b0ec73e5a773b7268ef4320fe757ea994214e4b63c371"
+          }
+        ],
+        "name": "uvicorn",
+        "notice_files": [],
+        "version": "0.54.0"
+      },
+      {
+        "license_expression": "not declared",
+        "license_files": [
+          {
+            "path": "wcwidth-0.9.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:70b98a95a2144eb70af8017fa8c6d95ce247e40867436e8bc649e137fe13d21a"
+          }
+        ],
+        "name": "wcwidth",
+        "notice_files": [],
+        "version": "0.9.1"
+      },
+      {
+        "license_expression": "Apache-2.0",
+        "license_files": [
+          {
+            "path": "yarl-1.25.1.dist-info/licenses/LICENSE",
+            "sha256": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+          }
+        ],
+        "name": "yarl",
+        "notice_files": [
+          {
+            "path": "yarl-1.25.1.dist-info/licenses/NOTICE",
+            "sha256": "sha256:56d6ac6c8105c0a51304c21db060e361af9a8ea0af9a75c239c28b5d13693838"
+          }
+        ],
+        "version": "1.25.1"
+      }
+    ],
+    "python_version": "3.13.14"
+  },
+  "runtime": "podman",
+  "runtime_version": "podman version 5.7.0"
+}

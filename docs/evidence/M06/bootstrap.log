@@ -1,0 +1,6 @@
+uv python install 3.13
+Python 3.13 is already installed
+uv lock --check
+Resolved 57 packages in 1ms
+uv sync --frozen
+Checked 56 packages in 0.98ms

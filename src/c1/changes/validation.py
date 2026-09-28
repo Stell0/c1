@@ -22,6 +22,19 @@ from c1.changes.models import (
     InstallProfileOperation,
     ReplaceOperation,
 )
+from c1.documents.validation import (
+    DOCUMENT,
+    EVIDENCE,
+    PART,
+    document_diagnostics,
+    selector_diagnostics,
+)
+from c1.documents.validation import (
+    iri as document_iri,
+)
+from c1.documents.validation import (
+    literal as document_literal,
+)
 from c1.interchange import validate_records
 from c1.model.diagnostics import Diagnostic, ProfileError
 from c1.model.literals import LiteralValue
@@ -269,6 +282,7 @@ async def validate_changeset(
         except ProfileError as exc:
             diagnostics.extend(exc.diagnostics)
         diagnostics.extend(_manual_rule(record, path))
+        diagnostics.extend(document_diagnostics(record, path))
 
         operation = normalized[index]
         if isinstance(operation, ReplaceOperation) and changeset.restores_from_revision:
@@ -318,6 +332,79 @@ async def validate_changeset(
                             "Unresolved reference",
                         )
                     )
+
+    # Parts may share an order rank. Read paths resolve ties with the part IRI;
+    # validation here only checks that the parent is a readable Document.
+    part_records = [(index, record) for index, record in parsed if PART in record.types]
+    for index, part in part_records:
+        parent_id = document_iri(part, C1 + "partOfDocument")
+        if parent_id is None:
+            continue
+        parent = staged.get(parent_id) or visible_references.get(parent_id)
+        if parent is not None and DOCUMENT not in parent.types:
+            diagnostics.append(
+                _diagnostic(
+                    "C1-CS-010",
+                    "error",
+                    f"/operations/{index}/record/partOfDocument",
+                    "Unresolved reference",
+                )
+            )
+
+    for index, evidence in parsed:
+        if EVIDENCE not in evidence.types:
+            continue
+        source_id = document_iri(evidence, OA + "hasSource")
+        selector_id = document_iri(evidence, OA + "hasSelector")
+        if source_id is None:
+            continue
+        source_part = staged.get(source_id) or visible_references.get(source_id)
+        if source_part is None or PART not in source_part.types:
+            continue
+        document_id = document_iri(source_part, C1 + "partOfDocument")
+        if document_id is None:
+            continue
+        if document_id not in staged and document_id not in visible_references:
+            try:
+                visible_references[document_id] = await resolve_reference(
+                    document_id, changeset.base_revision
+                )
+            except Exception:
+                visible_references[document_id] = None
+        document = staged.get(document_id) or visible_references.get(document_id)
+        # The document's source revision can itself be protected metadata.
+        # Require its read authority, rather than probing it through the
+        # success/failure of a guessed Evidence sourceRevision.
+        if document is None or DOCUMENT not in document.types:
+            diagnostics.append(
+                _diagnostic(
+                    "C1-CS-010",
+                    "error",
+                    f"/operations/{index}/record/hasSource",
+                    "Unresolved reference",
+                )
+            )
+            continue
+        expected_revision = document_literal(document, C1 + "sourceRevision")
+        if expected_revision is None:
+            expected_revision = changeset.base_revision
+        if document_literal(evidence, C1 + "sourceRevision") != expected_revision:
+            diagnostics.append(
+                _diagnostic(
+                    "C1-DC-009",
+                    "error",
+                    f"/operations/{index}/record/sourceRevision",
+                    "source_revision_mismatch",
+                )
+            )
+        if selector_id is None:
+            continue
+        selector = staged.get(selector_id) or visible_references.get(selector_id)
+        if selector is None:
+            continue
+        diagnostics.extend(
+            selector_diagnostics(selector, source_part, f"/operations/{index}/record/hasSelector")
+        )
 
     if changeset.restores_from_revision and any(
         not isinstance(operation, ReplaceOperation) for operation in normalized

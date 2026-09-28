@@ -1,0 +1,15 @@
+FFAILED tests/integration/m06/test_t06_structure.py::test_t06_structure_validation_is_atomic [call]
+E   AssertionError: assert [{'code': 'C1...ty': 'error'}] == []
+      
+      Left contains one more item: {'code': 'C1-CS-010', 'message': 'Unresolved reference', 'path': '/operations/0/record/properties/urn:c1:ns:core#partOfDocument/0', 'severity': 'error'}
+      Use -v to get more diff
+                                                                        [100%]
+=================================== FAILURES ===================================
+E   AssertionError: assert [{'code': 'C1...ty': 'error'}] == []
+      
+      Left contains one more item: {'code': 'C1-CS-010', 'message': 'Unresolved reference', 'path': '/operations/0/record/properties/urn:c1:ns:core#partOfDocument/0', 'severity': 'error'}
+      Use -v to get more diff
+/home/tux/personalbuild/c1/tests/integration/m06/test_t06_structure.py:131: AssertionError: assert [{'code': 'C1...ty': 'error'}] == []
+=========================== short test summary info ============================
+FAILED tests/integration/m06/test_t06_structure.py::test_t06_structure_validation_is_atomic
+1 failed in 350.38s (0:05:50)

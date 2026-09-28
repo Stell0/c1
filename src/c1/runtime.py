@@ -12,6 +12,7 @@ from c1.authorization.tokens import TokenValidator
 from c1.changes.apply import ChangeService
 from c1.changes.profiles import detect_installed_registry
 from c1.config import Settings
+from c1.documents.service import DocumentsService
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
 from c1.model.records import C1, RDF
@@ -55,6 +56,7 @@ class Runtime:
             self.audit,
         )
         self.query = QueryService(self)
+        self.documents = DocumentsService(self)
         self._started = False
 
     async def start(self) -> None:

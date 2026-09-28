@@ -1,0 +1,8 @@
+{
+  "query": "zebra-token",
+  "matches": {
+    "alice": [],
+    "bob": [],
+    "carol": ["urn:c1:instance:dev:document/00000062-0000-4000-8000-000000000000"]
+  }
+}

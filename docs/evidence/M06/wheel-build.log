@@ -1,0 +1,5 @@
+Command: UV_CACHE_DIR=.uv-cache uv build --wheel --offline --out-dir /tmp/c1-m06-wheel
+Exit: 0
+warning: The cache directory `.uv-cache` is inside the build source directory `.` and may be included in distributions
+Building wheel...
+Successfully built /tmp/c1-m06-wheel/c1-0.0.0.dev0-py3-none-any.whl

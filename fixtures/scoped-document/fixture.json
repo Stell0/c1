@@ -1,0 +1,143 @@
+{
+  "name": "scoped-document",
+  "version": "1.0.0",
+  "scopes": {
+    "doc-public": "Handbook public",
+    "doc-team": "Handbook team",
+    "doc-legal": "Handbook legal"
+  },
+  "principals": {
+    "alice": ["doc-public"],
+    "bob": ["doc-public", "doc-team"],
+    "carol": ["doc-public", "doc-team", "doc-legal"],
+    "dave": ["doc-public"]
+  },
+  "document_id": "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000",
+  "notes_id": "urn:c1:instance:dev:document/00000062-0000-4000-8000-000000000000",
+  "revision1": [
+    {
+      "id": "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000",
+      "scope": "doc-public",
+      "types": ["urn:c1:ns:core#Document"],
+      "properties": {
+        "http://purl.org/dc/terms/title": [{"lexical": "Handbook", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#sourceRevision": [{"lexical": "handbook-v1", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#contentDigest": [{"lexical": "sha256:synthetic-handbook-v1", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document-part/00000071-0000-4000-8000-000000000000",
+      "scope": "doc-public",
+      "types": ["urn:c1:ns:core#DocumentPart"],
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": ["urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#orderKey": [{"lexical": "A", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#text": [{"lexical": "Welcome to the Handbook", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "http://purl.org/dc/terms/title": [{"lexical": "Handbook", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#partKind": [{"lexical": "heading-1", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document-part/00000072-0000-4000-8000-000000000000",
+      "scope": "doc-public",
+      "types": ["urn:c1:ns:core#DocumentPart"],
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": ["urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#orderKey": [{"lexical": "B", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#text": [{"lexical": "The public edition is current for the stated source revision.", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#partKind": [{"lexical": "text", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document-part/00000073-0000-4000-8000-000000000000",
+      "scope": "doc-team",
+      "types": ["urn:c1:ns:core#DocumentPart"],
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": ["urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#orderKey": [{"lexical": "C", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#text": [{"lexical": "Team instructions are visible to authorized team readers.", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#partKind": [{"lexical": "text", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document-part/00000074-0000-4000-8000-000000000000",
+      "scope": "doc-team",
+      "types": ["urn:c1:ns:core#DocumentPart"],
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": ["urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#orderKey": [{"lexical": "D", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#text": [{"lexical": "def load_settings():\n    return \"synthetic\"", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#partKind": [{"lexical": "code:python", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document-part/00000075-0000-4000-8000-000000000000",
+      "scope": "doc-legal",
+      "types": ["urn:c1:ns:core#DocumentPart"],
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": ["urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#orderKey": [{"lexical": "E", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#text": [{"lexical": "Legal review is required before redistribution.", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#partKind": [{"lexical": "text", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document-part/00000076-0000-4000-8000-000000000000",
+      "scope": "doc-legal",
+      "types": ["urn:c1:ns:core#DocumentPart"],
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": ["urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#orderKey": [{"lexical": "F", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#text": [{"lexical": "def legal_release():\n    raise NotImplementedError", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#partKind": [{"lexical": "code-unit:python", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document-part/00000077-0000-4000-8000-000000000000",
+      "scope": "doc-public",
+      "types": ["urn:c1:ns:core#DocumentPart"],
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": ["urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#orderKey": [{"lexical": "G", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#text": [{"lexical": "Troubleshooting starts with the documented checks.", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#partKind": [{"lexical": "text", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document/00000062-0000-4000-8000-000000000000",
+      "scope": "doc-legal",
+      "types": ["urn:c1:ns:core#Document"],
+      "properties": {
+        "http://purl.org/dc/terms/title": [{"lexical": "Notes", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#sourceRevision": [{"lexical": "notes-v1", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    },
+    {
+      "id": "urn:c1:instance:dev:document-part/00000078-0000-4000-8000-000000000000",
+      "scope": "doc-legal",
+      "types": ["urn:c1:ns:core#DocumentPart"],
+      "properties": {
+        "urn:c1:ns:core#partOfDocument": ["urn:c1:instance:dev:document/00000062-0000-4000-8000-000000000000"],
+        "urn:c1:ns:core#orderKey": [{"lexical": "A", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#text": [{"lexical": "Internal tracking term: zebra-token", "datatype": "http://www.w3.org/2001/XMLSchema#string"}],
+        "urn:c1:ns:core#partKind": [{"lexical": "text", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+      }
+    }
+  ],
+  "revision2": {
+    "changes": [
+      {
+        "id": "urn:c1:instance:dev:document-part/00000072-0000-4000-8000-000000000000",
+        "properties": {
+          "urn:c1:ns:core#text": [{"lexical": "The public edition reflects the reviewed source revision.", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+        }
+      },
+      {
+        "id": "urn:c1:instance:dev:document-part/00000077-0000-4000-8000-000000000000",
+        "properties": {
+          "urn:c1:ns:core#orderKey": [{"lexical": "BB", "datatype": "http://www.w3.org/2001/XMLSchema#string"}]
+        }
+      }
+    ]
+  }
+}

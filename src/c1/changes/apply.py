@@ -94,6 +94,27 @@ def _same_documents(
     ) == sorted(json.dumps(item, sort_keys=True, separators=(",", ":")) for item in right)
 
 
+_DOCUMENT = "urn:c1:ns:core#Document"
+_DOCUMENT_PART = "urn:c1:ns:core#DocumentPart"
+_PART_OF_DOCUMENT = "urn:c1:ns:core#partOfDocument"
+_ORDER_KEY = "urn:c1:ns:core#orderKey"
+
+
+def _part_document(record: dict[str, Any] | NodeRecord) -> str | None:
+    types = record.types if isinstance(record, NodeRecord) else record.get("types", [])
+    if _DOCUMENT_PART not in types:
+        return None
+    properties = (
+        record.properties if isinstance(record, NodeRecord) else record.get("properties", {})
+    )
+    if not isinstance(properties, dict):
+        return None
+    values = properties.get(_PART_OF_DOCUMENT)
+    if isinstance(values, list) and len(values) == 1 and isinstance(values[0], str):
+        return values[0]
+    return None
+
+
 class ChangeService:
     """Single-process ChangeSet coordinator; all mutations hold WriterGate."""
 
@@ -169,43 +190,167 @@ class ChangeService:
         await self.journal.save_many([("ChangeSet", changeset.id, _public(changeset)), *entries])
 
     async def _permission(
-        self, p: Principal, operation: ChangeOperation, *, review: bool, excluding: str = ""
+        self,
+        p: Principal,
+        operation: ChangeOperation,
+        *,
+        review: bool,
+        excluding: str = "",
+        staged_documents: dict[str, str] | None = None,
     ) -> Decision:
+        staged_documents = staged_documents or {}
         if isinstance(operation, CreateOperation):
-            return await self.plane.check_scope(
+            if operation.scope_id is None:
+                return Decision(False, "permission_denied")
+            decision = await self.plane.check_scope(
                 p, "review" if review else "create", operation.scope_id
             )
         if isinstance(operation, ReplaceOperation):
-            return await self.plane.check_operation(
+            decision = await self.plane.check_operation(
                 p,
                 "review" if review else "contribute",
                 operation.resource_id,
                 excluding=excluding,
             )
-        return await self.plane.check_instance(p, "schema_admin")
+        if not isinstance(operation, (CreateOperation, ReplaceOperation)):
+            return await self.plane.check_instance(p, "schema_admin")
+        if not decision.allowed:
+            return decision
+        old = (
+            await self.knowledge.get_record(operation.resource_id, self.registry)
+            if isinstance(operation, ReplaceOperation)
+            else None
+        )
+        if _DOCUMENT_PART not in operation.record.get("types", []):
+            # Retyping a part would bypass its document's structural controls.
+            # Class migration/removal is not an ordinary M06 replacement.
+            if old is not None and _DOCUMENT_PART in old.types:
+                return Decision(False, "permission_denied")
+            return decision
+        target = _part_document(operation.record)
+        if target is None:
+            return Decision(False, "permission_denied")
+        if target in staged_documents:
+            readable = await self.plane.check_scope(p, "read", staged_documents[target])
+        else:
+            readable = await self.plane.check_read(p, target)
+        if not readable.allowed:
+            return readable
+        document_permission = "review" if review else "contribute"
+        if isinstance(operation, CreateOperation):
+            if target in staged_documents:
+                return await self.plane.check_scope(
+                    p, document_permission, staged_documents[target]
+                )
+            return await self.plane.check_operation(p, document_permission, target)
+        assert isinstance(operation, ReplaceOperation)
+        old_document = _part_document(old) if old is not None else None
+        if old_document is None:
+            return Decision(False, "permission_denied")
+        try:
+            replacement = NodeRecord.model_validate(operation.record)
+        except Exception:
+            return Decision(False, "permission_denied")
+        if (
+            old_document == target
+            and old is not None
+            and old.properties.get(_ORDER_KEY) == replacement.properties.get(_ORDER_KEY)
+        ):
+            return decision
+        for document in dict.fromkeys((old_document, target)):
+            if document in staged_documents:
+                allowed = await self.plane.check_scope(
+                    p, document_permission, staged_documents[document]
+                )
+            else:
+                allowed = await self.plane.check_operation(p, document_permission, document)
+            if not allowed.allowed:
+                return allowed
+        return decision
+
+    async def _normalize_operations(
+        self, p: Principal, operations: builtins.list[ChangeOperation]
+    ) -> builtins.list[ChangeOperation]:
+        staged_documents = {
+            str(operation.record["id"]): operation.scope_id
+            for operation in operations
+            if isinstance(operation, CreateOperation)
+            and _DOCUMENT in operation.record.get("types", [])
+            and isinstance(operation.record.get("id"), str)
+            and operation.scope_id is not None
+        }
+        normalized: builtins.list[ChangeOperation] = []
+        for operation in operations:
+            if not isinstance(operation, CreateOperation) or operation.scope_id is not None:
+                normalized.append(operation)
+                continue
+            document = _part_document(operation.record)
+            if document is None:
+                raise SecurityError(422, "invalid_part_document")
+            if document in staged_documents:
+                scope_id = staged_documents[document]
+                self._require(await self.plane.check_scope(p, "read", scope_id))
+            else:
+                self._require(await self.plane.check_read(p, document))
+                binding = await self.plane.bindings(document)
+                if binding is None or binding.state != "active":
+                    raise SecurityError(404, "not_found")
+                scope_id = binding.scope_id
+            normalized.append(
+                operation.model_copy(update={"scope_id": scope_id, "inherited_from": document})
+            )
+        return normalized
 
     async def _require_all(
         self, p: Principal, changeset: ChangeSet, *, review: bool, excluding: str = ""
     ) -> None:
+        staged_documents = {
+            str(operation.record["id"]): operation.scope_id
+            for operation in changeset.operations
+            if isinstance(operation, CreateOperation)
+            and _DOCUMENT in operation.record.get("types", [])
+            and isinstance(operation.record.get("id"), str)
+            and operation.scope_id is not None
+        }
         for operation in changeset.operations:
-            self._require(await self._permission(p, operation, review=review, excluding=excluding))
+            self._require(
+                await self._permission(
+                    p,
+                    operation,
+                    review=review,
+                    excluding=excluding,
+                    staged_documents=staged_documents,
+                )
+            )
 
     async def _visible(self, p: Principal, changeset: ChangeSet) -> bool:
         if p.id == changeset.author:
             return True
+        staged_documents = {
+            str(operation.record["id"]): operation.scope_id
+            for operation in changeset.operations
+            if isinstance(operation, CreateOperation)
+            and _DOCUMENT in operation.record.get("types", [])
+            and isinstance(operation.record.get("id"), str)
+            and operation.scope_id is not None
+        }
         staged_ids = {
             operation.record.get("id")
             for operation in changeset.operations
             if isinstance(operation, CreateOperation)
         }
         for operation in changeset.operations:
-            decision = await self._permission(p, operation, review=True)
+            decision = await self._permission(
+                p, operation, review=True, staged_documents=staged_documents
+            )
             if not decision.allowed:
                 return False
             if isinstance(operation, ReplaceOperation):
                 if not (await self.plane.check_read(p, operation.resource_id)).allowed:
                     return False
             elif isinstance(operation, CreateOperation):
+                if operation.scope_id is None:
+                    return False
                 if not (await self.plane.check_scope(p, "read", operation.scope_id)).allowed:
                     return False
             if isinstance(operation, (CreateOperation, ReplaceOperation)):
@@ -223,9 +368,10 @@ class ChangeService:
 
     async def create(self, p: Principal, body: Any, idempotency_key: str) -> dict[str, Any]:
         key = validate_request_key(idempotency_key)
-        operations = list(body.operations)
-        digest = request_digest(body.base_revision, operations, body.rationale)
         async with self.writer.hold():
+            # The request key binds the caller's payload, independent of any
+            # current scope used to resolve a new part's default binding.
+            digest = request_digest(body.base_revision, list(body.operations), body.rationale)
             try:
                 replay = await lookup_idempotency(
                     self.journal, p.id, self.settings.knowledge_database, key, digest
@@ -234,6 +380,7 @@ class ChangeService:
                 raise SecurityError(422, "idempotency_conflict") from None
             if replay is not None:
                 return replay
+            operations = await self._normalize_operations(p, list(body.operations))
             identifier = self.settings.instance_base + "changeset-" + uuid4().hex
             changeset = ChangeSet(
                 id=identifier,
@@ -281,7 +428,8 @@ class ChangeService:
             changeset = await self._load(identifier)
             if changeset.author != p.id:
                 raise SecurityError(404, "not_found")
-            revised = self._transition(changeset, "edit", operations=operations)
+            normalized = await self._normalize_operations(p, operations)
+            revised = self._transition(changeset, "edit", operations=normalized)
             await self._save(revised, *await self._superseded(changeset))
             return _public(revised)
 
@@ -328,8 +476,19 @@ class ChangeService:
                 return None
             return await self.knowledge.get_record(identifier, self.registry, commit=revision)
 
+        staged_documents = {
+            str(operation.record["id"]): operation.scope_id
+            for operation in changeset.operations
+            if isinstance(operation, CreateOperation)
+            and _DOCUMENT in operation.record.get("types", [])
+            and isinstance(operation.record.get("id"), str)
+            and operation.scope_id is not None
+        }
+
         async def permission(operation: ChangeOperation) -> Decision:
-            return await self._permission(p, operation, review=False)
+            return await self._permission(
+                p, operation, review=False, staged_documents=staged_documents
+            )
 
         identity_types = (ResolveOperation, MergeOperation, SplitOperation, UndoMergeOperation)
         if any(isinstance(item, identity_types) for item in changeset.operations):
@@ -535,7 +694,7 @@ class ChangeService:
         staged_scopes = {
             str(operation.record.get("id")): operation.scope_id
             for operation in result.normalized_operations
-            if isinstance(operation, CreateOperation)
+            if isinstance(operation, CreateOperation) and operation.scope_id is not None
         }
         for index, operation in enumerate(result.normalized_operations):
             if isinstance(operation, CreateOperation):
@@ -554,6 +713,8 @@ class ChangeService:
                 try:
                     identity_record = NodeRecord.model_validate(operation.record)
                 except Exception:
+                    continue
+                if operation.scope_id is None:
                     continue
                 if not await self._identity_scope_safe(
                     identity_record, operation.scope_id, staged_scopes
@@ -776,6 +937,13 @@ class ChangeService:
         raw: builtins.list[NodeRecord] = []
         bindings: dict[str, str] = {}
         scope_by_record: dict[str, str] = {}
+        staged_parents = {
+            str(operation.record["id"]): operation
+            for operation in changeset.operations
+            if isinstance(operation, CreateOperation)
+            and _DOCUMENT in operation.record.get("types", [])
+            and isinstance(operation.record.get("id"), str)
+        }
         for operation in changeset.operations:
             if isinstance(operation, InstallProfileOperation):
                 raise SecurityError(503, "profile_apply_not_ready")
@@ -788,15 +956,31 @@ class ChangeService:
             if isinstance(operation, CreateOperation):
                 if not record.id.startswith(self.settings.instance_base):
                     raise SecurityError(422, "invalid_resource_id")
+                if operation.scope_id is None:
+                    raise SecurityError(422, "missing_scope")
+                if (
+                    _DOCUMENT_PART in record.types
+                    and operation.inherited_from is not None
+                    and operation.inherited_from != _part_document(record)
+                ):
+                    raise SecurityError(422, "inheritance_document_mismatch")
                 if operation.inherited_from:
-                    parent = await self.plane.bindings(operation.inherited_from)
-                    self._require(await self.plane.check_read(actor, operation.inherited_from))
-                    if (
-                        parent is None
-                        or parent.state != "active"
-                        or parent.scope_id != operation.scope_id
-                    ):
-                        raise SecurityError(422, "inheritance_scope_conflict")
+                    staged_parent = staged_parents.get(operation.inherited_from)
+                    if staged_parent is not None:
+                        if staged_parent.scope_id != operation.scope_id:
+                            raise SecurityError(422, "inheritance_scope_conflict")
+                        self._require(
+                            await self.plane.check_scope(actor, "read", operation.scope_id)
+                        )
+                    else:
+                        parent = await self.plane.bindings(operation.inherited_from)
+                        self._require(await self.plane.check_read(actor, operation.inherited_from))
+                        if (
+                            parent is None
+                            or parent.state != "active"
+                            or parent.scope_id != operation.scope_id
+                        ):
+                            raise SecurityError(422, "inheritance_scope_conflict")
                 if await self.journal.get("Binding", record.id) is not None:
                     raise SecurityError(404, "not_found")
                 if await self.knowledge.get_record(record.id, self.registry) is not None:
@@ -1005,6 +1189,8 @@ class ChangeService:
             for operation in changeset.operations:
                 if isinstance(operation, CreateOperation):
                     record_id = str(operation.record["id"])
+                    if operation.scope_id is None:
+                        raise SecurityError(422, "missing_scope")
                     binding = Binding(
                         resource_id=record_id,
                         scope_id=operation.scope_id,

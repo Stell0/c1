@@ -1,0 +1,15 @@
+{
+  "revision1": [
+    "urn:c1:instance:dev:document-part/00000071-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:document-part/00000072-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:document-part/00000077-0000-4000-8000-000000000000"
+  ],
+  "revision2": [
+    "urn:c1:instance:dev:document-part/00000071-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:document-part/00000072-0000-4000-8000-000000000000",
+    "urn:c1:instance:dev:document-part/00000077-0000-4000-8000-000000000000"
+  ],
+  "text_revision2": {
+    "urn:c1:instance:dev:document-part/00000072-0000-4000-8000-000000000000": "The public edition reflects the reviewed source revision."
+  }
+}

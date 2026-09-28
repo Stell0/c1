@@ -1,0 +1,59 @@
+{"correlation_id": "c158e0bf-a747-47ea-be9d-4d8e9d15169c", "operation": "document_read", "outcome": "allowed", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "", "target": "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"}
+{"correlation_id": "4344ae4b-2776-42d1-acc0-002ab7a20cfc", "operation": "document_render", "outcome": "allowed", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "", "target": "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"}
+{"correlation_id": "9fc7b6a8-cd81-45af-b6ea-2b387d35863b", "operation": "document_read", "outcome": "allowed", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "", "target": "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"}
+{"correlation_id": "48460a3a-1935-41c0-842f-375519237c2c", "operation": "document_render", "outcome": "allowed", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "", "target": "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"}
+{
+  "document_id": "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000",
+  "readers": {
+    "alice": {
+      "markdown": "# Handbook\n\nThe public edition reflects the reviewed source revision\\.\n\nTroubleshooting starts with the documented checks\\.",
+      "parts": [
+        {
+          "id": "urn:c1:instance:dev:document-part/00000071-0000-4000-8000-000000000000",
+          "text": "Welcome to the Handbook"
+        },
+        {
+          "id": "urn:c1:instance:dev:document-part/00000072-0000-4000-8000-000000000000",
+          "text": "The public edition reflects the reviewed source revision."
+        },
+        {
+          "id": "urn:c1:instance:dev:document-part/00000077-0000-4000-8000-000000000000",
+          "text": "Troubleshooting starts with the documented checks."
+        }
+      ]
+    },
+    "carol": {
+      "markdown": "# Handbook\n\nThe public edition reflects the reviewed source revision\\.\n\nTroubleshooting starts with the documented checks\\.\n\nTeam instructions are visible to authorized team readers\\.\n\n```python excerpt\ndef load_settings():\n    return \"synthetic\"\n```\n\nLegal review is required before redistribution\\.\n\n```python complete unit\ndef legal_release():\n    raise NotImplementedError\n```",
+      "parts": [
+        {
+          "id": "urn:c1:instance:dev:document-part/00000071-0000-4000-8000-000000000000",
+          "text": "Welcome to the Handbook"
+        },
+        {
+          "id": "urn:c1:instance:dev:document-part/00000072-0000-4000-8000-000000000000",
+          "text": "The public edition reflects the reviewed source revision."
+        },
+        {
+          "id": "urn:c1:instance:dev:document-part/00000077-0000-4000-8000-000000000000",
+          "text": "Troubleshooting starts with the documented checks."
+        },
+        {
+          "id": "urn:c1:instance:dev:document-part/00000073-0000-4000-8000-000000000000",
+          "text": "Team instructions are visible to authorized team readers."
+        },
+        {
+          "id": "urn:c1:instance:dev:document-part/00000074-0000-4000-8000-000000000000",
+          "text": "def load_settings():\n    return \"synthetic\""
+        },
+        {
+          "id": "urn:c1:instance:dev:document-part/00000075-0000-4000-8000-000000000000",
+          "text": "Legal review is required before redistribution."
+        },
+        {
+          "id": "urn:c1:instance:dev:document-part/00000076-0000-4000-8000-000000000000",
+          "text": "def legal_release():\n    raise NotImplementedError"
+        }
+      ]
+    }
+  }
+}

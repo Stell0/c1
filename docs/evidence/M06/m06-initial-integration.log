@@ -1,0 +1,32 @@
+.FFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-DC-012"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m06/test_t02_no_hidden_structure.py:68: AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-DC-012"}
+E   AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+    assert 401 == 200
+     +  where 401 = <Response [401 Unauthorized]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m06/conftest.py:90: AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+E   AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+    assert 401 == 200
+     +  where 401 = <Response [401 Unauthorized]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m06/test_t04_historical_rescope.py:68: AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+E   AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+    assert 401 == 200
+     +  where 401 = <Response [401 Unauthorized]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m06/test_t05_content_integrity.py:72: AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+E   c1.authorization.fga.FGAError: authorization service rejected request
+/home/tux/personalbuild/c1/src/c1/authorization/fga.py:66: c1.authorization.fga.FGAError: authorization service rejected request
+E   AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+    assert 401 == 200
+     +  where 401 = <Response [401 Unauthorized]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m06/conftest.py:98: AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+=========================== short test summary info ============================
+FAILED tests/integration/m06/test_t02_no_hidden_structure.py::test_t02_no_hidden_structure_in_any_handbook_view
+FAILED tests/integration/m06/test_t03_search_export.py::test_t03_search_and_export_are_authorized
+FAILED tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views
+FAILED tests/integration/m06/test_t05_content_integrity.py::test_t05_part_text_digest_and_code_completeness_labels
+FAILED tests/integration/m06/test_t06_structure.py::test_t06_structure_validation_is_atomic
+FAILED tests/integration/m06/test_t07_safe_rendering.py::test_t07_adversarial_text_is_escaped_and_never_fetched
+6 failed, 1 passed in 2377.69s (0:39:37)

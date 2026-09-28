@@ -8,7 +8,7 @@ import json
 import math
 import re
 import time
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict
 from typing import TYPE_CHECKING, Any, Literal, cast
 
@@ -211,15 +211,27 @@ class QueryService:
         revision: str,
         *,
         deadline: float,
+        backend_gate: asyncio.Semaphore | None = None,
+        storage_types: Mapping[str, frozenset[str]] | None = None,
     ) -> AuthorizedRecords:
         try:
             async with asyncio.timeout_at(deadline):
-                fetched = await fetch_records(
-                    self.runtime.knowledge,
-                    self.runtime.registry,
-                    list(plan.authorized_ids),
-                    revision=revision,
-                )
+                if backend_gate is None and storage_types is None:
+                    fetched = await fetch_records(
+                        self.runtime.knowledge,
+                        self.runtime.registry,
+                        list(plan.authorized_ids),
+                        revision=revision,
+                    )
+                else:
+                    fetched = await fetch_records(
+                        self.runtime.knowledge,
+                        self.runtime.registry,
+                        list(plan.authorized_ids),
+                        revision=revision,
+                        backend_gate=backend_gate,
+                        storage_types=storage_types,
+                    )
             # A backend must never return an unrequested ID, even if its class
             # query accidentally broadens; fail rather than filter a leak.
             if not set(fetched).issubset(plan.authorized_ids):

@@ -10,7 +10,7 @@ from __future__ import annotations
 import asyncio
 import json
 import re
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from typing import Any
 
 from c1.model.ids import validate_iri
@@ -191,9 +191,18 @@ async def _get_chunk(
             raise StorageError("C1-ST-005", "stored ID does not match canonical identity")
         return record
 
-    found = await asyncio.gather(
-        *(one(backend_id, canonical_ids) for backend_id, canonical_ids in requested.items())
-    )
+    tasks = [
+        asyncio.create_task(one(backend_id, canonical_ids))
+        for backend_id, canonical_ids in requested.items()
+    ]
+    try:
+        found = await asyncio.gather(*tasks)
+    except BaseException:
+        for task in tasks:
+            if not task.done():
+                task.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
+        raise
     return {record.id: record for record in found if record is not None}
 
 
@@ -203,10 +212,13 @@ async def fetch_records(
     ids: Iterable[str],
     *,
     revision: str | None = None,
+    backend_gate: asyncio.Semaphore | None = None,
+    storage_types: Mapping[str, frozenset[str]] | None = None,
 ) -> dict[str, NodeRecord]:
     """Return existing records among preauthorized IDs at one knowledge commit.
 
-    Authorization and candidate bounds are caller responsibilities. No class
+    Authorization, candidate bounds, and complete historical type hints are
+    caller responsibilities. Unknown hints preserve all-class probes. No class
     scans or predicates are sent to TerminusDB. A GraphQL shape that loses
     literal lexical identity falls back to document GET for its entire chunk.
     """
@@ -218,13 +230,20 @@ async def fetch_records(
     if revision is None:
         revision = await storage.head()
     commit_id = _commit_id(revision)
-    await assert_installed_profiles(storage, registry)
+    if backend_gate is None:
+        await assert_installed_profiles(storage, registry)
+    else:
+        async with backend_gate:
+            await assert_installed_profiles(storage, registry)
     result: dict[str, NodeRecord] = {}
-    semaphore = asyncio.Semaphore(FALLBACK_CONCURRENCY)
+    semaphore = backend_gate or asyncio.Semaphore(FALLBACK_CONCURRENCY)
     chunks: list[tuple[ClassDefinition, dict[str, set[str]]]] = []
     for definition in registry.classes.values():
         class_ids: dict[str, set[str]] = {}
         for canonical_id in requested_ids:
+            hint = storage_types.get(canonical_id) if storage_types is not None else None
+            if hint and hint <= registry.classes.keys() and definition.iri not in hint:
+                continue
             candidate = NodeRecord(id=canonical_id, types=[definition.iri], properties={})
             try:
                 backend_id = storage_id(candidate, definition, storage.config.instance_base)
@@ -246,7 +265,15 @@ async def fetch_records(
 
     # The same semaphore bounds all network reads, including fallback GETs.
     # Gather preserves chunk order so collision checking remains deterministic.
-    fetched_chunks = await asyncio.gather(*(one(definition, chunk) for definition, chunk in chunks))
+    tasks = [asyncio.create_task(one(definition, chunk)) for definition, chunk in chunks]
+    try:
+        fetched_chunks = await asyncio.gather(*tasks)
+    except BaseException:
+        for task in tasks:
+            if not task.done():
+                task.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
+        raise
     for found in fetched_chunks:
         for canonical_id, record in found.items():
             if canonical_id in result:

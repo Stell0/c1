@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import os
-from typing import Any
+from typing import Any, cast
 
 import pytest
 
@@ -45,6 +45,14 @@ async def _reviewed(
 def test_t04_identity_merge_and_undo_keep_current_binding() -> None:
     async def run() -> None:
         async with live_case() as case:
+
+            async def fresh_user_token(name: str) -> str:
+                return (await case.token_source.user(name)).access
+
+            # This real-service workflow exceeds the five-minute token lifetime.
+            # Refresh tokens for the same principal rather than extending auth
+            # lifetime or changing authorization behavior.
+            cast(Any, case).token = fresh_user_token
             scope = await seeded_scope(case, "M05-T04 identity")
             for name in ("erin", "frank"):
                 principal = await case.principal(name)

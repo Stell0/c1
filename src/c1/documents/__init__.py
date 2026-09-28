@@ -1,0 +1,1 @@
+"""Authorized, deterministic document projections."""

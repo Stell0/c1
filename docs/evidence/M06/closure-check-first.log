@@ -1,0 +1,9 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+270 files already formatted
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 483 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+PLAN.md:1: M06 VERIFIED requires a VERIFIED report
+make: *** [Makefile:28: baseline] Error 1

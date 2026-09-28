@@ -1,0 +1,27 @@
+.................................................................FFAILED tests/integration/m05/test_t04_identity_m05.py::test_t04_identity_merge_and_undo_keep_current_binding [call]
+E   AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+    assert 401 == 200
+     +  where 401 = <Response [401 Unauthorized]>.status_code
+...... [100%]
+=================================== FAILURES ===================================
+E   AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+    assert 401 == 200
+     +  where 401 = <Response [401 Unauthorized]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m04/conftest.py:159: AssertionError: {"type":"about:blank#authentication","title":"Unauthorized","status":401,"detail":"Authentication required"}
+=============================== warnings summary ===============================
+tests/integration/m01/test_t07_interchange.py: 3 warnings
+tests/integration/m02/test_install_guards.py: 1 warning
+tests/integration/m02/test_t01_roundtrip.py: 2 warnings
+tests/integration/m02/test_t02_conflicts.py: 1 warning
+tests/integration/m02/test_t03_no_partial.py: 1 warning
+tests/integration/m02/test_t04_identity.py: 2 warnings
+tests/integration/m02/test_t07_extension.py: 2 warnings
+tests/integration/m03/test_journal_contract.py: 1 warning
+tests/integration/m05/test_backend_fetch.py: 1 warning
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/integration/m05/test_t04_identity_m05.py::test_t04_identity_merge_and_undo_keep_current_binding
+1 failed, 71 passed, 14 warnings in 6659.63s (1:50:59)

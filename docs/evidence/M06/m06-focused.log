@@ -1,0 +1,9 @@
+..FFAILED tests/integration/m06/test_t06_structure.py::test_t06_structure_validation_is_atomic [call]
+E   AssertionError: assert 'C1-CS-010' in set()
+                                                                      [100%]
+=================================== FAILURES ===================================
+E   AssertionError: assert 'C1-CS-010' in set()
+/home/tux/personalbuild/c1/tests/integration/m06/test_t06_structure.py:115: AssertionError: assert 'C1-CS-010' in set()
+=========================== short test summary info ============================
+FAILED tests/integration/m06/test_t06_structure.py::test_t06_structure_validation_is_atomic
+1 failed, 2 passed in 1301.93s (0:21:41)

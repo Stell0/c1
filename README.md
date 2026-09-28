@@ -148,6 +148,31 @@ The loader uses local development credentials and authenticated C1 APIs. Its
 service principal authors the knowledge ChangeSet; a separate reviewer approves
 it. Use a fresh local stack for a fresh fixture load.
 
+## Scoped documents (M06)
+
+Authenticated clients can list and search `/v1/documents`, inspect a document
+and its ordered `/parts`, and request `/render`, `/export`, or `/history`.
+Use `/v1/documents/by-id?document_id=` for detail lookup of arbitrary canonical
+IRIs, including IDs that end in an operation suffix.
+Reconstruction includes only currently readable parts, including for historical
+revisions. Text preserves supplied Unicode code points and whitespace; each
+returned part includes its UTF-8 SHA-256 digest. Markdown rendering neutralizes
+links and HTML, and labels source-code excerpts explicitly.
+
+The [M06 plan](docs/milestones/M06.md) defines the flat part model, ordering,
+evidence selectors, and limits. The [API notes](docs/milestones/M06-api.md)
+describe request and response contracts. To run the synthetic demonstration:
+
+```sh
+make stack-up
+uv run --locked python scripts/load_fixture.py --fixture scoped-document --database c1_m03_dev_knowledge
+uv run --locked python scripts/demo_m06.py
+make stack-down
+```
+
+Use a fresh local stack for a fresh fixture load. The loader uses the ordinary
+authenticated ChangeSet path with separate author and reviewer credentials.
+
 ## Milestone status
 
 See [PLAN.md](PLAN.md) for scope and status. Roadmap entries describe future acceptance contracts; they do not imply that the corresponding product features exist or have passed verification. Each milestone has its own plan and evidence report.

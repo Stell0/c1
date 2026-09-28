@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M05 VERIFIED. Later milestones remain unimplemented.
+**Status:** M00–M05 VERIFIED. M06 is in verification; later milestones remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -74,7 +74,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M03 | Identity and current resource authorization | M02 | Fail-closed principals, scopes, bindings, and controlled security operations | VERIFIED |
 | M04 | Reviewed knowledge writes and history | M03 | Atomic, retry-safe ChangeSets and policy-safe historical reads | VERIFIED |
 | M05 | Shared identity and deterministic query API | M04 | Keyword/structured retrieval and a permission-correct multi-company directory | VERIFIED |
-| M06 | Scoped documents and reconstruction | M05 | Ordered text retrieval with mixed visibility and preserved evidence | PLANNED |
+| M06 | Scoped documents and reconstruction | M05 | Ordered text retrieval with mixed visibility and preserved evidence | VERIFIED |
 | M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | PLANNED |
 | M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | NOT_PLANNED |
 | M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | NOT_PLANNED |
@@ -525,4 +525,4 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S4 — Current planning instruction.** Produce AGENTS.md and PLAN.md; divide work into milestones with verifiable outputs and specific tests, and plan each milestone separately. This is the authority for the execution policy and delivery structure in this file.
 
-No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00 and M01 are now VERIFIED as recorded in their milestone reports. M01 has pinned-stack transaction, freshness, publication-recovery and interchange evidence. M02 is now VERIFIED: its report records the canonical model, standards profile, real backend round-trips and regressions. The next bounded action is owner selection of **M03** after revalidating its provisional plan against the M02 report; no later milestone is automatically authorized.
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M06 are now VERIFIED as recorded in their milestone reports. The owner has authorized implementation of the remaining planned milestone, M07, after revalidating its provisional plan against the M06 report. M08–M13 remain NOT_PLANNED.

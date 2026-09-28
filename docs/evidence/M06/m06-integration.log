@@ -1,0 +1,13 @@
+...FFF.                                                                  [100%]
+=================================== FAILURES ===================================
+E   AssertionError: M06 fixture ChangeSet state=rejected; diagnostics=['C1-CS-030']
+/home/tux/personalbuild/c1/tests/integration/m06/conftest.py:92: AssertionError: M06 fixture ChangeSet state=rejected; diagnostics=['C1-CS-030']
+E   AttributeError: 'Terminus' object has no attribute '_storage'
+/home/tux/personalbuild/c1/tests/integration/m06/conftest.py:35: AttributeError: 'Terminus' object has no attribute '_storage'
+E   AttributeError: 'Terminus' object has no attribute '_storage'
+/home/tux/personalbuild/c1/tests/integration/m06/conftest.py:35: AttributeError: 'Terminus' object has no attribute '_storage'
+=========================== short test summary info ============================
+FAILED tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views
+FAILED tests/integration/m06/test_t05_content_integrity.py::test_t05_part_text_digest_and_code_completeness_labels
+FAILED tests/integration/m06/test_t06_structure.py::test_t06_structure_validation_is_atomic
+3 failed, 4 passed in 2763.74s (0:46:03)

@@ -20,8 +20,22 @@ class _StrictModel(BaseModel):
 class CreateOperation(_StrictModel):
     kind: Literal["create"] = "create"
     record: dict[str, Any]
-    scope_id: str = Field(min_length=1)
+    scope_id: str | None = Field(default=None, min_length=1)
     inherited_from: str | None = None
+
+    @model_validator(mode="after")
+    def _scope_or_document_default(self) -> Self:
+        is_part = "urn:c1:ns:core#DocumentPart" in self.record.get("types", [])
+        if self.scope_id is None and (not is_part or self.inherited_from is not None):
+            raise ValueError("scope_id is required except for a DocumentPart default binding")
+        if is_part and self.inherited_from is not None:
+            properties = self.record.get("properties", {})
+            if not isinstance(properties, dict):
+                raise ValueError("DocumentPart properties must be an object")
+            values = properties.get("urn:c1:ns:core#partOfDocument")
+            if values != [self.inherited_from]:
+                raise ValueError("DocumentPart inheritance must target its document")
+        return self
 
 
 class ReplaceOperation(_StrictModel):

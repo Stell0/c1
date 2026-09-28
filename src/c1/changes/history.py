@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import json
 import math
@@ -16,12 +17,14 @@ from c1.changes.digest import canonical_json
 from c1.model.ids import validate_iri
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
+from c1.query.plan import AuthorizedPlan
 from c1.storage.mapping import storage_id
 from c1.storage.terminus import BackendError, StorageError, Terminus
 
 _REVISION = re.compile(r"branch:[A-Za-z0-9_-]+\Z")
 _COMMIT = re.compile(r"[A-Za-z0-9_-]+\Z")
 _MAX_LIMIT = 100
+_HISTORY_CONCURRENCY = 8
 
 
 class InvalidHistoryCursor(ValueError):
@@ -120,10 +123,21 @@ class HistoryService:
         self.journal = journal
         self.registry = registry
 
-    def _document_ids(self, resource_id: str) -> list[str]:
+    def _document_ids(
+        self, resource_id: str, storage_types: frozenset[str] | None = None
+    ) -> list[str]:
         validate_iri(resource_id)
         ids: list[str] = []
+        # Only trusted, complete type hints may narrow probes. An empty or
+        # unknown hint preserves the default coverage of every declared class.
+        known_types = (
+            storage_types
+            if storage_types and storage_types <= self.registry.classes.keys()
+            else None
+        )
         for definition in self.registry.classes.values():
+            if known_types is not None and definition.iri not in known_types:
+                continue
             candidate = NodeRecord(id=resource_id, types=[definition.iri], properties={})
             try:
                 identifier = storage_id(candidate, definition, self.knowledge.config.instance_base)
@@ -186,11 +200,15 @@ class HistoryService:
         *,
         limit: int = 25,
         cursor: str | None = None,
+        storage_types: frozenset[str] | None = None,
+        backend_gate: asyncio.Semaphore | None = None,
     ) -> dict[str, Any] | None:
         """Return a page or ``None`` when current authority does not permit it.
 
         A cursor fixes the knowledge head and offset, but never confers access.
         Authorization runs before selection and again before data is returned.
+        Internal type hints narrow only storage probes; backend entries remain
+        authoritative. A shared gate bounds probes across multiple resources.
         """
         before = await self.journal.head()
         if not (await self.plane.check_read(principal, resource_id)).allowed:
@@ -198,6 +216,62 @@ class HistoryService:
         if type(limit) is not int or not 1 <= limit <= _MAX_LIMIT:
             raise ValueError("history limit must be between 1 and 100")
         head = await self.knowledge.head()
+        result = await self._fetch_metadata(
+            resource_id,
+            head,
+            limit=limit,
+            cursor=cursor,
+            storage_types=storage_types,
+            backend_gate=backend_gate,
+        )
+        if not (await self.plane.check_read(principal, resource_id)).allowed:
+            return None
+        if before != await self.journal.head() or head != await self.knowledge.head():
+            return None
+        return result
+
+    async def metadata(
+        self,
+        plan: AuthorizedPlan,
+        resource_id: str,
+        revision: str,
+        *,
+        limit: int = 100,
+        cursor: str | None = None,
+        storage_types: frozenset[str] | None = None,
+        backend_gate: asyncio.Semaphore | None = None,
+    ) -> dict[str, Any] | None:
+        """Internal metadata retrieval within a fresh authorized selection.
+
+        The caller must finalize this request's plan and verify the knowledge
+        head before publishing these results. The plan is never a cursor grant.
+        """
+        if not plan.contains(resource_id):
+            return None
+        return await self._fetch_metadata(
+            resource_id,
+            revision,
+            limit=limit,
+            cursor=cursor,
+            storage_types=storage_types,
+            backend_gate=backend_gate,
+        )
+
+    async def _fetch_metadata(
+        self,
+        resource_id: str,
+        revision: str,
+        *,
+        limit: int,
+        cursor: str | None,
+        storage_types: frozenset[str] | None,
+        backend_gate: asyncio.Semaphore | None,
+    ) -> dict[str, Any]:
+        if type(limit) is not int or not 1 <= limit <= _MAX_LIMIT:
+            raise ValueError("history limit must be between 1 and 100")
+        if not _REVISION.fullmatch(revision):
+            raise InvalidHistoryCursor("invalid history revision")
+        head = revision
         if cursor is None:
             offset = 0
         else:
@@ -205,16 +279,38 @@ class HistoryService:
             if revision != head:
                 raise StaleHistoryCursor("history cursor knowledge revision is stale")
         raw_entries: list[dict[str, Any]] = []
-        document_ids = self._document_ids(resource_id)
+        document_ids = self._document_ids(resource_id, storage_types)
         nonempty_histories = 0
-        for document_id in document_ids:
+
+        async def fetch_history(document_id: str) -> list[dict[str, Any]]:
             try:
-                document_history = await self.knowledge.history(document_id)
-                nonempty_histories += bool(document_history)
-                raw_entries.extend(document_history)
+                if backend_gate is None:
+                    return await self.knowledge.history(document_id)
+                async with backend_gate:
+                    return await self.knowledge.history(document_id)
             except BackendError as exc:
                 if exc.status_code != 404:
                     raise
+                return []
+
+        # A stable resource can have occupied more than one storage class.
+        # Preserve that coverage without serializing every independent probe.
+        for batch_start in range(0, len(document_ids), _HISTORY_CONCURRENCY):
+            tasks = [
+                asyncio.create_task(fetch_history(item))
+                for item in document_ids[batch_start : batch_start + _HISTORY_CONCURRENCY]
+            ]
+            try:
+                histories = await asyncio.gather(*tasks)
+            except BaseException:
+                for task in tasks:
+                    if not task.done():
+                        task.cancel()
+                await asyncio.gather(*tasks, return_exceptions=True)
+                raise
+            nonempty_histories += sum(bool(rows) for rows in histories)
+            for rows in histories:
+                raw_entries.extend(rows)
         entries = [_history_entry(entry) for entry in raw_entries]
         # The same stable identity may have appeared under more than one class.
         # Sort and deduplicate by commit, preserving a deterministic page order.
@@ -226,10 +322,6 @@ class HistoryService:
             ordered.sort(key=lambda entry: entry["recorded_at"], reverse=True)
         page = ordered[offset : offset + limit]
         next_offset = offset + len(page)
-        if not (await self.plane.check_read(principal, resource_id)).allowed:
-            return None
-        if before != await self.journal.head() or head != await self.knowledge.head():
-            return None
         return {
             "resource_id": resource_id,
             "revision": head,

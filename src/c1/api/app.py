@@ -14,7 +14,7 @@ from starlette.requests import ClientDisconnect
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from c1.api.problems import http_problem, problem, profile_problem, validation_problem
-from c1.api.routes import changesets, history, probe, query, resources, security, system
+from c1.api.routes import changesets, documents, history, probe, query, resources, security, system
 from c1.authorization.errors import SecurityError
 from c1.authorization.fga import FGAError
 from c1.authorization.tokens import AuthenticationError
@@ -78,6 +78,18 @@ def _query_allowed(request: Request) -> set[str]:
         return {"revision", "limit", "cursor"}
     if request.method == "GET" and path == "/v1/export":
         return {"revision", "types", "limit", "cursor"}
+    if request.method == "GET" and path == "/v1/documents":
+        return {"revision", "title", "text_contains", "kind", "limit", "cursor"}
+    if request.method == "GET" and path == "/v1/documents/by-id":
+        return {"document_id", "revision"}
+    if request.method == "GET" and path.startswith("/v1/documents/"):
+        if path.endswith("/parts"):
+            return {"revision", "text_contains", "limit", "cursor"}
+        if path.endswith("/render") or path.endswith("/export"):
+            return {"revision", "format"}
+        if path.endswith("/history"):
+            return {"limit", "cursor"}
+        return {"revision"}
     if request.method == "GET" and path.startswith("/v1/entities/"):
         if path.endswith("/neighborhood"):
             return {"direction", "predicates", "depth", "limit", "cursor", "revision"}
@@ -119,15 +131,21 @@ def _query_problem(request: Request, *, body: object = None) -> JSONResponse:
 
 def _is_query_route(request: Request) -> bool:
     path = request.url.path
-    return path in {
-        "/v1/catalog",
-        "/v1/entities",
-        "/v1/entities/search",
-        "/v1/assertions",
-        "/v1/sources",
-        "/v1/evidence",
-        "/v1/export",
-    } or path.startswith("/v1/entities/")
+    return (
+        path
+        in {
+            "/v1/catalog",
+            "/v1/entities",
+            "/v1/entities/search",
+            "/v1/assertions",
+            "/v1/sources",
+            "/v1/evidence",
+            "/v1/export",
+        }
+        or path.startswith("/v1/entities/")
+        or path == "/v1/documents"
+        or path.startswith("/v1/documents/")
+    )
 
 
 def _emit(
@@ -430,6 +448,7 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
     app.include_router(resources.router)
     app.include_router(history.router)
     app.include_router(query.router)
+    app.include_router(documents.router)
     if settings.enable_probe_routes:
         app.include_router(probe.router)
     return app
