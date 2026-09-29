@@ -23,6 +23,7 @@ from c1.api.routes import (
     query,
     resources,
     security,
+    software,
     system,
 )
 from c1.authorization.errors import SecurityError
@@ -467,6 +468,7 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
     app.include_router(query.router)
     app.include_router(documents.router)
     app.include_router(context.router)
+    app.include_router(software.router)
     if settings.enable_probe_routes:
         app.include_router(probe.router)
     return app

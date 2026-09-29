@@ -33,6 +33,9 @@ CLIENT_SECRETS = {
     "c1-shortlived": "C1_SHORTLIVED_SECRET",
     "c1-svc-papertrader": "C1_SVC_PAPERTRADER_SECRET",
     "c1-svc-robotelier": "C1_SVC_ROBOTELIER_SECRET",
+    "c1-svc-indexer": "C1_SVC_INDEXER_SECRET",
+    "c1-svc-analyzer": "C1_SVC_ANALYZER_SECRET",
+    "c1-svc-ci": "C1_SVC_CI_SECRET",
 }
 BASE_SECRETS = (
     "C1_TERMINUS_PASSWORD",

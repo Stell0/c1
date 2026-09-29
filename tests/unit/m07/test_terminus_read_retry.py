@@ -232,3 +232,44 @@ def test_caller_deadline_and_cancellation_drain_first_or_second_attempt(
         assert calls == (2 if second else 1)
 
     asyncio.run(run())
+
+
+def test_read_only_graphql_query_retries_once_but_mutations_never(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """M08 refinement of D21: a GraphQL query POST is a read and may retry once."""
+
+    async def run() -> None:
+        requests: list[httpx.Request] = []
+
+        async def handler(request: httpx.Request) -> httpx.Response:
+            requests.append(request)
+            if len(requests) == 1:
+                raise httpx.RemoteProtocolError("disconnected", request=request)
+            return httpx.Response(200, json={"data": {}})
+
+        async with client(monkeypatch, handler) as terminus:
+            response = await terminus._request(
+                "POST", "/api/graphql/admin/c1_m08", json={"query": "query { Entity { _id } }"}
+            )
+            assert response.json() == {"data": {}}
+        assert len(requests) == 2 and requests[0].content == requests[1].content
+
+        writes: list[httpx.Request] = []
+
+        async def refuse(request: httpx.Request) -> httpx.Response:
+            writes.append(request)
+            raise httpx.RemoteProtocolError("uncertain", request=request)
+
+        for body in (
+            {"query": "mutation { x }"},
+            {"query": "query { x }", "variables": {}},
+            {"query": "{ x }"},
+        ):
+            writes.clear()
+            async with client(monkeypatch, refuse) as terminus:
+                with pytest.raises(httpx.RemoteProtocolError):
+                    await terminus._request("POST", "/api/graphql/admin/c1_m08", json=body)
+            assert len(writes) == 1
+
+    asyncio.run(run())

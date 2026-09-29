@@ -1,0 +1,29 @@
+{"correlation_id": "61d1d4f3-49d4-4ddd-8e9e-4e7554f81082", "operation": "software_target_resolve", "outcome": "unavailable", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "time_budget", "target": ""}
+Traceback (most recent call last):
+  File [35m"/home/tux/personalbuild/c1/scripts/demo_m08.py"[0m, line [35m97[0m, in [35m<module>[0m
+    [31mmain[0m[1;31m()[0m
+    [31m~~~~[0m[1;31m^^[0m
+  File [35m"/home/tux/personalbuild/c1/scripts/demo_m08.py"[0m, line [35m93[0m, in [35mmain[0m
+    print(json.dumps([31masyncio.run[0m[1;31m(demonstrate())[0m, indent=2, default=list))
+                     [31m~~~~~~~~~~~[0m[1;31m^^^^^^^^^^^^^^^[0m
+  File [35m"/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py"[0m, line [35m196[0m, in [35mrun[0m
+    return [31mrunner.run[0m[1;31m(main)[0m
+           [31m~~~~~~~~~~[0m[1;31m^^^^^^[0m
+  File [35m"/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py"[0m, line [35m119[0m, in [35mrun[0m
+    return [31mself._loop.run_until_complete[0m[1;31m(task)[0m
+           [31m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m[1;31m^^^^^^[0m
+  File [35m"/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py"[0m, line [35m725[0m, in [35mrun_until_complete[0m
+    return [31mfuture.result[0m[1;31m()[0m
+           [31m~~~~~~~~~~~~~[0m[1;31m^^[0m
+  File [35m"/home/tux/personalbuild/c1/scripts/demo_m08.py"[0m, line [35m44[0m, in [35mdemonstrate[0m
+    resolved = [1;31mawait loader.request([0m
+               [1;31m^^^^^^^^^^^^^^^^^^^^^[0m
+        [1;31m"POST", "/v1/software/targets/resolve", actor="reviewer", json_body=target[0m
+        [1;31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+    [1;31m)[0m
+    [1;31m^[0m
+  File [35m"/home/tux/personalbuild/c1/scripts/load_fixture.py"[0m, line [35m141[0m, in [35mrequest[0m
+    raise RuntimeError(
+        f"C1 {method} {path} returned {response.status_code}: {response.text[:500]}"
+    )
+[1;35mRuntimeError[0m: [35mC1 POST /v1/software/targets/resolve returned 503: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-SW-007"}[0m

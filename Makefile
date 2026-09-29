@@ -53,6 +53,7 @@ integration:
 	$(UV) run --locked pytest -s -m integration tests/integration -p no:cacheprovider --junitxml docs/evidence/M03/junit.xml
 profile:
 	$(UV) run --locked python scripts/build_profile.py --check
+	$(UV) run --locked python scripts/build_software_profile.py --check
 
 .PHONY: api-up api-down
 api-up:

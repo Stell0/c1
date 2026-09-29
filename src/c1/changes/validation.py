@@ -75,6 +75,24 @@ _REFERENCE_PROPERTIES = frozenset(
     }
 )
 
+
+def reference_classes(predicate: str, registry: ProfileRegistry) -> frozenset[str] | None:
+    """Return the required target classes of a reference field, or None if not a reference.
+
+    Core structural links are listed explicitly. A profile field whose declared
+    ranges are all registered classes is also a reference, and its target must
+    carry one of those classes. An empty set means any readable resource.
+    """
+    if predicate in _REFERENCE_PROPERTIES:
+        return frozenset()
+    definition = registry.predicates.get(predicate)
+    if definition is None or not definition.ranges:
+        return None
+    if all(item in registry.classes for item in definition.ranges):
+        return frozenset(definition.ranges)
+    return None
+
+
 ReferenceResolver = Callable[[str, str], Awaitable[NodeRecord | None]]
 PermissionPreviewer = Callable[[ChangeOperation], Awaitable[Decision]]
 RestoreResolver = Callable[[str, str], Awaitable[NodeRecord | None]]
@@ -309,12 +327,22 @@ async def validate_changeset(
                 )
 
         for predicate, values in record.properties.items():
-            if predicate not in _REFERENCE_PROPERTIES:
+            required_classes = reference_classes(predicate, registry)
+            if required_classes is None:
                 continue
             for position, identifier in enumerate(values):
                 if not isinstance(identifier, str):
                     continue
                 if identifier in staged:
+                    if required_classes and not required_classes & set(staged[identifier].types):
+                        diagnostics.append(
+                            _diagnostic(
+                                "C1-CS-013",
+                                "error",
+                                f"{path}/properties/{predicate}/{position}",
+                                "Reference target has an undeclared class",
+                            )
+                        )
                     continue
                 if identifier not in visible_references:
                     try:
@@ -331,6 +359,15 @@ async def validate_changeset(
                             "error",
                             f"{path}/properties/{predicate}/{position}",
                             "Unresolved reference",
+                        )
+                    )
+                elif required_classes and not required_classes & set(found.types):
+                    diagnostics.append(
+                        _diagnostic(
+                            "C1-CS-013",
+                            "error",
+                            f"{path}/properties/{predicate}/{position}",
+                            "Reference target has an undeclared class",
                         )
                     )
 

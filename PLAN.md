@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M07 VERIFIED. M08–M18 remain unimplemented.
+**Status:** M00–M08 VERIFIED. M09–M18 remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -78,7 +78,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M05 | Shared identity and deterministic query API | M04 | Keyword/structured retrieval and a permission-correct multi-company directory | VERIFIED |
 | M06 | Scoped documents and reconstruction | M05 | Ordered text retrieval with mixed visibility and preserved evidence | VERIFIED |
 | M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | VERIFIED |
-| M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | PLANNED |
+| M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | VERIFIED |
 | M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | PLANNED |
 | M10 | Documentation-first support context | M09 | Two-stage support retrieval with a stable software target and controlled fallback | NOT_PLANNED |
 | M11 | Cross-software documentation-update context | M10 | Applicable, source-grounded context and reviewable documentation revisions | NOT_PLANNED |
@@ -319,6 +319,8 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 **Current execution status (2026-09-29):** M07 is `VERIFIED` at implementation revision `ed54568313a911a6c3596d8e527d57e4f40f6784`. All M07 gate checks pass on the final 351-input source: the full 79-case live gate (79 passed, exact expected identities), `make check` (810 passed, 79 skipped), the fixture CLI on an isolated install, the M01 probe (12 passed), and the no-AI context demo. The pass followed per-test TerminusDB `_system` compaction in the test harness and the owner-approved D22 deadline change (request budget 5,000 ms default, configurable to 30,000 ms; backend client timeouts 5 s). Earlier failed attempts remain recorded in the [M07 report](docs/milestones/M07-report.md). This status note does not change the M07 acceptance contract.
 
 ## M08 — Software profile and source-version ingestion
+
+**Current execution status (2026-09-29):** M08 is `VERIFIED`; see the [M08 report](docs/milestones/M08-report.md). The 86-case live gate (M01–M07 regressions plus M08-T01–T07), `make check`, the M01 probe and the no-AI producer demonstration passed on the 421-input source. This status note does not change the M08 acceptance contract.
 
 **Goal:** represent code and documentation from multiple software products without conflating their versions or promising an all-language analyzer.
 
@@ -664,4 +666,4 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S4 — Current planning instruction.** Produce AGENTS.md and PLAN.md; divide work into milestones with verifiable outputs and specific tests, and plan each milestone separately. This is the authority for the execution policy and delivery structure in this file.
 
-No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M07 are now VERIFIED as recorded in their milestone reports; the owner authorized M07 implementation after revalidating its provisional plan against the M06 report. M08–M14 remain NOT_PLANNED. M15–M18 are additional NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M08 are now VERIFIED as recorded in their milestone reports; the owner authorized M07 implementation after revalidating its provisional plan against the M06 report. M08–M14 remain NOT_PLANNED. M15–M18 are additional NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.

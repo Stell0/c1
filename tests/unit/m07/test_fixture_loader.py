@@ -73,7 +73,13 @@ class RecordingLoader(Loader):
         raise AssertionError((method, path, actor))
 
     async def apply_changeset(
-        self, operations: list[dict[str, Any]], *, author: str, reviewer: str, base: str
+        self,
+        operations: list[dict[str, Any]],
+        *,
+        author: str,
+        reviewer: str,
+        base: str,
+        idempotency_key: str | None = None,
     ) -> dict[str, Any]:
         assert base == self.head
         self.applied.append((operations, base))

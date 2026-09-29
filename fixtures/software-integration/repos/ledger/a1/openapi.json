@@ -1,0 +1,44 @@
+{
+  "openapi": "3.1.1",
+  "info": {"title": "Ledger API", "version": "1.0.0"},
+  "paths": {
+    "/invoices": {
+      "post": {
+        "operationId": "createInvoice",
+        "x-c1-handler": "ledger.api.create_invoice",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customer", "amount"],
+                "properties": {
+                  "customer": {"type": "string"},
+                  "amount": {"type": "integer", "exclusiveMinimum": 0}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {"description": "Invoice created"},
+          "422": {"description": "Amount is not greater than zero"}
+        }
+      }
+    },
+    "/invoices/{invoiceId}": {
+      "get": {
+        "operationId": "getInvoice",
+        "x-c1-handler": "ledger.api.get_invoice",
+        "parameters": [
+          {"name": "invoiceId", "in": "path", "required": true, "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {"description": "Invoice"},
+          "404": {"description": "Unknown invoice"}
+        }
+      }
+    }
+  }
+}

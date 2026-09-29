@@ -1,0 +1,8 @@
+{
+  "name": "c1-software-integration-scip-tools",
+  "private": true,
+  "description": "Pinned external SCIP indexer for one-time fixture generation (never used by tests)",
+  "devDependencies": {
+    "@sourcegraph/scip-python": "0.6.6"
+  }
+}

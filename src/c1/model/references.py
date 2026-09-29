@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
 from c1.model.records import C1
 
@@ -37,3 +38,26 @@ def is_independent_reference(predicate: str, registry: ProfileRegistry) -> bool:
         return True
     definition = registry.predicates.get(predicate)
     return definition is not None and any(kind in registry.classes for kind in definition.ranges)
+
+
+def required_class_references(node: NodeRecord, registry: ProfileRegistry) -> list[str]:
+    """IRIs a record cannot be shown without: its required class-ranged fields.
+
+    A profile record such as an occurrence is meaningless, and could mislead,
+    if its required snapshot or symbol is hidden. Such a record is withheld
+    entirely rather than returned with the reference removed.
+    """
+    required: list[str] = []
+    for kind in node.types:
+        definition = registry.classes.get(kind)
+        if definition is None:
+            continue
+        for predicate, prop in definition.properties.items():
+            if prop.min_count < 1 or not prop.ranges:
+                continue
+            if not all(item in registry.classes for item in prop.ranges):
+                continue
+            required.extend(
+                value for value in node.properties.get(predicate, ()) if isinstance(value, str)
+            )
+    return required

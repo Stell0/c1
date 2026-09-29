@@ -1,0 +1,6 @@
+{
+  "@id": "urn:c1:context:software:1.0.0",
+  "@context": {
+    "software": "urn:c1:ns:software#"
+  }
+}

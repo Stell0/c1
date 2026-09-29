@@ -1,0 +1,39 @@
+{
+  "command": "scip-python index --project-name <repo> --project-version <snapshot> --environment <empty> ; scip print --json",
+  "generator": "fixtures/software-integration/tools/generate_scip.sh",
+  "normalization": "metadata.project_root replaced by file:///fixture/<repo>; documents sorted by relative_path; JSON pretty-printed with sorted keys",
+  "snapshots": {
+    "a1": {
+      "index_sha256": "c7758629ba20eac078ead0a8f5e92964cb9c565d6979e7df3afce6e0e6f04d57",
+      "repository": "ledger",
+      "source_tree_sha256": "8ea5053be74d426957739fdd57af57226517704f00745f724ef2053d98272684"
+    },
+    "a2": {
+      "index_sha256": "109d04e1b38be13824f635a80b9126cdc1a2b9707556cdbc2f2397c57079ee88",
+      "repository": "ledger",
+      "source_tree_sha256": "05834f85360cb6e1a0748b6d46957a9dd8f3a96768beec76c1b02fda52bc930c"
+    },
+    "b1": {
+      "index_sha256": "e3321066cab097ce331e01cd53667c62c595a503ef793e6043fab6088bbf3414",
+      "repository": "shop",
+      "source_tree_sha256": "d46e43aef0541b0e6526a245ee0cf60680883581f1fca7f4722deec802f64f6b"
+    },
+    "b2": {
+      "index_sha256": "17ae03878efbddb49a59c316192f67b18f51ac6a20565dc897cbc7a595640d69",
+      "repository": "shop",
+      "source_tree_sha256": "54d804f704d138d3b2fcc36bea167600814245994316934bf7acc21de19d82bd"
+    }
+  },
+  "tools": {
+    "scip": {
+      "license": "Apache-2.0",
+      "release_sha256": "eeb28ebbff443c01609fb1691809958f3f0c7a8651af689a5bc8560061cd8ab0",
+      "version": "v0.10.0"
+    },
+    "scip-python": {
+      "license": "MIT",
+      "lockfile_sha256": "dc4ee060c8492137301948f8f0cbb3da65986508dec2d6c6cc2a1b5fa9bb08cb",
+      "version": "0.6.6"
+    }
+  }
+}

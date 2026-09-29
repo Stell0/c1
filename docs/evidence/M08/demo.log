@@ -1,0 +1,199 @@
+{"correlation_id": "e53fc329-39b8-457d-b6da-77eabdcbf62d", "operation": "software_target_resolve", "outcome": "allowed", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "", "target": ""}
+{"correlation_id": "58c940a3-b1a4-4a6c-91c4-b57c80f9050a", "operation": "software_lookup", "outcome": "allowed", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "", "target": ""}
+{"correlation_id": "c97e08bf-3c7b-4102-b4c5-48ca168e4f99", "operation": "software_lookup", "outcome": "allowed", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "", "target": ""}
+{"correlation_id": "241a8791-3156-4a8b-af59-2c189b0e3900", "operation": "software_lookup", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{
+  "target": {
+    "snapshots": [
+      {
+        "id": "urn:c1:instance:dev:entity/38b38bf8-78f0-48a0-87ab-0153a0b022de",
+        "repository": "urn:c1:instance:dev:entity/4f0597b2-f97f-46e9-b3fb-629435a13a92",
+        "commit": "4c4c16d1fd9af5ea81f81569372f253e806aae05",
+        "label": "ledger a1"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/4574dd56-84f6-49bb-ac04-1654b6f0e566",
+        "repository": "urn:c1:instance:dev:entity/83af763a-5dc2-474d-bbc0-dfdbb83c44cf",
+        "commit": "eecb5405c0b50362a41372c684e08a68278b58c1",
+        "label": "shop b1"
+      }
+    ],
+    "contracts": [],
+    "configurations": []
+  },
+  "definitions": [
+    {
+      "symbol": "ledger.api.create_invoice",
+      "roles": [
+        "definition"
+      ],
+      "path": "ledger/api.py",
+      "commit": "4c4c16d1fd9a",
+      "line": 15,
+      "completeness": "complete-unit"
+    },
+    {
+      "symbol": "shop.client.submit_order",
+      "roles": [
+        "definition"
+      ],
+      "path": "shop/client.py",
+      "commit": "eecb5405c0b5",
+      "line": 12,
+      "completeness": "complete-unit"
+    }
+  ],
+  "relationships": [
+    [
+      "declaredCall",
+      "declared",
+      "imported"
+    ],
+    [
+      "definedAt",
+      "structural",
+      "imported"
+    ],
+    [
+      "definedAt",
+      "structural",
+      "imported"
+    ],
+    [
+      "definedAt",
+      "structural",
+      "imported"
+    ],
+    [
+      "exercised",
+      "observed",
+      "imported"
+    ],
+    [
+      "implementsCapability",
+      "interpretive",
+      "derived"
+    ],
+    [
+      "implementsCapability",
+      "interpretive",
+      "derived"
+    ],
+    [
+      "implementsOperation",
+      "declared",
+      "imported"
+    ],
+    [
+      "interpretedCall",
+      "interpretive",
+      "derived"
+    ],
+    [
+      "staticCall",
+      "static-extraction",
+      "imported"
+    ],
+    [
+      "staticCall",
+      "static-extraction",
+      "imported"
+    ],
+    [
+      "staticCall",
+      "static-extraction",
+      "imported"
+    ],
+    [
+      "verifies",
+      "declared",
+      "imported"
+    ],
+    [
+      "verifies",
+      "declared",
+      "imported"
+    ],
+    [
+      "verifies",
+      "declared",
+      "imported"
+    ],
+    [
+      "verifies",
+      "declared",
+      "imported"
+    ]
+  ],
+  "coverage_b1": {
+    "carol": [
+      [
+        "ast-calls",
+        "complete",
+        [
+          "shop/client.py"
+        ]
+      ],
+      [
+        "ast-calls",
+        "complete",
+        [
+          "shop/client.py",
+          "shop/ledger_client.py",
+          "tests/test_client.py",
+          "tests/test_integration.py"
+        ]
+      ],
+      [
+        "scip-occurrences",
+        "complete",
+        [
+          "shop/__init__.py",
+          "shop/client.py",
+          "shop/contracts.py",
+          "shop/ledger_client.py",
+          "tests/test_client.py",
+          "tests/test_integration.py"
+        ]
+      ],
+      [
+        "scip-occurrences",
+        "complete",
+        [
+          "shop/pricing_internal.py"
+        ]
+      ]
+    ],
+    "dave": [
+      [
+        "ast-calls",
+        "complete",
+        [
+          "shop/client.py"
+        ]
+      ],
+      [
+        "ast-calls",
+        "complete",
+        [
+          "shop/client.py",
+          "shop/ledger_client.py",
+          "tests/test_client.py",
+          "tests/test_integration.py"
+        ]
+      ],
+      [
+        "scip-occurrences",
+        "complete",
+        [
+          "shop/__init__.py",
+          "shop/client.py",
+          "shop/contracts.py",
+          "shop/ledger_client.py",
+          "tests/test_client.py",
+          "tests/test_integration.py"
+        ]
+      ]
+    ]
+  }
+}

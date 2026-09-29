@@ -1,0 +1,34 @@
+[1m============================= test session starts ==============================[0m
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 12 items
+
+tests/integration/m01/test_t01_inventory.py [32m.[0m
+tests/integration/m01/test_t02_atomic.py [32m.[0m
+tests/integration/m01/test_t03_stale_and_reconcile.py [32m.[0m
+tests/integration/m01/test_t04_revisions.py [32m.[0m
+tests/integration/m01/test_t05_freshness.py [32m.[0mopenfga: ready
+keycloak: ready
+terminusdb: ready
+openfga: ready
+keycloak: ready
+terminusdb: ready
+[32m.[0m
+tests/integration/m01/test_t06_publication.py {"crash": "journal", "journal_write_ms": [101.4209309942089, 99.38325901748613, 101.43196600256488]}
+[32m.[0m{"crash": "content", "journal_write_ms": [121.51962099596858, 99.35134195256978, 99.11325498251244]}
+[32m.[0m{"crash": "binding", "journal_write_ms": [75.81844500964507, 101.93509899545461, 99.34386896202341]}
+[32m.[0m[32m.[0m
+tests/integration/m01/test_t07_interchange.py [32m.[0m[32m.[0m
+
+[33m=============================== warnings summary ===============================[0m
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /home/tux/personalbuild/c1/docs/evidence/M08/m01-probe-junit.xml -
+[33m======================= [32m12 passed[0m, [33m[1m3 warnings[0m[33m in 25.88s[0m[33m ========================[0m

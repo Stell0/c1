@@ -8,6 +8,7 @@ commit. This does not imply a transaction with knowledge or OpenFGA.
 from __future__ import annotations
 
 import builtins
+import copy
 import hashlib
 import json
 import re
@@ -109,6 +110,10 @@ class Journal:
 
     def __init__(self, config: StorageConfig) -> None:
         self._storage = Terminus(config)
+        # The last full listing and the exact data version it was served at.
+        # A data version identifies content, so the listing is reused only when
+        # a fresh head read returns that same version; any write changes it.
+        self._snapshot: tuple[str, list[tuple[str, str, dict[str, Any]]]] | None = None
 
     async def __aenter__(self) -> Self:
         await self._storage.__aenter__()
@@ -151,22 +156,32 @@ class Journal:
             raise StorageError("C1-JR-001", "workflow address collision")
         return payload
 
+    async def _entries(self) -> builtins.list[tuple[str, str, dict[str, Any]]]:
+        snapshot = self._snapshot
+        if snapshot is not None and await self.head() == snapshot[0]:
+            return snapshot[1]
+        version, documents = await self._storage.documents_at_version()
+        decoded = [_decode(document) for document in documents]
+        self._snapshot = (version, decoded)
+        return decoded
+
     async def list(self, kind: str) -> list[dict[str, Any]]:
         if kind not in _KINDS:
             raise ValueError("unsupported journal kind")
-        documents = await self._storage.documents()
-        decoded = [_decode(document) for document in documents]
-        return [payload for actual_kind, _key, payload in decoded if actual_kind == kind]
+        return [
+            copy.deepcopy(payload)
+            for actual_kind, _key, payload in await self._entries()
+            if actual_kind == kind
+        ]
 
     async def list_many(self, kinds: set[str]) -> dict[str, builtins.list[dict[str, Any]]]:
         """Read one consistent workflow document enumeration for several kinds."""
         if not kinds or not kinds.issubset(_KINDS):
             raise ValueError("unsupported journal kind")
         result: dict[str, builtins.list[dict[str, Any]]] = {kind: [] for kind in kinds}
-        for document in await self._storage.documents():
-            kind, _key, payload = _decode(document)
+        for kind, _key, payload in await self._entries():
             if kind in result:
-                result[kind].append(payload)
+                result[kind].append(copy.deepcopy(payload))
         return result
 
     async def save_many(

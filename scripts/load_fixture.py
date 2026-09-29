@@ -74,6 +74,16 @@ async def api_client(database: str | None = None) -> AsyncIterator[httpx.AsyncCl
             yield client
 
 
+# Service actors authenticate with client credentials of `c1-svc-<producer>`.
+SERVICE_ACTORS = {
+    "service": "papertrader",
+    "robotelier": "robotelier",
+    "indexer": "indexer",
+    "analyzer": "analyzer",
+    "ci": "ci",
+}
+
+
 class Loader:
     def __init__(
         self, client: httpx.AsyncClient, tokens: dict[str, str], *, refresh_tokens: bool = False
@@ -89,10 +99,10 @@ class Loader:
     async def _actor_token(self, actor: str) -> str:
         if not self.refresh_tokens:
             return self.tokens[actor]
-        if actor not in {"service", "robotelier"}:
+        if actor not in SERVICE_ACTORS:
             return await self.user_token({"admin": "erin", "reviewer": "carol"}.get(actor, actor))
         private = {**environment(), **os.environ}
-        producer = "papertrader" if actor == "service" else "robotelier"
+        producer = SERVICE_ACTORS[actor]
         secret_key = "C1_SVC_" + producer.upper() + "_SECRET"
         secret = private.get(secret_key)
         if not secret:
@@ -221,8 +231,19 @@ class Loader:
         )
 
     async def apply_changeset(
-        self, operations: list[dict[str, Any]], *, author: str, reviewer: str, base: str
+        self,
+        operations: list[dict[str, Any]],
+        *,
+        author: str,
+        reviewer: str,
+        base: str,
+        idempotency_key: str | None = None,
     ) -> dict[str, Any]:
+        """Run the reviewed lifecycle and resume it after a retry.
+
+        With a stable ``idempotency_key`` a repeated call replays the proposal
+        and continues from its current state instead of creating a duplicate.
+        """
         proposal = await self.request(
             "POST",
             "/v1/changesets",
@@ -232,27 +253,40 @@ class Loader:
                 "operations": operations,
                 "rationale": "Load a deterministic synthetic fixture through ordinary C1 APIs",
             },
-            expected=(201,),
-            idempotency_key=secrets.token_hex(16),
+            expected=(200, 201),
+            idempotency_key=idempotency_key or secrets.token_hex(16),
         )
         encoded = quote(str(proposal["id"]), safe="")
-        submitted = await self.request("POST", f"/v1/changesets/{encoded}/submit", actor=author)
-        if submitted.get("state") == "submitted":
-            submitted = await self.request(
-                "POST", f"/v1/changesets/{encoded}/validate", actor=author
-            )
-        if submitted.get("state") != "validated":
+        current = await self.request("GET", f"/v1/changesets/{encoded}", actor=author)
+        state = current.get("state")
+        if state == "applied":
+            return current
+        if state == "draft":
+            current = await self.request("POST", f"/v1/changesets/{encoded}/submit", actor=author)
+            state = current.get("state")
+        if state == "submitted":
+            current = await self.request("POST", f"/v1/changesets/{encoded}/validate", actor=author)
+            state = current.get("state")
+        if state != "validated" and state != "approved":
             report = await self.request("GET", f"/v1/changesets/{encoded}/validation", actor=author)
-            codes = [item.get("code") for item in report.get("diagnostics", [])]
+            codes = [
+                (item.get("code"), item.get("path"), item.get("message"))
+                for item in report.get("diagnostics", [])
+            ]
             raise RuntimeError(f"Fixture ChangeSet validation did not pass: {codes}")
-        approved = await self.request("POST", f"/v1/changesets/{encoded}/approve", actor=reviewer)
-        if approved.get("state") != "approved":
-            raise RuntimeError("Fixture ChangeSet was not approved")
+        if state == "validated":
+            current = await self.request(
+                "POST", f"/v1/changesets/{encoded}/approve", actor=reviewer
+            )
+            if current.get("state") != "approved":
+                raise RuntimeError("Fixture ChangeSet was not approved")
         applied = await self.request(
             "POST",
             f"/v1/changesets/{encoded}/apply",
             actor=reviewer,
-            idempotency_key=secrets.token_hex(16),
+            idempotency_key=(idempotency_key + "-apply")
+            if idempotency_key
+            else secrets.token_hex(16),
         )
         if applied.get("state") != "applied":
             raise RuntimeError("Fixture ChangeSet was not applied")

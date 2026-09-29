@@ -1,0 +1,1966 @@
+{
+ "documents": [
+  {
+   "occurrences": [
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      0,
+      0
+     ],
+     "symbol": "scip-python python shop b2 shop/__init__:",
+     "symbol_roles": 1
+    }
+   ],
+   "relative_path": "shop/__init__.py",
+   "symbols": [
+    {
+     "documentation": [
+      "(module) shop",
+      "Synthetic shop client used by the C1 software-integration fixture."
+     ],
+     "symbol": "scip-python python shop b2 shop/__init__:"
+    }
+   ]
+  },
+  {
+   "occurrences": [
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      0,
+      0
+     ],
+     "symbol": "scip-python python shop b2 `shop.broken`/__init__:",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      3,
+      0,
+      4,
+      15
+     ],
+     "range": [
+      3,
+      4,
+      10
+     ],
+     "symbol": "scip-python python shop b2 `shop.broken`/refund().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      11,
+      19
+     ],
+     "symbol": "scip-python python shop b2 `shop.broken`/refund().(order_id)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      21,
+      24
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    }
+   ],
+   "relative_path": "shop/broken.py",
+   "symbols": [
+    {
+     "documentation": [
+      "(module) shop.broken",
+      "An unfinished module that does not parse."
+     ],
+     "symbol": "scip-python python shop b2 `shop.broken`/__init__:"
+    },
+    {
+     "documentation": [
+      "```python\ndef refund(\n  order_id: str\n) -> None:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.broken`/refund()."
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.broken`/refund().(order_id)"
+    }
+   ]
+  },
+  {
+   "occurrences": [
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      0,
+      0
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/__init__:",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      5,
+      9
+     ],
+     "symbol": "scip-python python shop b2 shop/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      17,
+      30
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      32,
+      48
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      5,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.broken`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      24,
+      30
+     ],
+     "symbol": "scip-python python shop b2 `shop.broken`/refund().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      4,
+      5,
+      19
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      4,
+      27,
+      42
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      7,
+      0,
+      8,
+      39
+     ],
+     "range": [
+      7,
+      4,
+      12
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/validate().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      39,
+      43
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/bool#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      13,
+      18
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/validate().(order)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      20,
+      24
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/dict#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      25,
+      28
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      30,
+      33
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/int#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      11,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/validate().(order)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      17,
+      20
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/dict#get().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      11,
+      1,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      11,
+      0,
+      16,
+      65
+     ],
+     "range": [
+      12,
+      4,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      73,
+      77
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/dict#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      78,
+      81
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      83,
+      89
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/object#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      17,
+      25
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(base_url)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      27,
+      30
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      32,
+      40
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(customer)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      42,
+      45
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      47,
+      52
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(order)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      54,
+      58
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/dict#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      59,
+      62
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      12,
+      64,
+      67
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/int#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      13,
+      11,
+      19
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/validate().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      13,
+      20,
+      25
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(order)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      14,
+      14,
+      24
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/ValueError#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      15,
+      4,
+      10
+     ],
+     "symbol": "local 0",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      15,
+      13,
+      29
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      15,
+      30,
+      35
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/price().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      15,
+      36,
+      41
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(order)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      16,
+      11,
+      24
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      16,
+      25,
+      37
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      16,
+      38,
+      46
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(base_url)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      16,
+      48,
+      56
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(customer)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      16,
+      58,
+      64
+     ],
+     "symbol": "local 0",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      19,
+      0,
+      20,
+      20
+     ],
+     "range": [
+      19,
+      4,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/cancel_order().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      19,
+      17,
+      25
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/cancel_order().(order_id)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      19,
+      27,
+      30
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      20,
+      4,
+      10
+     ],
+     "symbol": "scip-python python shop b2 `shop.broken`/refund().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      20,
+      11,
+      19
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/cancel_order().(order_id)",
+     "symbol_roles": 8
+    }
+   ],
+   "relative_path": "shop/client.py",
+   "symbols": [
+    {
+     "documentation": [
+      "(module) shop.client",
+      "Order submission that creates ledger invoices."
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/__init__:"
+    },
+    {
+     "documentation": [
+      "```python\ndef validate(\n  order: dict[str, int]\n) -> bool:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/validate()."
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.client`/validate().(order)"
+    },
+    {
+     "documentation": [
+      "```python\n@calls_operation(\"createInvoice\")\ndef submit_order(\n  base_url: str,\n  customer: str,\n  order: dict[str, int]\n) -> dict[str, object]:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order()."
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(base_url)"
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(customer)"
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().(order)"
+    },
+    {
+     "documentation": [
+      "```python\nbuiltins.int\n```"
+     ],
+     "symbol": "local 0"
+    },
+    {
+     "documentation": [
+      "```python\ndef cancel_order(\n  order_id: str\n) -> None:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/cancel_order()."
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.client`/cancel_order().(order_id)"
+    }
+   ]
+  },
+  {
+   "occurrences": [
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      0,
+      0
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/__init__:",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      5,
+      20
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 `collections.abc`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      28,
+      36
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 typing/Callable.",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      5,
+      11
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 typing/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      19,
+      26
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 typing/TypeVar#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      5,
+      0,
+      1
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/F.",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      5,
+      4,
+      11
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 typing/TypeVar#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      5,
+      17,
+      22
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 typing/TypeVar#__init__().(bound)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      5,
+      23,
+      31
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 typing/Callable.",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      5,
+      37,
+      43
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/object#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      8,
+      0,
+      13,
+      15
+     ],
+     "range": [
+      8,
+      4,
+      19
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      42,
+      50
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 typing/Callable.",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      52,
+      53
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/F.",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      56,
+      57
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/F.",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      20,
+      32
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().(operation_id)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      34,
+      37
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      9,
+      4,
+      11,
+      23
+     ],
+     "range": [
+      9,
+      8,
+      12
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().mark().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      9,
+      29,
+      30
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/F.",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      9,
+      13,
+      21
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().mark().(function)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      9,
+      23,
+      24
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/F.",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      10,
+      8,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().mark().(function)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      10,
+      48,
+      60
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().(operation_id)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      11,
+      15,
+      23
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().mark().(function)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      13,
+      11,
+      15
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().mark().",
+     "symbol_roles": 8
+    }
+   ],
+   "relative_path": "shop/contracts.py",
+   "symbols": [
+    {
+     "documentation": [
+      "(module) shop.contracts",
+      "Declared links from client functions to ledger API operations."
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/__init__:"
+    },
+    {
+     "documentation": [
+      "```python\nundefined = TypeVar(\"F\", bound=Callable[..., object])\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/F."
+    },
+    {
+     "documentation": [
+      "```python\ndef calls_operation(\n  operation_id: str\n) -> Callable[[F], F]:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation()."
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().(operation_id)"
+    },
+    {
+     "documentation": [
+      "```python\ndef mark(\n  function: F\n) -> F:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().mark()."
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.contracts`/calls_operation().mark().(function)"
+    }
+   ]
+  },
+  {
+   "occurrences": [
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      0,
+      0
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/__init__:",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      7,
+      11
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 json/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      5,
+      11
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 urllib/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      19,
+      26
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 `urllib.request`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      6,
+      0,
+      10,
+      42
+     ],
+     "range": [
+      6,
+      4,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      66,
+      70
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/dict#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      71,
+      74
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      76,
+      82
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/object#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      17,
+      25
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(base_url)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      27,
+      30
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      32,
+      43
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(customer_id)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      45,
+      48
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      50,
+      56
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(amount)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      58,
+      61
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/int#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      4,
+      8
+     ],
+     "symbol": "local 0",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      11,
+      15
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 json/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      16,
+      21
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 json/dumps().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      38,
+      49
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(customer_id)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      61,
+      67
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(amount)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      84,
+      90
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#encode().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      4,
+      7
+     ],
+     "symbol": "local 1",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      10,
+      17
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 `urllib.request`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      18,
+      25
+     ],
+     "symbol": "local 2",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      26,
+      34
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(base_url)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      50,
+      54
+     ],
+     "symbol": "local 3",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      55,
+      59
+     ],
+     "symbol": "local 0",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      8,
+      61,
+      67
+     ],
+     "symbol": "local 4",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      9,
+      9,
+      16
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 `urllib.request`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      9,
+      17,
+      24
+     ],
+     "symbol": "local 5",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      9,
+      25,
+      28
+     ],
+     "symbol": "local 1",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      9,
+      33,
+      41
+     ],
+     "symbol": "local 6",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      10,
+      15,
+      19
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 json/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      10,
+      20,
+      25
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 json/loads().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      10,
+      26,
+      34
+     ],
+     "symbol": "local 6",
+     "symbol_roles": 8
+    }
+   ],
+   "relative_path": "shop/ledger_client.py",
+   "symbols": [
+    {
+     "documentation": [
+      "(module) shop.ledger_client",
+      "Minimal HTTP transport to the ledger API."
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/__init__:"
+    },
+    {
+     "documentation": [
+      "```python\ndef post_invoice(\n  base_url: str,\n  customer_id: str,\n  amount: int\n) -> dict[str, object]:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice()."
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(base_url)"
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(customer_id)"
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.ledger_client`/post_invoice().(amount)"
+    },
+    {
+     "documentation": [
+      "```python\nbuiltins.bytes\n```"
+     ],
+     "symbol": "local 0"
+    },
+    {
+     "documentation": [
+      "```python\nurllib.request.Request\n```"
+     ],
+     "symbol": "local 1"
+    },
+    {
+     "documentation": [
+      "```python\nclass Request:\n```"
+     ],
+     "symbol": "local 2"
+    },
+    {
+     "documentation": [
+      "```python\n(parameter) data: _DataType\n```"
+     ],
+     "symbol": "local 3"
+    },
+    {
+     "documentation": [
+      "```python\n(parameter) method: str | None\n```"
+     ],
+     "symbol": "local 4"
+    },
+    {
+     "documentation": [
+      "```python\ndef urlopen(\n  url: str | Request,\n  data: _DataType | None = None,\n  timeout: float | None = ...,\n  *,\n  cafile: str | None = None,\n  capath: str | None = None,\n  cadefault: bool = False,\n  context: ssl.SSLContext | None = None\n) -> _UrlopenRet:\n```"
+     ],
+     "symbol": "local 5"
+    }
+   ]
+  },
+  {
+   "occurrences": [
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      0,
+      0
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/__init__:",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      3,
+      0,
+      4,
+      50
+     ],
+     "range": [
+      3,
+      4,
+      9
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/price().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      36,
+      39
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/int#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      10,
+      15
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/price().(order)",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      17,
+      21
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/dict#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      22,
+      25
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/str#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      3,
+      27,
+      30
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 builtins/int#",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      4,
+      11,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/price().(order)",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      4,
+      31,
+      36
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/price().(order)",
+     "symbol_roles": 8
+    }
+   ],
+   "relative_path": "shop/pricing_internal.py",
+   "symbols": [
+    {
+     "documentation": [
+      "(module) shop.pricing_internal",
+      "Restricted pricing rules; bound to a restricted scope in the fixture."
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/__init__:"
+    },
+    {
+     "documentation": [
+      "```python\ndef price(\n  order: dict[str, int]\n) -> int:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/price()."
+    },
+    {
+     "symbol": "scip-python python shop b2 `shop.pricing_internal`/price().(order)"
+    }
+   ]
+  },
+  {
+   "occurrences": [
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      0,
+      0
+     ],
+     "symbol": "scip-python python shop b2 `tests.test_client`/__init__:",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      5,
+      13
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 unittest/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      21,
+      25
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 `unittest.mock`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      5,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      24,
+      36
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      5,
+      0,
+      7,
+      86
+     ],
+     "range": [
+      5,
+      4,
+      40
+     ],
+     "symbol": "scip-python python shop b2 `tests.test_client`/test_submit_order_with_mocked_ledger().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      9,
+      13
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 `unittest.mock`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      14,
+      19
+     ],
+     "symbol": "local 0",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      55,
+      67
+     ],
+     "symbol": "local 1",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      15,
+      27
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().",
+     "symbol_roles": 8
+    }
+   ],
+   "relative_path": "tests/test_client.py",
+   "symbols": [
+    {
+     "documentation": [
+      "(module) tests.test_client"
+     ],
+     "symbol": "scip-python python shop b2 `tests.test_client`/__init__:"
+    },
+    {
+     "documentation": [
+      "```python\ndef test_submit_order_with_mocked_ledger() -> None:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `tests.test_client`/test_submit_order_with_mocked_ledger()."
+    },
+    {
+     "documentation": [
+      "```python\n(variable) patch: _patcher\n```"
+     ],
+     "symbol": "local 0"
+    },
+    {
+     "documentation": [
+      "```python\n(function) return_value: Any\n```"
+     ],
+     "symbol": "local 1"
+    }
+   ]
+  },
+  {
+   "occurrences": [
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      0,
+      0
+     ],
+     "symbol": "scip-python python shop b2 `tests.test_integration`/__init__:",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      0,
+      7,
+      9
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 os/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      5,
+      16
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      2,
+      24,
+      36
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "enclosing_range": [
+      5,
+      0,
+      7,
+      33
+     ],
+     "range": [
+      5,
+      4,
+      41
+     ],
+     "symbol": "scip-python python shop b2 `tests.test_integration`/test_submit_order_against_live_ledger().",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      4,
+      10
+     ],
+     "symbol": "local 0",
+     "symbol_roles": 1
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      13,
+      25
+     ],
+     "symbol": "scip-python python shop b2 `shop.client`/submit_order().",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      26,
+      28
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 os/__init__:",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      6,
+      29,
+      36
+     ],
+     "symbol": "scip-python python python-stdlib 3.11 os/environ.environ.",
+     "symbol_roles": 8
+    },
+    {
+     "TypedEnclosingRange": null,
+     "TypedRange": null,
+     "range": [
+      7,
+      11,
+      17
+     ],
+     "symbol": "local 0",
+     "symbol_roles": 8
+    }
+   ],
+   "relative_path": "tests/test_integration.py",
+   "symbols": [
+    {
+     "documentation": [
+      "(module) tests.test_integration"
+     ],
+     "symbol": "scip-python python shop b2 `tests.test_integration`/__init__:"
+    },
+    {
+     "documentation": [
+      "```python\ndef test_submit_order_against_live_ledger() -> None:\n```"
+     ],
+     "symbol": "scip-python python shop b2 `tests.test_integration`/test_submit_order_against_live_ledger()."
+    },
+    {
+     "documentation": [
+      "```python\nbuiltins.dict\n```"
+     ],
+     "symbol": "local 0"
+    }
+   ]
+  }
+ ],
+ "external_symbols": [
+  {
+   "documentation": [
+    "```python\n(class) str\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 builtins/str#"
+  },
+  {
+   "documentation": [
+    "```python\n(class) bool\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 builtins/bool#"
+  },
+  {
+   "documentation": [
+    "```python\n(class) dict\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 builtins/dict#"
+  },
+  {
+   "documentation": [
+    "```python\n(class) int\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 builtins/int#"
+  },
+  {
+   "documentation": [
+    "```python\n(class) object\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 builtins/object#"
+  },
+  {
+   "documentation": [
+    "```python\nclass ValueError(*args: object)\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 builtins/ValueError#"
+  },
+  {
+   "documentation": [
+    "```python\n(module) collections\n```",
+    "---\n",
+    "This module implements specialized container datatypes providing\nalternatives to Python's general purpose built-in containers, dict,\nlist, set, and tuple.\n\n * namedtuple   factory function for creating tuple subclasses with named fields\n * deque        list-like container with fast appends and pops on either end\n * ChainMap     dict-like class for creating a single view of multiple mappings\n * Counter      dict subclass for counting hashable objects\n * OrderedDict  dict subclass that remembers the order entries were added\n * defaultdict  dict subclass that calls a factory function to supply missing values\n * UserDict     wrapper around dictionary objects for easier dict subclassing\n * UserList     wrapper around list objects for easier list subclassing\n * UserString   wrapper around string objects for easier string subclassing"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 `collections.abc`/__init__:"
+  },
+  {
+   "documentation": [
+    "```python\n(class) Callable\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 typing/"
+  },
+  {
+   "documentation": [
+    "```python\n(class) Callable\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 typing/Callable."
+  },
+  {
+   "documentation": [
+    "```python\n(module) typing\n```",
+    "---\n",
+    "The typing module: Support for gradual typing as defined by PEP 484 and subsequent PEPs.\n\nAmong other things, the module includes the following:\n * Generic, Protocol, and internal machinery to support generic aliases.\nAll subscripted types like X\\[int\\], Union\\[int, str\\] are generic aliases.\n * Various \"special forms\" that have unique meanings in type annotations:\nNoReturn, Never, ClassVar, Self, Concatenate, Unpack, and others.\n * Classes whose instances can be type arguments to generic classes and functions:\nTypeVar, ParamSpec, TypeVarTuple.\n * Public helper functions: get\\_type\\_hints, overload, cast, final, and others.\n * Several protocols to support duck-typing:\nSupportsFloat, SupportsIndex, SupportsAbs, and others.\n * Special types: NewType, NamedTuple, TypedDict.\n * Deprecated aliases for builtin types and collections.abc ABCs.\n\nAny name not present in \\_\\_all\\_\\_ is an implementation detail\nthat may be changed without notice. Use at your own risk!"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 typing/__init__:"
+  },
+  {
+   "documentation": [
+    "```python\n(parameter) bound: Any | None\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 typing/TypeVar#__init__().(bound)"
+  },
+  {
+   "documentation": [
+    "```python\n(module) urllib\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 urllib/__init__:"
+  },
+  {
+   "documentation": [
+    "```python\n(module) unittest\n```",
+    "---\n",
+    "Python unit testing framework, based on Erich Gamma's JUnit and Kent Beck's\nSmalltalk testing framework (used with permission).\n\nThis module contains the core framework classes that form the basis of\nspecific test cases and suites (TestCase, TestSuite etc.), and also a\ntext-based utility class for running the tests and reporting the results  \n&nbsp;(TextTestRunner).\n\nSimple usage:\n\n&nbsp;&nbsp;&nbsp;&nbsp;import unittest\n\n&nbsp;&nbsp;&nbsp;&nbsp;class IntegerArithmeticTestCase(unittest.TestCase):  \n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;def testAdd(self):  # test method names begin with 'test'  \n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual((1 + 2), 3)\nself.assertEqual(0 + 1, 1)  \n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;def testMultiply(self):  \n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual((0 \\* 10), 0)\nself.assertEqual((5 \\* 8), 40)\n\n&nbsp;&nbsp;&nbsp;&nbsp;if \\_\\_name\\_\\_ == '\\_\\_main\\_\\_':  \n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unittest.main()\n\nFurther information is available in the bundled documentation, and from\n\n&nbsp;&nbsp;http://docs.python.org/library/unittest.html\n\nCopyright (c) 1999-2003 Steve Purcell\nCopyright (c) 2003 Python Software Foundation\nThis module is free software, and you may redistribute it and/or modify\nit under the same terms as Python itself, so long as this copyright message\nand disclaimer are retained in their original form.\n\nIN NO EVENT SHALL THE AUTHOR BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT,\nSPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OF\nTHIS CODE, EVEN IF THE AUTHOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH\nDAMAGE.\n\nTHE AUTHOR SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT\nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A\nPARTICULAR PURPOSE.  THE CODE PROVIDED HEREUNDER IS ON AN \"AS IS\" BASIS,\nAND THERE IS NO OBLIGATION WHATSOEVER TO PROVIDE MAINTENANCE,\nSUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS."
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 unittest/__init__:"
+  },
+  {
+   "documentation": [
+    "```python\n(variable) environ: _Environ[str]\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 os/"
+  },
+  {
+   "documentation": [
+    "```python\n(variable) environ: _Environ[str]\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 os/environ."
+  },
+  {
+   "documentation": [
+    "```python\n(variable) environ: _Environ[str]\n```"
+   ],
+   "symbol": "scip-python python python-stdlib 3.11 os/environ.environ."
+  }
+ ],
+ "metadata": {
+  "project_root": "file:///fixture/shop",
+  "text_document_encoding": 1,
+  "tool_info": {
+   "name": "scip-python",
+   "version": "0.6.6"
+  }
+ }
+}

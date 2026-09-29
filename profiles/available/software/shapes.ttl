@@ -1,0 +1,172 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+<urn:c1:ns:software#shape-SoftwareProduct> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#SoftwareProduct> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:software#shape-CodeRepository> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#CodeRepository> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:software#repositoryKey> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:software#shape-SoftwareRelease> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#SoftwareRelease> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:software#releaseVersion> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:software#shape-SourceSnapshot> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#SourceSnapshot> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:software#repositoryRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#CodeRepository> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#commitId> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#treeId> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:software#shape-Capability> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#Capability> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:software#shape-CodeSymbol> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#CodeSymbol> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:software#repositoryRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#CodeRepository> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#scipScheme> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#packageManager> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#packageName> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#descriptors> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:software#shape-InterfaceOperation> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#InterfaceOperation> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:software#providerRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#SoftwareProduct> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#operationId> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#httpMethod> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "delete"^^<http://www.w3.org/2001/XMLSchema#string> "get"^^<http://www.w3.org/2001/XMLSchema#string> "head"^^<http://www.w3.org/2001/XMLSchema#string> "options"^^<http://www.w3.org/2001/XMLSchema#string> "patch"^^<http://www.w3.org/2001/XMLSchema#string> "post"^^<http://www.w3.org/2001/XMLSchema#string> "put"^^<http://www.w3.org/2001/XMLSchema#string> "trace"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#pathTemplate> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:software#shape-TestCase> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#TestCase> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:software#shape-SymbolOccurrence> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#SymbolOccurrence> ;
+    sh:property [ sh:path <urn:c1:ns:software#symbolRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#CodeSymbol> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#snapshotRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#fileRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#partRef> ; sh:maxCount 1 ; sh:class <urn:c1:ns:core#DocumentPart> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#role> ; sh:minCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "definition"^^<http://www.w3.org/2001/XMLSchema#string> "forward-definition"^^<http://www.w3.org/2001/XMLSchema#string> "generated"^^<http://www.w3.org/2001/XMLSchema#string> "import"^^<http://www.w3.org/2001/XMLSchema#string> "read-access"^^<http://www.w3.org/2001/XMLSchema#string> "reference"^^<http://www.w3.org/2001/XMLSchema#string> "test"^^<http://www.w3.org/2001/XMLSchema#string> "write-access"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#startLine> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#startCharacter> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#endLine> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#endCharacter> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#positionEncoding> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "unspecified"^^<http://www.w3.org/2001/XMLSchema#string> "utf-16"^^<http://www.w3.org/2001/XMLSchema#string> "utf-32"^^<http://www.w3.org/2001/XMLSchema#string> "utf-8"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#wasGeneratedBy> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:software#shape-TestRun> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#TestRun> ;
+    sh:property [ sh:path <urn:c1:ns:software#testCaseRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#TestCase> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#snapshotRef> ; sh:minCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#configurationRef> ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#Configuration> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#result> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "error"^^<http://www.w3.org/2001/XMLSchema#string> "fail"^^<http://www.w3.org/2001/XMLSchema#string> "pass"^^<http://www.w3.org/2001/XMLSchema#string> "skipped"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#integrationMode> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "live"^^<http://www.w3.org/2001/XMLSchema#string> "mocked"^^<http://www.w3.org/2001/XMLSchema#string> "unknown"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#mockedProductRef> ; sh:class <urn:c1:ns:software#SoftwareProduct> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#startedAt> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#endedAt> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#reportRef> ; sh:maxCount 1 ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <http://www.w3.org/ns/prov#wasGeneratedBy> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
+<urn:c1:ns:software#shape-Configuration> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#Configuration> ;
+    sh:property [ sh:path <urn:c1:ns:software#configurationName> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#parameter> ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#configurationDigest> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:software#shape-TargetSet> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#TargetSet> ;
+    sh:property [ sh:path <urn:c1:ns:software#targetLabel> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#memberSnapshot> ; sh:minCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#memberContract> ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#memberConfiguration> ; sh:class <urn:c1:ns:software#Configuration> ] .
+
+<urn:c1:ns:software#shape-BranchObservation> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#BranchObservation> ;
+    sh:property [ sh:path <urn:c1:ns:software#repositoryRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#CodeRepository> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#branchName> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#snapshotRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#branchObservedAt> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] .
+
+<urn:c1:ns:software#shape-ImportCoverage> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#ImportCoverage> ;
+    sh:property [ sh:path <urn:c1:ns:software#activityRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <http://www.w3.org/ns/prov#Activity> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#snapshotRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#importMethod> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "ast-calls"^^<http://www.w3.org/2001/XMLSchema#string> "docs"^^<http://www.w3.org/2001/XMLSchema#string> "junit-runs"^^<http://www.w3.org/2001/XMLSchema#string> "openapi-operations"^^<http://www.w3.org/2001/XMLSchema#string> "scip-occurrences"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#analyzedScope> ; sh:minCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#payloadDigest> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#coverageState> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "complete"^^<http://www.w3.org/2001/XMLSchema#string> "failed"^^<http://www.w3.org/2001/XMLSchema#string> "partial"^^<http://www.w3.org/2001/XMLSchema#string> ) ] .
+
+<urn:c1:ns:software#shape-ImportIssue> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#ImportIssue> ;
+    sh:property [ sh:path <urn:c1:ns:software#activityRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <http://www.w3.org/ns/prov#Activity> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#snapshotRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#severity> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "error"^^<http://www.w3.org/2001/XMLSchema#string> "warning"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#issueCode> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#fileRef> ; sh:maxCount 1 ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#issueMessage> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] .
+
+<urn:c1:ns:software#shape-UnresolvedReference> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#UnresolvedReference> ;
+    sh:property [ sh:path <urn:c1:ns:software#activityRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <http://www.w3.org/ns/prov#Activity> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#snapshotRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#fileRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#symbolText> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#unresolvedReason> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "ambiguous"^^<http://www.w3.org/2001/XMLSchema#string> "external-package"^^<http://www.w3.org/2001/XMLSchema#string> "not-indexed"^^<http://www.w3.org/2001/XMLSchema#string> "parse-error"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#startLine> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#startCharacter> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#endLine> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#endCharacter> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] .

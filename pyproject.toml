@@ -43,6 +43,7 @@ packages = ["src/c1"]
 "profiles/available/directory" = "c1/profiles/available/directory"
 "profiles/available/topics" = "c1/profiles/available/topics"
 "profiles/available/batteries" = "c1/profiles/available/batteries"
+"profiles/available/software" = "c1/profiles/available/software"
 "profiles/context" = "c1/profiles/context"
 "deployment/openfga/c1-v1.json" = "c1/authorization/c1-v1.json"
 
@@ -60,7 +61,7 @@ build-constraint-dependencies = [
 [tool.ruff]
 target-version = "py313"
 line-length = 100
-extend-exclude = [".uv-cache", ".uv-python"]
+extend-exclude = [".uv-cache", ".uv-python", "fixtures/software-integration/repos", "fixtures/software-integration/consumer"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]

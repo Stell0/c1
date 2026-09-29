@@ -14,3 +14,7 @@ __pycache__/
 dist/
 *.egg-info/
 deployment/.state/
+
+# One-time SCIP generation tools (M08 D12); never part of the test path
+fixtures/software-integration/tools/node_modules/
+fixtures/software-integration/tools/bin/

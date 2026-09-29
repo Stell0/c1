@@ -17,7 +17,7 @@ from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
 from c1.model.records import C1, RDF, SKOS
-from c1.model.references import is_independent_reference
+from c1.model.references import is_independent_reference, required_class_references
 from c1.model.time import TimeBoundary, TimeInterval
 from c1.query.compile import (
     _fetch_prepared_snapshots,
@@ -175,7 +175,7 @@ def _record_references_visible(
             _iri(node, predicate) in readable
             for predicate in (C1 + "assertionRef", "http://www.w3.org/ns/oa#hasSource")
         )
-    return True
+    return all(value in readable for value in required_class_references(node, registry))
 
 
 class QueryService:

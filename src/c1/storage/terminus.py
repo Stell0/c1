@@ -72,6 +72,17 @@ class StorageConfig:
             raise ValueError("instance_base must end with ':', '/', or '#'")
 
 
+def _graphql_query(method: str, path: str, kwargs: dict[str, Any]) -> bool:
+    """A GraphQL POST is retryable only when its body is a read-only query operation."""
+    if method.upper() != "POST" or not path.startswith("/api/graphql/"):
+        return False
+    body = kwargs.get("json")
+    if not isinstance(body, dict) or set(body) != {"query"}:
+        return False
+    query = body["query"]
+    return isinstance(query, str) and query.lstrip().startswith("query ")
+
+
 class Terminus:
     """Product storage client with a single configured organization and database."""
 
@@ -105,10 +116,12 @@ class Terminus:
         try:
             response = await client.request(method, path, **kwargs)
         except httpx.RemoteProtocolError:
-            if method.upper() != "GET":
+            # A disconnected read is safe to repeat once: document GETs and
+            # GraphQL queries (POST transport, read-only) never write. Writes are
+            # never repeated here. Both attempts keep the caller's deadline.
+            read_only = method.upper() == "GET" or _graphql_query(method, path, kwargs)
+            if not read_only:
                 raise
-            # A disconnected read is safe to repeat once. Both attempts retain
-            # the caller's deadline/cancellation and the existing client pool.
             response = await client.request(method, path, **kwargs)
         if response.is_error:
             backend_code: str | None = None
@@ -170,6 +183,20 @@ class Terminus:
         if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
             raise StorageError("C1-ST-003", "backend returned an invalid document list")
         return payload
+
+    async def documents_at_version(
+        self, *, graph_type: str = "instance"
+    ) -> tuple[str, list[dict[str, Any]]]:
+        """List documents with the data version the backend served them at."""
+        if graph_type not in ("instance", "schema"):
+            raise ValueError("graph_type must be instance or schema")
+        response = await self._request(
+            "GET", self._document_path, params={"as_list": "true", "graph_type": graph_type}
+        )
+        payload = response.json()
+        if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
+            raise StorageError("C1-ST-003", "backend returned an invalid document list")
+        return self._head_from(response), payload
 
     async def documents_page(
         self, *, skip: int, count: int, commit: str | None = None

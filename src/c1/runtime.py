@@ -20,8 +20,9 @@ from c1.model.diagnostics import ProfileError
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
 from c1.model.records import C1, RDF
-from c1.model.references import is_independent_reference
+from c1.model.references import is_independent_reference, required_class_references
 from c1.query.service import QueryService
+from c1.software.service import SoftwareService
 from c1.storage.schema import assert_installed_profiles
 from c1.storage.terminus import StorageConfig, Terminus
 
@@ -66,6 +67,7 @@ class Runtime:
         except ProfileError:
             self.context_profiles = None
         self.context = ContextService(self)
+        self.software = SoftwareService(self)
         self._started = False
 
     def context_catalog(self) -> ContextProfileCatalog:
@@ -224,6 +226,7 @@ class Runtime:
                     for value in record.properties.get("urn:c1:ns:identity#" + part, ())
                     if isinstance(value, str)
                 )
+            references.extend(required_class_references(record, self.registry))
             for reference in references:
                 if not (await self.plane.check_read(principal, reference)).allowed:
                     return None

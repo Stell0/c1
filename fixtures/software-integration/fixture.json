@@ -1,0 +1,245 @@
+{
+  "name": "software-integration",
+  "version": "1.0.0",
+  "profile": "software",
+  "scopes": {
+    "sw-shared": "Software shared",
+    "sw-ledger": "Ledger source",
+    "sw-shop": "Shop source",
+    "sw-restricted": "Restricted pricing source"
+  },
+  "readers": {
+    "carol": [
+      "sw-shared",
+      "sw-ledger",
+      "sw-shop",
+      "sw-restricted"
+    ],
+    "dave": [
+      "sw-shared",
+      "sw-ledger",
+      "sw-shop"
+    ],
+    "alice": [
+      "sw-shared"
+    ]
+  },
+  "products": {
+    "ledger": {
+      "label": "Ledger",
+      "scope": "sw-shared"
+    },
+    "shop": {
+      "label": "Shop",
+      "scope": "sw-shared"
+    }
+  },
+  "repositories": {
+    "ledger": {
+      "product": "ledger",
+      "scope": "sw-ledger",
+      "package": "ledger",
+      "snapshots": [
+        "a1",
+        "a2"
+      ]
+    },
+    "shop": {
+      "product": "shop",
+      "scope": "sw-shop",
+      "package": "shop",
+      "snapshots": [
+        "b1",
+        "b2"
+      ]
+    }
+  },
+  "snapshots": {
+    "a1": {
+      "repository": "ledger",
+      "release": "1.0.0",
+      "committed_at": "2026-01-10T10:00:00+00:00",
+      "commit": "4c4c16d1fd9af5ea81f81569372f253e806aae05",
+      "tree": "0a4a4e3875e030e1618dafdcc929eeb0c2f903a4"
+    },
+    "a2": {
+      "repository": "ledger",
+      "release": "1.1.0",
+      "committed_at": "2026-02-10T10:00:00+00:00",
+      "commit": "66f589fcc50215704e75c67c810617d61d06a75e",
+      "tree": "1fc0bb0caa5052ab5aea3e00951a37c5760d22f7"
+    },
+    "b1": {
+      "repository": "shop",
+      "release": "2.0.0",
+      "committed_at": "2026-01-12T10:00:00+00:00",
+      "commit": "eecb5405c0b50362a41372c684e08a68278b58c1",
+      "tree": "709928566e03d9e5be5fb627a68f9c18fecce6fe"
+    },
+    "b2": {
+      "repository": "shop",
+      "release": "2.1.0",
+      "committed_at": "2026-02-12T10:00:00+00:00",
+      "commit": "8778ea5e426f90494190b186b8a67a64407aa6b8",
+      "tree": "c01d9d0abea4de468bfab0b1fd47dca15e4aa2b9"
+    }
+  },
+  "branch_observations": [
+    {
+      "repository": "ledger",
+      "branch": "main",
+      "snapshot": "a1",
+      "observed_at": "2026-01-15T00:00:00Z"
+    },
+    {
+      "repository": "ledger",
+      "branch": "main",
+      "snapshot": "a2",
+      "observed_at": "2026-02-15T00:00:00Z"
+    },
+    {
+      "repository": "shop",
+      "branch": "main",
+      "snapshot": "b1",
+      "observed_at": "2026-01-16T00:00:00Z"
+    },
+    {
+      "repository": "shop",
+      "branch": "main",
+      "snapshot": "b2",
+      "observed_at": "2026-02-16T00:00:00Z"
+    }
+  ],
+  "path_scopes": {
+    "shop/pricing_internal.py": "sw-restricted"
+  },
+  "capability": {
+    "key": "invoice-creation",
+    "label": "Invoice creation",
+    "scope": "sw-shared",
+    "implemented_by": [
+      [
+        "ledger",
+        "`ledger.api`/create_invoice()."
+      ],
+      [
+        "shop",
+        "`shop.client`/submit_order()."
+      ]
+    ]
+  },
+  "contracts": {
+    "repository": "ledger",
+    "path": "openapi.json",
+    "provider": "ledger"
+  },
+  "documentation": {
+    "docs/invoicing.md": {
+      "repository": "ledger",
+      "describes": [
+        "a1",
+        "b1"
+      ],
+      "documents": {
+        "capability": "invoice-creation",
+        "operations": [
+          "createInvoice"
+        ]
+      }
+    },
+    "CONTRIBUTING.md": {
+      "repository": "ledger",
+      "describes": [
+        "a1",
+        "a2"
+      ],
+      "documents": {}
+    }
+  },
+  "configurations": {
+    "default": [
+      "python=3.13",
+      "ledger_url=http://ledger.test"
+    ]
+  },
+  "test_cases": {
+    "ledger-create": {
+      "repository": "ledger",
+      "descriptor": "`tests.test_api`/test_create_invoice_stores_invoice().",
+      "verifies": {
+        "operations": [
+          "createInvoice"
+        ]
+      }
+    },
+    "shop-mocked": {
+      "repository": "shop",
+      "descriptor": "`tests.test_client`/test_submit_order_with_mocked_ledger().",
+      "verifies": {
+        "capability": "invoice-creation"
+      }
+    },
+    "shop-live": {
+      "repository": "shop",
+      "descriptor": "`tests.test_integration`/test_submit_order_against_live_ledger().",
+      "verifies": {
+        "capability": "invoice-creation",
+        "operations": [
+          "createInvoice"
+        ]
+      }
+    }
+  },
+  "test_runs": [
+    {
+      "key": "live-a1b1",
+      "test_case": "shop-live",
+      "snapshots": [
+        "a1",
+        "b1"
+      ],
+      "configuration": "default",
+      "mode": "live",
+      "mocked": [],
+      "report": "runs/live-a1b1.xml",
+      "exercised": [
+        "createInvoice"
+      ],
+      "started_at": "2026-01-20T09:00:00Z",
+      "ended_at": "2026-01-20T09:00:01Z"
+    },
+    {
+      "key": "mocked-b2",
+      "test_case": "shop-mocked",
+      "snapshots": [
+        "b2"
+      ],
+      "configuration": "default",
+      "mode": "mocked",
+      "mocked": [
+        "ledger"
+      ],
+      "report": "runs/mocked-b2.xml",
+      "exercised": [],
+      "started_at": "2026-02-20T09:00:00Z",
+      "ended_at": "2026-02-20T09:00:01Z"
+    },
+    {
+      "key": "unit-a2",
+      "test_case": "ledger-create",
+      "snapshots": [
+        "a2"
+      ],
+      "configuration": "default",
+      "mode": "live",
+      "mocked": [],
+      "report": "runs/unit-a2.xml",
+      "exercised": [],
+      "started_at": "2026-02-21T09:00:00Z",
+      "ended_at": "2026-02-21T09:00:01Z"
+    }
+  ],
+  "name_match_calls": [
+    "validate"
+  ]
+}

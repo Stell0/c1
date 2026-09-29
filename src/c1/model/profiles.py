@@ -45,7 +45,8 @@ _SHAPE_PREDICATES = {
 }
 _SHAPE_TYPES = {SH.NodeShape, SH.PropertyShape}
 _LIST_PREDICATES = {SH["in"], SH.languageIn, SH["or"]}
-_RESERVED = {"software"}
+# M02 reserved "software" for M08; M08 implements that profile, so none remain.
+_RESERVED: frozenset[str] = frozenset()
 
 
 @dataclass(frozen=True)
@@ -392,6 +393,8 @@ class ProfileRegistry:
         self.contexts: dict[str, dict[str, Any]] = {}
         self.shapes = Graph()
         self.profiles: dict[str, ProfileDefinition] = {}
+        # Predicates declared by core; set once core is loaded.
+        self._core_predicates: frozenset[str] = frozenset()
         if load_core:
             package_profile = Path(__file__).resolve().parents[1] / "profiles" / "core"
             repository_profile = Path(__file__).resolve().parents[3] / "profiles" / "core"
@@ -572,6 +575,7 @@ class ProfileRegistry:
                     predicates[iri] = PropertyDefinition(prop.name, prop.ranges, 0, None, prop.enum)
         if set(classes) & set(self.classes):
             fail("C1-PR-001", "Profile redefines an existing class", str(manifest_path))
+        already_registered: set[str] = set()
         for iri in set(predicates) & set(self.predicates):
             existing = self.predicates[iri]
             incoming = predicates[iri]
@@ -579,7 +583,13 @@ class ProfileRegistry:
                 fail("C1-PR-001", "Profile redefines an existing predicate range", iri)
             # Shared vocabulary predicates retain the core's broad declaration;
             # each class retains its own cardinality and range constraints.
-            del predicates[iri]
+            if iri in self._core_predicates:
+                del predicates[iri]
+            else:
+                # An identical redeclaration of another extension's predicate stays
+                # part of this profile's own definition, so its digest does not
+                # depend on which other extensions were loaded first.
+                already_registered.add(iri)
         profile_definition = ProfileDefinition(
             name,
             version,
@@ -595,10 +605,14 @@ class ProfileRegistry:
             property_constraints,
         )
         self.classes.update(classes)
-        self.predicates.update(predicates)
+        self.predicates.update(
+            {iri: value for iri, value in predicates.items() if iri not in already_registered}
+        )
         self.contexts[context_id] = context
         self.shapes += graph
         self.profiles[name] = profile_definition
+        if name == "core":
+            self._core_predicates = frozenset(self.predicates)
 
 
 def compare_profiles(old: ProfileDefinition, new: ProfileDefinition) -> list[Diagnostic]:

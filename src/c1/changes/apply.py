@@ -45,14 +45,15 @@ from c1.changes.models import (
 )
 from c1.changes.profiles import compare_candidate, detect_installed_registry, load_candidate
 from c1.changes.storage import storage_diagnostics
-from c1.changes.validation import _REFERENCE_PROPERTIES, validate_changeset
+from c1.changes.validation import reference_classes, validate_changeset
 from c1.interchange import validate_records
 from c1.model.diagnostics import Diagnostic, ProfileError
 from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
 from c1.model.records import ActivityRecord
 from c1.model.time import TimeBoundary, TimeInterval
-from c1.storage.mapping import record_to_document, records_to_documents
+from c1.query.compile import fetch_records
+from c1.storage.mapping import document_to_record, record_to_document, records_to_documents
 from c1.storage.schema import _profile_marker, generated_classes, generated_core_schema
 from c1.storage.terminus import StorageError
 
@@ -115,6 +116,54 @@ def _part_document(record: dict[str, Any] | NodeRecord) -> str | None:
     if isinstance(values, list) and len(values) == 1 and isinstance(values[0], str):
         return values[0]
     return None
+
+
+class _DecisionMemo:
+    """Deduplicate identical authorization decisions within one request step.
+
+    Each distinct decision is still computed fresh by the plane. Repeats of the
+    same (principal, operation, target) reuse it only while the security
+    journal head is unchanged; `require_unchanged` fails closed otherwise.
+    Nothing is retained after the step, so this is not a positive cache.
+    """
+
+    def __init__(self, plane: AuthorizationPlane) -> None:
+        self.plane = plane
+        self.journal = plane.journal
+        self._decisions: dict[tuple[str, ...], Decision] = {}
+        self._head: str | None = None
+
+    async def _once(self, key: tuple[str, ...], compute: Any) -> Decision:
+        if key not in self._decisions:
+            if self._head is None:
+                self._head = await self.journal.head()
+            self._decisions[key] = await compute()
+        return self._decisions[key]
+
+    async def check_scope(self, p: Principal, op: str, scope_id: str) -> Decision:
+        return await self._once(
+            ("scope", p.id, op, scope_id), lambda: self.plane.check_scope(p, op, scope_id)
+        )
+
+    async def check_read(self, p: Principal, resource_id: str) -> Decision:
+        return await self._once(
+            ("read", p.id, resource_id), lambda: self.plane.check_read(p, resource_id)
+        )
+
+    async def check_operation(
+        self, p: Principal, op: str, resource_id: str, *, excluding: str = ""
+    ) -> Decision:
+        return await self._once(
+            ("operation", p.id, op, resource_id, excluding),
+            lambda: self.plane.check_operation(p, op, resource_id, excluding=excluding),
+        )
+
+    async def check_instance(self, p: Principal, op: str) -> Decision:
+        return await self._once(("instance", p.id, op), lambda: self.plane.check_instance(p, op))
+
+    async def require_unchanged(self) -> None:
+        if self._head is not None and await self.journal.head() != self._head:
+            raise SecurityError(503, "security_revision_changed")
 
 
 class ChangeService:
@@ -199,23 +248,25 @@ class ChangeService:
         review: bool,
         excluding: str = "",
         staged_documents: dict[str, str] | None = None,
+        plane: _DecisionMemo | None = None,
     ) -> Decision:
         staged_documents = staged_documents or {}
+        checks: AuthorizationPlane | _DecisionMemo = plane if plane is not None else self.plane
         if isinstance(operation, CreateOperation):
             if operation.scope_id is None:
                 return Decision(False, "permission_denied")
-            decision = await self.plane.check_scope(
+            decision = await checks.check_scope(
                 p, "review" if review else "create", operation.scope_id
             )
         if isinstance(operation, ReplaceOperation):
-            decision = await self.plane.check_operation(
+            decision = await checks.check_operation(
                 p,
                 "review" if review else "contribute",
                 operation.resource_id,
                 excluding=excluding,
             )
         if not isinstance(operation, (CreateOperation, ReplaceOperation)):
-            return await self.plane.check_instance(p, "schema_admin")
+            return await checks.check_instance(p, "schema_admin")
         if not decision.allowed:
             return decision
         old = (
@@ -233,18 +284,16 @@ class ChangeService:
         if target is None:
             return Decision(False, "permission_denied")
         if target in staged_documents:
-            readable = await self.plane.check_scope(p, "read", staged_documents[target])
+            readable = await checks.check_scope(p, "read", staged_documents[target])
         else:
-            readable = await self.plane.check_read(p, target)
+            readable = await checks.check_read(p, target)
         if not readable.allowed:
             return readable
         document_permission = "review" if review else "contribute"
         if isinstance(operation, CreateOperation):
             if target in staged_documents:
-                return await self.plane.check_scope(
-                    p, document_permission, staged_documents[target]
-                )
-            return await self.plane.check_operation(p, document_permission, target)
+                return await checks.check_scope(p, document_permission, staged_documents[target])
+            return await checks.check_operation(p, document_permission, target)
         assert isinstance(operation, ReplaceOperation)
         old_document = _part_document(old) if old is not None else None
         if old_document is None:
@@ -261,11 +310,11 @@ class ChangeService:
             return decision
         for document in dict.fromkeys((old_document, target)):
             if document in staged_documents:
-                allowed = await self.plane.check_scope(
+                allowed = await checks.check_scope(
                     p, document_permission, staged_documents[document]
                 )
             else:
-                allowed = await self.plane.check_operation(p, document_permission, document)
+                allowed = await checks.check_operation(p, document_permission, document)
             if not allowed.allowed:
                 return allowed
         return decision
@@ -304,8 +353,16 @@ class ChangeService:
         return normalized
 
     async def _require_all(
-        self, p: Principal, changeset: ChangeSet, *, review: bool, excluding: str = ""
+        self,
+        p: Principal,
+        changeset: ChangeSet,
+        *,
+        review: bool,
+        excluding: str = "",
+        memo: _DecisionMemo | None = None,
     ) -> None:
+        owned = memo is None
+        checks = memo if memo is not None else _DecisionMemo(self.plane)
         staged_documents = {
             str(operation.record["id"]): operation.scope_id
             for operation in changeset.operations
@@ -322,12 +379,27 @@ class ChangeService:
                     review=review,
                     excluding=excluding,
                     staged_documents=staged_documents,
+                    plane=checks,
                 )
             )
+        if owned:
+            await checks.require_unchanged()
 
-    async def _visible(self, p: Principal, changeset: ChangeSet) -> bool:
+    async def _visible(
+        self, p: Principal, changeset: ChangeSet, memo: _DecisionMemo | None = None
+    ) -> bool:
         if p.id == changeset.author:
             return True
+        owned = memo is None
+        checks = memo if memo is not None else _DecisionMemo(self.plane)
+        visible = await self._visible_with(p, changeset, checks)
+        if owned:
+            await checks.require_unchanged()
+        return visible
+
+    async def _visible_with(
+        self, p: Principal, changeset: ChangeSet, checks: _DecisionMemo
+    ) -> bool:
         staged_documents = {
             str(operation.record["id"]): operation.scope_id
             for operation in changeset.operations
@@ -343,28 +415,30 @@ class ChangeService:
         }
         for operation in changeset.operations:
             decision = await self._permission(
-                p, operation, review=True, staged_documents=staged_documents
+                p, operation, review=True, staged_documents=staged_documents, plane=checks
             )
             if not decision.allowed:
                 return False
             if isinstance(operation, ReplaceOperation):
-                if not (await self.plane.check_read(p, operation.resource_id)).allowed:
+                if not (await checks.check_read(p, operation.resource_id)).allowed:
                     return False
             elif isinstance(operation, CreateOperation):
                 if operation.scope_id is None:
                     return False
-                if not (await self.plane.check_scope(p, "read", operation.scope_id)).allowed:
+                if not (await checks.check_scope(p, "read", operation.scope_id)).allowed:
                     return False
             if isinstance(operation, (CreateOperation, ReplaceOperation)):
                 raw_properties = operation.record.get("properties", {})
                 if not isinstance(raw_properties, dict):
                     return False
                 for predicate, values in raw_properties.items():
-                    if predicate not in _REFERENCE_PROPERTIES or not isinstance(values, list):
+                    if reference_classes(predicate, self.registry) is None or not isinstance(
+                        values, list
+                    ):
                         continue
                     for value in values:
                         if isinstance(value, str) and value not in staged_ids:
-                            if not (await self.plane.check_read(p, value)).allowed:
+                            if not (await checks.check_read(p, value)).allowed:
                                 return False
         return True
 
@@ -469,13 +543,59 @@ class ChangeService:
                 raise SecurityError(404, "not_found")
             return await self._validate_locked(p, changeset)
 
+    async def _prefetch_references(
+        self, changeset: ChangeSet
+    ) -> tuple[set[str], dict[str, NodeRecord]]:
+        """Fetch every non-staged reference target at the base revision in one batch.
+
+        Per-ID class probes cost one backend request per registered class; a
+        batched fetch does one per class for the whole ChangeSet. Callers still
+        check current read authority for each ID before using a record.
+        """
+        staged = {
+            str(operation.record.get("id"))
+            for operation in changeset.operations
+            if isinstance(operation, CreateOperation | ReplaceOperation)
+        }
+        wanted: set[str] = set()
+        for operation in changeset.operations:
+            if not isinstance(operation, CreateOperation | ReplaceOperation):
+                continue
+            properties = operation.record.get("properties", {})
+            if not isinstance(properties, dict):
+                continue
+            for predicate, values in properties.items():
+                if reference_classes(predicate, self.registry) is None or not isinstance(
+                    values, list
+                ):
+                    continue
+                wanted.update(
+                    value for value in values if isinstance(value, str) and value not in staged
+                )
+        if not wanted:
+            return set(), {}
+        try:
+            found = await fetch_records(
+                self.knowledge, self.registry, sorted(wanted), revision=changeset.base_revision
+            )
+        except (StorageError, ValueError):
+            # Leave every ID to the exact per-ID fallback.
+            return set(), {}
+        return wanted, found
+
     async def _validate_locked(self, p: Principal, changeset: ChangeSet) -> dict[str, Any]:
         if changeset.state != "submitted":
             raise SecurityError(409, "invalid_changeset_state")
 
+        prefetched = await self._prefetch_references(changeset)
+
+        checks = _DecisionMemo(self.plane)
+
         async def reference(identifier: str, revision: str) -> NodeRecord | None:
-            if not (await self.plane.check_read(p, identifier)).allowed:
+            if not (await checks.check_read(p, identifier)).allowed:
                 return None
+            if revision == changeset.base_revision and identifier in prefetched[0]:
+                return prefetched[1].get(identifier)
             return await self.knowledge.get_record(identifier, self.registry, commit=revision)
 
         staged_documents = {
@@ -489,7 +609,7 @@ class ChangeService:
 
         async def permission(operation: ChangeOperation) -> Decision:
             return await self._permission(
-                p, operation, review=False, staged_documents=staged_documents
+                p, operation, review=False, staged_documents=staged_documents, plane=checks
             )
 
         identity_types = (ResolveOperation, MergeOperation, SplitOperation, UndoMergeOperation)
@@ -693,6 +813,7 @@ class ChangeService:
                 + str(uuid4())
             ),
         )
+        await checks.require_unchanged()
         extra_diagnostics: builtins.list[Diagnostic] = []
         if result.accepted:
             extra_diagnostics.extend(
@@ -807,13 +928,15 @@ class ChangeService:
     async def approve(self, p: Principal, identifier: str) -> dict[str, Any]:
         async with self.writer.hold():
             changeset = await self._load(identifier)
-            if not await self._visible(p, changeset):
+            checks = _DecisionMemo(self.plane)
+            if not await self._visible(p, changeset, memo=checks):
                 raise SecurityError(404, "not_found")
             if changeset.state != "validated":
                 raise SecurityError(409, "invalid_changeset_state")
             if self.settings.independent_review and p.id == changeset.author:
                 raise SecurityError(403, "independent_review_required")
-            await self._require_all(p, changeset, review=True)
+            await self._require_all(p, changeset, review=True, memo=checks)
+            await checks.require_unchanged()
             decision_id = self.settings.instance_base + "review/" + uuid4().hex
             decision = {
                 "id": decision_id,
@@ -953,6 +1076,15 @@ class ChangeService:
             and _DOCUMENT in operation.record.get("types", [])
             and isinstance(operation.record.get("id"), str)
         }
+        created_ids = sorted(
+            str(operation.record.get("id"))
+            for operation in changeset.operations
+            if isinstance(operation, CreateOperation)
+            and isinstance(operation.record.get("id"), str)
+        )
+        already_stored = (
+            await fetch_records(self.knowledge, self.registry, created_ids) if created_ids else {}
+        )
         for operation in changeset.operations:
             if isinstance(operation, InstallProfileOperation):
                 raise SecurityError(503, "profile_apply_not_ready")
@@ -992,7 +1124,7 @@ class ChangeService:
                             raise SecurityError(422, "inheritance_scope_conflict")
                 if await self.journal.get("Binding", record.id) is not None:
                     raise SecurityError(404, "not_found")
-                if await self.knowledge.get_record(record.id, self.registry) is not None:
+                if record.id in already_stored:
                     raise SecurityError(404, "not_found")
                 bindings[record.id] = operation.scope_id
                 scope_by_record[record.id] = operation.scope_id
@@ -1020,21 +1152,36 @@ class ChangeService:
                 record, scope_by_record[record.id], scope_by_record
             ):
                 raise SecurityError(422, "identity_scope_conflict")
+        staged_types = {record.id: set(record.types) for record in checked.records}
+        external: dict[str, frozenset[str]] = {}
         for record in checked.records:
             for predicate, values in record.properties.items():
-                if predicate not in _REFERENCE_PROPERTIES:
+                required_classes = reference_classes(predicate, self.registry)
+                if required_classes is None:
                     continue
                 for value in values:
-                    if not isinstance(value, str) or value in staged:
+                    if not isinstance(value, str):
                         continue
-                    self._require(await self.plane.check_read(actor, value))
-                    if (
-                        await self.knowledge.get_record(
-                            value, self.registry, commit=changeset.base_revision
-                        )
-                        is None
-                    ):
-                        raise SecurityError(422, "unresolved_reference")
+                    if value in staged:
+                        if required_classes and not required_classes & staged_types[value]:
+                            raise SecurityError(422, "reference_class_mismatch")
+                        continue
+                    external[value] = external.get(value, frozenset()) | required_classes
+        for value in sorted(external):
+            self._require(await self.plane.check_read(actor, value))
+        targets = (
+            await fetch_records(
+                self.knowledge, self.registry, sorted(external), revision=changeset.base_revision
+            )
+            if external
+            else {}
+        )
+        for value, required_classes in external.items():
+            target = targets.get(value)
+            if target is None:
+                raise SecurityError(422, "unresolved_reference")
+            if required_classes and not required_classes & set(target.types):
+                raise SecurityError(422, "reference_class_mismatch")
         return checked.records, bindings, scope_by_record
 
     def _activities(
@@ -1164,11 +1311,13 @@ class ChangeService:
                 raise SecurityError(409, "approval_invalid")
             author = _principal(changeset.author)
             approver = _principal(str(decision["actor"]))
-            await self._require_all(author, changeset, review=False)
-            await self._require_all(approver, changeset, review=True)
-            await self._require_all(p, changeset, review=True)
-            if not await self._visible(approver, changeset):
+            checks = _DecisionMemo(self.plane)
+            await self._require_all(author, changeset, review=False, memo=checks)
+            await self._require_all(approver, changeset, review=True, memo=checks)
+            await self._require_all(p, changeset, review=True, memo=checks)
+            if not await self._visible(approver, changeset, memo=checks):
                 raise SecurityError(403, "approval_authority_revoked")
+            await checks.require_unchanged()
             if isinstance(changeset.operations[0], InstallProfileOperation):
                 return await self._begin_profile_apply(p, changeset, key)
             records, bindings, scope_by_record = await self._planned_records(changeset, author)
@@ -1337,13 +1486,21 @@ class ChangeService:
         decision = await self.journal.get("ReviewDecision", str(changeset.review_decision_id))
         if decision is None:
             raise SecurityError(503, "recovery_approval_missing")
+        checks = _DecisionMemo(self.plane)
         await self._require_all(
-            _principal(changeset.author), changeset, review=False, excluding=op.id
+            _principal(changeset.author), changeset, review=False, excluding=op.id, memo=checks
         )
         await self._require_all(
-            _principal(str(decision["actor"])), changeset, review=True, excluding=op.id
+            _principal(str(decision["actor"])),
+            changeset,
+            review=True,
+            excluding=op.id,
+            memo=checks,
         )
-        await self._require_all(_principal(op.actor), changeset, review=True, excluding=op.id)
+        await self._require_all(
+            _principal(op.actor), changeset, review=True, excluding=op.id, memo=checks
+        )
+        await checks.require_unchanged()
         if op.payload.get("profile_alias"):
             await self._reconcile_profile(op, changeset)
             return
@@ -1383,9 +1540,15 @@ class ChangeService:
         for identifier, scope in bindings.items():
             if await self.fga.bindings(resource_object(identifier)) != [scope_object(scope)]:
                 raise SecurityError(503, "publication_not_confirmed")
-        for raw in op.payload["records"]:
-            record = NodeRecord.model_validate(raw)
-            actual = await self.knowledge.get_record(record.id, self.registry, commit=revision)
+        expected_records = [NodeRecord.model_validate(raw) for raw in op.payload["records"]]
+        committed = await fetch_records(
+            self.knowledge,
+            self.registry,
+            [record.id for record in expected_records],
+            revision=revision,
+        )
+        for record in expected_records:
+            actual = committed.get(record.id)
             if (
                 actual is None
                 or actual.id != record.id
@@ -1477,8 +1640,11 @@ class ChangeService:
         schema = await self.knowledge.schema_documents()
         core = generated_core_schema(candidate)
         current = [*core]
+        # The profile being installed may already count as installed when its
+        # schema and marker were written before an interruption; its classes
+        # belong to the target only once.
         for installed_name in self.registry.profiles:
-            if installed_name != "core":
+            if installed_name not in {"core", name}:
                 current.extend(generated_classes(self.registry, installed_name))
         target = [*current, *generated_classes(candidate, name)]
         marker = record_to_document(
@@ -1512,7 +1678,8 @@ class ChangeService:
             await self.knowledge._insert(
                 [marker], expected_head=await self.knowledge.head(), message=message
             )
-        elif existing_marker != marker:
+        elif document_to_record(existing_marker, candidate) != _profile_marker(candidate, name):
+            # Stored subdocuments carry backend-generated IDs; compare decoded records.
             raise SecurityError(503, "profile_marker_mismatch")
         found = await self._receipt(changeset, op.actor)
         if found is None:
