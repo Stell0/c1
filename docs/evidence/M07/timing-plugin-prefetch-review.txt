@@ -1,0 +1,19 @@
+M06-T04 timing plugin extension for prefetch phase visibility
+
+Added four timing-only hooks through the existing `_phase` wrapper:
+- `QueryService.historical_records` -> `historical_cohort_fetch`
+- `AuthorizedSelection._authorize` -> `fresh_resource_authorization`
+- `CurrentBindingIndex._snapshot_after_head` -> `current_binding_index`
+- `Journal.head` -> `workflow_head`
+
+The required classes are imported inside the selected test's autouse fixture.
+No hook arguments, request bodies, credentials, headers, response bodies, or
+exception messages are recorded. Existing hooks and timing behavior are kept.
+No pytest, API, or live-service call was run. The prior review and temporary
+original remain unchanged.
+
+Commands and results:
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff check docs/evidence/M07/c1_m07_t04_timing.py` — exit 0.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff format --check docs/evidence/M07/c1_m07_t04_timing.py` — exit 0; already formatted.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked mypy --strict docs/evidence/M07/c1_m07_t04_timing.py` — exit 0; no issues in one source file.
+- `sha256sum docs/evidence/M07/c1_m07_t04_timing.py` — `212a3cd3b68f15ce0ffdcca2f996f3a758448b096c9884396e2562305412b41e`.

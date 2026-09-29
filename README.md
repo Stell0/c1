@@ -173,6 +173,18 @@ make stack-down
 Use a fresh local stack for a fresh fixture load. The loader uses the ordinary
 authenticated ChangeSet path with separate author and reviewer credentials.
 
+## Consumer-ready context (M07)
+
+M07 adds the authenticated, read-only `POST /v1/context` path. Versioned local
+data profiles select authorized paths and produce Markdown plus matching
+structured facts, excerpts, citations, qualifiers, gaps, and continuation
+bounds. Exact keyword filters retain M05 behavior; topic resolution is a
+separate explicit mode. Context rendering uses no model or provider credential.
+The full M07 acceptance gate is still in progress; see the
+[M07 plan](docs/milestones/M07.md), [API notes](docs/milestones/M07-api.md),
+and [execution report](docs/milestones/M07-report.md) for current scope and
+verification status.
+
 ## Milestone status
 
 See [PLAN.md](PLAN.md) for scope and status. Roadmap entries describe future acceptance contracts; they do not imply that the corresponding product features exist or have passed verification. Each milestone has its own plan and evidence report.

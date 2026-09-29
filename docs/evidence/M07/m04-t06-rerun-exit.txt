@@ -1,0 +1,5 @@
+pytest_exit=0
+tee_exit=0
+manifest_before_exit=0
+manifest_after_exit=0
+script_exit=0

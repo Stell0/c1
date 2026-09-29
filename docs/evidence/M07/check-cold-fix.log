@@ -1,0 +1,24 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+325 files already formatted
+uv run --locked mypy
+tests/unit/m07/test_entities_concurrency.py:65: error: Missing type arguments for generic type "dict"  [type-arg]
+tests/unit/m07/test_entities_concurrency.py:78: error: "def records(self, plan: AuthorizedPlan, revision: str, *, deadline: float, backend_gate: Semaphore | None = ..., storage_types: Mapping[str, frozenset[str]] | None = ...) -> Coroutine[Any, Any, AuthorizedRecords]" has no attribute "assert_not_awaited"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:81: error: "def records(self, plan: AuthorizedPlan, revision: str, *, deadline: float, backend_gate: Semaphore | None = ..., storage_types: Mapping[str, frozenset[str]] | None = ...) -> Coroutine[Any, Any, AuthorizedRecords]" has no attribute "assert_awaited_once"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:82: error: "def records(self, plan: AuthorizedPlan, revision: str, *, deadline: float, backend_gate: Semaphore | None = ..., storage_types: Mapping[str, frozenset[str]] | None = ...) -> Coroutine[Any, Any, AuthorizedRecords]" has no attribute "await_args"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:83: error: "def finalize(self, principal: Principal, plan: AuthorizedPlan, *, deadline: float | None = ...) -> Coroutine[Any, Any, None]" has no attribute "assert_awaited_once"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:112: error: Missing type arguments for generic type "dict"  [type-arg]
+tests/unit/m07/test_entities_concurrency.py:121: error: "def records(self, plan: AuthorizedPlan, revision: str, *, deadline: float, backend_gate: Semaphore | None = ..., storage_types: Mapping[str, frozenset[str]] | None = ...) -> Coroutine[Any, Any, AuthorizedRecords]" has no attribute "assert_not_awaited"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:122: error: "def finalize(self, principal: Principal, plan: AuthorizedPlan, *, deadline: float | None = ...) -> Coroutine[Any, Any, None]" has no attribute "assert_not_awaited"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:148: error: Missing type arguments for generic type "dict"  [type-arg]
+tests/unit/m07/test_entities_concurrency.py:166: error: "def records(self, plan: AuthorizedPlan, revision: str, *, deadline: float, backend_gate: Semaphore | None = ..., storage_types: Mapping[str, frozenset[str]] | None = ...) -> Coroutine[Any, Any, AuthorizedRecords]" has no attribute "assert_not_awaited"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:179: error: "Callable[[], Coroutine[Any, Any, str]]" has no attribute "assert_not_awaited"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:180: error: "def selection(self, principal: Principal, *, scope_ids: Iterable[str] | None = ..., deadline: float) -> Coroutine[Any, Any, tuple[AuthorizedPlan, dict[str, NodeRecord]]]" has no attribute "assert_not_awaited"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:181: error: "def records(self, plan: AuthorizedPlan, revision: str, *, deadline: float, backend_gate: Semaphore | None = ..., storage_types: Mapping[str, frozenset[str]] | None = ...) -> Coroutine[Any, Any, AuthorizedRecords]" has no attribute "assert_not_awaited"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:206: error: Function is missing a return type annotation  [no-untyped-def]
+tests/unit/m07/test_entities_concurrency.py:213: error: Missing type arguments for generic type "dict"  [type-arg]
+tests/unit/m07/test_entities_concurrency.py:220: error: "Callable[[], Coroutine[Any, Any, str]]" has no attribute "assert_not_awaited"  [attr-defined]
+tests/unit/m07/test_entities_concurrency.py:221: error: "def records(self, plan: AuthorizedPlan, revision: str, *, deadline: float, backend_gate: Semaphore | None = ..., storage_types: Mapping[str, frozenset[str]] | None = ...) -> Coroutine[Any, Any, AuthorizedRecords]" has no attribute "await_args"  [attr-defined]
+Found 17 errors in 1 file (checked 237 source files)
+make: *** [Makefile:19: typecheck] Error 1

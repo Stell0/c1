@@ -1,0 +1,8 @@
+[
+  "tests/integration/m04/test_t01_reviewed_apply.py::test_t01_reviewed_source_and_manual_claims_commit_once",
+  "tests/integration/m04/test_t04_retry_crash.py::test_t04_crash_recovery_has_one_receipt[commit]",
+  "tests/integration/m04/test_t04_retry_crash.py::test_t04_crash_recovery_has_one_receipt[confirm]",
+  "tests/integration/m04/test_t04_retry_crash.py::test_t04_crash_recovery_has_one_receipt[journal]",
+  "tests/integration/m04/test_t04_retry_crash.py::test_t04_crash_recovery_has_one_receipt[tuple]",
+  "tests/integration/m04/test_t04_retry_crash.py::test_t04_create_idempotency_replays_without_duplicate"
+]

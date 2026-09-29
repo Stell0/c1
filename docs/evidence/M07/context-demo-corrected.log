@@ -1,0 +1,27 @@
+{"correlation_id": "2aa43782-7051-4fa8-8322-4dcce51cbe06", "operation": "context_build", "outcome": "unavailable", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "time_budget", "target": ""}
+Traceback (most recent call last):
+  File "/home/tux/personalbuild/c1/scripts/demo_m07.py", line 152, in <module>
+    main()
+    ~~~~^^
+  File "/home/tux/personalbuild/c1/scripts/demo_m07.py", line 146, in main
+    value = asyncio.run(demonstrate(write_goldens=args.write_goldens))
+  File "/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 196, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 119, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/tux/personalbuild/c1/scripts/demo_m07.py", line 64, in demonstrate
+    dave = await loader.request(
+           ^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/home/tux/personalbuild/c1/scripts/load_fixture.py", line 125, in request
+    raise RuntimeError(
+        f"C1 {method} {path} returned {response.status_code}: {response.text[:500]}"
+    )
+RuntimeError: C1 POST /v1/context returned 503: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-CX-014","reason":"time_budget"}

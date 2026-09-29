@@ -16,10 +16,15 @@ from c1.authorization.principal import Principal
 from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
-from c1.model.records import C1, RDF
+from c1.model.records import C1, RDF, SKOS
 from c1.model.references import is_independent_reference
 from c1.model.time import TimeBoundary, TimeInterval
-from c1.query.compile import fetch_records
+from c1.query.compile import (
+    _fetch_prepared_snapshots,
+    _HistoricalPreparation,
+    fetch_record_snapshots,
+    fetch_records,
+)
 from c1.query.cursor import CursorCodec, CursorError
 from c1.query.export import export_authorized
 from c1.query.filters import (
@@ -137,6 +142,8 @@ def _record_references_visible(
     registry: ProfileRegistry,
 ) -> bool:
     """Identity decisions and relationship assertions cannot expose hidden IDs."""
+    if SKOS + "Concept" in node.types:
+        return _iri(node, SKOS + "inScheme") in readable
     if C1 + "Assertion" in node.types:
         subject = _iri(node, RDF + "subject")
         obj = _iri(node, RDF + "object")
@@ -214,72 +221,154 @@ class QueryService:
         backend_gate: asyncio.Semaphore | None = None,
         storage_types: Mapping[str, frozenset[str]] | None = None,
     ) -> AuthorizedRecords:
+        registry = self.runtime.registry
         try:
             async with asyncio.timeout_at(deadline):
                 if backend_gate is None and storage_types is None:
                     fetched = await fetch_records(
                         self.runtime.knowledge,
-                        self.runtime.registry,
+                        registry,
                         list(plan.authorized_ids),
                         revision=revision,
                     )
                 else:
                     fetched = await fetch_records(
                         self.runtime.knowledge,
-                        self.runtime.registry,
+                        registry,
                         list(plan.authorized_ids),
                         revision=revision,
                         backend_gate=backend_gate,
                         storage_types=storage_types,
                     )
-            # A backend must never return an unrequested ID, even if its class
-            # query accidentally broadens; fail rather than filter a leak.
-            if not set(fetched).issubset(plan.authorized_ids):
-                raise QueryPlanError(503, "C1-QY-054", "unexpected_backend_selection")
-            visible_ids = set(fetched)
-            while True:
-                denied = {
-                    identifier
-                    for identifier in visible_ids
-                    if not _record_references_visible(
-                        fetched[identifier],
-                        frozenset(visible_ids),
-                        self.runtime.settings.instance_base,
-                        self.runtime.registry,
-                    )
-                }
-                if not denied:
-                    break
-                visible_ids.difference_update(denied)
-            result: dict[str, NodeRecord] = {}
-            hidden_bounds: dict[str, frozenset[str]] = {}
-            for identifier in visible_ids:
-                node = fetched[identifier]
-                properties = {
-                    predicate: visible_values
-                    for predicate, values in node.properties.items()
-                    if (
-                        visible_values := [
-                            value
-                            for value in values
-                            if not isinstance(value, str)
-                            or not is_independent_reference(predicate, self.runtime.registry)
-                            or value in visible_ids
-                        ]
-                    )
-                }
-                if C1 + "TimeInterval" in node.types:
-                    withheld = frozenset(
-                        predicate
-                        for predicate in (TIME + "hasBeginning", TIME + "hasEnd")
-                        if node.properties.get(predicate) and not properties.get(predicate)
-                    )
-                    if withheld:
-                        hidden_bounds[identifier] = withheld
-                result[identifier] = node.model_copy(update={"properties": properties})
-            return AuthorizedRecords(result, hidden_bounds)
+            return self._project_records(plan, fetched, registry)
         except TimeoutError as exc:
             raise QueryPlanError(503, "C1-QY-053", "time_budget") from exc
+
+    def prepare_historical_records(
+        self,
+        plan: AuthorizedPlan,
+        *,
+        deadline: float,
+        backend_gate: asyncio.Semaphore,
+    ) -> _HistoricalPreparation:
+        """Start NEW request-local authority for the first historical cohort."""
+        if not math.isfinite(deadline) or deadline <= time.monotonic():
+            raise QueryPlanError(503, "C1-QY-053", "time_budget")
+        return _HistoricalPreparation(
+            self.runtime.knowledge,
+            self.runtime.registry,
+            backend_gate,
+            plan,
+            plan.workflow_head,
+            deadline,
+        )
+
+    async def historical_records(
+        self,
+        plan: AuthorizedPlan,
+        revisions: list[str],
+        *,
+        deadline: float,
+        backend_gate: asyncio.Semaphore,
+        storage_types: Mapping[str, frozenset[str]] | None = None,
+        preparation: _HistoricalPreparation | None = None,
+    ) -> dict[str, AuthorizedRecords]:
+        """Project each bounded historical snapshot after fresh cohort authority."""
+        if preparation is not None and not isinstance(preparation, _HistoricalPreparation):
+            raise QueryPlanError(503, "C1-QY-054", "historical_preparation_mismatch")
+        registry = self.runtime.registry if preparation is None else preparation.registry
+        if preparation is not None:
+            try:
+                preparation._validate(
+                    self.runtime.knowledge,
+                    registry,
+                    backend_gate,
+                    plan,
+                    plan.workflow_head,
+                    deadline,
+                )
+            except ValueError as exc:
+                raise QueryPlanError(503, "C1-QY-054", "historical_preparation_mismatch") from exc
+        try:
+            async with asyncio.timeout_at(deadline):
+                if preparation is None:
+                    snapshots = await fetch_record_snapshots(
+                        self.runtime.knowledge,
+                        registry,
+                        plan.authorized_ids,
+                        revisions,
+                        backend_gate=backend_gate,
+                        storage_types=storage_types,
+                    )
+                else:
+                    snapshots = await _fetch_prepared_snapshots(
+                        self.runtime.knowledge,
+                        registry,
+                        plan.authorized_ids,
+                        revisions,
+                        preparation,
+                        origin=plan,
+                        workflow_head=plan.workflow_head,
+                        deadline=deadline,
+                        backend_gate=backend_gate,
+                        storage_types=storage_types,
+                    )
+                return {
+                    revision: self._project_records(plan, fetched, registry)
+                    for revision, fetched in snapshots.items()
+                }
+        except TimeoutError as exc:
+            raise QueryPlanError(503, "C1-QY-053", "time_budget") from exc
+
+    def _project_records(
+        self, plan: AuthorizedPlan, fetched: dict[str, NodeRecord], registry: ProfileRegistry
+    ) -> AuthorizedRecords:
+        # A backend must never return an unrequested ID, even if its class
+        # query accidentally broadens; fail rather than filter a leak.
+        if not set(fetched).issubset(plan.authorized_ids):
+            raise QueryPlanError(503, "C1-QY-054", "unexpected_backend_selection")
+        visible_ids = set(fetched)
+        while True:
+            denied = {
+                identifier
+                for identifier in visible_ids
+                if not _record_references_visible(
+                    fetched[identifier],
+                    frozenset(visible_ids),
+                    self.runtime.settings.instance_base,
+                    registry,
+                )
+            }
+            if not denied:
+                break
+            visible_ids.difference_update(denied)
+        result: dict[str, NodeRecord] = {}
+        hidden_bounds: dict[str, frozenset[str]] = {}
+        for identifier in visible_ids:
+            node = fetched[identifier]
+            properties = {
+                predicate: visible_values
+                for predicate, values in node.properties.items()
+                if (
+                    visible_values := [
+                        value
+                        for value in values
+                        if not isinstance(value, str)
+                        or not is_independent_reference(predicate, registry)
+                        or value in visible_ids
+                    ]
+                )
+            }
+            if C1 + "TimeInterval" in node.types:
+                withheld = frozenset(
+                    predicate
+                    for predicate in (TIME + "hasBeginning", TIME + "hasEnd")
+                    if node.properties.get(predicate) and not properties.get(predicate)
+                )
+                if withheld:
+                    hidden_bounds[identifier] = withheld
+            result[identifier] = node.model_copy(update={"properties": properties})
+        return AuthorizedRecords(result, hidden_bounds)
 
     async def _revision(
         self, filters: QueryFilters, principal: Principal
@@ -364,10 +453,34 @@ class QueryService:
 
     async def entities(self, principal: Principal, filters: QueryFilters) -> dict[str, Any]:
         deadline = time.monotonic() + self.runtime.settings.query_time_budget_ms / 1000
-        revision, after = await self._revision(filters, principal)
-        plan, _ = await self.selection(principal, scope_ids=filters.scope_ids, deadline=deadline)
+        if filters.cursor is None and filters.revision is None:
+            revision_task = asyncio.create_task(self._revision(filters, principal))
+            selection_task = asyncio.create_task(
+                self.selection(principal, scope_ids=filters.scope_ids, deadline=deadline)
+            )
+            tasks = (revision_task, selection_task)
+            try:
+                async with asyncio.timeout_at(deadline):
+                    await asyncio.gather(*tasks)
+            except BaseException as exc:
+                for task in tasks:
+                    if not task.done():
+                        task.cancel()
+                await asyncio.gather(*tasks, return_exceptions=True)
+                if isinstance(exc, TimeoutError):
+                    raise QueryPlanError(503, "C1-QY-053", "time_budget") from exc
+                raise
+            revision, after = revision_task.result()
+            plan, _ = selection_task.result()
+        else:
+            revision, after = await self._revision(filters, principal)
+            plan, _ = await self.selection(
+                principal, scope_ids=filters.scope_ids, deadline=deadline
+            )
         records = await self.records(plan, revision, deadline=deadline)
-        entities = [node for node in records.values() if C1 + "Entity" in node.types]
+        entities = [
+            node for node in records.values() if self.runtime.registry.is_entity(node.types)
+        ]
         assertions = tuple(node for node in records.values() if C1 + "Assertion" in node.types)
         keywords = {
             identifier: node for identifier, node in records.items() if C1 + "Keyword" in node.types
@@ -587,7 +700,7 @@ class QueryService:
         selected_revision = revision or await self.runtime.knowledge.head()
         records = await self.records(plan, selected_revision, deadline=deadline)
         node = records.get(identifier)
-        if node is None or C1 + "Entity" not in node.types:
+        if node is None or not self.runtime.registry.is_entity(node.types):
             raise QueryPlanError(404, "C1-QY-404", "not_found")
         result = node.model_dump(mode="json")
         if _text(node, C1 + "lifecycle") == "superseded":
@@ -639,7 +752,10 @@ class QueryService:
                 node
                 for node in records.values()
                 if (not types or set(types) & set(node.types))
-                and bool(_PRESENTABLE & set(node.types))
+                and (
+                    self.runtime.registry.is_entity(node.types)
+                    or bool(_PRESENTABLE & set(node.types))
+                )
             ),
             key=lambda node: node.id,
         )
@@ -676,6 +792,7 @@ class QueryService:
 
     async def catalog(self, principal: Principal) -> dict[str, Any]:
         deadline = time.monotonic() + self.runtime.settings.query_time_budget_ms / 1000
+        context_profiles = self.runtime.context_catalog().catalog()
         plan, _ = await self.selection(principal, deadline=deadline)
         revision = await self.runtime.knowledge.head()
         records = await self.records(plan, revision, deadline=deadline)
@@ -703,6 +820,7 @@ class QueryService:
             },
             "classes": classes,
             "predicates": predicates,
+            "context_profiles": context_profiles,
             "limits": {
                 "page_default": 50,
                 "page_max": 200,
@@ -782,7 +900,7 @@ class QueryService:
             raise QueryPlanError(409, "C1-QY-051", "restart_required")
         selected_revision = revision or await self.runtime.knowledge.head()
         records = await self.records(plan, selected_revision, deadline=deadline)
-        if start_id not in records or C1 + "Entity" not in records[start_id].types:
+        if start_id not in records or not self.runtime.registry.is_entity(records[start_id].types):
             raise QueryPlanError(404, "C1-QY-404", "not_found")
         try:
             result = traverse_authorized(

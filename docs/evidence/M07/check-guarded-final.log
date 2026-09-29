@@ -1,0 +1,16 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+unformatted: File would be reformatted
+   --> src/c1/query/plan.py:184:46
+    |
+183 |                     except Exception as exc:
+    -                         raise QueryPlanError(
+    -                             503, "C1-QY-054", "authorization_unavailable"
+    -                         ) from exc
+184 +                         raise QueryPlanError(503, "C1-QY-054", "authorization_unavailable") from exc
+185 |                 finally:
+    |
+
+1 file would be reformatted, 338 files already formatted
+make: *** [Makefile:16: lint] Error 1

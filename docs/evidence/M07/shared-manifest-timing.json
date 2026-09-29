@@ -1,0 +1,2610 @@
+{
+  "diagnostic": "M06-T04 timing only; original test and two-second budget",
+  "pytest_exit": 1,
+  "requests": [
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 50
+      },
+      "endpoint": "/v1/documents/{document_id}",
+      "method": "GET",
+      "ordinal": 1,
+      "phases": [
+        {
+          "duration_ms": 839.265,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 49.566
+        },
+        {
+          "duration_ms": 556.978,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 49.582
+        },
+        {
+          "duration_ms": 150.891,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 49.609
+        },
+        {
+          "duration_ms": 14.794,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 400.917
+        },
+        {
+          "duration_ms": 190.773,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 415.723
+        },
+        {
+          "duration_ms": 282.257,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 606.569
+        },
+        {
+          "duration_ms": 277.112,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 606.715
+        },
+        {
+          "duration_ms": 125.64,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 608.907
+        },
+        {
+          "duration_ms": 121.617,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 609.275
+        },
+        {
+          "duration_ms": 136.521,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 609.709
+        },
+        {
+          "duration_ms": 131.962,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 610.08
+        },
+        {
+          "duration_ms": 124.604,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 610.46
+        },
+        {
+          "duration_ms": 137.372,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 610.876
+        },
+        {
+          "duration_ms": 81.227,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 731.002
+        },
+        {
+          "duration_ms": 82.141,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 735.255
+        },
+        {
+          "duration_ms": 75.646,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 736.083
+        },
+        {
+          "duration_ms": 74.831,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 742.089
+        },
+        {
+          "duration_ms": 73.003,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 746.916
+        },
+        {
+          "duration_ms": 76.161,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 748.316
+        },
+        {
+          "duration_ms": 74.085,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 812.266
+        },
+        {
+          "duration_ms": 73.899,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 813.211
+        },
+        {
+          "duration_ms": 69.016,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 817.584
+        },
+        {
+          "duration_ms": 70.145,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 818.44
+        },
+        {
+          "duration_ms": 66.721,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 820.113
+        },
+        {
+          "duration_ms": 63.123,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 824.797
+        },
+        {
+          "duration_ms": 365.038,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 888.952
+        },
+        {
+          "duration_ms": 177.339,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 888.991
+        },
+        {
+          "duration_ms": 15.025,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 889.592
+        },
+        {
+          "duration_ms": 187.629,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 1066.343
+        }
+      ],
+      "start_ms": 574818.398,
+      "status": 200,
+      "total_ms": 1254.428
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 56
+      },
+      "endpoint": "/v1/documents/{document_id}/render",
+      "method": "GET",
+      "ordinal": 2,
+      "phases": [
+        {
+          "duration_ms": 658.916,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 35.951
+        },
+        {
+          "duration_ms": 389.455,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 35.964
+        },
+        {
+          "duration_ms": 186.241,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 35.983
+        },
+        {
+          "duration_ms": 11.617,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 228.985
+        },
+        {
+          "duration_ms": 184.766,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 240.613
+        },
+        {
+          "duration_ms": 269.435,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 425.427
+        },
+        {
+          "duration_ms": 269.235,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 425.506
+        },
+        {
+          "duration_ms": 74.405,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 427.679
+        },
+        {
+          "duration_ms": 73.625,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.105
+        },
+        {
+          "duration_ms": 78.78,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.534
+        },
+        {
+          "duration_ms": 73.483,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.979
+        },
+        {
+          "duration_ms": 82.751,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 429.419
+        },
+        {
+          "duration_ms": 77.817,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 429.797
+        },
+        {
+          "duration_ms": 81.997,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 502.533
+        },
+        {
+          "duration_ms": 76.375,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 503.546
+        },
+        {
+          "duration_ms": 80.496,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 504.335
+        },
+        {
+          "duration_ms": 59.713,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 507.787
+        },
+        {
+          "duration_ms": 67.511,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 508.501
+        },
+        {
+          "duration_ms": 71.397,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 512.691
+        },
+        {
+          "duration_ms": 64.003,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 567.561
+        },
+        {
+          "duration_ms": 68.802,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 576.057
+        },
+        {
+          "duration_ms": 65.248,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 579.962
+        },
+        {
+          "duration_ms": 67.013,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 584.864
+        },
+        {
+          "duration_ms": 67.867,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 585.669
+        },
+        {
+          "duration_ms": 66.846,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 586.375
+        },
+        {
+          "duration_ms": 338.69,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 694.925
+        },
+        {
+          "duration_ms": 154.334,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 694.958
+        },
+        {
+          "duration_ms": 12.867,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 695.625
+        },
+        {
+          "duration_ms": 184.287,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 849.305
+        }
+      ],
+      "start_ms": 576072.902,
+      "status": 200,
+      "total_ms": 1034.014
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 64
+      },
+      "endpoint": "/v1/documents/{document_id}/parts",
+      "method": "GET",
+      "ordinal": 3,
+      "phases": [
+        {
+          "duration_ms": 650.356,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 37.353
+        },
+        {
+          "duration_ms": 385.866,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 37.362
+        },
+        {
+          "duration_ms": 184.264,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 37.378
+        },
+        {
+          "duration_ms": 11.712,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 226.485
+        },
+        {
+          "duration_ms": 184.987,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 238.206
+        },
+        {
+          "duration_ms": 264.471,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 423.234
+        },
+        {
+          "duration_ms": 264.255,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 423.322
+        },
+        {
+          "duration_ms": 77.951,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 425.683
+        },
+        {
+          "duration_ms": 74.37,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 426.134
+        },
+        {
+          "duration_ms": 61.636,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 426.582
+        },
+        {
+          "duration_ms": 76.852,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 427.003
+        },
+        {
+          "duration_ms": 75.778,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.425
+        },
+        {
+          "duration_ms": 61.098,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.85
+        },
+        {
+          "duration_ms": 66.204,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 488.31
+        },
+        {
+          "duration_ms": 63.967,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 490.124
+        },
+        {
+          "duration_ms": 68.235,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 500.543
+        },
+        {
+          "duration_ms": 74.766,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 504.423
+        },
+        {
+          "duration_ms": 74.314,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 505.189
+        },
+        {
+          "duration_ms": 73.09,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 505.81
+        },
+        {
+          "duration_ms": 72.408,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 554.544
+        },
+        {
+          "duration_ms": 76.006,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 555.299
+        },
+        {
+          "duration_ms": 62.865,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 568.825
+        },
+        {
+          "duration_ms": 69.29,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 579.534
+        },
+        {
+          "duration_ms": 73.017,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 580.323
+        },
+        {
+          "duration_ms": 71.192,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 581.004
+        },
+        {
+          "duration_ms": 384.918,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 687.742
+        },
+        {
+          "duration_ms": 194.29,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 687.775
+        },
+        {
+          "duration_ms": 16.304,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 688.413
+        },
+        {
+          "duration_ms": 190.57,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 882.075
+        }
+      ],
+      "start_ms": 577106.991,
+      "status": 200,
+      "total_ms": 1073.097
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 72
+      },
+      "endpoint": "/v1/documents/{document_id}/export",
+      "method": "GET",
+      "ordinal": 4,
+      "phases": [
+        {
+          "duration_ms": 629.599,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 39.494
+        },
+        {
+          "duration_ms": 354.514,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 39.505
+        },
+        {
+          "duration_ms": 148.572,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 39.521
+        },
+        {
+          "duration_ms": 11.145,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 195.314
+        },
+        {
+          "duration_ms": 187.507,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 206.469
+        },
+        {
+          "duration_ms": 275.065,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 394.024
+        },
+        {
+          "duration_ms": 274.847,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 394.115
+        },
+        {
+          "duration_ms": 80.107,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 396.387
+        },
+        {
+          "duration_ms": 74.499,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 396.786
+        },
+        {
+          "duration_ms": 74.953,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 397.173
+        },
+        {
+          "duration_ms": 73.99,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 397.561
+        },
+        {
+          "duration_ms": 73.061,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 397.928
+        },
+        {
+          "duration_ms": 73.493,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 398.317
+        },
+        {
+          "duration_ms": 71.231,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 472.166
+        },
+        {
+          "duration_ms": 71.141,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 472.95
+        },
+        {
+          "duration_ms": 83.937,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 473.648
+        },
+        {
+          "duration_ms": 84.41,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 474.275
+        },
+        {
+          "duration_ms": 74.78,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 474.876
+        },
+        {
+          "duration_ms": 81.089,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 477.053
+        },
+        {
+          "duration_ms": 81.142,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 544.174
+        },
+        {
+          "duration_ms": 80.325,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 545.274
+        },
+        {
+          "duration_ms": 71.612,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 550.012
+        },
+        {
+          "duration_ms": 67.665,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 558.738
+        },
+        {
+          "duration_ms": 79.86,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 560.044
+        },
+        {
+          "duration_ms": 69.383,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 561.082
+        },
+        {
+          "duration_ms": 341.291,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 676.908
+        },
+        {
+          "duration_ms": 151.903,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 676.956
+        },
+        {
+          "duration_ms": 17.156,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 677.737
+        },
+        {
+          "duration_ms": 189.311,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 828.871
+        }
+      ],
+      "start_ms": 578180.153,
+      "status": 200,
+      "total_ms": 1018.641
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 50
+      },
+      "endpoint": "/v1/documents/{document_id}",
+      "method": "GET",
+      "ordinal": 5,
+      "phases": [
+        {
+          "duration_ms": 641.013,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 36.71
+        },
+        {
+          "duration_ms": 387.058,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 36.722
+        },
+        {
+          "duration_ms": 186.22,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 36.737
+        },
+        {
+          "duration_ms": 10.933,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 226.69
+        },
+        {
+          "duration_ms": 186.079,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 237.633
+        },
+        {
+          "duration_ms": 253.929,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 423.79
+        },
+        {
+          "duration_ms": 253.632,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 423.925
+        },
+        {
+          "duration_ms": 67.022,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 426.514
+        },
+        {
+          "duration_ms": 80.466,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 426.976
+        },
+        {
+          "duration_ms": 73.185,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 427.426
+        },
+        {
+          "duration_ms": 78.73,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 427.851
+        },
+        {
+          "duration_ms": 78.854,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.269
+        },
+        {
+          "duration_ms": 72.365,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.698
+        },
+        {
+          "duration_ms": 74.699,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 493.596
+        },
+        {
+          "duration_ms": 72.912,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 501.12
+        },
+        {
+          "duration_ms": 65.727,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 502.078
+        },
+        {
+          "duration_ms": 71.021,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 507.673
+        },
+        {
+          "duration_ms": 70.504,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 508.477
+        },
+        {
+          "duration_ms": 67.569,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 509.109
+        },
+        {
+          "duration_ms": 85.358,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 568.336
+        },
+        {
+          "duration_ms": 78.294,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 569.25
+        },
+        {
+          "duration_ms": 64.786,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 574.078
+        },
+        {
+          "duration_ms": 70.197,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 577.727
+        },
+        {
+          "duration_ms": 65.199,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 579.028
+        },
+        {
+          "duration_ms": 68.545,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 579.719
+        },
+        {
+          "duration_ms": 389.903,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 677.789
+        },
+        {
+          "duration_ms": 196.388,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 677.827
+        },
+        {
+          "duration_ms": 15.205,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 678.575
+        },
+        {
+          "duration_ms": 193.444,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 874.23
+        }
+      ],
+      "start_ms": 579198.871,
+      "status": 200,
+      "total_ms": 1068.228
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 56
+      },
+      "endpoint": "/v1/documents/{document_id}/render",
+      "method": "GET",
+      "ordinal": 6,
+      "phases": [
+        {
+          "duration_ms": 637.35,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 53.327
+        },
+        {
+          "duration_ms": 369.712,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 53.339
+        },
+        {
+          "duration_ms": 165.657,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 53.357
+        },
+        {
+          "duration_ms": 12.665,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 223.0
+        },
+        {
+          "duration_ms": 187.335,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 235.675
+        },
+        {
+          "duration_ms": 267.616,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 423.057
+        },
+        {
+          "duration_ms": 267.315,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 423.225
+        },
+        {
+          "duration_ms": 85.441,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 425.96
+        },
+        {
+          "duration_ms": 80.124,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 426.43
+        },
+        {
+          "duration_ms": 81.536,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 426.863
+        },
+        {
+          "duration_ms": 83.474,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.218
+        },
+        {
+          "duration_ms": 69.814,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 428.647
+        },
+        {
+          "duration_ms": 59.591,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 429.058
+        },
+        {
+          "duration_ms": 63.14,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 488.699
+        },
+        {
+          "duration_ms": 67.027,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 498.525
+        },
+        {
+          "duration_ms": 79.631,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 506.62
+        },
+        {
+          "duration_ms": 77.223,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 508.603
+        },
+        {
+          "duration_ms": 82.562,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 511.845
+        },
+        {
+          "duration_ms": 73.983,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 512.649
+        },
+        {
+          "duration_ms": 65.642,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 551.889
+        },
+        {
+          "duration_ms": 61.914,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 565.609
+        },
+        {
+          "duration_ms": 63.241,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 586.671
+        },
+        {
+          "duration_ms": 61.757,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 587.766
+        },
+        {
+          "duration_ms": 68.871,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 588.721
+        },
+        {
+          "duration_ms": 63.985,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 594.449
+        },
+        {
+          "duration_ms": 350.419,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 690.73
+        },
+        {
+          "duration_ms": 158.711,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 690.762
+        },
+        {
+          "duration_ms": 13.117,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 691.368
+        },
+        {
+          "duration_ms": 191.637,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 849.488
+        }
+      ],
+      "start_ms": 580267.182,
+      "status": 200,
+      "total_ms": 1041.765
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 64
+      },
+      "endpoint": "/v1/documents/{document_id}/parts",
+      "method": "GET",
+      "ordinal": 7,
+      "phases": [
+        {
+          "duration_ms": 674.622,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 46.113
+        },
+        {
+          "duration_ms": 405.415,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 46.126
+        },
+        {
+          "duration_ms": 164.841,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 46.144
+        },
+        {
+          "duration_ms": 17.405,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 215.141
+        },
+        {
+          "duration_ms": 218.931,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 232.558
+        },
+        {
+          "duration_ms": 269.181,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 451.55
+        },
+        {
+          "duration_ms": 268.935,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 451.662
+        },
+        {
+          "duration_ms": 88.52,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 456.033
+        },
+        {
+          "duration_ms": 87.349,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 456.833
+        },
+        {
+          "duration_ms": 79.047,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 457.61
+        },
+        {
+          "duration_ms": 85.423,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 458.354
+        },
+        {
+          "duration_ms": 86.143,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 459.089
+        },
+        {
+          "duration_ms": 78.765,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 459.802
+        },
+        {
+          "duration_ms": 71.253,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 536.726
+        },
+        {
+          "duration_ms": 70.091,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 538.725
+        },
+        {
+          "duration_ms": 76.708,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 545.281
+        },
+        {
+          "duration_ms": 79.562,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 546.354
+        },
+        {
+          "duration_ms": 74.156,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 547.328
+        },
+        {
+          "duration_ms": 79.646,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 548.075
+        },
+        {
+          "duration_ms": 65.946,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 608.869
+        },
+        {
+          "duration_ms": 71.203,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 610.195
+        },
+        {
+          "duration_ms": 67.322,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 622.074
+        },
+        {
+          "duration_ms": 82.138,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 623.406
+        },
+        {
+          "duration_ms": 59.387,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 626.716
+        },
+        {
+          "duration_ms": 77.464,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 628.334
+        },
+        {
+          "duration_ms": 372.653,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 720.769
+        },
+        {
+          "duration_ms": 180.974,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 720.803
+        },
+        {
+          "duration_ms": 14.515,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 721.59
+        },
+        {
+          "duration_ms": 191.617,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 901.787
+        }
+      ],
+      "start_ms": 581309.043,
+      "status": 200,
+      "total_ms": 1093.85
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 72
+      },
+      "endpoint": "/v1/documents/{document_id}/export",
+      "method": "GET",
+      "ordinal": 8,
+      "phases": [
+        {
+          "duration_ms": 611.472,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 39.873
+        },
+        {
+          "duration_ms": 353.32,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 39.885
+        },
+        {
+          "duration_ms": 143.939,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 39.901
+        },
+        {
+          "duration_ms": 16.763,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 187.4
+        },
+        {
+          "duration_ms": 188.981,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 204.173
+        },
+        {
+          "duration_ms": 258.127,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 393.214
+        },
+        {
+          "duration_ms": 257.81,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 393.355
+        },
+        {
+          "duration_ms": 71.678,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 396.329
+        },
+        {
+          "duration_ms": 70.299,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 397.938
+        },
+        {
+          "duration_ms": 70.344,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 398.384
+        },
+        {
+          "duration_ms": 69.68,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 398.825
+        },
+        {
+          "duration_ms": 73.665,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 399.303
+        },
+        {
+          "duration_ms": 67.868,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 399.757
+        },
+        {
+          "duration_ms": 63.729,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 468.759
+        },
+        {
+          "duration_ms": 84.822,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 469.576
+        },
+        {
+          "duration_ms": 75.733,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 470.137
+        },
+        {
+          "duration_ms": 74.897,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 470.679
+        },
+        {
+          "duration_ms": 74.938,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 471.202
+        },
+        {
+          "duration_ms": 72.904,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 473.523
+        },
+        {
+          "duration_ms": 75.451,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 532.542
+        },
+        {
+          "duration_ms": 73.074,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 546.459
+        },
+        {
+          "duration_ms": 72.499,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 547.324
+        },
+        {
+          "duration_ms": 68.402,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 548.149
+        },
+        {
+          "duration_ms": 68.678,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 548.864
+        },
+        {
+          "duration_ms": 64.933,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 555.177
+        },
+        {
+          "duration_ms": 343.915,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 657.586
+        },
+        {
+          "duration_ms": 157.968,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 657.632
+        },
+        {
+          "duration_ms": 16.103,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 658.35
+        },
+        {
+          "duration_ms": 185.876,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 815.609
+        }
+      ],
+      "start_ms": 582402.966,
+      "status": 200,
+      "total_ms": 1001.936
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 81
+      },
+      "endpoint": "/v1/documents/{document_id}/history",
+      "method": "GET",
+      "ordinal": 9,
+      "phases": [
+        {
+          "duration_ms": 1524.797,
+          "outcome": "ok",
+          "phase": "document_history_total",
+          "start_ms": 36.635
+        },
+        {
+          "duration_ms": 407.312,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 37.267
+        },
+        {
+          "duration_ms": 204.756,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 37.296
+        },
+        {
+          "duration_ms": 11.021,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 246.026
+        },
+        {
+          "duration_ms": 187.463,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 257.055
+        },
+        {
+          "duration_ms": 268.514,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 445.148
+        },
+        {
+          "duration_ms": 268.249,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 445.225
+        },
+        {
+          "duration_ms": 465.683,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 447.189
+        },
+        {
+          "duration_ms": 515.757,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 447.228
+        },
+        {
+          "duration_ms": 474.305,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 447.251
+        },
+        {
+          "duration_ms": 73.013,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 448.467
+        },
+        {
+          "duration_ms": 75.759,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 448.894
+        },
+        {
+          "duration_ms": 63.962,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 449.276
+        },
+        {
+          "duration_ms": 67.081,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 449.673
+        },
+        {
+          "duration_ms": 78.962,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 450.055
+        },
+        {
+          "duration_ms": 60.385,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 450.445
+        },
+        {
+          "duration_ms": 69.226,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 510.925
+        },
+        {
+          "duration_ms": 71.745,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 513.457
+        },
+        {
+          "duration_ms": 67.567,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 516.796
+        },
+        {
+          "duration_ms": 71.589,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 521.566
+        },
+        {
+          "duration_ms": 77.86,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 524.966
+        },
+        {
+          "duration_ms": 69.572,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 529.312
+        },
+        {
+          "duration_ms": 62.943,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 580.22
+        },
+        {
+          "duration_ms": 76.35,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 585.527
+        },
+        {
+          "duration_ms": 72.307,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 586.969
+        },
+        {
+          "duration_ms": 64.307,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 593.215
+        },
+        {
+          "duration_ms": 68.507,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 598.942
+        },
+        {
+          "duration_ms": 70.753,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 602.88
+        },
+        {
+          "duration_ms": 199.958,
+          "outcome": "ok",
+          "phase": "historical_cohort_fetch",
+          "start_ms": 963.072
+        },
+        {
+          "duration_ms": 199.74,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 963.15
+        },
+        {
+          "duration_ms": 57.82,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 965.177
+        },
+        {
+          "duration_ms": 56.831,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 965.697
+        },
+        {
+          "duration_ms": 398.157,
+          "outcome": "ok",
+          "phase": "final_authorization_guarded",
+          "start_ms": 1163.086
+        },
+        {
+          "duration_ms": 15.516,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 1163.9
+        },
+        {
+          "duration_ms": 206.577,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 1163.937
+        },
+        {
+          "duration_ms": 190.183,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 1371.016
+        }
+      ],
+      "start_ms": 583404.963,
+      "status": 200,
+      "total_ms": 1561.901
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 88
+      },
+      "endpoint": "/v1/documents/{document_id}",
+      "method": "GET",
+      "ordinal": 10,
+      "phases": [
+        {
+          "duration_ms": 632.628,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 49.603
+        },
+        {
+          "duration_ms": 368.869,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 49.617
+        },
+        {
+          "duration_ms": 162.642,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 49.638
+        },
+        {
+          "duration_ms": 41.718,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 215.74
+        },
+        {
+          "duration_ms": 160.97,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 257.472
+        },
+        {
+          "duration_ms": 263.733,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 418.493
+        },
+        {
+          "duration_ms": 262.311,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 418.613
+        },
+        {
+          "duration_ms": 78.558,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 421.572
+        },
+        {
+          "duration_ms": 79.887,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 422.043
+        },
+        {
+          "duration_ms": 79.679,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 422.532
+        },
+        {
+          "duration_ms": 73.53,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 423.042
+        },
+        {
+          "duration_ms": 73.578,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 423.514
+        },
+        {
+          "duration_ms": 73.525,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 423.95
+        },
+        {
+          "duration_ms": 82.208,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 498.013
+        },
+        {
+          "duration_ms": 121.865,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 498.72
+        },
+        {
+          "duration_ms": 80.451,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 499.305
+        },
+        {
+          "duration_ms": 73.865,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 501.03
+        },
+        {
+          "duration_ms": 72.081,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 502.389
+        },
+        {
+          "duration_ms": 81.182,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 503.019
+        },
+        {
+          "duration_ms": 71.239,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 574.933
+        },
+        {
+          "duration_ms": 70.501,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 576.014
+        },
+        {
+          "duration_ms": 74.014,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 580.787
+        },
+        {
+          "duration_ms": 68.262,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 581.671
+        },
+        {
+          "duration_ms": 79.375,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 584.442
+        },
+        {
+          "duration_ms": 61.335,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 620.638
+        },
+        {
+          "duration_ms": 365.295,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 682.334
+        },
+        {
+          "duration_ms": 168.664,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 682.369
+        },
+        {
+          "duration_ms": 46.216,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 682.967
+        },
+        {
+          "duration_ms": 196.569,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 851.045
+        }
+      ],
+      "start_ms": 584966.939,
+      "status": 200,
+      "total_ms": 1048.079
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 94
+      },
+      "endpoint": "/v1/documents/{document_id}/parts",
+      "method": "GET",
+      "ordinal": 11,
+      "phases": [
+        {
+          "duration_ms": 674.973,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 37.899
+        },
+        {
+          "duration_ms": 418.83,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 37.909
+        },
+        {
+          "duration_ms": 154.178,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 37.925
+        },
+        {
+          "duration_ms": 58.354,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 196.108
+        },
+        {
+          "duration_ms": 202.22,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 254.475
+        },
+        {
+          "duration_ms": 256.121,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 456.746
+        },
+        {
+          "duration_ms": 253.776,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 456.839
+        },
+        {
+          "duration_ms": 79.687,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 460.119
+        },
+        {
+          "duration_ms": 80.223,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 460.698
+        },
+        {
+          "duration_ms": 78.821,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 461.259
+        },
+        {
+          "duration_ms": 74.668,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 461.758
+        },
+        {
+          "duration_ms": 78.336,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 462.292
+        },
+        {
+          "duration_ms": 71.382,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 462.85
+        },
+        {
+          "duration_ms": 63.173,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 534.273
+        },
+        {
+          "duration_ms": 115.767,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 536.642
+        },
+        {
+          "duration_ms": 74.482,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 541.075
+        },
+        {
+          "duration_ms": 70.882,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 541.829
+        },
+        {
+          "duration_ms": 67.469,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 542.579
+        },
+        {
+          "duration_ms": 75.83,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 543.21
+        },
+        {
+          "duration_ms": 62.169,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 597.509
+        },
+        {
+          "duration_ms": 70.974,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 610.105
+        },
+        {
+          "duration_ms": 64.055,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 614.259
+        },
+        {
+          "duration_ms": 69.063,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 615.883
+        },
+        {
+          "duration_ms": 60.809,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 619.077
+        },
+        {
+          "duration_ms": 60.142,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 652.466
+        },
+        {
+          "duration_ms": 356.599,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 712.933
+        },
+        {
+          "duration_ms": 162.723,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 712.968
+        },
+        {
+          "duration_ms": 43.939,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 713.634
+        },
+        {
+          "duration_ms": 193.807,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 875.702
+        }
+      ],
+      "start_ms": 586015.085,
+      "status": 200,
+      "total_ms": 1070.057
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 136
+      },
+      "endpoint": "/v1/documents/{document_id}",
+      "method": "GET",
+      "ordinal": 12,
+      "phases": [
+        {
+          "duration_ms": 788.406,
+          "outcome": "ok",
+          "phase": "document_selection",
+          "start_ms": 38.656
+        },
+        {
+          "duration_ms": 530.742,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 38.667
+        },
+        {
+          "duration_ms": 143.783,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 38.684
+        },
+        {
+          "duration_ms": 10.85,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 372.205
+        },
+        {
+          "duration_ms": 186.261,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 383.088
+        },
+        {
+          "duration_ms": 257.64,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 569.417
+        },
+        {
+          "duration_ms": 257.375,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 569.523
+        },
+        {
+          "duration_ms": 79.497,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 571.664
+        },
+        {
+          "duration_ms": 78.898,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 571.998
+        },
+        {
+          "duration_ms": 77.623,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 572.352
+        },
+        {
+          "duration_ms": 82.581,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 572.685
+        },
+        {
+          "duration_ms": 77.603,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 572.992
+        },
+        {
+          "duration_ms": 82.248,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 573.314
+        },
+        {
+          "duration_ms": 66.437,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 651.217
+        },
+        {
+          "duration_ms": 81.821,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 651.947
+        },
+        {
+          "duration_ms": 85.576,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 652.696
+        },
+        {
+          "duration_ms": 80.794,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 653.371
+        },
+        {
+          "duration_ms": 77.116,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 655.718
+        },
+        {
+          "duration_ms": 76.746,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 656.348
+        },
+        {
+          "duration_ms": 70.223,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 717.709
+        },
+        {
+          "duration_ms": 74.392,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 734.201
+        },
+        {
+          "duration_ms": 74.828,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 735.044
+        },
+        {
+          "duration_ms": 73.394,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 735.708
+        },
+        {
+          "duration_ms": 72.585,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 736.263
+        },
+        {
+          "duration_ms": 69.522,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 738.802
+        },
+        {
+          "duration_ms": 339.231,
+          "outcome": "ok",
+          "phase": "final_authorization",
+          "start_ms": 827.129
+        },
+        {
+          "duration_ms": 155.848,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 827.163
+        },
+        {
+          "duration_ms": 14.933,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 827.861
+        },
+        {
+          "duration_ms": 183.32,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 983.022
+        }
+      ],
+      "start_ms": 671266.975,
+      "status": 200,
+      "total_ms": 1166.793
+    },
+    {
+      "callsite": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 172
+      },
+      "code": "C1-DC-012",
+      "endpoint": "/v1/documents/{document_id}/history",
+      "method": "GET",
+      "ordinal": 13,
+      "phases": [
+        {
+          "duration_ms": 2002.087,
+          "outcome": "CancelledError",
+          "phase": "document_history_total",
+          "start_ms": 36.761
+        },
+        {
+          "duration_ms": 609.954,
+          "outcome": "ok",
+          "phase": "authorization_selection",
+          "start_ms": 37.292
+        },
+        {
+          "duration_ms": 151.961,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 37.309
+        },
+        {
+          "duration_ms": 115.395,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 383.473
+        },
+        {
+          "duration_ms": 148.308,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 498.878
+        },
+        {
+          "duration_ms": 255.548,
+          "outcome": "ok",
+          "phase": "authorized_fetch",
+          "start_ms": 647.811
+        },
+        {
+          "duration_ms": 250.981,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 647.935
+        },
+        {
+          "duration_ms": 680.576,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 649.664
+        },
+        {
+          "duration_ms": 724.453,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 649.702
+        },
+        {
+          "duration_ms": 659.087,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 649.721
+        },
+        {
+          "duration_ms": 740.714,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 649.737
+        },
+        {
+          "duration_ms": 727.82,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 649.752
+        },
+        {
+          "duration_ms": 719.063,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 649.767
+        },
+        {
+          "duration_ms": 774.09,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 649.782
+        },
+        {
+          "duration_ms": 695.158,
+          "outcome": "ok",
+          "phase": "resource_history_metadata",
+          "start_ms": 649.797
+        },
+        {
+          "duration_ms": 76.6,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 650.686
+        },
+        {
+          "duration_ms": 71.167,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 651.042
+        },
+        {
+          "duration_ms": 71.644,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 651.382
+        },
+        {
+          "duration_ms": 70.726,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 651.726
+        },
+        {
+          "duration_ms": 71.608,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 652.048
+        },
+        {
+          "duration_ms": 70.401,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 652.38
+        },
+        {
+          "duration_ms": 77.03,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 724.147
+        },
+        {
+          "duration_ms": 110.109,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 724.862
+        },
+        {
+          "duration_ms": 70.008,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 725.434
+        },
+        {
+          "duration_ms": 70.141,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 726.0
+        },
+        {
+          "duration_ms": 69.305,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 726.537
+        },
+        {
+          "duration_ms": 73.421,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 727.332
+        },
+        {
+          "duration_ms": 57.682,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 796.609
+        },
+        {
+          "duration_ms": 74.779,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 797.375
+        },
+        {
+          "duration_ms": 67.665,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 798.091
+        },
+        {
+          "duration_ms": 63.589,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 801.738
+        },
+        {
+          "duration_ms": 70.071,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 802.36
+        },
+        {
+          "duration_ms": 66.219,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 835.038
+        },
+        {
+          "duration_ms": 234.787,
+          "outcome": "ok",
+          "phase": "historical_cohort_fetch",
+          "start_ms": 1423.965
+        },
+        {
+          "duration_ms": 234.446,
+          "outcome": "ok",
+          "phase": "fresh_profile_authority",
+          "start_ms": 1424.069
+        },
+        {
+          "duration_ms": 70.517,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 1426.252
+        },
+        {
+          "duration_ms": 69.465,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 1426.954
+        },
+        {
+          "duration_ms": 65.123,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 1427.684
+        },
+        {
+          "duration_ms": 69.808,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 1428.068
+        },
+        {
+          "duration_ms": 67.351,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 1428.462
+        },
+        {
+          "duration_ms": 70.236,
+          "outcome": "ok",
+          "phase": "graphql_chunk",
+          "start_ms": 1428.898
+        },
+        {
+          "duration_ms": 379.954,
+          "outcome": "CancelledError",
+          "phase": "final_authorization_guarded",
+          "start_ms": 1658.887
+        },
+        {
+          "duration_ms": 56.162,
+          "outcome": "ok",
+          "phase": "fresh_resource_authorization",
+          "start_ms": 1659.542
+        },
+        {
+          "duration_ms": 186.713,
+          "outcome": "ok",
+          "phase": "workflow_head",
+          "start_ms": 1659.596
+        },
+        {
+          "duration_ms": 167.952,
+          "outcome": "CancelledError",
+          "phase": "workflow_head",
+          "start_ms": 1870.845
+        }
+      ],
+      "start_ms": 777255.732,
+      "status": 503,
+      "total_ms": 2039.592
+    }
+  ],
+  "test_outcomes": [
+    {
+      "outcome": "passed",
+      "phase": "setup",
+      "test": "tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views"
+    },
+    {
+      "failure_location": {
+        "file": "tests/integration/m06/test_t04_historical_rescope.py",
+        "line": 175
+      },
+      "outcome": "failed",
+      "phase": "call",
+      "test": "tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views"
+    },
+    {
+      "outcome": "passed",
+      "phase": "teardown",
+      "test": "tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views"
+    }
+  ]
+}

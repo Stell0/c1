@@ -1,0 +1,5 @@
+   Building c1 @ file:///root/c1
+      Built c1 @ file:///root/c1
+Uninstalled 1 package in 3ms
+Installed 1 package in 36ms
+PASS: 351 current source inputs match docs/evidence/M07/implementation-files-budget-harness.sha256

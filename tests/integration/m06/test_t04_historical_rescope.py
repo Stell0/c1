@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Awaitable, Callable
 from typing import Any, cast
 from urllib.parse import quote
 
@@ -224,12 +225,16 @@ def test_t04_rescoped_part_disappears_from_old_document_views() -> None:
             alice_id = (await case.principal("alice")).id
             public_reader = (alice_id, "reader", scope_object(scopes["doc-public"]))
             planner = case.runtime.query.planner
-            original_finalize = planner.finalize
+            original_finalize_after = planner.finalize_after
             injected = False
             revoked = False
 
             async def revoke_before_finalize(
-                principal: Any, plan: Any, *, deadline: float | None = None
+                principal: Any,
+                plan: Any,
+                precondition: Callable[[], Awaitable[None]],
+                *,
+                deadline: float | None = None,
             ) -> None:
                 nonlocal injected, revoked
                 await case.fga.write([], deletes=[public_reader])
@@ -238,15 +243,15 @@ def test_t04_rescoped_part_disappears_from_old_document_views() -> None:
                     alice_id, "reader", scope_object(scopes["doc-public"])
                 )
                 injected = True
-                await original_finalize(principal, plan, deadline=deadline)
+                await original_finalize_after(principal, plan, precondition, deadline=deadline)
 
-            cast(Any, planner).finalize = revoke_before_finalize
+            cast(Any, planner).finalize_after = revoke_before_finalize
             try:
                 revoked_history = await case.request(
                     "GET", document_path + "/history", actor="alice", params={"limit": 100}
                 )
             finally:
-                cast(Any, planner).finalize = original_finalize
+                cast(Any, planner).finalize_after = original_finalize_after
                 if revoked:
                     await case.fga.write([public_reader])
             assert injected, "the late authorization revocation hook did not run"

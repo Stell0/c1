@@ -124,6 +124,26 @@ def _history_candidates(
     return candidates, {key: frozenset(types[key]) for key in origins}
 
 
+def _decode_history_manifest(data: bytes) -> dict[str, list[dict[str, Any]]]:
+    """Decode head-bound plan metadata into private request-local records."""
+    try:
+        if not isinstance(data, bytes):
+            raise ValueError("history manifest must be immutable bytes")
+        decoded = json.loads(data)
+        if not isinstance(decoded, dict) or set(decoded) != {"ChangeSet", "Operation"}:
+            raise ValueError("invalid history manifest kinds")
+        if any(
+            not isinstance(decoded[kind], list)
+            or not all(isinstance(item, dict) for item in decoded[kind])
+            for kind in ("ChangeSet", "Operation")
+        ):
+            raise ValueError("invalid history manifest records")
+        result: dict[str, list[dict[str, Any]]] = decoded
+        return result
+    except (ValueError, UnicodeError) as exc:
+        raise QueryPlanError(503, "C1-DC-010", "history_unavailable") from exc
+
+
 async def _gather_bounded(work: list[Any]) -> list[Any]:
     """Cancel and await every sibling on failure, including deadline expiry."""
     tasks = [asyncio.create_task(item) for item in work]
@@ -399,25 +419,32 @@ class DocumentsService:
         cursor_revision, after = self._cursor(principal, None, cursor, digest, "history")
         deadline = time.monotonic() + self.runtime.settings.query_time_budget_ms / 1000
         async with asyncio.timeout_at(deadline):
-            selected, manifest = await _gather_bounded(
+            selected_revision, selected = await _gather_bounded(
                 [
-                    self._selection(principal, None),
-                    self._history_manifest(),
+                    self.runtime.knowledge.head(),
+                    self.runtime.query.selection(principal, deadline=deadline),
                 ]
             )
-            plan, records, selected_revision, _ = selected
-            manifest_head, journal = manifest
-            if manifest_head != plan.workflow_head:
-                raise QueryPlanError(409, "C1-DC-014", "restart_required")
+            plan, _ = selected
+            manifest_bytes = getattr(plan, "history_manifest", None)
+            if manifest_bytes is None:
+                manifest_head, journal = await self._history_manifest()
+                if manifest_head != plan.workflow_head:
+                    raise QueryPlanError(409, "C1-DC-014", "restart_required")
+            else:
+                journal = _decode_history_manifest(manifest_bytes)
             if cursor_revision is not None and cursor_revision != selected_revision:
                 raise QueryPlanError(409, "C1-DC-014", "restart_required")
-            self._document(records, identifier)
-            candidate_ids, storage_types = _history_candidates(identifier, plan, records, journal)
-            if len(candidate_ids) > MAX_PARTS:
-                raise QueryPlanError(422, "C1-DC-006", "document_too_large")
+            if not plan.contains(identifier):
+                self._document(AuthorizedRecords({}, {}), identifier)
+            early_candidates, early_types = _history_candidates(
+                identifier, plan, AuthorizedRecords({}, {}), journal
+            )
             backend_gate = asyncio.Semaphore(8)
 
-            async def resource_history(resource_id: str) -> list[dict[str, Any]]:
+            async def resource_history(
+                resource_id: str, types: frozenset[str] | None
+            ) -> list[dict[str, Any]]:
                 token: str | None = None
                 items: list[dict[str, Any]] = []
                 while True:
@@ -427,7 +454,7 @@ class DocumentsService:
                         selected_revision,
                         limit=100,
                         cursor=token,
-                        storage_types=storage_types.get(resource_id),
+                        storage_types=types,
                         backend_gate=backend_gate,
                     )
                     if response is None:
@@ -439,77 +466,134 @@ class DocumentsService:
                     if token is None:
                         return items
 
-            resource_ids = [identifier, *sorted(candidate_ids)]
-            histories = dict(
-                zip(
-                    resource_ids,
-                    await _gather_bounded([resource_history(key) for key in resource_ids]),
-                    strict=True,
+            # The current fetch keeps full class coverage. Early history reads
+            # use only plan-authorized manifests, under the same network gate.
+            current = asyncio.create_task(
+                self.runtime.query.records(
+                    plan, selected_revision, deadline=deadline, backend_gate=backend_gate
                 )
             )
-            revisions = {
-                item["revision"]
-                for resource_id, items in histories.items()
-                if resource_id != identifier
-                for item in items
-            }
-            if len(revisions) > MAX_PARTS:
-                raise QueryPlanError(422, "C1-DC-006", "document_too_large")
-            # Only attachment fields on these already authorized IDs contribute
-            # to history. Finalization still rechecks the original complete plan.
-            reference_dependent_types = {
-                C1 + "Assertion",
-                C1 + "Evidence",
-                C1 + "ResolutionRecord",
-                "urn:c1:ns:identity#Redirect",
-            }
-            narrow_snapshot = all(
-                key in storage_types and not (storage_types[key] & reference_dependent_types)
-                for key in resource_ids
-            )
-            history_plan = (
-                AuthorizedPlan(
-                    plan.workflow_head, plan.readable_scopes, tuple(resource_ids), plan.scope_by_id
-                )
-                if narrow_snapshot
-                else plan
-            )
-            snapshots = {selected_revision: records}
-            missing_revisions = sorted(revisions - snapshots.keys())
-            for batch_start in range(0, len(missing_revisions), 8):
-                batch = missing_revisions[batch_start : batch_start + 8]
-                values = await _gather_bounded(
-                    [
-                        self.runtime.query.records(
-                            history_plan,
-                            rev,
-                            deadline=deadline,
-                            backend_gate=backend_gate,
-                            storage_types=storage_types,
-                        )
-                        for rev in batch
-                    ]
-                )
-                snapshots.update(zip(batch, values, strict=True))
-            entries = {item["revision"]: item for item in histories[identifier]}
-            for resource_id in sorted(candidate_ids):
-                items = histories[resource_id]
-                if any(item["recorded_at"] is None for item in items):
-                    raise QueryPlanError(503, "C1-DC-010", "history_unavailable")
-                attached_before = False
-                for item in sorted(
-                    items, key=lambda value: (value["recorded_at"], value["revision"])
-                ):
-                    historical = snapshots[item["revision"]].get(resource_id)
-                    attached_now = (
-                        historical is not None
-                        and _iri(historical, C1 + "partOfDocument") == identifier
+            early: dict[str, asyncio.Task[list[dict[str, Any]]]] = {}
+            preparation = None
+            try:
+                # Let the current fetch enqueue its authority/content workers
+                # before metadata workers compete for the same backend gate.
+                await asyncio.sleep(0)
+                early = {
+                    key: asyncio.create_task(resource_history(key, early_types.get(key)))
+                    for key in (
+                        [identifier, *sorted(early_candidates)]
+                        if len(early_candidates) <= MAX_PARTS
+                        else []
                     )
-                    if attached_before or attached_now:
-                        entries[item["revision"]] = item
-                    attached_before = attached_now
-                if len(entries) > MAX_PARTS:
+                }
+                # Preserve document/current-fetch errors before speculative
+                # metadata failures; no early result is consumed before this.
+                records = await current
+                self._document(records, identifier)
+                candidate_ids, storage_types = _history_candidates(
+                    identifier, plan, records, journal
+                )
+                if len(candidate_ids) > MAX_PARTS:
                     raise QueryPlanError(422, "C1-DC-006", "document_too_large")
+                resource_ids = [identifier, *sorted(candidate_ids)]
+                # Only attachment fields on these already authorized IDs contribute
+                # to history. Finalization still rechecks the original complete plan.
+                reference_dependent_types = {
+                    C1 + "Assertion",
+                    C1 + "Evidence",
+                    C1 + "ResolutionRecord",
+                    "urn:c1:ns:identity#Redirect",
+                }
+                narrow_snapshot = all(
+                    key in storage_types and not (storage_types[key] & reference_dependent_types)
+                    for key in resource_ids
+                )
+                history_plan = (
+                    AuthorizedPlan(
+                        plan.workflow_head,
+                        plan.readable_scopes,
+                        tuple(resource_ids),
+                        plan.scope_by_id,
+                    )
+                    if narrow_snapshot
+                    else plan
+                )
+                preparation = self.runtime.query.prepare_historical_records(
+                    history_plan, deadline=deadline, backend_gate=backend_gate
+                )
+                stale = {
+                    key
+                    for key in early
+                    if early_types.get(key) is not None
+                    and storage_types.get(key) != early_types[key]
+                }
+                for key in stale:
+                    if not early[key].done():
+                        early[key].cancel()
+                await asyncio.gather(*(early[key] for key in stale), return_exceptions=True)
+
+                async def complete_history(key: str) -> list[dict[str, Any]]:
+                    if key in early and key not in stale:
+                        return await early[key]
+                    return await resource_history(key, storage_types.get(key))
+
+                histories = dict(
+                    zip(
+                        resource_ids,
+                        await _gather_bounded([complete_history(key) for key in resource_ids]),
+                        strict=True,
+                    )
+                )
+                revisions = {
+                    item["revision"]
+                    for resource_id, items in histories.items()
+                    if resource_id != identifier
+                    for item in items
+                }
+                if len(revisions) > MAX_PARTS:
+                    raise QueryPlanError(422, "C1-DC-006", "document_too_large")
+                snapshots = {selected_revision: records}
+                missing_revisions = sorted(revisions - snapshots.keys())
+                for batch_start in range(0, len(missing_revisions), 8):
+                    batch = missing_revisions[batch_start : batch_start + 8]
+                    values = await self.runtime.query.historical_records(
+                        history_plan,
+                        batch,
+                        deadline=deadline,
+                        backend_gate=backend_gate,
+                        storage_types=storage_types,
+                        preparation=preparation if batch_start == 0 else None,
+                    )
+                    snapshots.update(values)
+                entries = {item["revision"]: item for item in histories[identifier]}
+                for resource_id in sorted(candidate_ids):
+                    items = histories[resource_id]
+                    if any(item["recorded_at"] is None for item in items):
+                        raise QueryPlanError(503, "C1-DC-010", "history_unavailable")
+                    attached_before = False
+                    for item in sorted(
+                        items, key=lambda value: (value["recorded_at"], value["revision"])
+                    ):
+                        historical = snapshots[item["revision"]].get(resource_id)
+                        attached_now = (
+                            historical is not None
+                            and _iri(historical, C1 + "partOfDocument") == identifier
+                        )
+                        if attached_before or attached_now:
+                            entries[item["revision"]] = item
+                        attached_before = attached_now
+                    if len(entries) > MAX_PARTS:
+                        raise QueryPlanError(422, "C1-DC-006", "document_too_large")
+            except BaseException:
+                for task in (current, *early.values()):
+                    if not task.done():
+                        task.cancel()
+                await asyncio.gather(current, *early.values(), return_exceptions=True)
+                raise
+            finally:
+                if preparation is not None:
+                    await preparation.close()
         ordered = sorted(
             entries.values(),
             key=lambda item: (item["recorded_at"] or "", item["revision"]),
@@ -539,7 +623,12 @@ class DocumentsService:
             "next_cursor": next_cursor,
         }
         async with asyncio.timeout_at(deadline):
-            if await self.runtime.knowledge.head() != selected_revision:
-                raise QueryPlanError(409, "C1-DC-014", "restart_required")
-            await self._finish(principal, plan, deadline)
+
+            async def knowledge_unchanged() -> None:
+                if await self.runtime.knowledge.head() != selected_revision:
+                    raise QueryPlanError(409, "C1-DC-014", "restart_required")
+
+            await self.runtime.query.planner.finalize_after(
+                principal, plan, knowledge_unchanged, deadline=deadline
+            )
         return result

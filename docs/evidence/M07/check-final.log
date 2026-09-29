@@ -1,0 +1,8 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+311 files already formatted
+uv run --locked mypy
+tests/unit/m07/test_api.py:45: error: Missing type arguments for generic type "dict"  [type-arg]
+Found 1 error in 1 file (checked 229 source files)
+make: *** [Makefile:19: typecheck] Error 1

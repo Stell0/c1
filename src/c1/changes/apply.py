@@ -44,6 +44,7 @@ from c1.changes.models import (
     UndoMergeOperation,
 )
 from c1.changes.profiles import compare_candidate, detect_installed_registry, load_candidate
+from c1.changes.storage import storage_diagnostics
 from c1.changes.validation import _REFERENCE_PROPERTIES, validate_changeset
 from c1.interchange import validate_records
 from c1.model.diagnostics import Diagnostic, ProfileError
@@ -51,8 +52,9 @@ from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
 from c1.model.records import ActivityRecord
 from c1.model.time import TimeBoundary, TimeInterval
-from c1.storage.mapping import record_to_document
+from c1.storage.mapping import record_to_document, records_to_documents
 from c1.storage.schema import _profile_marker, generated_classes, generated_core_schema
+from c1.storage.terminus import StorageError
 
 if TYPE_CHECKING:
     from c1.authorization.audit import Audit
@@ -555,6 +557,7 @@ class ChangeService:
                         authorize=authorize,
                         list_assertions=list_assertions,
                         all_records=all_records,
+                        registry=self.registry,
                     )
                     expanded.extend(created)
                 if len(expanded) > 200 or not expanded:
@@ -691,6 +694,12 @@ class ChangeService:
             ),
         )
         extra_diagnostics: builtins.list[Diagnostic] = []
+        if result.accepted:
+            extra_diagnostics.extend(
+                storage_diagnostics(
+                    result.normalized_operations, self.registry, self.settings.instance_base
+                )
+            )
         staged_scopes = {
             str(operation.record.get("id")): operation.scope_id
             for operation in result.normalized_operations
@@ -1111,6 +1120,15 @@ class ChangeService:
                 if replay is None:
                     raise SecurityError(409, "already_applied")
                 return {**_public(changeset), "replayed": True}
+            if changeset.state == "failed" and digest is not None:
+                try:
+                    replay = await lookup_idempotency(
+                        self.journal, p.id, self.settings.knowledge_database, key, digest
+                    )
+                except IdempotencyConflict:
+                    raise SecurityError(422, "idempotency_conflict") from None
+                if replay is not None:
+                    return {**replay, "replayed": True}
             if changeset.state != "approved" or digest is None:
                 raise SecurityError(409, "not_approved")
             try:
@@ -1158,6 +1176,16 @@ class ChangeService:
                 changeset, records, bindings, scope_by_record, p
             )
             batch = validate_records([*records, *activities], self.registry)
+            # Pure serialization must succeed before durable apply intent or
+            # provisioning bindings are created.
+            try:
+                records_to_documents(batch.records, self.registry, self.settings.instance_base)
+            except StorageError as exc:
+                if exc.code != "C1-ST-004":
+                    raise
+                failed = self._transition(changeset, "fail", reason="unrepresentable_identifier")
+                await self._save(failed)
+                raise SecurityError(422, "unrepresentable_identifier") from None
             op = Operation(
                 id=str(uuid4()),
                 kind="changeset_apply",
@@ -1297,6 +1325,15 @@ class ChangeService:
             raise SecurityError(503, "recovery_state_mismatch")
         if changeset.approved_digest is None:
             raise SecurityError(503, "recovery_digest_missing")
+        if (
+            op.target != changeset.id
+            or op.payload.get("base_revision") != changeset.base_revision
+            or request_digest(changeset.base_revision, changeset.operations, changeset.rationale)
+            != changeset.approved_digest
+        ):
+            raise SecurityError(503, "recovery_payload_mismatch")
+        if not op.payload.get("profile_alias") and await self._abort_unrepresentable(op, changeset):
+            return
         decision = await self.journal.get("ReviewDecision", str(changeset.review_decision_id))
         if decision is None:
             raise SecurityError(503, "recovery_approval_missing")
@@ -1359,6 +1396,77 @@ class ChangeService:
                 raise SecurityError(503, "publication_content_mismatch")
         self._crash("confirm")
         await self._finish(op, changeset, revision, bindings)
+
+    async def _abort_unrepresentable(self, op: Operation, changeset: ChangeSet) -> bool:
+        """Close only a proved pre-commit mapper failure, preserving its audit.
+
+        Receipt lookup and the unchanged base reconcile the uncertain outcome.
+        Cleanup publishes no content or grants and does not require retained
+        author permissions. Every actual commit/publication still does.
+        """
+        records = [NodeRecord.model_validate(value) for value in op.payload["records"]]
+        try:
+            records_to_documents(records, self.registry, self.settings.instance_base)
+        except StorageError as exc:
+            if exc.code != "C1-ST-004":
+                raise
+        else:
+            return False
+        # A mapper error is only a candidate for failure until the uncertain
+        # outcome has been reconciled using the complete backend receipt log.
+        if await self._receipt(changeset, op.actor) is not None:
+            return False
+        if await self.knowledge.head() != changeset.base_revision:
+            return False
+        # Recheck the backend before constructing the terminal journal update.
+        # Under the repository writer lock, an uncertain/changed head never
+        # becomes permission to abandon an operation.
+        if await self._receipt(changeset, op.actor) is not None:
+            return False
+        if await self.knowledge.head() != changeset.base_revision:
+            return False
+        failed = self._transition(changeset, "fail", reason="unrepresentable_identifier")
+        entries: builtins.list[tuple[str, str, dict[str, Any]]] = []
+        for identifier in op.targets:
+            binding = await self.plane.bindings(identifier)
+            if binding is None or binding.operation_id != op.id:
+                continue
+            if binding.state != "provisioning":
+                raise SecurityError(503, "recovery_binding_changed")
+            if await self.fga.bindings(resource_object(identifier)):
+                raise SecurityError(503, "recovery_binding_changed")
+            failed_binding = binding.model_copy(update={"state": "failed"})
+            entries.append(("Binding", identifier, failed_binding.model_dump(mode="json")))
+        if await self._receipt(changeset, op.actor) is not None:
+            return False
+        if await self.knowledge.head() != changeset.base_revision:
+            return False
+        failed_op = op.model_copy(deep=True)
+        failed_op.state = "failed"
+        failed_op.updated = _now()
+        failed_op.payload["failure_reason"] = "unrepresentable_identifier"
+        entries.extend(
+            [
+                ("Operation", op.id, failed_op.model_dump(mode="json")),
+                idempotency_entry(
+                    op.actor,
+                    self.settings.knowledge_database,
+                    str(op.payload["idempotency_key"]),
+                    str(changeset.approved_digest),
+                    changeset.id,
+                    _public(failed),
+                ),
+            ]
+        )
+        await self._save(failed, *entries)
+        self.audit.emit(
+            op.actor,
+            "changeset_apply",
+            changeset.id,
+            outcome="failed",
+            reason="unrepresentable_identifier",
+        )
+        return True
 
     async def _reconcile_profile(self, op: Operation, changeset: ChangeSet) -> None:
         alias = str(op.payload["profile_alias"])

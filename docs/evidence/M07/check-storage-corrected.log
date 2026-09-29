@@ -1,0 +1,14 @@
+uv run --locked ruff check .
+E501 Line too long (103 > 100)
+  --> src/c1/changes/storage.py:31:101
+   |
+29 |                     severity="error",
+30 |                     path=f"/operations/{index}/record/id",
+31 |                     message="Canonical identifier cannot be represented by the pinned storage profile",
+   |                                                                                                     ^^^
+32 |                 )
+33 |             )
+   |
+
+Found 1 error.
+make: *** [Makefile:15: lint] Error 1

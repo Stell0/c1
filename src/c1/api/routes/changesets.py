@@ -4,12 +4,12 @@ from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from c1.api.deps import audit, get_principal, get_runtime
 from c1.authorization.errors import SecurityError
 from c1.authorization.principal import Principal
-from c1.changes.models import ChangeOperation
+from c1.changes.models import ChangeOperation, validate_operation_group
 from c1.runtime import Runtime
 
 router = APIRouter(prefix="/v1/changesets")
@@ -25,9 +25,13 @@ class ChangeSetCreate(_StrictRequest):
     rationale: str | None = None
     restores_from_revision: str | None = None
 
+    _operation_group = field_validator("operations")(validate_operation_group)
+
 
 class OperationsEdit(_StrictRequest):
     operations: list[ChangeOperation] = Field(min_length=1, max_length=200)
+
+    _operation_group = field_validator("operations")(validate_operation_group)
 
 
 class RejectRequest(_StrictRequest):

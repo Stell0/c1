@@ -1,0 +1,2 @@
+demo_exit=0
+tee_exit=0

@@ -1,0 +1,6 @@
+.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:124: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+1 passed in 476.77s (0:07:56)
+uv failed with exit status 2.

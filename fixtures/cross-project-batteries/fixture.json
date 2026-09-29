@@ -1,0 +1,4340 @@
+{
+  "name": "cross-project-batteries",
+  "version": "1.0.0",
+  "profile": "batteries",
+  "scopes": {
+    "bat-shared": "bat-shared",
+    "bat-papertrader": "bat-papertrader",
+    "bat-robotelier": "bat-robotelier",
+    "bat-hidden": "bat-hidden"
+  },
+  "principals": {
+    "dave": [
+      "bat-shared",
+      "bat-papertrader",
+      "bat-robotelier"
+    ],
+    "carol": [
+      "bat-shared",
+      "bat-papertrader",
+      "bat-robotelier",
+      "bat-hidden"
+    ]
+  },
+  "ids": {
+    "tesla": "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47",
+    "instrument": "urn:c1:instance:dev:entity/2fdd7103-700b-4004-a4ef-4a21167703b2",
+    "tesla-instrument": "urn:c1:instance:dev:assertion/e780e1c8-a285-43cf-b114-f303c6bf809c",
+    "revenue": "urn:c1:instance:dev:assertion/6b2ae7e6-d6fc-43ec-ba0e-2b8b395dae71",
+    "topic-scheme": "urn:c1:instance:dev:entity/397afdb5-6e1e-41da-b314-91799fc4994b",
+    "topic-batteries": "urn:c1:instance:dev:concept/21c6b31c-e384-4666-9a4f-980e3b0638dc",
+    "topic-energy-storage": "urn:c1:instance:dev:concept/d99acf1f-6ffa-4d4f-afd5-a63522382fd3",
+    "topic-vehicles": "urn:c1:instance:dev:concept/d39c4dc0-a4a5-43a2-a9ed-d1152e691830",
+    "topic-financial-instruments": "urn:c1:instance:dev:concept/b8054dfc-c6c1-4fcd-a3d2-8a1cc01ad9bf",
+    "instrument-topic": "urn:c1:instance:dev:assertion/dbdcfdb6-fad3-4404-8461-7f13ac5a7b9b",
+    "topic-source": "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26",
+    "optimus": "urn:c1:instance:dev:entity/5d094bd3-53a2-4734-93cb-44d430621987",
+    "tesla-optimus": "urn:c1:instance:dev:assertion/44744d9f-913e-4bea-b4cd-546a4f36e236",
+    "vehicle": "urn:c1:instance:dev:entity/b5ba379e-afec-43ad-b3a5-a48bd1bedbf7",
+    "tesla-vehicle": "urn:c1:instance:dev:assertion/032b35e0-f12c-4bea-b004-eb6c0975adac",
+    "megapack": "urn:c1:instance:dev:entity/376d07b2-a583-4034-97a3-dcc1f0acd2c3",
+    "tesla-megapack": "urn:c1:instance:dev:assertion/f52c9df1-bf84-46eb-8319-76ecf5591855",
+    "solar": "urn:c1:instance:dev:entity/6025a684-1d9e-4b55-97b2-c68dba3a3593",
+    "tesla-solar": "urn:c1:instance:dev:assertion/0f7c3ee5-1830-46d6-b6c4-0b7542a69947",
+    "prototype": "urn:c1:instance:dev:entity/ca86a286-05c4-4d17-85ae-14a90c5c7116",
+    "tesla-prototype": "urn:c1:instance:dev:assertion/93885bdf-a4f7-4827-9ec4-bd381520aefb",
+    "vehicle-battery": "urn:c1:instance:dev:entity/65e49410-81f8-4cd2-b540-5943ff1c4cf6",
+    "vehicle-component": "urn:c1:instance:dev:assertion/27b24ee2-12f1-4c9e-9265-4f54aa5e9338",
+    "o-b1": "urn:c1:instance:dev:entity/bd626be3-8f3a-421e-984c-b0e346d967f6",
+    "o-b1-path": "urn:c1:instance:dev:assertion/61e45511-844c-4942-9669-b53bc0b0f85c",
+    "o-b1-batteries": "urn:c1:instance:dev:assertion/1b8859f1-f8e6-42d7-8751-77055b53a1d9",
+    "o-b1-batteries-evidence": "urn:c1:instance:dev:evidence/501555f4-5e7f-4675-8e9e-6e4c5a0e184e",
+    "o-b1-energy-storage": "urn:c1:instance:dev:assertion/b75518c7-06c7-431e-a2c4-f7032aacace3",
+    "o-b1-energy-storage-evidence": "urn:c1:instance:dev:evidence/0fb22e72-0bf5-479f-8310-68f16fd99fa0",
+    "v-b2": "urn:c1:instance:dev:entity/37f8b26d-713c-4afb-9956-d3a24ad12409",
+    "v-b2-path": "urn:c1:instance:dev:assertion/7c932792-57a2-4212-be80-28ae21c8792a",
+    "v-b2-batteries": "urn:c1:instance:dev:assertion/b7ece2e4-9514-4bee-97bc-5c9c5dccaaa9",
+    "v-b2-batteries-evidence": "urn:c1:instance:dev:evidence/3df89958-28b6-4ca3-b11b-6ed8a50e0875",
+    "v-b2-energy-storage": "urn:c1:instance:dev:assertion/d0d2d78a-024b-4eac-9d19-9876ce7bc309",
+    "v-b2-energy-storage-evidence": "urn:c1:instance:dev:evidence/232d1a7a-5672-454e-8dea-2a39119d4126",
+    "keyword-v-b2-batteries": "urn:c1:instance:dev:keyword/091a0ca9-dbfc-402f-9a37-1ee8202b8c5c",
+    "keyword-v-b2-tesla": "urn:c1:instance:dev:keyword/26263655-a73b-4ad9-b949-f714a208477c",
+    "m-b3": "urn:c1:instance:dev:entity/f939c2ba-004a-4738-b12e-eabd9f0c1a87",
+    "m-b3-path": "urn:c1:instance:dev:assertion/d46a223f-bdbf-4ed0-8349-cc742f14f80f",
+    "m-b3-batteries": "urn:c1:instance:dev:assertion/57b8e803-fb96-455d-a4a0-b27cc0fad529",
+    "m-b3-batteries-evidence": "urn:c1:instance:dev:evidence/44943a27-cb0b-435b-af8a-b5ef641a8f2c",
+    "m-b3-energy-storage": "urn:c1:instance:dev:assertion/912fc59f-947a-4b7c-8804-de1432d11d7b",
+    "m-b3-energy-storage-evidence": "urn:c1:instance:dev:evidence/b33c5ff2-c1dc-46ce-b4f0-4da6990d84f6",
+    "keyword-m-b3-megapack": "urn:c1:instance:dev:keyword/a24b7f3f-fd59-463f-9ded-6b7308affc62",
+    "keyword-m-b3-storage": "urn:c1:instance:dev:keyword/95f04124-e4d7-484e-898d-a465fa0b8e22",
+    "p-b4": "urn:c1:instance:dev:entity/7c07a1bb-1107-44b7-a170-f9df4e7133a3",
+    "p-b4-path": "urn:c1:instance:dev:assertion/e72ee24d-d11b-4166-973b-b2b8d2098351",
+    "p-b4-batteries": "urn:c1:instance:dev:assertion/8b4ead2c-2a0d-4c1c-9e7c-c9f9e4e04fe7",
+    "p-b4-batteries-evidence": "urn:c1:instance:dev:evidence/41c027dd-0e54-4def-a609-8d75e4078213",
+    "p-b4-energy-storage": "urn:c1:instance:dev:assertion/96dc7088-2b15-4c61-b4bf-65cbc3c71b1c",
+    "p-b4-energy-storage-evidence": "urn:c1:instance:dev:evidence/cba62b14-e82f-45ca-a922-dbe4b13c7c30",
+    "valid-start": "urn:c1:instance:dev:time-boundary/72dbe428-73ed-4981-a2ea-29d1c284005c",
+    "valid-end": "urn:c1:instance:dev:time-boundary/74fa75f9-0886-4fde-b9a7-6fd29452e8af",
+    "valid-interval": "urn:c1:instance:dev:time-interval/cd12c862-f260-4011-b28a-c8fba25a8456",
+    "o-source": "urn:c1:instance:dev:source/47f659e8-ccd9-43f4-90e6-c0ed3a3bbd25",
+    "m-source-a": "urn:c1:instance:dev:source/b5738d2b-b14f-40b4-be7d-3fb22ae0c77e",
+    "m-source-b": "urn:c1:instance:dev:source/66aedcd5-77cf-4295-8f72-8fed022565ae",
+    "v-source": "urn:c1:instance:dev:source/6ea57438-8f78-44d5-93f6-fb50322fc27c",
+    "p-source": "urn:c1:instance:dev:source/c367d063-9c3f-4dd5-864e-06b39149da6d",
+    "datasheet": "urn:c1:instance:dev:document/5a31ffdc-000a-4b47-abb0-07234656ac20",
+    "public-part": "urn:c1:instance:dev:document-part/704638f9-bcc0-437d-988f-b5c43e8b2355",
+    "hidden-part": "urn:c1:instance:dev:document-part/709dbfb9-3262-4082-a105-82c0baa2fee3",
+    "datasheet-source": "urn:c1:instance:dev:assertion/97b7bfb6-14c1-47f7-ad4e-28a3be12b693",
+    "quote-selector": "urn:c1:instance:dev:selector/9b861d29-8838-422e-a854-6b2f6cc4d920",
+    "o-capacity": "urn:c1:instance:dev:assertion/259a50f0-23cc-45a2-bfd0-112f7edfd998",
+    "o-capacity-measurement": "urn:c1:instance:dev:entity/16d7642f-b449-4633-924f-9e9ba2efb89f",
+    "o-capacity-measurement-ref": "urn:c1:instance:dev:assertion/852b42a8-cba7-4804-b5fc-3a58ccadf611",
+    "o-capacity-unit": "urn:c1:instance:dev:assertion/344c3dff-6d0b-487a-95d9-2e206f299d19",
+    "o-capacity-conditions": "urn:c1:instance:dev:assertion/0c274762-650f-4740-bce0-803ee6907f3b",
+    "o-capacity-measured-on": "urn:c1:instance:dev:assertion/be9c98d1-64eb-45ff-9819-10f0a7aa8a89",
+    "o-capacity-evidence-1": "urn:c1:instance:dev:evidence/0737111c-ae15-4c76-9a15-9faf7039bd7a",
+    "o-capacity-import-1": "urn:c1:instance:dev:activity/044b7c10-9438-42bf-984a-825875ab5ce2",
+    "o-capacity-evidence-2": "urn:c1:instance:dev:evidence/20050625-1a84-4215-956f-df1627465a6e",
+    "o-capacity-import-2": "urn:c1:instance:dev:activity/243effe6-6c2f-45d9-a03b-9e21e01e11a4",
+    "v-capacity": "urn:c1:instance:dev:assertion/f966e37e-33c0-4dc3-be4d-d0d75dfc21a2",
+    "v-capacity-measurement": "urn:c1:instance:dev:entity/ed7b9b57-e963-4f2c-83a7-0a00cb3b7b17",
+    "v-capacity-measurement-ref": "urn:c1:instance:dev:assertion/569af507-d0e5-487a-bedb-73a7e83302de",
+    "v-capacity-unit": "urn:c1:instance:dev:assertion/93f74e52-b676-466d-8cb8-9386caca325a",
+    "v-capacity-conditions": "urn:c1:instance:dev:assertion/a5b0656e-b3ad-45a7-9298-e0cc76456931",
+    "v-capacity-measured-on": "urn:c1:instance:dev:assertion/57c522c2-6ed9-496d-8e93-6e4c5576a727",
+    "v-capacity-evidence-1": "urn:c1:instance:dev:evidence/99317a41-9e67-441f-be01-6e549a1c6f4b",
+    "v-capacity-import-1": "urn:c1:instance:dev:activity/10350ce5-d16a-4603-9a0f-464d92fa6e65",
+    "v-energy-density": "urn:c1:instance:dev:assertion/bf1fe2d6-1cfe-439f-96b9-3ef2d9b88e2f",
+    "v-energy-density-measurement": "urn:c1:instance:dev:entity/b8ab571e-13f2-42cc-a0e8-9653bcd5994c",
+    "v-energy-density-measurement-ref": "urn:c1:instance:dev:assertion/a14af76f-1a15-4e31-b9d2-b8f2fde81e04",
+    "v-energy-density-conditions": "urn:c1:instance:dev:assertion/4243fa00-0d83-4712-a985-79e3045bcdad",
+    "v-energy-density-measured-on": "urn:c1:instance:dev:assertion/b9c23e9c-8a5a-4e5f-8c33-e1cf4deb44f3",
+    "v-energy-density-evidence-1": "urn:c1:instance:dev:evidence/52f45b9f-c184-4478-9d29-f00167dd7cd5",
+    "v-energy-density-import-1": "urn:c1:instance:dev:activity/e726408a-bf58-42d5-b7cf-8419d91607cd",
+    "m-capacity-a": "urn:c1:instance:dev:assertion/632fa1c8-5d9b-4780-8630-a0ea2cfd4207",
+    "m-capacity-a-measurement": "urn:c1:instance:dev:entity/f87cd9f9-17be-49b7-ba26-fa842775d21e",
+    "m-capacity-a-measurement-ref": "urn:c1:instance:dev:assertion/701314e4-7849-489a-abfa-2973f799fd6e",
+    "m-capacity-a-unit": "urn:c1:instance:dev:assertion/2be6fc1e-ee6b-4553-a413-9d985ffe624e",
+    "m-capacity-a-conditions": "urn:c1:instance:dev:assertion/d0a8d3bd-cbcf-4be5-8b42-73e758d2d551",
+    "m-capacity-a-measured-on": "urn:c1:instance:dev:assertion/3f016927-d309-4bc4-b66d-d05c523fd997",
+    "m-capacity-a-evidence-1": "urn:c1:instance:dev:evidence/4843368f-b245-401f-9423-7039736d5158",
+    "m-capacity-a-import-1": "urn:c1:instance:dev:activity/a4b3882e-631f-46a1-ac83-cad391b09857",
+    "m-capacity-b": "urn:c1:instance:dev:assertion/3640415f-20ef-433e-8c58-d63158780f6a",
+    "m-capacity-b-measurement": "urn:c1:instance:dev:entity/47599589-e400-452b-92fe-4e4747027a2c",
+    "m-capacity-b-measurement-ref": "urn:c1:instance:dev:assertion/42a421e0-4f6a-400d-8612-ad1363033292",
+    "m-capacity-b-unit": "urn:c1:instance:dev:assertion/889deb6c-6fbd-4202-9c60-81c3a65b0517",
+    "m-capacity-b-conditions": "urn:c1:instance:dev:assertion/39609b7b-72b4-4036-8595-1d83fd918c7d",
+    "m-capacity-b-measured-on": "urn:c1:instance:dev:assertion/62d4fdc0-c448-440c-b02d-d056ec1c4f0e",
+    "m-capacity-b-evidence-1": "urn:c1:instance:dev:evidence/04076178-4f8e-4243-bf70-c6f4a7624377",
+    "m-capacity-b-import-1": "urn:c1:instance:dev:activity/61f7238d-334a-4317-aebd-dbad927fe1fc",
+    "p-capacity": "urn:c1:instance:dev:assertion/d339422a-f994-4f86-9f60-857f319fbe44",
+    "p-capacity-measurement": "urn:c1:instance:dev:entity/80168a33-511a-41b9-9347-ce9bc430838f",
+    "p-capacity-measurement-ref": "urn:c1:instance:dev:assertion/1a3b39f7-91be-47cd-96aa-4ba1773df82e",
+    "p-capacity-unit": "urn:c1:instance:dev:assertion/fa7373ff-8148-4e9e-b5bb-e896db3d4c72",
+    "p-capacity-conditions": "urn:c1:instance:dev:assertion/d642e433-3bf9-4524-b357-af1cfd405b7f",
+    "p-capacity-measured-on": "urn:c1:instance:dev:assertion/6bfb3f0e-27ef-495b-b4ba-9531dd58a1e9",
+    "p-capacity-evidence-1": "urn:c1:instance:dev:evidence/578cf03d-0adb-498c-bead-f0aa0be2ec57",
+    "p-capacity-import-1": "urn:c1:instance:dev:activity/fcc42e88-cb52-46bf-a19d-36b91de7d8e8",
+    "solar-hidden-topic": "urn:c1:instance:dev:assertion/f173a734-d88d-46d2-b650-d4c2e91aec0f",
+    "ambiguous-person": "urn:c1:instance:dev:entity/734fb4da-cfa7-44cb-a65c-7ede3e9af8da",
+    "hidden-tesla": "urn:c1:instance:dev:entity/8f9216cb-b92a-4923-a952-b2e56ec20e5b"
+  },
+  "producers": {
+    "papertrader": [
+      {
+        "id": "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47",
+        "types": [
+          "urn:c1:ns:core#Entity"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "Tesla",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-shared"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/2fdd7103-700b-4004-a4ef-4a21167703b2",
+        "types": [
+          "urn:c1:ns:core#Entity"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "TSLA-synthetic",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-papertrader"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/e780e1c8-a285-43cf-b114-f303c6bf809c",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasInstrument"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/2fdd7103-700b-4004-a4ef-4a21167703b2"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:papertrader"
+          ]
+        },
+        "scope": "bat-papertrader"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/6b2ae7e6-d6fc-43ec-ba0e-2b8b395dae71",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:core#revenue"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "42",
+              "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:papertrader"
+          ]
+        },
+        "scope": "bat-papertrader"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/397afdb5-6e1e-41da-b314-91799fc4994b",
+        "types": [
+          "urn:c1:ns:core#Entity"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "Synthetic M07 topics",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-shared"
+      },
+      {
+        "id": "urn:c1:instance:dev:concept/21c6b31c-e384-4666-9a4f-980e3b0638dc",
+        "types": [
+          "http://www.w3.org/2004/02/skos/core#Concept"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "batteries",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/2004/02/skos/core#inScheme": [
+            "urn:c1:instance:dev:entity/397afdb5-6e1e-41da-b314-91799fc4994b"
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-shared"
+      },
+      {
+        "id": "urn:c1:instance:dev:concept/d99acf1f-6ffa-4d4f-afd5-a63522382fd3",
+        "types": [
+          "http://www.w3.org/2004/02/skos/core#Concept"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "energy storage",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/2004/02/skos/core#inScheme": [
+            "urn:c1:instance:dev:entity/397afdb5-6e1e-41da-b314-91799fc4994b"
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/2004/02/skos/core#altLabel": [
+            {
+              "lexical": "storage",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-shared"
+      },
+      {
+        "id": "urn:c1:instance:dev:concept/d39c4dc0-a4a5-43a2-a9ed-d1152e691830",
+        "types": [
+          "http://www.w3.org/2004/02/skos/core#Concept"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "vehicles",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/2004/02/skos/core#inScheme": [
+            "urn:c1:instance:dev:entity/397afdb5-6e1e-41da-b314-91799fc4994b"
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-shared"
+      },
+      {
+        "id": "urn:c1:instance:dev:concept/b8054dfc-c6c1-4fcd-a3d2-8a1cc01ad9bf",
+        "types": [
+          "http://www.w3.org/2004/02/skos/core#Concept"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "financial instruments",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/2004/02/skos/core#inScheme": [
+            "urn:c1:instance:dev:entity/397afdb5-6e1e-41da-b314-91799fc4994b"
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-shared"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/dbdcfdb6-fad3-4404-8461-7f13ac5a7b9b",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/2fdd7103-700b-4004-a4ef-4a21167703b2"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/b8054dfc-c6c1-4fcd-a3d2-8a1cc01ad9bf"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:papertrader"
+          ]
+        },
+        "scope": "bat-papertrader"
+      }
+    ],
+    "robotelier": [
+      {
+        "id": "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26",
+        "types": [
+          "urn:c1:ns:core#Source"
+        ],
+        "properties": {
+          "http://purl.org/dc/terms/title": [
+            {
+              "lexical": "Synthetic battery topic declarations",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceKind": [
+            {
+              "lexical": "synthetic-fixture",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/5d094bd3-53a2-4734-93cb-44d430621987",
+        "types": [
+          "urn:c1:ns:batteries#Product"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "Optimus-synthetic",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/44744d9f-913e-4bea-b4cd-546a4f36e236",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasProduct"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/5d094bd3-53a2-4734-93cb-44d430621987"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/b5ba379e-afec-43ad-b3a5-a48bd1bedbf7",
+        "types": [
+          "urn:c1:ns:batteries#Product"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "Vehicle-synthetic",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/032b35e0-f12c-4bea-b004-eb6c0975adac",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasProduct"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/b5ba379e-afec-43ad-b3a5-a48bd1bedbf7"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/376d07b2-a583-4034-97a3-dcc1f0acd2c3",
+        "types": [
+          "urn:c1:ns:batteries#Product"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "Megapack-synthetic",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/f52c9df1-bf84-46eb-8319-76ecf5591855",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasProduct"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/376d07b2-a583-4034-97a3-dcc1f0acd2c3"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/6025a684-1d9e-4b55-97b2-c68dba3a3593",
+        "types": [
+          "urn:c1:ns:batteries#Product"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "Solar-tile-synthetic",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/0f7c3ee5-1830-46d6-b6c4-0b7542a69947",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasProduct"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/6025a684-1d9e-4b55-97b2-c68dba3a3593"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/ca86a286-05c4-4d17-85ae-14a90c5c7116",
+        "types": [
+          "urn:c1:ns:batteries#Product"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "Prototype-synthetic",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/93885bdf-a4f7-4827-9ec4-bd381520aefb",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasProduct"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/ca86a286-05c4-4d17-85ae-14a90c5c7116"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/65e49410-81f8-4cd2-b540-5943ff1c4cf6",
+        "types": [
+          "urn:c1:ns:batteries#Battery"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "Vehicle battery-synthetic",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/27b24ee2-12f1-4c9e-9265-4f54aa5e9338",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/b5ba379e-afec-43ad-b3a5-a48bd1bedbf7"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasComponent"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/65e49410-81f8-4cd2-b540-5943ff1c4cf6"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/bd626be3-8f3a-421e-984c-b0e346d967f6",
+        "types": [
+          "urn:c1:ns:batteries#BatteryVersion"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "O-B1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/61e45511-844c-4942-9669-b53bc0b0f85c",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/5d094bd3-53a2-4734-93cb-44d430621987"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasComponent"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/bd626be3-8f3a-421e-984c-b0e346d967f6"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/1b8859f1-f8e6-42d7-8751-77055b53a1d9",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bd626be3-8f3a-421e-984c-b0e346d967f6"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/21c6b31c-e384-4666-9a4f-980e3b0638dc"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/501555f4-5e7f-4675-8e9e-6e4c5a0e184e"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/501555f4-5e7f-4675-8e9e-6e4c5a0e184e",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/1b8859f1-f8e6-42d7-8751-77055b53a1d9"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "O-B1 has synthetic topic batteries.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/b75518c7-06c7-431e-a2c4-f7032aacace3",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bd626be3-8f3a-421e-984c-b0e346d967f6"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/d99acf1f-6ffa-4d4f-afd5-a63522382fd3"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/0fb22e72-0bf5-479f-8310-68f16fd99fa0"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/0fb22e72-0bf5-479f-8310-68f16fd99fa0",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/b75518c7-06c7-431e-a2c4-f7032aacace3"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "O-B1 has synthetic topic energy-storage.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/37f8b26d-713c-4afb-9956-d3a24ad12409",
+        "types": [
+          "urn:c1:ns:batteries#BatteryVersion"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "V-B2",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#keyword": [
+            "urn:c1:instance:dev:keyword/091a0ca9-dbfc-402f-9a37-1ee8202b8c5c",
+            "urn:c1:instance:dev:keyword/26263655-a73b-4ad9-b949-f714a208477c"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/7c932792-57a2-4212-be80-28ae21c8792a",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/65e49410-81f8-4cd2-b540-5943ff1c4cf6"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasVersion"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/37f8b26d-713c-4afb-9956-d3a24ad12409"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/b7ece2e4-9514-4bee-97bc-5c9c5dccaaa9",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/37f8b26d-713c-4afb-9956-d3a24ad12409"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/21c6b31c-e384-4666-9a4f-980e3b0638dc"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/3df89958-28b6-4ca3-b11b-6ed8a50e0875"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/3df89958-28b6-4ca3-b11b-6ed8a50e0875",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/b7ece2e4-9514-4bee-97bc-5c9c5dccaaa9"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "V-B2 has synthetic topic batteries.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/d0d2d78a-024b-4eac-9d19-9876ce7bc309",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/37f8b26d-713c-4afb-9956-d3a24ad12409"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/d99acf1f-6ffa-4d4f-afd5-a63522382fd3"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/232d1a7a-5672-454e-8dea-2a39119d4126"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/232d1a7a-5672-454e-8dea-2a39119d4126",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/d0d2d78a-024b-4eac-9d19-9876ce7bc309"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "V-B2 has synthetic topic energy-storage.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:keyword/091a0ca9-dbfc-402f-9a37-1ee8202b8c5c",
+        "types": [
+          "urn:c1:ns:core#Keyword"
+        ],
+        "properties": {
+          "urn:c1:ns:core#keywordText": [
+            {
+              "lexical": "batteries",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#normalizedKeyword": [
+            {
+              "lexical": "batteries",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#normalizationVersion": [
+            {
+              "lexical": "c1-kw-1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:keyword/26263655-a73b-4ad9-b949-f714a208477c",
+        "types": [
+          "urn:c1:ns:core#Keyword"
+        ],
+        "properties": {
+          "urn:c1:ns:core#keywordText": [
+            {
+              "lexical": "tesla",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#normalizedKeyword": [
+            {
+              "lexical": "tesla",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#normalizationVersion": [
+            {
+              "lexical": "c1-kw-1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/f939c2ba-004a-4738-b12e-eabd9f0c1a87",
+        "types": [
+          "urn:c1:ns:batteries#BatteryVersion"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "M-B3",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#keyword": [
+            "urn:c1:instance:dev:keyword/a24b7f3f-fd59-463f-9ded-6b7308affc62",
+            "urn:c1:instance:dev:keyword/95f04124-e4d7-484e-898d-a465fa0b8e22"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/d46a223f-bdbf-4ed0-8349-cc742f14f80f",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/376d07b2-a583-4034-97a3-dcc1f0acd2c3"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasComponent"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/f939c2ba-004a-4738-b12e-eabd9f0c1a87"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/57b8e803-fb96-455d-a4a0-b27cc0fad529",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/f939c2ba-004a-4738-b12e-eabd9f0c1a87"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/21c6b31c-e384-4666-9a4f-980e3b0638dc"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/44943a27-cb0b-435b-af8a-b5ef641a8f2c"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/44943a27-cb0b-435b-af8a-b5ef641a8f2c",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/57b8e803-fb96-455d-a4a0-b27cc0fad529"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "M-B3 has synthetic topic batteries.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/912fc59f-947a-4b7c-8804-de1432d11d7b",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/f939c2ba-004a-4738-b12e-eabd9f0c1a87"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/d99acf1f-6ffa-4d4f-afd5-a63522382fd3"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/b33c5ff2-c1dc-46ce-b4f0-4da6990d84f6"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/b33c5ff2-c1dc-46ce-b4f0-4da6990d84f6",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/912fc59f-947a-4b7c-8804-de1432d11d7b"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "M-B3 has synthetic topic energy-storage.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:keyword/a24b7f3f-fd59-463f-9ded-6b7308affc62",
+        "types": [
+          "urn:c1:ns:core#Keyword"
+        ],
+        "properties": {
+          "urn:c1:ns:core#keywordText": [
+            {
+              "lexical": "megapack",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#normalizedKeyword": [
+            {
+              "lexical": "megapack",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#normalizationVersion": [
+            {
+              "lexical": "c1-kw-1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:keyword/95f04124-e4d7-484e-898d-a465fa0b8e22",
+        "types": [
+          "urn:c1:ns:core#Keyword"
+        ],
+        "properties": {
+          "urn:c1:ns:core#keywordText": [
+            {
+              "lexical": "storage",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#normalizedKeyword": [
+            {
+              "lexical": "storage",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#normalizationVersion": [
+            {
+              "lexical": "c1-kw-1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/7c07a1bb-1107-44b7-a170-f9df4e7133a3",
+        "types": [
+          "urn:c1:ns:batteries#BatteryVersion"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "P-B4",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/e72ee24d-d11b-4166-973b-b2b8d2098351",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/ca86a286-05c4-4d17-85ae-14a90c5c7116"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#hasComponent"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/7c07a1bb-1107-44b7-a170-f9df4e7133a3"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/8b4ead2c-2a0d-4c1c-9e7c-c9f9e4e04fe7",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/7c07a1bb-1107-44b7-a170-f9df4e7133a3"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/21c6b31c-e384-4666-9a4f-980e3b0638dc"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/41c027dd-0e54-4def-a609-8d75e4078213"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/41c027dd-0e54-4def-a609-8d75e4078213",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/8b4ead2c-2a0d-4c1c-9e7c-c9f9e4e04fe7"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "P-B4 has synthetic topic batteries.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/96dc7088-2b15-4c61-b4bf-65cbc3c71b1c",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/7c07a1bb-1107-44b7-a170-f9df4e7133a3"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/subject"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:concept/d99acf1f-6ffa-4d4f-afd5-a63522382fd3"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/cba62b14-e82f-45ca-a922-dbe4b13c7c30"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/cba62b14-e82f-45ca-a922-dbe4b13c7c30",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/96dc7088-2b15-4c61-b4bf-65cbc3c71b1c"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/da0a14fc-c120-4c17-aea9-a5fcc783ef26"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "P-B4 has synthetic topic energy-storage.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:time-boundary/72dbe428-73ed-4981-a2ea-29d1c284005c",
+        "types": [
+          "urn:c1:ns:core#TimeBoundary"
+        ],
+        "properties": {
+          "urn:c1:ns:core#boundaryState": [
+            {
+              "lexical": "known",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/2006/time#inXSDDateTimeStamp": [
+            {
+              "lexical": "2026-01-01T00:00:00Z",
+              "datatype": "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:time-boundary/74fa75f9-0886-4fde-b9a7-6fd29452e8af",
+        "types": [
+          "urn:c1:ns:core#TimeBoundary"
+        ],
+        "properties": {
+          "urn:c1:ns:core#boundaryState": [
+            {
+              "lexical": "known",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/2006/time#inXSDDateTimeStamp": [
+            {
+              "lexical": "2027-01-01T00:00:00Z",
+              "datatype": "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:time-interval/cd12c862-f260-4011-b28a-c8fba25a8456",
+        "types": [
+          "urn:c1:ns:core#TimeInterval"
+        ],
+        "properties": {
+          "http://www.w3.org/2006/time#hasBeginning": [
+            "urn:c1:instance:dev:time-boundary/72dbe428-73ed-4981-a2ea-29d1c284005c"
+          ],
+          "http://www.w3.org/2006/time#hasEnd": [
+            "urn:c1:instance:dev:time-boundary/74fa75f9-0886-4fde-b9a7-6fd29452e8af"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:source/47f659e8-ccd9-43f4-90e6-c0ed3a3bbd25",
+        "types": [
+          "urn:c1:ns:core#Source"
+        ],
+        "properties": {
+          "http://purl.org/dc/terms/title": [
+            {
+              "lexical": "O-B1 synthetic datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceKind": [
+            {
+              "lexical": "synthetic-datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:source/b5738d2b-b14f-40b4-be7d-3fb22ae0c77e",
+        "types": [
+          "urn:c1:ns:core#Source"
+        ],
+        "properties": {
+          "http://purl.org/dc/terms/title": [
+            {
+              "lexical": "M-B3 synthetic manufacturer datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceKind": [
+            {
+              "lexical": "synthetic-datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:source/66aedcd5-77cf-4295-8f72-8fed022565ae",
+        "types": [
+          "urn:c1:ns:core#Source"
+        ],
+        "properties": {
+          "http://purl.org/dc/terms/title": [
+            {
+              "lexical": "M-B3 synthetic laboratory report",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceKind": [
+            {
+              "lexical": "synthetic-datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:source/6ea57438-8f78-44d5-93f6-fb50322fc27c",
+        "types": [
+          "urn:c1:ns:core#Source"
+        ],
+        "properties": {
+          "http://purl.org/dc/terms/title": [
+            {
+              "lexical": "V-B2 synthetic datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceKind": [
+            {
+              "lexical": "synthetic-datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:source/c367d063-9c3f-4dd5-864e-06b39149da6d",
+        "types": [
+          "urn:c1:ns:core#Source"
+        ],
+        "properties": {
+          "http://purl.org/dc/terms/title": [
+            {
+              "lexical": "Hidden prototype synthetic report",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceKind": [
+            {
+              "lexical": "synthetic-datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:document/5a31ffdc-000a-4b47-abb0-07234656ac20",
+        "types": [
+          "urn:c1:ns:core#Document"
+        ],
+        "properties": {
+          "http://purl.org/dc/terms/title": [
+            {
+              "lexical": "M-B3 synthetic assembled datasheet",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "document-v2",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:document-part/704638f9-bcc0-437d-988f-b5c43e8b2355",
+        "types": [
+          "urn:c1:ns:core#DocumentPart"
+        ],
+        "properties": {
+          "urn:c1:ns:core#partOfDocument": [
+            "urn:c1:instance:dev:document/5a31ffdc-000a-4b47-abb0-07234656ac20"
+          ],
+          "urn:c1:ns:core#orderKey": [
+            {
+              "lexical": "A",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#text": [
+            {
+              "lexical": "M-B3 synthetic capacity is 3.9 MWh at 25 C under nominal discharge.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#partKind": [
+            {
+              "lexical": "text",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:document-part/709dbfb9-3262-4082-a105-82c0baa2fee3",
+        "types": [
+          "urn:c1:ns:core#DocumentPart"
+        ],
+        "properties": {
+          "urn:c1:ns:core#partOfDocument": [
+            "urn:c1:instance:dev:document/5a31ffdc-000a-4b47-abb0-07234656ac20"
+          ],
+          "urn:c1:ns:core#orderKey": [
+            {
+              "lexical": "B",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://purl.org/dc/terms/title": [
+            {
+              "lexical": "Hidden prototype appendix",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#text": [
+            {
+              "lexical": "Hidden prototype recipe: violet-electrolyte-token.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#partKind": [
+            {
+              "lexical": "text",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/97b7bfb6-14c1-47f7-ad4e-28a3be12b693",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:document/5a31ffdc-000a-4b47-abb0-07234656ac20"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "http://purl.org/dc/terms/source"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:source/b5738d2b-b14f-40b4-be7d-3fb22ae0c77e"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:selector/9b861d29-8838-422e-a854-6b2f6cc4d920",
+        "types": [
+          "urn:c1:ns:core#Selector"
+        ],
+        "properties": {
+          "urn:c1:ns:core#selectorKind": [
+            {
+              "lexical": "TextQuoteSelector",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/oa#exact": [
+            {
+              "lexical": "M-B3 synthetic capacity is 3.9 MWh at 25 C under nominal discharge.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/259a50f0-23cc-45a2-bfd0-112f7edfd998",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/bd626be3-8f3a-421e-984c-b0e346d967f6"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#capacity"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "2.1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/0737111c-ae15-4c76-9a15-9faf7039bd7a",
+            "urn:c1:instance:dev:evidence/20050625-1a84-4215-956f-df1627465a6e"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/16d7642f-b449-4633-924f-9e9ba2efb89f",
+        "types": [
+          "urn:c1:ns:batteries#Measurement"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "o-capacity measurement",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/852b42a8-cba7-4804-b5fc-3a58ccadf611",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:assertion/259a50f0-23cc-45a2-bfd0-112f7edfd998"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measurementRef"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/16d7642f-b449-4633-924f-9e9ba2efb89f"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/344c3dff-6d0b-487a-95d9-2e206f299d19",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/16d7642f-b449-4633-924f-9e9ba2efb89f"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#unit"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "kWh",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/0c274762-650f-4740-bce0-803ee6907f3b",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/16d7642f-b449-4633-924f-9e9ba2efb89f"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#conditions"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "25 C; nominal discharge",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/be9c98d1-64eb-45ff-9819-10f0a7aa8a89",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/16d7642f-b449-4633-924f-9e9ba2efb89f"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measuredOn"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "2026-03-01",
+              "datatype": "http://www.w3.org/2001/XMLSchema#date"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/0737111c-ae15-4c76-9a15-9faf7039bd7a",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/259a50f0-23cc-45a2-bfd0-112f7edfd998"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/47f659e8-ccd9-43f4-90e6-c0ed3a3bbd25"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasGeneratedBy": [
+            "urn:c1:instance:dev:activity/044b7c10-9438-42bf-984a-825875ab5ce2"
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "O-B1 synthetic capacity: 2.1 kWh. 25 C; nominal discharge",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:activity/044b7c10-9438-42bf-984a-825875ab5ce2",
+        "types": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "properties": {
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "http://www.w3.org/ns/prov#used": [
+            "urn:c1:instance:dev:source/47f659e8-ccd9-43f4-90e6-c0ed3a3bbd25"
+          ],
+          "urn:c1:ns:core#output": [
+            "urn:c1:instance:dev:assertion/259a50f0-23cc-45a2-bfd0-112f7edfd998",
+            "urn:c1:instance:dev:evidence/0737111c-ae15-4c76-9a15-9faf7039bd7a"
+          ],
+          "urn:c1:ns:core#toolName": [
+            {
+              "lexical": "synthetic-importer",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#toolVersion": [
+            {
+              "lexical": "1.0.0",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#method": [
+            {
+              "lexical": "fixture-external-import",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#outcome": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/20050625-1a84-4215-956f-df1627465a6e",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/259a50f0-23cc-45a2-bfd0-112f7edfd998"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/47f659e8-ccd9-43f4-90e6-c0ed3a3bbd25"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasGeneratedBy": [
+            "urn:c1:instance:dev:activity/243effe6-6c2f-45d9-a03b-9e21e01e11a4"
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "O-B1 synthetic capacity: 2.1 kWh. 25 C; nominal discharge",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:activity/243effe6-6c2f-45d9-a03b-9e21e01e11a4",
+        "types": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "properties": {
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "http://www.w3.org/ns/prov#used": [
+            "urn:c1:instance:dev:source/47f659e8-ccd9-43f4-90e6-c0ed3a3bbd25"
+          ],
+          "urn:c1:ns:core#output": [
+            "urn:c1:instance:dev:assertion/259a50f0-23cc-45a2-bfd0-112f7edfd998",
+            "urn:c1:instance:dev:evidence/20050625-1a84-4215-956f-df1627465a6e"
+          ],
+          "urn:c1:ns:core#toolName": [
+            {
+              "lexical": "synthetic-importer",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#toolVersion": [
+            {
+              "lexical": "1.0.0",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#method": [
+            {
+              "lexical": "fixture-external-import",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#outcome": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/f966e37e-33c0-4dc3-be4d-d0d75dfc21a2",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/37f8b26d-713c-4afb-9956-d3a24ad12409"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#capacity"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "75",
+              "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/99317a41-9e67-441f-be01-6e549a1c6f4b"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/ed7b9b57-e963-4f2c-83a7-0a00cb3b7b17",
+        "types": [
+          "urn:c1:ns:batteries#Measurement"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "v-capacity measurement",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/569af507-d0e5-487a-bedb-73a7e83302de",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:assertion/f966e37e-33c0-4dc3-be4d-d0d75dfc21a2"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measurementRef"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/ed7b9b57-e963-4f2c-83a7-0a00cb3b7b17"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/93f74e52-b676-466d-8cb8-9386caca325a",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/ed7b9b57-e963-4f2c-83a7-0a00cb3b7b17"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#unit"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "kWh",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/a5b0656e-b3ad-45a7-9298-e0cc76456931",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/ed7b9b57-e963-4f2c-83a7-0a00cb3b7b17"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#conditions"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "20 C; nominal discharge",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/57c522c2-6ed9-496d-8e93-6e4c5576a727",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/ed7b9b57-e963-4f2c-83a7-0a00cb3b7b17"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measuredOn"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "2026-03-01",
+              "datatype": "http://www.w3.org/2001/XMLSchema#date"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/99317a41-9e67-441f-be01-6e549a1c6f4b",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/f966e37e-33c0-4dc3-be4d-d0d75dfc21a2"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/6ea57438-8f78-44d5-93f6-fb50322fc27c"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasGeneratedBy": [
+            "urn:c1:instance:dev:activity/10350ce5-d16a-4603-9a0f-464d92fa6e65"
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "V-B2 synthetic capacity: 75 kWh. 20 C; nominal discharge",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:activity/10350ce5-d16a-4603-9a0f-464d92fa6e65",
+        "types": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "properties": {
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "http://www.w3.org/ns/prov#used": [
+            "urn:c1:instance:dev:source/6ea57438-8f78-44d5-93f6-fb50322fc27c"
+          ],
+          "urn:c1:ns:core#output": [
+            "urn:c1:instance:dev:assertion/f966e37e-33c0-4dc3-be4d-d0d75dfc21a2",
+            "urn:c1:instance:dev:evidence/99317a41-9e67-441f-be01-6e549a1c6f4b"
+          ],
+          "urn:c1:ns:core#toolName": [
+            {
+              "lexical": "synthetic-importer",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#toolVersion": [
+            {
+              "lexical": "1.0.0",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#method": [
+            {
+              "lexical": "fixture-external-import",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#outcome": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/bf1fe2d6-1cfe-439f-96b9-3ef2d9b88e2f",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/37f8b26d-713c-4afb-9956-d3a24ad12409"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#energyDensity"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "250",
+              "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/52f45b9f-c184-4478-9d29-f00167dd7cd5"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/b8ab571e-13f2-42cc-a0e8-9653bcd5994c",
+        "types": [
+          "urn:c1:ns:batteries#Measurement"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "v-energy-density measurement",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/a14af76f-1a15-4e31-b9d2-b8f2fde81e04",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:assertion/bf1fe2d6-1cfe-439f-96b9-3ef2d9b88e2f"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measurementRef"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/b8ab571e-13f2-42cc-a0e8-9653bcd5994c"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/4243fa00-0d83-4712-a985-79e3045bcdad",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/b8ab571e-13f2-42cc-a0e8-9653bcd5994c"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#conditions"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "20 C; cell level",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/b9c23e9c-8a5a-4e5f-8c33-e1cf4deb44f3",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/b8ab571e-13f2-42cc-a0e8-9653bcd5994c"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measuredOn"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "2026-03-01",
+              "datatype": "http://www.w3.org/2001/XMLSchema#date"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/52f45b9f-c184-4478-9d29-f00167dd7cd5",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/bf1fe2d6-1cfe-439f-96b9-3ef2d9b88e2f"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/6ea57438-8f78-44d5-93f6-fb50322fc27c"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasGeneratedBy": [
+            "urn:c1:instance:dev:activity/e726408a-bf58-42d5-b7cf-8419d91607cd"
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "V-B2 synthetic energyDensity: 250 (unit absent). 20 C; cell level",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:activity/e726408a-bf58-42d5-b7cf-8419d91607cd",
+        "types": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "properties": {
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "http://www.w3.org/ns/prov#used": [
+            "urn:c1:instance:dev:source/6ea57438-8f78-44d5-93f6-fb50322fc27c"
+          ],
+          "urn:c1:ns:core#output": [
+            "urn:c1:instance:dev:assertion/bf1fe2d6-1cfe-439f-96b9-3ef2d9b88e2f",
+            "urn:c1:instance:dev:evidence/52f45b9f-c184-4478-9d29-f00167dd7cd5"
+          ],
+          "urn:c1:ns:core#toolName": [
+            {
+              "lexical": "synthetic-importer",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#toolVersion": [
+            {
+              "lexical": "1.0.0",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#method": [
+            {
+              "lexical": "fixture-external-import",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#outcome": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/632fa1c8-5d9b-4780-8630-a0ea2cfd4207",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/f939c2ba-004a-4738-b12e-eabd9f0c1a87"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#capacity"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "3.9",
+              "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/4843368f-b245-401f-9423-7039736d5158"
+          ],
+          "urn:c1:ns:core#validDuring": [
+            "urn:c1:instance:dev:time-interval/cd12c862-f260-4011-b28a-c8fba25a8456"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/f87cd9f9-17be-49b7-ba26-fa842775d21e",
+        "types": [
+          "urn:c1:ns:batteries#Measurement"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "m-capacity-a measurement",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/701314e4-7849-489a-abfa-2973f799fd6e",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:assertion/632fa1c8-5d9b-4780-8630-a0ea2cfd4207"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measurementRef"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/f87cd9f9-17be-49b7-ba26-fa842775d21e"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/2be6fc1e-ee6b-4553-a413-9d985ffe624e",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/f87cd9f9-17be-49b7-ba26-fa842775d21e"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#unit"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "MWh",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/d0a8d3bd-cbcf-4be5-8b42-73e758d2d551",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/f87cd9f9-17be-49b7-ba26-fa842775d21e"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#conditions"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "25 C; nominal discharge",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/3f016927-d309-4bc4-b66d-d05c523fd997",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/f87cd9f9-17be-49b7-ba26-fa842775d21e"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measuredOn"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "2026-03-01",
+              "datatype": "http://www.w3.org/2001/XMLSchema#date"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/4843368f-b245-401f-9423-7039736d5158",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/632fa1c8-5d9b-4780-8630-a0ea2cfd4207"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:document-part/704638f9-bcc0-437d-988f-b5c43e8b2355"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "document-v2",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasGeneratedBy": [
+            "urn:c1:instance:dev:activity/a4b3882e-631f-46a1-ac83-cad391b09857"
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "M-B3 synthetic capacity is 3.9 MWh at 25 C under nominal discharge.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/oa#hasSelector": [
+            "urn:c1:instance:dev:selector/9b861d29-8838-422e-a854-6b2f6cc4d920"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:activity/a4b3882e-631f-46a1-ac83-cad391b09857",
+        "types": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "properties": {
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "http://www.w3.org/ns/prov#used": [
+            "urn:c1:instance:dev:source/b5738d2b-b14f-40b4-be7d-3fb22ae0c77e"
+          ],
+          "urn:c1:ns:core#output": [
+            "urn:c1:instance:dev:assertion/632fa1c8-5d9b-4780-8630-a0ea2cfd4207",
+            "urn:c1:instance:dev:evidence/4843368f-b245-401f-9423-7039736d5158"
+          ],
+          "urn:c1:ns:core#toolName": [
+            {
+              "lexical": "synthetic-importer",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#toolVersion": [
+            {
+              "lexical": "1.0.0",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#method": [
+            {
+              "lexical": "fixture-external-import",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#outcome": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/3640415f-20ef-433e-8c58-d63158780f6a",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/f939c2ba-004a-4738-b12e-eabd9f0c1a87"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#capacity"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "3.6",
+              "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/04076178-4f8e-4243-bf70-c6f4a7624377"
+          ],
+          "urn:c1:ns:core#validDuring": [
+            "urn:c1:instance:dev:time-interval/cd12c862-f260-4011-b28a-c8fba25a8456"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/47599589-e400-452b-92fe-4e4747027a2c",
+        "types": [
+          "urn:c1:ns:batteries#Measurement"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "m-capacity-b measurement",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/42a421e0-4f6a-400d-8612-ad1363033292",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:assertion/3640415f-20ef-433e-8c58-d63158780f6a"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measurementRef"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/47599589-e400-452b-92fe-4e4747027a2c"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/889deb6c-6fbd-4202-9c60-81c3a65b0517",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/47599589-e400-452b-92fe-4e4747027a2c"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#unit"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "MWh",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/39609b7b-72b4-4036-8595-1d83fd918c7d",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/47599589-e400-452b-92fe-4e4747027a2c"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#conditions"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "25 C; nominal discharge",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/62d4fdc0-c448-440c-b02d-d056ec1c4f0e",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/47599589-e400-452b-92fe-4e4747027a2c"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measuredOn"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "2026-03-01",
+              "datatype": "http://www.w3.org/2001/XMLSchema#date"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/04076178-4f8e-4243-bf70-c6f4a7624377",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/3640415f-20ef-433e-8c58-d63158780f6a"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:source/66aedcd5-77cf-4295-8f72-8fed022565ae"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "source-v1",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasGeneratedBy": [
+            "urn:c1:instance:dev:activity/61f7238d-334a-4317-aebd-dbad927fe1fc"
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "M-B3 synthetic capacity: 3.6 MWh. 25 C; nominal discharge",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:activity/61f7238d-334a-4317-aebd-dbad927fe1fc",
+        "types": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "properties": {
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "http://www.w3.org/ns/prov#used": [
+            "urn:c1:instance:dev:source/66aedcd5-77cf-4295-8f72-8fed022565ae"
+          ],
+          "urn:c1:ns:core#output": [
+            "urn:c1:instance:dev:assertion/3640415f-20ef-433e-8c58-d63158780f6a",
+            "urn:c1:instance:dev:evidence/04076178-4f8e-4243-bf70-c6f4a7624377"
+          ],
+          "urn:c1:ns:core#toolName": [
+            {
+              "lexical": "synthetic-importer",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#toolVersion": [
+            {
+              "lexical": "1.0.0",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#method": [
+            {
+              "lexical": "fixture-external-import",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#outcome": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-robotelier"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/d339422a-f994-4f86-9f60-857f319fbe44",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/7c07a1bb-1107-44b7-a170-f9df4e7133a3"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#capacity"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "4.2",
+              "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "false",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "urn:c1:ns:core#evidence": [
+            "urn:c1:instance:dev:evidence/578cf03d-0adb-498c-bead-f0aa0be2ec57"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:entity/80168a33-511a-41b9-9347-ce9bc430838f",
+        "types": [
+          "urn:c1:ns:batteries#Measurement"
+        ],
+        "properties": {
+          "http://www.w3.org/2004/02/skos/core#prefLabel": [
+            {
+              "lexical": "p-capacity measurement",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/1a3b39f7-91be-47cd-96aa-4ba1773df82e",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:assertion/d339422a-f994-4f86-9f60-857f319fbe44"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measurementRef"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            "urn:c1:instance:dev:entity/80168a33-511a-41b9-9347-ce9bc430838f"
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/fa7373ff-8148-4e9e-b5bb-e896db3d4c72",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/80168a33-511a-41b9-9347-ce9bc430838f"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#unit"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "MWh",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/d642e433-3bf9-4524-b357-af1cfd405b7f",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/80168a33-511a-41b9-9347-ce9bc430838f"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#conditions"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "Hidden prototype conditions",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:assertion/6bfb3f0e-27ef-495b-b4ba-9531dd58a1e9",
+        "types": [
+          "urn:c1:ns:core#Assertion"
+        ],
+        "properties": {
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+            "urn:c1:instance:dev:entity/80168a33-511a-41b9-9347-ce9bc430838f"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+            "urn:c1:ns:batteries#measuredOn"
+          ],
+          "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+            {
+              "lexical": "2026-03-01",
+              "datatype": "http://www.w3.org/2001/XMLSchema#date"
+            }
+          ],
+          "urn:c1:ns:core#origin": [
+            {
+              "lexical": "manual",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#reviewState": [
+            {
+              "lexical": "reported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#lifecycle": [
+            {
+              "lexical": "active",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#manualStatement": [
+            {
+              "lexical": "true",
+              "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:evidence/578cf03d-0adb-498c-bead-f0aa0be2ec57",
+        "types": [
+          "urn:c1:ns:core#Evidence"
+        ],
+        "properties": {
+          "urn:c1:ns:core#assertionRef": [
+            "urn:c1:instance:dev:assertion/d339422a-f994-4f86-9f60-857f319fbe44"
+          ],
+          "http://www.w3.org/ns/oa#hasSource": [
+            "urn:c1:instance:dev:document-part/709dbfb9-3262-4082-a105-82c0baa2fee3"
+          ],
+          "urn:c1:ns:core#sourceRevision": [
+            {
+              "lexical": "document-v2",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "http://www.w3.org/ns/prov#wasGeneratedBy": [
+            "urn:c1:instance:dev:activity/fcc42e88-cb52-46bf-a19d-36b91de7d8e8"
+          ],
+          "urn:c1:ns:core#excerpt": [
+            {
+              "lexical": "Hidden prototype recipe: violet-electrolyte-token.",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      },
+      {
+        "id": "urn:c1:instance:dev:activity/fcc42e88-cb52-46bf-a19d-36b91de7d8e8",
+        "types": [
+          "http://www.w3.org/ns/prov#Activity"
+        ],
+        "properties": {
+          "http://www.w3.org/ns/prov#wasAttributedTo": [
+            "urn:c1:fixture:producer:robotelier"
+          ],
+          "http://www.w3.org/ns/prov#used": [
+            "urn:c1:instance:dev:source/b5738d2b-b14f-40b4-be7d-3fb22ae0c77e"
+          ],
+          "urn:c1:ns:core#output": [
+            "urn:c1:instance:dev:assertion/d339422a-f994-4f86-9f60-857f319fbe44",
+            "urn:c1:instance:dev:evidence/578cf03d-0adb-498c-bead-f0aa0be2ec57"
+          ],
+          "urn:c1:ns:core#toolName": [
+            {
+              "lexical": "synthetic-importer",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#toolVersion": [
+            {
+              "lexical": "1.0.0",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#method": [
+            {
+              "lexical": "fixture-external-import",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ],
+          "urn:c1:ns:core#outcome": [
+            {
+              "lexical": "imported",
+              "datatype": "http://www.w3.org/2001/XMLSchema#string"
+            }
+          ]
+        },
+        "scope": "bat-hidden"
+      }
+    ]
+  },
+  "hidden_topic": {
+    "id": "urn:c1:instance:dev:assertion/f173a734-d88d-46d2-b650-d4c2e91aec0f",
+    "types": [
+      "urn:c1:ns:core#Assertion"
+    ],
+    "properties": {
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#subject": [
+        "urn:c1:instance:dev:entity/6025a684-1d9e-4b55-97b2-c68dba3a3593"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate": [
+        "http://purl.org/dc/terms/subject"
+      ],
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#object": [
+        "urn:c1:instance:dev:concept/21c6b31c-e384-4666-9a4f-980e3b0638dc"
+      ],
+      "urn:c1:ns:core#origin": [
+        {
+          "lexical": "manual",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#reviewState": [
+        {
+          "lexical": "reported",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#lifecycle": [
+        {
+          "lexical": "active",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string"
+        }
+      ],
+      "urn:c1:ns:core#manualStatement": [
+        {
+          "lexical": "true",
+          "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      ],
+      "http://www.w3.org/ns/prov#wasAttributedTo": [
+        "urn:c1:fixture:producer:robotelier"
+      ]
+    },
+    "scope": "bat-hidden"
+  },
+  "ambiguity": [
+    {
+      "id": "urn:c1:instance:dev:entity/734fb4da-cfa7-44cb-a65c-7ede3e9af8da",
+      "types": [
+        "urn:c1:ns:core#Entity"
+      ],
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": [
+          {
+            "lexical": "Tesla Example Person",
+            "datatype": "http://www.w3.org/2001/XMLSchema#string"
+          }
+        ],
+        "urn:c1:ns:core#lifecycle": [
+          {
+            "lexical": "active",
+            "datatype": "http://www.w3.org/2001/XMLSchema#string"
+          }
+        ],
+        "http://www.w3.org/2004/02/skos/core#altLabel": [
+          {
+            "lexical": "Tesla",
+            "datatype": "http://www.w3.org/2001/XMLSchema#string"
+          }
+        ]
+      },
+      "scope": "bat-shared"
+    },
+    {
+      "id": "urn:c1:instance:dev:entity/8f9216cb-b92a-4923-a952-b2e56ec20e5b",
+      "types": [
+        "urn:c1:ns:core#Entity"
+      ],
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": [
+          {
+            "lexical": "Hidden Tesla",
+            "datatype": "http://www.w3.org/2001/XMLSchema#string"
+          }
+        ],
+        "urn:c1:ns:core#lifecycle": [
+          {
+            "lexical": "active",
+            "datatype": "http://www.w3.org/2001/XMLSchema#string"
+          }
+        ],
+        "http://www.w3.org/2004/02/skos/core#altLabel": [
+          {
+            "lexical": "Tesla",
+            "datatype": "http://www.w3.org/2001/XMLSchema#string"
+          }
+        ]
+      },
+      "scope": "bat-hidden"
+    }
+  ],
+  "quote": "M-B3 synthetic capacity is 3.9 MWh at 25 C under nominal discharge."
+}

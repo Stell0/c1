@@ -1,0 +1,4 @@
+command: env -u OPENAI_API_KEY -u ANTHROPIC_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY -u HF_TOKEN -u AZURE_OPENAI_API_KEY C1_STACK=1 UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked python docs/evidence/M07/entity-phase-probe.py --output docs/evidence/M07/entity-phase-probe-guarded.json
+exit: 0
+stdout:
+{"configured_budget_ms": 2000, "runs": [{"outcome": "QueryPlanError", "run": "cold", "status": 503, "total_ms": 2002.195}, {"count": 1, "outcome": "ok", "run": "warm", "status": 200, "total_ms": 1396.833}]}

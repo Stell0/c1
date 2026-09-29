@@ -1,0 +1,8 @@
+............                                                             [100%]
+=============================== warnings summary ===============================
+tests/integration/m05/test_backend_fetch.py::test_backend_fetch_by_ids_and_historical_commit
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+12 passed, 1 warning in 2011.05s (0:33:31)

@@ -1,0 +1,14 @@
+FFAILED tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views [call]
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-DC-012"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+=================================== FAILURES ===================================
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-DC-012"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m06/test_t04_historical_rescope.py:175: AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-DC-012"}
+=========================== short test summary info ============================
+FAILED tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 780.26s (0:13:00)

@@ -25,6 +25,12 @@ REALM = "c1-dev"
 FIXTURE_PATH = ROOT / "fixtures/directory/fixture.json"
 
 
+def _api_timeout() -> float:
+    """Stay above the configured server request budget (default 5 s)."""
+    budget_ms = int(os.environ.get("C1_QUERY_TIME_BUDGET_MS", "5000"))
+    return max(20.0, budget_ms / 1000 + 10)
+
+
 @asynccontextmanager
 async def api_client(database: str | None = None) -> AsyncIterator[httpx.AsyncClient]:
     """Use an explicitly configured API or host the trusted local app in-process."""
@@ -45,7 +51,7 @@ async def api_client(database: str | None = None) -> AsyncIterator[httpx.AsyncCl
         if database and database != private.get("C1_KNOWLEDGE_DATABASE"):
             raise RuntimeError("--database must match C1_KNOWLEDGE_DATABASE")
         async with httpx.AsyncClient(
-            base_url=configured_url, timeout=20, trust_env=False
+            base_url=configured_url, timeout=_api_timeout(), trust_env=False
         ) as client:
             yield client
         return
@@ -62,56 +68,50 @@ async def api_client(database: str | None = None) -> AsyncIterator[httpx.AsyncCl
         async with httpx.AsyncClient(
             transport=httpx.ASGITransport(app=app),
             base_url="http://c1.local",
-            timeout=20,
+            timeout=_api_timeout(),
             trust_env=False,
         ) as client:
             yield client
 
 
 class Loader:
-    def __init__(self, client: httpx.AsyncClient, tokens: dict[str, str]) -> None:
+    def __init__(
+        self, client: httpx.AsyncClient, tokens: dict[str, str], *, refresh_tokens: bool = False
+    ) -> None:
         self.client = client
         self.tokens = tokens
+        self.refresh_tokens = refresh_tokens
 
     @classmethod
     async def connect(cls, client: httpx.AsyncClient) -> Loader:
+        return cls(client, {}, refresh_tokens=True)
+
+    async def _actor_token(self, actor: str) -> str:
+        if not self.refresh_tokens:
+            return self.tokens[actor]
+        if actor not in {"service", "robotelier"}:
+            return await self.user_token({"admin": "erin", "reviewer": "carol"}.get(actor, actor))
         private = {**environment(), **os.environ}
-
-        async def issue(client_id: str, secret_key: str, *, username: str | None = None) -> str:
-            secret = private.get(secret_key)
-            if not secret:
-                raise RuntimeError(f"Required local credential {secret_key} is missing")
-            form = {
-                "client_id": client_id,
-                "client_secret": secret,
-                "grant_type": "password" if username else "client_credentials",
-            }
-            if username:
-                password_key = f"C1_USER_{username.upper()}_PASSWORD"
-                password = private.get(password_key)
-                if not password:
-                    raise RuntimeError(f"Required local credential {password_key} is missing")
-                form.update(username=username, password=password)
-            async with httpx.AsyncClient(timeout=20, trust_env=False) as identity_client:
-                response = await identity_client.post(
-                    f"{KEYCLOAK_URL}/realms/{REALM}/protocol/openid-connect/token",
-                    data=form,
-                )
-            if response.status_code != 200:
-                raise RuntimeError(f"Could not obtain local fixture token ({response.status_code})")
-            token = response.json().get("access_token")
-            if not isinstance(token, str):
-                raise RuntimeError("Identity provider returned no access token")
-            return token
-
-        return cls(
-            client,
-            {
-                "service": await issue("c1-svc-papertrader", "C1_SVC_PAPERTRADER_SECRET"),
-                "admin": await issue("c1-dev-tests", "C1_DEV_TESTS_SECRET", username="erin"),
-                "reviewer": await issue("c1-dev-tests", "C1_DEV_TESTS_SECRET", username="carol"),
-            },
-        )
+        producer = "papertrader" if actor == "service" else "robotelier"
+        secret_key = "C1_SVC_" + producer.upper() + "_SECRET"
+        secret = private.get(secret_key)
+        if not secret:
+            raise RuntimeError(f"Required local credential {secret_key} is missing")
+        async with httpx.AsyncClient(timeout=20, trust_env=False) as identity_client:
+            response = await identity_client.post(
+                f"{KEYCLOAK_URL}/realms/{REALM}/protocol/openid-connect/token",
+                data={
+                    "client_id": "c1-svc-" + producer,
+                    "client_secret": secret,
+                    "grant_type": "client_credentials",
+                },
+            )
+        if response.status_code != 200:
+            raise RuntimeError(f"Could not obtain local fixture token ({response.status_code})")
+        token = response.json().get("access_token")
+        if not isinstance(token, str):
+            raise RuntimeError("Identity provider returned no access token")
+        return token
 
     async def request(
         self,
@@ -123,7 +123,7 @@ class Loader:
         expected: tuple[int, ...] = (200,),
         idempotency_key: str | None = None,
     ) -> dict[str, Any]:
-        headers = {"Authorization": "Bearer " + self.tokens[actor]}
+        headers = {"Authorization": "Bearer " + await self._actor_token(actor)}
         if idempotency_key:
             headers["Idempotency-Key"] = idempotency_key
         response = await self.client.request(method, path, headers=headers, json=json_body)
@@ -230,7 +230,7 @@ class Loader:
             json_body={
                 "base_revision": base,
                 "operations": operations,
-                "rationale": "Load the deterministic directory demo fixture",
+                "rationale": "Load a deterministic synthetic fixture through ordinary C1 APIs",
             },
             expected=(201,),
             idempotency_key=secrets.token_hex(16),
@@ -242,10 +242,12 @@ class Loader:
                 "POST", f"/v1/changesets/{encoded}/validate", actor=author
             )
         if submitted.get("state") != "validated":
-            raise RuntimeError("Directory ChangeSet validation did not pass")
+            report = await self.request("GET", f"/v1/changesets/{encoded}/validation", actor=author)
+            codes = [item.get("code") for item in report.get("diagnostics", [])]
+            raise RuntimeError(f"Fixture ChangeSet validation did not pass: {codes}")
         approved = await self.request("POST", f"/v1/changesets/{encoded}/approve", actor=reviewer)
         if approved.get("state") != "approved":
-            raise RuntimeError("Directory ChangeSet was not approved")
+            raise RuntimeError("Fixture ChangeSet was not approved")
         applied = await self.request(
             "POST",
             f"/v1/changesets/{encoded}/apply",
@@ -253,8 +255,155 @@ class Loader:
             idempotency_key=secrets.token_hex(16),
         )
         if applied.get("state") != "applied":
-            raise RuntimeError("Directory ChangeSet was not applied")
+            raise RuntimeError("Fixture ChangeSet was not applied")
         return applied
+
+    async def load_batteries(self, *, resume_setup: bool = False) -> dict[str, Any]:
+        """Install the M07 fixture using two ordinary producers and Carol's review."""
+        fixture = json.loads((ROOT / "fixtures/cross-project-batteries/fixture.json").read_text())
+        await self.grant_instance(await self.whoami("admin"), "schema_admin")
+        await self.grant_instance(await self.whoami("reviewer"), "schema_admin")
+        installed = (
+            (await self.request("GET", "/v1/catalog", actor="admin"))["profile_versions"]
+            if resume_setup
+            else {}
+        )
+        for name in ("topics", "batteries"):
+            if name in installed:
+                if installed[name] != fixture["version"]:
+                    raise RuntimeError(f"Cannot resume with a different {name} profile version")
+                continue
+            # The writer accepts exactly one schema installation per proposal.
+            # Resolve the new head after each independently reviewed install.
+            await self.apply_changeset(
+                [{"kind": "install_profile", "profile": name}],
+                author="admin",
+                reviewer="reviewer",
+                base=(await self.request("GET", "/v1/instance", actor="admin"))[
+                    "knowledge_revision"
+                ],
+            )
+        existing_scopes = (
+            {
+                item["id"]: item
+                for item in (await self.request("GET", "/v1/access-scopes", actor="admin"))[
+                    "access_scopes"
+                ]
+            }
+            if resume_setup
+            else {}
+        )
+        scopes: dict[str, str] = {}
+        principals = {
+            actor: await self.whoami(actor)
+            for actor in ("service", "robotelier", "reviewer", "dave")
+        }
+        for key, label in fixture["scopes"].items():
+            if key in existing_scopes:
+                if (
+                    existing_scopes[key].get("label") != label
+                    or existing_scopes[key].get("state") != "active"
+                ):
+                    raise RuntimeError("Cannot resume with a different or inactive fixture scope")
+            else:
+                await self.request(
+                    "POST",
+                    "/v1/access-scopes",
+                    actor="admin",
+                    json_body={"id": key, "label": label},
+                    expected=(201,),
+                )
+            scopes[key] = key
+            await self._membership(key, principals["reviewer"], "reader")
+            await self._membership(key, principals["reviewer"], "reviewer")
+            if key in fixture["principals"]["dave"]:
+                await self._membership(key, principals["dave"], "reader")
+        for actor, allowed in (
+            ("service", ("bat-shared", "bat-papertrader")),
+            ("robotelier", tuple(scopes)),
+        ):
+            for scope in allowed:
+                for role in ("reader", "creator", "contributor"):
+                    await self._membership(scope, principals[actor], role)
+        producer_principals = {
+            "papertrader": principals["service"],
+            "robotelier": principals["robotelier"],
+        }
+        if resume_setup:
+            existing = await self.request(
+                "GET",
+                "/v1/entities?ids=" + quote(fixture["ids"]["tesla"], safe=""),
+                actor="reviewer",
+            )
+            if existing.get("items"):
+                raise RuntimeError(
+                    "--resume-setup only resumes before producer content was applied"
+                )
+        for producer, actor in (("papertrader", "service"), ("robotelier", "robotelier")):
+            if producer == "robotelier":
+                found = await self.request(
+                    "GET", "/v1/entities?label=Tesla&label_mode=exact", actor=actor
+                )
+                candidates = found.get("items", [])
+                if len(candidates) != 1 or candidates[0].get("id") != fixture["ids"]["tesla"]:
+                    raise RuntimeError(
+                        "Robotelier must resolve and reuse the visible Tesla identity"
+                    )
+            operations = fixture_operations(
+                fixture["producers"][producer], scopes, producer_principals
+            )
+            await self.apply_changeset(
+                operations,
+                author=actor,
+                reviewer="reviewer",
+                base=(await self.request("GET", "/v1/instance", actor=actor))["knowledge_revision"],
+            )
+        return {
+            "fixture": fixture,
+            "scopes": scopes,
+            "principals": producer_principals,
+            "revision": (await self.request("GET", "/v1/instance", actor="reviewer"))[
+                "knowledge_revision"
+            ],
+            "state": "applied",
+        }
+
+
+def fixture_operations(
+    records: list[dict[str, Any]], scopes: dict[str, str], principals: dict[str, str]
+) -> list[dict[str, Any]]:
+    """Bind attributed producer placeholders to the authenticated actual principals."""
+    operations = []
+    for item in records:
+        record = json.loads(json.dumps({key: item[key] for key in ("id", "types", "properties")}))
+        actor_predicate = "http://www.w3.org/ns/prov#wasAttributedTo"
+        values = record["properties"].get(actor_predicate, [])
+        record["properties"][actor_predicate] = (
+            [
+                principals[value.removeprefix("urn:c1:fixture:producer:")]
+                if isinstance(value, str) and value.startswith("urn:c1:fixture:producer:")
+                else value
+                for value in values
+            ]
+            if values
+            else []
+        )
+        if not values:
+            record["properties"].pop(actor_predicate, None)
+        operations.append({"kind": "create", "record": record, "scope_id": scopes[item["scope"]]})
+    return operations
+
+
+async def load_cross_project_batteries(
+    database: str | None, *, resume_setup: bool = False
+) -> dict[str, str]:
+    async with api_client(database) as client:
+        value = await (await Loader.connect(client)).load_batteries(resume_setup=resume_setup)
+        return {
+            "fixture": value["fixture"]["name"],
+            "state": value["state"],
+            "revision": value["revision"],
+        }
 
 
 async def load(database: str | None) -> dict[str, str]:
@@ -343,11 +492,31 @@ async def load_scoped_document(database: str | None) -> dict[str, str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--fixture", choices=("directory", "scoped-document"), required=True)
+    parser.add_argument(
+        "--fixture",
+        choices=("directory", "scoped-document", "cross-project-batteries"),
+        required=True,
+    )
     parser.add_argument("--database", help="must match the trusted local knowledge database")
+    parser.add_argument(
+        "--resume-setup",
+        action="store_true",
+        help="reuse matching batteries profiles/scopes before producer content exists",
+    )
     args = parser.parse_args()
-    loader = load if args.fixture == "directory" else load_scoped_document
-    print(json.dumps(asyncio.run(loader(args.database)), sort_keys=True))
+    loader = {
+        "directory": load,
+        "scoped-document": load_scoped_document,
+        "cross-project-batteries": load_cross_project_batteries,
+    }[args.fixture]
+    if args.resume_setup and args.fixture != "cross-project-batteries":
+        parser.error("--resume-setup requires --fixture cross-project-batteries")
+    result = (
+        load_cross_project_batteries(args.database, resume_setup=True)
+        if args.resume_setup
+        else loader(args.database)
+    )
+    print(json.dumps(asyncio.run(result), sort_keys=True))
 
 
 if __name__ == "__main__":

@@ -80,7 +80,7 @@ def test_t06_deadline_returns_503_without_partial_items(monkeypatch: pytest.Monk
             original_head = case.runtime.knowledge.head
 
             async def slow_head() -> str:
-                await asyncio.sleep(2.1)
+                await asyncio.sleep(case.settings.query_time_budget_ms / 1000 + 0.1)
                 return cast(str, await original_head())
 
             monkeypatch.setattr(case.runtime.knowledge, "head", slow_head)

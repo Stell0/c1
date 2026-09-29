@@ -49,7 +49,12 @@ class FakeJournal:
 
     async def list_many(self, kinds: set[str]) -> dict[str, builtins.list[dict[str, Any]]]:
         self.list_calls += 1
-        rows = {"Scope": self.scopes, "Binding": self.bindings, "Operation": self.operations}
+        rows = {
+            "Scope": self.scopes,
+            "Binding": self.bindings,
+            "Operation": self.operations,
+            "ChangeSet": [],
+        }
         return {kind: rows[kind] for kind in kinds}
 
     async def get(self, kind: str, key: str) -> dict[str, Any] | None:

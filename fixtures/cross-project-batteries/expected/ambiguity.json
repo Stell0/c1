@@ -1,0 +1,16 @@
+[
+  {
+    "id": "urn:c1:instance:dev:entity/734fb4da-cfa7-44cb-a65c-7ede3e9af8da",
+    "label": "Tesla Example Person",
+    "types": [
+      "urn:c1:ns:core#Entity"
+    ]
+  },
+  {
+    "id": "urn:c1:instance:dev:entity/bc4319cd-f55a-48e9-ad3a-33b9313f8c47",
+    "label": "Tesla",
+    "types": [
+      "urn:c1:ns:core#Entity"
+    ]
+  }
+]

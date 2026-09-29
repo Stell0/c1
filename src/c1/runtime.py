@@ -12,7 +12,11 @@ from c1.authorization.tokens import TokenValidator
 from c1.changes.apply import ChangeService
 from c1.changes.profiles import detect_installed_registry
 from c1.config import Settings
+from c1.context.errors import ContextError
+from c1.context.profiles import ContextProfileCatalog
+from c1.context.service import ContextService
 from c1.documents.service import DocumentsService
+from c1.model.diagnostics import ProfileError
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
 from c1.model.records import C1, RDF
@@ -57,7 +61,24 @@ class Runtime:
         )
         self.query = QueryService(self)
         self.documents = DocumentsService(self)
+        try:
+            self.context_profiles: ContextProfileCatalog | None = ContextProfileCatalog()
+        except ProfileError:
+            self.context_profiles = None
+        self.context = ContextService(self)
         self._started = False
+
+    def context_catalog(self) -> ContextProfileCatalog:
+        """Validate trusted data again; changed definitions require a restart."""
+        try:
+            current = ContextProfileCatalog()
+        except ProfileError as exc:
+            raise ContextError(503, "C1-CX-002", "context_catalog_unavailable") from exc
+        if self.context_profiles is None:
+            self.context_profiles = current
+        elif current.catalog() != self.context_profiles.catalog():
+            raise ContextError(503, "C1-CX-002", "context_catalog_changed")
+        return self.context_profiles
 
     async def start(self) -> None:
         if self._started:
@@ -95,6 +116,7 @@ class Runtime:
 
     async def ready(self) -> bool:
         try:
+            self.context_catalog()
             if (
                 not await self.tokens.ready()
                 or not await self.fga.ready()
@@ -131,7 +153,12 @@ class Runtime:
             if record is None or not (await self.plane.check_read(principal, id)).allowed:
                 return None
             references: list[str] = []
-            if C1 + "Assertion" in record.types:
+            if "http://www.w3.org/2004/02/skos/core#Concept" in record.types:
+                scheme = record.properties.get("http://www.w3.org/2004/02/skos/core#inScheme", [])
+                if len(scheme) != 1 or not isinstance(scheme[0], str):
+                    return None
+                references.append(scheme[0])
+            elif C1 + "Assertion" in record.types:
                 claim_predicate = next(
                     (
                         value

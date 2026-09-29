@@ -1,0 +1,36 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+unformatted: File would be reformatted
+   --> tests/unit/m07/test_provisional_index.py:244:17
+    |
+243 |             operation: dict[str, Any] = {
+    -                     "id": "install", "kind": "changeset_apply", "actor": "installer",
+    -                     "target": "profile", "state": "pending", "created": "now", "updated": "now",
+    -                     "payload": {"profile_alias": "topics"},
+244 +                 "id": "install",
+245 +                 "kind": "changeset_apply",
+246 +                 "actor": "installer",
+247 +                 "target": "profile",
+248 +                 "state": "pending",
+249 +                 "created": "now",
+250 +                 "updated": "now",
+251 +                 "payload": {"profile_alias": "topics"},
+252 |             }
+--------------------------------------------------------------------------------
+260 |         expected = (
+    -             (409, "C1-QY-051") if changed else
+    -             (422, "C1-QY-050") if failure == "scopes" else
+    -             (422, "C1-QY-052") if failure == "candidates" else (503, "C1-QY-054")
+261 +             (409, "C1-QY-051")
+262 +             if changed
+263 +             else (422, "C1-QY-050")
+264 +             if failure == "scopes"
+265 +             else (422, "C1-QY-052")
+266 +             if failure == "candidates"
+267 +             else (503, "C1-QY-054")
+268 |         )
+    |
+
+1 file would be reformatted, 346 files already formatted
+make: *** [Makefile:16: lint] Error 1

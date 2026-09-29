@@ -1,0 +1,9 @@
+{
+  "@id": "urn:c1:ns:topics:context:1.0.0",
+  "@context": {
+    "Concept": "http://www.w3.org/2004/02/skos/core#Concept",
+    "inScheme": {"@id": "http://www.w3.org/2004/02/skos/core#inScheme", "@type": "@id"},
+    "broader": {"@id": "http://www.w3.org/2004/02/skos/core#broader", "@type": "@id"},
+    "topic": {"@id": "http://purl.org/dc/terms/subject", "@type": "@id"}
+  }
+}

@@ -1,0 +1,1 @@
+{"changeset_id": "urn:c1:instance:dev:changeset-7f314880215745c9873c5af7162980b8", "diagnostics": [{"code": "C1-IX-011", "message": "Claim predicate is undeclared: urn:c1:ns:batteries#hasInstrument", "path": "urn:c1:instance:dev:assertion/e780e1c8-a285-53cf-b114-f303c6bf809c", "severity": "error"}], "status": "rejected"}

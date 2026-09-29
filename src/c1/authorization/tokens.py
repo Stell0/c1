@@ -30,7 +30,7 @@ class _TrustedJWKClient(PyJWKClient):
     """PyJWT key selection with a bounded, no-proxy fetch of the trusted URL."""
 
     def fetch_data(self) -> dict[str, Any]:
-        with httpx.Client(timeout=2.0, trust_env=False, follow_redirects=False) as client:
+        with httpx.Client(timeout=5.0, trust_env=False, follow_redirects=False) as client:
             response = client.get(self.uri)
             response.raise_for_status()
             data = response.json()
@@ -53,7 +53,7 @@ class TokenValidator:
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
-        self._http = httpx.AsyncClient(timeout=2.0, trust_env=False, follow_redirects=False)
+        self._http = httpx.AsyncClient(timeout=5.0, trust_env=False, follow_redirects=False)
         self._client: _TrustedJWKClient | None = None
         self._jwks_uri: str | None = None
         self._discovery_lock = asyncio.Lock()
@@ -93,7 +93,7 @@ class TokenValidator:
                     cache_jwk_set=True,
                     cache_keys=False,
                     lifespan=300,
-                    timeout=2,
+                    timeout=5,
                     cooldown_duration=0,
                 )
                 self._jwks_uri = uri
@@ -169,7 +169,7 @@ class TokenValidator:
                         cache_jwk_set=True,
                         cache_keys=False,
                         lifespan=300,
-                        timeout=2,
+                        timeout=5,
                         cooldown_duration=0,
                     )
                     self._jwks_uri = uri

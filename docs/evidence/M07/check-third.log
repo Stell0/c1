@@ -1,0 +1,16 @@
+uv run --locked ruff check .
+F841 Local variable `scheme_id` is assigned to but never used
+  --> tests/unit/m07/test_topic_references.py:73:5
+   |
+71 | def test_generic_resource_read_requires_scheme(readable_scheme: bool) -> None:
+72 |     topic = concept("battery")
+73 |     scheme_id = str(topic.properties[SKOS + "inScheme"][0])
+   |     ^^^^^^^^^
+74 |
+75 |     async def authorize(_principal: Principal, identifier: str) -> Decision:
+   |
+help: Remove assignment to unused variable `scheme_id`
+
+Found 1 error.
+No fixes available (1 hidden fix can be enabled with the `--unsafe-fixes` option).
+make: *** [Makefile:15: lint] Error 1

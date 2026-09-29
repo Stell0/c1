@@ -14,11 +14,22 @@ from starlette.requests import ClientDisconnect
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from c1.api.problems import http_problem, problem, profile_problem, validation_problem
-from c1.api.routes import changesets, documents, history, probe, query, resources, security, system
+from c1.api.routes import (
+    changesets,
+    context,
+    documents,
+    history,
+    probe,
+    query,
+    resources,
+    security,
+    system,
+)
 from c1.authorization.errors import SecurityError
 from c1.authorization.fga import FGAError
 from c1.authorization.tokens import AuthenticationError
 from c1.config import Settings
+from c1.context.errors import ContextError
 from c1.model.diagnostics import ProfileError
 from c1.query.plan import QueryPlanError
 from c1.runtime import Runtime
@@ -125,7 +136,9 @@ def _query_problem(request: Request, *, body: object = None) -> JSONResponse:
         raw = raw or any(str(key).lower() in _RAW_QUERY_KEYS for key in body)
     response = problem(400)
     payload = json.loads(bytes(response.body))
-    payload["code"] = "C1-QY-002" if raw else "C1-QY-001"
+    payload["code"] = (
+        "C1-CX-001" if request.url.path == "/v1/context" else "C1-QY-002" if raw else "C1-QY-001"
+    )
     return JSONResponse(status_code=400, media_type="application/problem+json", content=payload)
 
 
@@ -135,6 +148,7 @@ def _is_query_route(request: Request) -> bool:
         path
         in {
             "/v1/catalog",
+            "/v1/context",
             "/v1/entities",
             "/v1/entities/search",
             "/v1/assertions",
@@ -419,6 +433,9 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
         response = problem(exc.status)
         payload = json.loads(bytes(response.body))
         payload["code"] = exc.code
+        if isinstance(exc, ContextError):
+            payload["reason"] = exc.reason
+            payload.update(exc.details)
         return JSONResponse(
             status_code=exc.status, media_type="application/problem+json", content=payload
         )
@@ -449,6 +466,7 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
     app.include_router(history.router)
     app.include_router(query.router)
     app.include_router(documents.router)
+    app.include_router(context.router)
     if settings.enable_probe_routes:
         app.include_router(probe.router)
     return app

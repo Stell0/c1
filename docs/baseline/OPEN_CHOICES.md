@@ -17,7 +17,7 @@ These decisions remain open until their owning milestone plan verifies the relev
 | Scoped document ordering, text, and rendering | M06 in progress | ADR-0015 records equal-rank deterministic ordering, exact Unicode text, current-binding projection, evidence source revision checks, and safe Markdown. The M06 real-service gate remains pending. |
 | Source/index/interface formats, language coverage, and mappings | M08 | Select a bounded subset (SCIP and OpenAPI/AsyncAPI are candidates) with provenance and coverage semantics. |
 | Software target sets and applicability rules | M08–M11 | Keep target versions explicit; distinguish applicable evidence, review candidates, and unresolved compatibility. |
-| Context profiles, ranking, and budgets | M07 and M09–M11 | Preserve qualifications, source lineage, permissions, and explicit continuation. |
+| Context profiles, ranking, and budgets | M07 in progress; M09–M11 later | ADR-0016 records the M07 data-only profile, typed-path traversal, source/import counting, disagreement criteria, citation chain, and complete-Markdown byte budget. M07 verification remains open; later software-context profiles still require their own plans. |
 | Frontend and browser interaction details | M12 | Use the same secured APIs and verify accessible human workflows. |
 | Deployment artifacts, operational limits, and recovery thresholds | M13 | Pin and inventory final artifacts; measure operational behavior and repeat recovery checks. |
 

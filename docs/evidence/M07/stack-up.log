@@ -1,0 +1,6 @@
+uv run --locked python -m scripts.stack up
+c1-dev compose up completed
+openfga: ready
+terminusdb: ready
+keycloak: ready
+c1-dev identity, authorization, and databases: ready

@@ -1,0 +1,228 @@
+{
+  "runs": [
+    {
+      "total_ms": 2007.789,
+      "status": {
+        "error": "ContextError",
+        "status": 503,
+        "code": "C1-CX-014",
+        "reason": "time_budget"
+      },
+      "phases": [
+        {
+          "phase": "binding_snapshot",
+          "ms": 355.119,
+          "result": "ok"
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 285.739,
+          "result": "ok"
+        },
+        {
+          "phase": "selection",
+          "ms": 1389.941,
+          "result": "ok"
+        },
+        {
+          "phase": "fetch_and_project",
+          "ms": 368.947,
+          "result": "ok"
+        },
+        {
+          "phase": "resolve_anchor",
+          "ms": 0.124
+        },
+        {
+          "phase": "resolve_topics",
+          "ms": 0.061
+        },
+        {
+          "phase": "select_context",
+          "ms": 2.001
+        },
+        {
+          "phase": "build_units",
+          "ms": 1.105
+        },
+        {
+          "phase": "prepare_units",
+          "ms": 0.211
+        },
+        {
+          "phase": "build_page",
+          "ms": 13.711
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 115.31,
+          "result": "CancelledError"
+        },
+        {
+          "phase": "finalize",
+          "ms": 228.735,
+          "result": "CancelledError"
+        }
+      ]
+    },
+    {
+      "total_ms": 1646.522,
+      "status": {
+        "outcome": "resolved",
+        "status": 200
+      },
+      "phases": [
+        {
+          "phase": "binding_snapshot",
+          "ms": 0.011,
+          "result": "ok"
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 248.975,
+          "result": "ok"
+        },
+        {
+          "phase": "selection",
+          "ms": 495.643,
+          "result": "ok"
+        },
+        {
+          "phase": "fetch_and_project",
+          "ms": 372.359,
+          "result": "ok"
+        },
+        {
+          "phase": "resolve_anchor",
+          "ms": 0.13
+        },
+        {
+          "phase": "resolve_topics",
+          "ms": 0.063
+        },
+        {
+          "phase": "select_context",
+          "ms": 1.896
+        },
+        {
+          "phase": "build_units",
+          "ms": 1.217
+        },
+        {
+          "phase": "prepare_units",
+          "ms": 0.24
+        },
+        {
+          "phase": "build_page",
+          "ms": 12.976
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 282.441,
+          "result": "ok"
+        },
+        {
+          "phase": "finalize",
+          "ms": 759.081,
+          "result": "ok"
+        }
+      ]
+    }
+  ],
+  "standalone_phases": [
+    {
+      "phase": "binding_snapshot",
+      "ms": 0.011,
+      "result": "ok"
+    },
+    {
+      "phase": "fresh_resource_authorization",
+      "ms": 267.202,
+      "result": "ok"
+    },
+    {
+      "phase": "selection",
+      "ms": 493.152,
+      "result": "ok"
+    },
+    {
+      "phase": "fetch_and_project",
+      "ms": 362.328,
+      "result": "ok"
+    },
+    {
+      "phase": "resolve_anchor",
+      "ms": 0.109
+    },
+    {
+      "phase": "resolve_topics",
+      "ms": 0.043
+    },
+    {
+      "phase": "select_context",
+      "ms": 1.912
+    },
+    {
+      "phase": "build_units",
+      "ms": 1.02
+    },
+    {
+      "phase": "prepare_units",
+      "ms": 0.195
+    },
+    {
+      "phase": "build_page",
+      "ms": 10.423
+    },
+    {
+      "phase": "fresh_resource_authorization",
+      "ms": 316.781,
+      "result": "ok"
+    },
+    {
+      "phase": "finalize",
+      "ms": 697.618,
+      "result": "ok"
+    }
+  ],
+  "hint_comparison": {
+    "known_historical_origins": 102,
+    "unknown_origins": 7,
+    "manifest_read_ms": 194.525,
+    "same_authorized_records": true,
+    "phases": [
+      {
+        "phase": "fetch_and_project",
+        "ms": 893.485,
+        "result": "ok"
+      },
+      {
+        "phase": "fresh_resource_authorization",
+        "ms": 284.915,
+        "result": "ok"
+      },
+      {
+        "phase": "finalize",
+        "ms": 507.739,
+        "result": "ok"
+      }
+    ],
+    "literal_shape_failures": [
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      },
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      },
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      }
+    ]
+  }
+}

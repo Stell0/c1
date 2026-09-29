@@ -1,0 +1,178 @@
+{"correlation_id": "cf4d601d-78b5-45ac-967d-6bcadc82a48a", "operation": "context_build", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "549d14b5-b73a-4344-b9e8-46801f75ff24", "operation": "query_entities", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "550be3c7-1e3d-4b9b-a7f2-75b3ddeeddc8", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.0c02d576-45eb-4460-a71e-c184e51f7541", "reason": "", "target": ""}
+{"correlation_id": "0e7f5e4b-c08f-442f-a8ed-c585ae2ac385", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.d5caa03b-408b-4032-938c-08c4202c3c10", "reason": "", "target": ""}
+{"correlation_id": "2774e564-8797-4047-9b7e-f4f25045c04e", "operation": "context_build", "outcome": "allowed", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "", "target": ""}
+# Context: Tesla
+
+## Interpretation
+
+- profile: graph\-context
+
+- profile\_version: 1
+
+- profile\_digest: 4d5e1c0a7c69fe59f4834854e5042bca0f5c0f0c716f68cf1a1a261d6b0e9134
+
+- revision: branch:scyjlq8rx9hcml51ve54uc4wuze0nwf
+
+- anchor: \{"id":"urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47","label":"Tesla","types":\["urn:c1:ns:core\#Entity"\]\}
+
+- topics: \[\{"id":"urn:c1:instance:dev:concept/21c6b31c\-e384\-4666\-9a4f\-980e3b0638dc","label":"batteries","types":\["http\://www\.w3\.org/2004/02/skos/core\#Concept"\]\}\]
+
+- narrowing: \{"keywords\_all":\[\],"keywords\_any":\[\],"project\_ref":null\}
+
+## Orientation
+
+- Tesla → urn:c1:ns:batteries\#hasProduct → Megapack\-synthetic → urn:c1:ns:batteries\#hasComponent → M\-B3; path: \{"edges":\[\{"assertion\_id":"urn:c1:instance:dev:assertion/f52c9df1\-bf84\-46eb\-8319\-76ecf5591855","object":"urn:c1:instance:dev:entity/376d07b2\-a583\-4034\-97a3\-dcc1f0acd2c3","predicate":"urn:c1:ns:batteries\#hasProduct","subject":"urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47"\},\{"assertion\_id":"urn:c1:instance:dev:assertion/d46a223f\-bdbf\-4ed0\-8349\-cc742f14f80f","object":"urn:c1:instance:dev:entity/f939c2ba\-004a\-4738\-b12e\-eabd9f0c1a87","predicate":"urn:c1:ns:batteries\#hasComponent","subject":"urn:c1:instance:dev:entity/376d07b2\-a583\-4034\-97a3\-dcc1f0acd2c3"\}\],"node\_ids":\["urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47","urn:c1:instance:dev:entity/376d07b2\-a583\-4034\-97a3\-dcc1f0acd2c3","urn:c1:instance:dev:entity/f939c2ba\-004a\-4738\-b12e\-eabd9f0c1a87"\],"nodes":\[\{"id":"urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47","label":"Tesla","types":\["urn:c1:ns:core\#Entity"\]\},\{"id":"urn:c1:instance:dev:entity/376d07b2\-a583\-4034\-97a3\-dcc1f0acd2c3","label":"Megapack\-synthetic","types":\["urn:c1:ns:batteries\#Product"\]\},\{"id":"urn:c1:instance:dev:entity/f939c2ba\-004a\-4738\-b12e\-eabd9f0c1a87","label":"M\-B3","types":\["urn:c1:ns:batteries\#BatteryVersion"\]\}\],"path":\["urn:c1:instance:dev:assertion/f52c9df1\-bf84\-46eb\-8319\-76ecf5591855","urn:c1:instance:dev:assertion/d46a223f\-bdbf\-4ed0\-8349\-cc742f14f80f"\]\}
+
+- Tesla → urn:c1:ns:batteries\#hasProduct → Optimus\-synthetic → urn:c1:ns:batteries\#hasComponent → O\-B1; path: \{"edges":\[\{"assertion\_id":"urn:c1:instance:dev:assertion/44744d9f\-913e\-4bea\-b4cd\-546a4f36e236","object":"urn:c1:instance:dev:entity/5d094bd3\-53a2\-4734\-93cb\-44d430621987","predicate":"urn:c1:ns:batteries\#hasProduct","subject":"urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47"\},\{"assertion\_id":"urn:c1:instance:dev:assertion/61e45511\-844c\-4942\-9669\-b53bc0b0f85c","object":"urn:c1:instance:dev:entity/bd626be3\-8f3a\-421e\-984c\-b0e346d967f6","predicate":"urn:c1:ns:batteries\#hasComponent","subject":"urn:c1:instance:dev:entity/5d094bd3\-53a2\-4734\-93cb\-44d430621987"\}\],"node\_ids":\["urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47","urn:c1:instance:dev:entity/5d094bd3\-53a2\-4734\-93cb\-44d430621987","urn:c1:instance:dev:entity/bd626be3\-8f3a\-421e\-984c\-b0e346d967f6"\],"nodes":\[\{"id":"urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47","label":"Tesla","types":\["urn:c1:ns:core\#Entity"\]\},\{"id":"urn:c1:instance:dev:entity/5d094bd3\-53a2\-4734\-93cb\-44d430621987","label":"Optimus\-synthetic","types":\["urn:c1:ns:batteries\#Product"\]\},\{"id":"urn:c1:instance:dev:entity/bd626be3\-8f3a\-421e\-984c\-b0e346d967f6","label":"O\-B1","types":\["urn:c1:ns:batteries\#BatteryVersion"\]\}\],"path":\["urn:c1:instance:dev:assertion/44744d9f\-913e\-4bea\-b4cd\-546a4f36e236","urn:c1:instance:dev:assertion/61e45511\-844c\-4942\-9669\-b53bc0b0f85c"\]\}
+
+- Tesla → urn:c1:ns:batteries\#hasProduct → Vehicle\-synthetic → urn:c1:ns:batteries\#hasComponent → Vehicle battery\-synthetic → urn:c1:ns:batteries\#hasVersion → V\-B2; path: \{"edges":\[\{"assertion\_id":"urn:c1:instance:dev:assertion/032b35e0\-f12c\-4bea\-b004\-eb6c0975adac","object":"urn:c1:instance:dev:entity/b5ba379e\-afec\-43ad\-b3a5\-a48bd1bedbf7","predicate":"urn:c1:ns:batteries\#hasProduct","subject":"urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47"\},\{"assertion\_id":"urn:c1:instance:dev:assertion/27b24ee2\-12f1\-4c9e\-9265\-4f54aa5e9338","object":"urn:c1:instance:dev:entity/65e49410\-81f8\-4cd2\-b540\-5943ff1c4cf6","predicate":"urn:c1:ns:batteries\#hasComponent","subject":"urn:c1:instance:dev:entity/b5ba379e\-afec\-43ad\-b3a5\-a48bd1bedbf7"\},\{"assertion\_id":"urn:c1:instance:dev:assertion/7c932792\-57a2\-4212\-be80\-28ae21c8792a","object":"urn:c1:instance:dev:entity/37f8b26d\-713c\-4afb\-9956\-d3a24ad12409","predicate":"urn:c1:ns:batteries\#hasVersion","subject":"urn:c1:instance:dev:entity/65e49410\-81f8\-4cd2\-b540\-5943ff1c4cf6"\}\],"node\_ids":\["urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47","urn:c1:instance:dev:entity/b5ba379e\-afec\-43ad\-b3a5\-a48bd1bedbf7","urn:c1:instance:dev:entity/65e49410\-81f8\-4cd2\-b540\-5943ff1c4cf6","urn:c1:instance:dev:entity/37f8b26d\-713c\-4afb\-9956\-d3a24ad12409"\],"nodes":\[\{"id":"urn:c1:instance:dev:entity/bc4319cd\-f55a\-48e9\-ad3a\-33b9313f8c47","label":"Tesla","types":\["urn:c1:ns:core\#Entity"\]\},\{"id":"urn:c1:instance:dev:entity/b5ba379e\-afec\-43ad\-b3a5\-a48bd1bedbf7","label":"Vehicle\-synthetic","types":\["urn:c1:ns:batteries\#Product"\]\},\{"id":"urn:c1:instance:dev:entity/65e49410\-81f8\-4cd2\-b540\-5943ff1c4cf6","label":"Vehicle battery\-synthetic","types":\["urn:c1:ns:batteries\#Battery"\]\},\{"id":"urn:c1:instance:dev:entity/37f8b26d\-713c\-4afb\-9956\-d3a24ad12409","label":"V\-B2","types":\["urn:c1:ns:batteries\#BatteryVersion"\]\}\],"path":\["urn:c1:instance:dev:assertion/032b35e0\-f12c\-4bea\-b004\-eb6c0975adac","urn:c1:instance:dev:assertion/27b24ee2\-12f1\-4c9e\-9265\-4f54aa5e9338","urn:c1:instance:dev:assertion/7c932792\-57a2\-4212\-be80\-28ae21c8792a"\]\}
+
+## Facts
+
+### M\-B3 (urn:c1:instance:dev:entity/f939c2ba\-004a\-4738\-b12e\-eabd9f0c1a87)
+
+#### capacity (urn:c1:ns:batteries\#capacity)
+
+Unit: urn:c1:context:unit:6980e931a284bd0656aeeba3b0762ee7ac1bfce3d9497ef6f561c0dd0802257b; sources: 2; imports: 2; source versions: \[\{"revisions":\["source\-v1"\],"source\_id":"urn:c1:instance:dev:source/66aedcd5\-77cf\-4295\-8f72\-8fed022565ae"\},\{"revisions":\["source\-v1"\],"source\_id":"urn:c1:instance:dev:source/b5738d2b\-b14f\-40b4\-be7d\-3fb22ae0c77e"\}\]
+
+Comparison: disagreement
+
+Roles: \{"product":\[\{"id":"urn:c1:instance:dev:entity/376d07b2\-a583\-4034\-97a3\-dcc1f0acd2c3","label":"Megapack\-synthetic","types":\["urn:c1:ns:batteries\#Product"\]\}\],"version":\[\{"id":"urn:c1:instance:dev:entity/f939c2ba\-004a\-4738\-b12e\-eabd9f0c1a87","label":"M\-B3","types":\["urn:c1:ns:batteries\#BatteryVersion"\]\}\]\}
+
+Disagreement: \{"basis":"declared\_single\_value\_known\_overlap","competing":true,"competing\_assertion\_ids":\["urn:c1:instance:dev:assertion/3640415f\-20ef\-433e\-8c58\-d63158780f6a","urn:c1:instance:dev:assertion/632fa1c8\-5d9b\-4780\-8630\-a0ea2cfd4207"\],"declared\_conflict":true,"pairs":\[\["urn:c1:instance:dev:assertion/3640415f\-20ef\-433e\-8c58\-d63158780f6a","urn:c1:instance:dev:assertion/632fa1c8\-5d9b\-4780\-8630\-a0ea2cfd4207"\]\]\}
+
+- 3\.6 (datatype: http\://www\.w3\.org/2001/XMLSchema\#decimal); assertion: urn:c1:instance:dev:assertion/3640415f\-20ef\-433e\-8c58\-d63158780f6a; review state: reported; origin: imported; lifecycle: active; valid time: \{"end":\{"datatype":"http\://www\.w3\.org/2001/XMLSchema\#dateTimeStamp","lexical":"2027\-01\-01T00:00:00Z","precision":"dateTimeStamp","state":"known","timezone\_unknown":false\},"interval\_id":"urn:c1:instance:dev:time\-interval/cd12c862\-f260\-4011\-b28a\-c8fba25a8456","start":\{"datatype":"http\://www\.w3\.org/2001/XMLSchema\#dateTimeStamp","lexical":"2026\-01\-01T00:00:00Z","precision":"dateTimeStamp","state":"known","timezone\_unknown":false\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; measurement id: urn:c1:instance:dev:entity/47599589\-e400\-452b\-92fe\-4e4747027a2c; measurement link assertion id: urn:c1:instance:dev:assertion/42a421e0\-4f6a\-400d\-8612\-ad1363033292; measurement link: \{"assertion\_id":"urn:c1:instance:dev:assertion/42a421e0\-4f6a\-400d\-8612\-ad1363033292","attributed\_to":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","lifecycle":"active","manual\_statement":true,"origin":"manual","review\_state":"reported","valid\_time":\{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}\}; incomplete: \[\][^1]
+
+  - Qualifier conditions: 25 C; nominal discharge (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/39609b7b\-72b4\-4036\-8595\-1d83fd918c7d; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier measuredOn: 2026\-03\-01 (datatype: http\://www\.w3\.org/2001/XMLSchema\#date); assertion: urn:c1:instance:dev:assertion/62d4fdc0\-c448\-440c\-b02d\-d056ec1c4f0e; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier unit: MWh (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/889deb6c\-6fbd\-4202\-9c60\-81c3a65b0517; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+- 3\.9 (datatype: http\://www\.w3\.org/2001/XMLSchema\#decimal); assertion: urn:c1:instance:dev:assertion/632fa1c8\-5d9b\-4780\-8630\-a0ea2cfd4207; review state: reported; origin: imported; lifecycle: active; valid time: \{"end":\{"datatype":"http\://www\.w3\.org/2001/XMLSchema\#dateTimeStamp","lexical":"2027\-01\-01T00:00:00Z","precision":"dateTimeStamp","state":"known","timezone\_unknown":false\},"interval\_id":"urn:c1:instance:dev:time\-interval/cd12c862\-f260\-4011\-b28a\-c8fba25a8456","start":\{"datatype":"http\://www\.w3\.org/2001/XMLSchema\#dateTimeStamp","lexical":"2026\-01\-01T00:00:00Z","precision":"dateTimeStamp","state":"known","timezone\_unknown":false\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; measurement id: urn:c1:instance:dev:entity/f87cd9f9\-17be\-49b7\-ba26\-fa842775d21e; measurement link assertion id: urn:c1:instance:dev:assertion/701314e4\-7849\-489a\-abfa\-2973f799fd6e; measurement link: \{"assertion\_id":"urn:c1:instance:dev:assertion/701314e4\-7849\-489a\-abfa\-2973f799fd6e","attributed\_to":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","lifecycle":"active","manual\_statement":true,"origin":"manual","review\_state":"reported","valid\_time":\{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}\}; incomplete: \[\][^2]
+
+  - Qualifier conditions: 25 C; nominal discharge (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/d0a8d3bd\-cbcf\-4be5\-8b42\-73e758d2d551; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier measuredOn: 2026\-03\-01 (datatype: http\://www\.w3\.org/2001/XMLSchema\#date); assertion: urn:c1:instance:dev:assertion/3f016927\-d309\-4bc4\-b66d\-d05c523fd997; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier unit: MWh (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/2be6fc1e\-ee6b\-4553\-a413\-9d985ffe624e; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+### O\-B1 (urn:c1:instance:dev:entity/bd626be3\-8f3a\-421e\-984c\-b0e346d967f6)
+
+#### capacity (urn:c1:ns:batteries\#capacity)
+
+Unit: urn:c1:context:unit:3ac17cfff8c0660631ec101946d01487c391d50ad4152d72dd10de6bf3eecb63; sources: 1; imports: 2; source versions: \[\{"revisions":\["source\-v1"\],"source\_id":"urn:c1:instance:dev:source/47f659e8\-ccd9\-43f4\-90e6\-c0ed3a3bbd25"\}\]
+
+Comparison: agreement
+
+Roles: \{"product":\[\{"id":"urn:c1:instance:dev:entity/5d094bd3\-53a2\-4734\-93cb\-44d430621987","label":"Optimus\-synthetic","types":\["urn:c1:ns:batteries\#Product"\]\}\],"version":\[\{"id":"urn:c1:instance:dev:entity/bd626be3\-8f3a\-421e\-984c\-b0e346d967f6","label":"O\-B1","types":\["urn:c1:ns:batteries\#BatteryVersion"\]\}\]\}
+
+- 2\.1 (datatype: http\://www\.w3\.org/2001/XMLSchema\#decimal); assertion: urn:c1:instance:dev:assertion/259a50f0\-23cc\-45a2\-bfd0\-112f7edfd998; review state: reported; origin: imported; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; measurement id: urn:c1:instance:dev:entity/16d7642f\-b449\-4633\-924f\-9e9ba2efb89f; measurement link assertion id: urn:c1:instance:dev:assertion/852b42a8\-cba7\-4804\-b5fc\-3a58ccadf611; measurement link: \{"assertion\_id":"urn:c1:instance:dev:assertion/852b42a8\-cba7\-4804\-b5fc\-3a58ccadf611","attributed\_to":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","lifecycle":"active","manual\_statement":true,"origin":"manual","review\_state":"reported","valid\_time":\{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}\}; incomplete: \[\][^3][^4]
+
+  - Qualifier conditions: 25 C; nominal discharge (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/0c274762\-650f\-4740\-bce0\-803ee6907f3b; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier measuredOn: 2026\-03\-01 (datatype: http\://www\.w3\.org/2001/XMLSchema\#date); assertion: urn:c1:instance:dev:assertion/be9c98d1\-64eb\-45ff\-9819\-10f0a7aa8a89; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier unit: kWh (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/344c3dff\-6d0b\-487a\-95d9\-2e206f299d19; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+### V\-B2 (urn:c1:instance:dev:entity/37f8b26d\-713c\-4afb\-9956\-d3a24ad12409)
+
+#### capacity (urn:c1:ns:batteries\#capacity)
+
+Unit: urn:c1:context:unit:3c14506dc7f9a95e3a5dbc572b9055396f13bee9ecda86e44089ba0c88a4f752; sources: 1; imports: 1; source versions: \[\{"revisions":\["source\-v1"\],"source\_id":"urn:c1:instance:dev:source/6ea57438\-8f78\-44d5\-93f6\-fb50322fc27c"\}\]
+
+Comparison: agreement
+
+Roles: \{"product":\[\{"id":"urn:c1:instance:dev:entity/b5ba379e\-afec\-43ad\-b3a5\-a48bd1bedbf7","label":"Vehicle\-synthetic","types":\["urn:c1:ns:batteries\#Product"\]\}\],"version":\[\{"id":"urn:c1:instance:dev:entity/37f8b26d\-713c\-4afb\-9956\-d3a24ad12409","label":"V\-B2","types":\["urn:c1:ns:batteries\#BatteryVersion"\]\}\]\}
+
+- 75 (datatype: http\://www\.w3\.org/2001/XMLSchema\#decimal); assertion: urn:c1:instance:dev:assertion/f966e37e\-33c0\-4dc3\-be4d\-d0d75dfc21a2; review state: reported; origin: imported; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; measurement id: urn:c1:instance:dev:entity/ed7b9b57\-e963\-4f2c\-83a7\-0a00cb3b7b17; measurement link assertion id: urn:c1:instance:dev:assertion/569af507\-d0e5\-487a\-bedb\-73a7e83302de; measurement link: \{"assertion\_id":"urn:c1:instance:dev:assertion/569af507\-d0e5\-487a\-bedb\-73a7e83302de","attributed\_to":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","lifecycle":"active","manual\_statement":true,"origin":"manual","review\_state":"reported","valid\_time":\{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}\}; incomplete: \[\][^5]
+
+  - Qualifier conditions: 20 C; nominal discharge (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/a5b0656e\-b3ad\-45a7\-9298\-e0cc76456931; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier measuredOn: 2026\-03\-01 (datatype: http\://www\.w3\.org/2001/XMLSchema\#date); assertion: urn:c1:instance:dev:assertion/57c522c2\-6ed9\-496d\-8e93\-6e4c5576a727; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier unit: kWh (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/93f74e52\-b676\-466d\-8cb8\-9386caca325a; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+#### energyDensity (urn:c1:ns:batteries\#energyDensity)
+
+Unit: urn:c1:context:unit:5b23d0ff02593a5a93dd2c5b9a4092d91c1d2c3de249f445ad24be33dd04bb3c; sources: 1; imports: 1; source versions: \[\{"revisions":\["source\-v1"\],"source\_id":"urn:c1:instance:dev:source/6ea57438\-8f78\-44d5\-93f6\-fb50322fc27c"\}\]
+
+Comparison: agreement
+
+Roles: \{"product":\[\{"id":"urn:c1:instance:dev:entity/b5ba379e\-afec\-43ad\-b3a5\-a48bd1bedbf7","label":"Vehicle\-synthetic","types":\["urn:c1:ns:batteries\#Product"\]\}\],"version":\[\{"id":"urn:c1:instance:dev:entity/37f8b26d\-713c\-4afb\-9956\-d3a24ad12409","label":"V\-B2","types":\["urn:c1:ns:batteries\#BatteryVersion"\]\}\]\}
+
+- 250 (datatype: http\://www\.w3\.org/2001/XMLSchema\#decimal); assertion: urn:c1:instance:dev:assertion/bf1fe2d6\-1cfe\-439f\-96b9\-3ef2d9b88e2f; review state: reported; origin: imported; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; measurement id: urn:c1:instance:dev:entity/b8ab571e\-13f2\-42cc\-a0e8\-9653bcd5994c; measurement link assertion id: urn:c1:instance:dev:assertion/a14af76f\-1a15\-4e31\-b9d2\-b8f2fde81e04; measurement link: \{"assertion\_id":"urn:c1:instance:dev:assertion/a14af76f\-1a15\-4e31\-b9d2\-b8f2fde81e04","attributed\_to":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","lifecycle":"active","manual\_statement":true,"origin":"manual","review\_state":"reported","valid\_time":\{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}\}; incomplete: \["unit"\][^6]
+
+  - Qualifier conditions: 20 C; cell level (datatype: http\://www\.w3\.org/2001/XMLSchema\#string); assertion: urn:c1:instance:dev:assertion/4243fa00\-0d83\-4712\-a985\-79e3045bcdad; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+  - Qualifier measuredOn: 2026\-03\-01 (datatype: http\://www\.w3\.org/2001/XMLSchema\#date); assertion: urn:c1:instance:dev:assertion/b9c23e9c\-8a5a\-4e5f\-8c33\-e1cf4deb44f3; review state: reported; origin: manual; lifecycle: active; valid time: \{"end":\{"state":"unknown"\},"start":\{"state":"unknown"\}\}; attributed to: user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10; incomplete: \[\]; manual statement by user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10
+
+## Text
+
+Excerpt for unit urn:c1:context:unit:6980e931a284bd0656aeeba3b0762ee7ac1bfce3d9497ef6f561c0dd0802257b[^1]; truncated: false
+
+> M\-B3 synthetic capacity: 3\.6 MWh\. 25 C; nominal discharge
+
+Excerpt for unit urn:c1:context:unit:6980e931a284bd0656aeeba3b0762ee7ac1bfce3d9497ef6f561c0dd0802257b[^2]; truncated: false
+
+> M\-B3 synthetic capacity is 3\.9 MWh at 25 C under nominal discharge\.
+
+Excerpt for unit urn:c1:context:unit:3ac17cfff8c0660631ec101946d01487c391d50ad4152d72dd10de6bf3eecb63[^3]; truncated: false
+
+> O\-B1 synthetic capacity: 2\.1 kWh\. 25 C; nominal discharge
+
+Excerpt for unit urn:c1:context:unit:3ac17cfff8c0660631ec101946d01487c391d50ad4152d72dd10de6bf3eecb63[^4]; truncated: false
+
+> O\-B1 synthetic capacity: 2\.1 kWh\. 25 C; nominal discharge
+
+Excerpt for unit urn:c1:context:unit:3c14506dc7f9a95e3a5dbc572b9055396f13bee9ecda86e44089ba0c88a4f752[^5]; truncated: false
+
+> V\-B2 synthetic capacity: 75 kWh\. 20 C; nominal discharge
+
+Excerpt for unit urn:c1:context:unit:5b23d0ff02593a5a93dd2c5b9a4092d91c1d2c3de249f445ad24be33dd04bb3c[^6]; truncated: false
+
+> V\-B2 synthetic energyDensity: 250 \(unit absent\)\. 20 C; cell level
+
+## Disagreements
+
+- \{"basis":"declared\_single\_value\_known\_overlap","competing":true,"competing\_assertion\_ids":\["urn:c1:instance:dev:assertion/3640415f\-20ef\-433e\-8c58\-d63158780f6a","urn:c1:instance:dev:assertion/632fa1c8\-5d9b\-4780\-8630\-a0ea2cfd4207"\],"declared\_conflict":true,"pairs":\[\["urn:c1:instance:dev:assertion/3640415f\-20ef\-433e\-8c58\-d63158780f6a","urn:c1:instance:dev:assertion/632fa1c8\-5d9b\-4780\-8630\-a0ea2cfd4207"\]\],"unit\_id":"urn:c1:context:unit:6980e931a284bd0656aeeba3b0762ee7ac1bfce3d9497ef6f561c0dd0802257b"\}
+
+## Gaps
+
+## Sources
+
+[^1]: M\-B3 synthetic laboratory report; \{"corroboration":"distinct\_sources","evidence\_id":"urn:c1:instance:dev:evidence/04076178\-4f8e\-4243\-bf70\-c6f4a7624377","evidence\_source\_revision":"source\-v1","evidence\_target\_id":"urn:c1:instance:dev:source/66aedcd5\-77cf\-4295\-8f72\-8fed022565ae","id":"urn:c1:context:citation:14b39091511c62bb30307b0a086edaaca246fa695b18ea97c1c32054b32a5241","import\_activities":\[\{"actor":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","id":"urn:c1:instance:dev:activity/61f7238d\-334a\-4317\-aebd\-dbad927fe1fc","method":"fixture\-external\-import","tool\_name":"synthetic\-importer","tool\_version":"1\.0\.0"\}\],"imported\_by":\["urn:c1:instance:dev:activity/61f7238d\-334a\-4317\-aebd\-dbad927fe1fc"\],"source\_id":"urn:c1:instance:dev:source/66aedcd5\-77cf\-4295\-8f72\-8fed022565ae","source\_kind":"synthetic\-datasheet","source\_revision":"source\-v1","source\_title":"M\-B3 synthetic laboratory report"\}
+
+[^2]: M\-B3 synthetic manufacturer datasheet; \{"corroboration":"distinct\_sources","document\_id":"urn:c1:instance:dev:document/5a31ffdc\-000a\-4b47\-abb0\-07234656ac20","evidence\_id":"urn:c1:instance:dev:evidence/4843368f\-b245\-401f\-9423\-7039736d5158","evidence\_source\_revision":"document\-v2","evidence\_target\_id":"urn:c1:instance:dev:document\-part/704638f9\-bcc0\-437d\-988f\-b5c43e8b2355","id":"urn:c1:context:citation:f54c7051ddc3d98a9e82c5371eefedb3a082cbed891d3a3c65575a3dc31ddead","import\_activities":\[\{"actor":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","id":"urn:c1:instance:dev:activity/a4b3882e\-631f\-46a1\-ac83\-cad391b09857","method":"fixture\-external\-import","tool\_name":"synthetic\-importer","tool\_version":"1\.0\.0"\}\],"imported\_by":\["urn:c1:instance:dev:activity/a4b3882e\-631f\-46a1\-ac83\-cad391b09857"\],"part\_id":"urn:c1:instance:dev:document\-part/704638f9\-bcc0\-437d\-988f\-b5c43e8b2355","selector":\{"exact":"M\-B3 synthetic capacity is 3\.9 MWh at 25 C under nominal discharge\.","id":"urn:c1:instance:dev:selector/9b861d29\-8838\-422e\-a854\-6b2f6cc4d920","kind":"TextQuoteSelector"\},"source\_id":"urn:c1:instance:dev:source/b5738d2b\-b14f\-40b4\-be7d\-3fb22ae0c77e","source\_kind":"synthetic\-datasheet","source\_link\_assertion\_id":"urn:c1:instance:dev:assertion/97b7bfb6\-14c1\-47f7\-ad4e\-28a3be12b693","source\_revision":"source\-v1","source\_title":"M\-B3 synthetic manufacturer datasheet"\}
+
+[^3]: O\-B1 synthetic datasheet; \{"corroboration":"duplicate\_import","evidence\_id":"urn:c1:instance:dev:evidence/0737111c\-ae15\-4c76\-9a15\-9faf7039bd7a","evidence\_source\_revision":"source\-v1","evidence\_target\_id":"urn:c1:instance:dev:source/47f659e8\-ccd9\-43f4\-90e6\-c0ed3a3bbd25","id":"urn:c1:context:citation:78c8e0a8ee8ced59855af1083e03d8e0dd6f4e295f576594d04d383ba786627e","import\_activities":\[\{"actor":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","id":"urn:c1:instance:dev:activity/044b7c10\-9438\-42bf\-984a\-825875ab5ce2","method":"fixture\-external\-import","tool\_name":"synthetic\-importer","tool\_version":"1\.0\.0"\}\],"imported\_by":\["urn:c1:instance:dev:activity/044b7c10\-9438\-42bf\-984a\-825875ab5ce2"\],"source\_id":"urn:c1:instance:dev:source/47f659e8\-ccd9\-43f4\-90e6\-c0ed3a3bbd25","source\_kind":"synthetic\-datasheet","source\_revision":"source\-v1","source\_title":"O\-B1 synthetic datasheet"\}
+
+[^4]: O\-B1 synthetic datasheet; \{"corroboration":"duplicate\_import","evidence\_id":"urn:c1:instance:dev:evidence/20050625\-1a84\-4215\-956f\-df1627465a6e","evidence\_source\_revision":"source\-v1","evidence\_target\_id":"urn:c1:instance:dev:source/47f659e8\-ccd9\-43f4\-90e6\-c0ed3a3bbd25","id":"urn:c1:context:citation:9ae5228726c59c77c7e2f2799fba2349f2f00871db71926debaea3798a8c816e","import\_activities":\[\{"actor":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","id":"urn:c1:instance:dev:activity/243effe6\-6c2f\-45d9\-a03b\-9e21e01e11a4","method":"fixture\-external\-import","tool\_name":"synthetic\-importer","tool\_version":"1\.0\.0"\}\],"imported\_by":\["urn:c1:instance:dev:activity/243effe6\-6c2f\-45d9\-a03b\-9e21e01e11a4"\],"source\_id":"urn:c1:instance:dev:source/47f659e8\-ccd9\-43f4\-90e6\-c0ed3a3bbd25","source\_kind":"synthetic\-datasheet","source\_revision":"source\-v1","source\_title":"O\-B1 synthetic datasheet"\}
+
+[^5]: V\-B2 synthetic datasheet; \{"corroboration":"distinct\_sources","evidence\_id":"urn:c1:instance:dev:evidence/99317a41\-9e67\-441f\-be01\-6e549a1c6f4b","evidence\_source\_revision":"source\-v1","evidence\_target\_id":"urn:c1:instance:dev:source/6ea57438\-8f78\-44d5\-93f6\-fb50322fc27c","id":"urn:c1:context:citation:a7507533afbc9259fb83be803db863b80214b4e85e651d25f1bbecc1aaae7af8","import\_activities":\[\{"actor":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","id":"urn:c1:instance:dev:activity/10350ce5\-d16a\-4603\-9a0f\-464d92fa6e65","method":"fixture\-external\-import","tool\_name":"synthetic\-importer","tool\_version":"1\.0\.0"\}\],"imported\_by":\["urn:c1:instance:dev:activity/10350ce5\-d16a\-4603\-9a0f\-464d92fa6e65"\],"source\_id":"urn:c1:instance:dev:source/6ea57438\-8f78\-44d5\-93f6\-fb50322fc27c","source\_kind":"synthetic\-datasheet","source\_revision":"source\-v1","source\_title":"V\-B2 synthetic datasheet"\}
+
+[^6]: V\-B2 synthetic datasheet; \{"corroboration":"distinct\_sources","evidence\_id":"urn:c1:instance:dev:evidence/52f45b9f\-c184\-4478\-9d29\-f00167dd7cd5","evidence\_source\_revision":"source\-v1","evidence\_target\_id":"urn:c1:instance:dev:source/6ea57438\-8f78\-44d5\-93f6\-fb50322fc27c","id":"urn:c1:context:citation:afde66f527d023a02771b9849436709091174eaee4c48d5fede4ade096959b21","import\_activities":\[\{"actor":"user:c1\-dev\.d5caa03b\-408b\-4032\-938c\-08c4202c3c10","id":"urn:c1:instance:dev:activity/e726408a\-bf58\-42d5\-b7cf\-8419d91607cd","method":"fixture\-external\-import","tool\_name":"synthetic\-importer","tool\_version":"1\.0\.0"\}\],"imported\_by":\["urn:c1:instance:dev:activity/e726408a\-bf58\-42d5\-b7cf\-8419d91607cd"\],"source\_id":"urn:c1:instance:dev:source/6ea57438\-8f78\-44d5\-93f6\-fb50322fc27c","source\_kind":"synthetic\-datasheet","source\_revision":"source\-v1","source\_title":"V\-B2 synthetic datasheet"\}
+
+## Bounds
+
+- truncated: false
+
+- deferred\_units: 0
+
+- next\_cursor: null
+
+- unit: bytes
+
+- maximum: 65536
+
+- rendered\_bytes: 29739
+
+- offset: 0
+
+- included\_units: 4
+
+Format parity digest: fb1c7cbbd3a11512f5157e065183f820e6345f91833d15558598cb9466b86522
+
+Exact keywords ALL [batteries, tesla]: ["urn:c1:instance:dev:entity/37f8b26d-713c-4afb-9956-d3a24ad12409"]

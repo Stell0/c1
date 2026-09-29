@@ -68,7 +68,7 @@ class Settings:
     cursor_secret: str = field(default="", repr=False)
     query_candidate_limit: int = 5000
     max_readable_scopes: int = 500
-    query_time_budget_ms: int = 2000
+    query_time_budget_ms: int = 5000
 
     def __post_init__(self) -> None:
         if not _NAME.fullmatch(self.instance_id):
@@ -105,7 +105,7 @@ class Settings:
         for setting_name, setting_value, maximum in (
             ("C1_QUERY_CANDIDATE_LIMIT", self.query_candidate_limit, 5000),
             ("C1_MAX_READABLE_SCOPES", self.max_readable_scopes, 500),
-            ("C1_QUERY_TIME_BUDGET_MS", self.query_time_budget_ms, 2000),
+            ("C1_QUERY_TIME_BUDGET_MS", self.query_time_budget_ms, 30000),
         ):
             if setting_value < 1 or setting_value > maximum:
                 raise ValueError(f"{setting_name} must be between 1 and {maximum}")
@@ -155,5 +155,5 @@ class Settings:
             cursor_secret=os.environ["C1_CURSOR_SECRET"],
             query_candidate_limit=int(get("C1_QUERY_CANDIDATE_LIMIT", "5000")),
             max_readable_scopes=int(get("C1_MAX_READABLE_SCOPES", "500")),
-            query_time_budget_ms=int(get("C1_QUERY_TIME_BUDGET_MS", "2000")),
+            query_time_budget_ms=int(get("C1_QUERY_TIME_BUDGET_MS", "5000")),
         )

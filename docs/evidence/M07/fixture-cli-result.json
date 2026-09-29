@@ -1,0 +1,29 @@
+{
+  "argv": [
+    "uv",
+    "run",
+    "--locked",
+    "python",
+    "scripts/load_fixture.py",
+    "--fixture",
+    "cross-project-batteries",
+    "--database",
+    "c1_m03_k_614d64ee1f264fd3be9d6d4883e0c622"
+  ],
+  "child_cleanup_status": "REAPED_CHILD",
+  "child_returncode": 0,
+  "cleanup_status": "PASS",
+  "errors": [],
+  "fga_model": "01M3PA952ENBZQCEHH2P5QW6YK",
+  "fga_store": "01M3PA9527E4TN9TXJ372ZC0FF",
+  "instance_id": "m03_614d64ee1f264fd3be9d6d4883e0c622",
+  "knowledge_database": "c1_m03_k_614d64ee1f264fd3be9d6d4883e0c622",
+  "original_fixture_exit": "NOT_OBSERVED",
+  "owned_pgid": 1924690,
+  "parent_writer_released": true,
+  "prerequisite_gate": "deadline-live-79",
+  "terminal_fixture_applied": true,
+  "workflow_database": "c1_m03_w_614d64ee1f264fd3be9d6d4883e0c622",
+  "wrapper_returncode": 0,
+  "wrapper_status": "PASS"
+}

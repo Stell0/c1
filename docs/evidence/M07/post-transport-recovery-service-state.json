@@ -1,0 +1,39 @@
+{
+  "observed_utc": "2026-09-28T20:24:25Z",
+  "project": "c1-dev",
+  "runtime": "podman",
+  "services": {
+    "keycloak": {
+      "container_count": 1,
+      "exit_code": 0,
+      "finished_at": "0001-01-01 00:00:00 +0000 UTC",
+      "oom_killed": false,
+      "started_at": "2026-09-28 22:21:34.25717995 +0200 CEST",
+      "status": "running"
+    },
+    "openfga": {
+      "container_count": 1,
+      "exit_code": 0,
+      "finished_at": "0001-01-01 00:00:00 +0000 UTC",
+      "oom_killed": false,
+      "started_at": "2026-09-28 22:21:36.043185691 +0200 CEST",
+      "status": "running"
+    },
+    "postgres": {
+      "container_count": 1,
+      "exit_code": 0,
+      "finished_at": "0001-01-01 00:00:00 +0000 UTC",
+      "oom_killed": false,
+      "started_at": "2026-09-28 22:21:27.662682048 +0200 CEST",
+      "status": "running"
+    },
+    "terminusdb": {
+      "container_count": 1,
+      "exit_code": 0,
+      "finished_at": "0001-01-01 00:00:00 +0000 UTC",
+      "oom_killed": false,
+      "started_at": "2026-09-28 22:21:27.427197075 +0200 CEST",
+      "status": "running"
+    }
+  }
+}

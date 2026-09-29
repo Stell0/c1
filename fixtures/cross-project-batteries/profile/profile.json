@@ -1,0 +1,428 @@
+{
+  "name": "batteries",
+  "version": "1.0.0",
+  "requires_core": "1.0.0",
+  "context": "context.jsonld",
+  "shapes": "shapes.ttl",
+  "classes": {
+    "urn:c1:ns:batteries#Product": {
+      "storage_name": "Product",
+      "kind": "entity",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": {
+          "name": "label",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "http://www.w3.org/2004/02/skos/core#altLabel": {
+          "name": "altLabel",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/description": {
+          "name": "description",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#keyword": {
+          "name": "keyword",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#lifecycle": {
+          "name": "lifecycle",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "active",
+            "retracted",
+            "superseded"
+          ]
+        },
+        "urn:c1:ns:core#projectReference": {
+          "name": "projectReference",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#provisionedScopeHint": {
+          "name": "provisionedScopeHint",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:batteries#Battery": {
+      "storage_name": "Battery",
+      "kind": "entity",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": {
+          "name": "label",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "http://www.w3.org/2004/02/skos/core#altLabel": {
+          "name": "altLabel",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/description": {
+          "name": "description",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#keyword": {
+          "name": "keyword",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#lifecycle": {
+          "name": "lifecycle",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "active",
+            "retracted",
+            "superseded"
+          ]
+        },
+        "urn:c1:ns:core#projectReference": {
+          "name": "projectReference",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#provisionedScopeHint": {
+          "name": "provisionedScopeHint",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:batteries#BatteryVersion": {
+      "storage_name": "BatteryVersion",
+      "kind": "entity",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": {
+          "name": "label",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "http://www.w3.org/2004/02/skos/core#altLabel": {
+          "name": "altLabel",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/description": {
+          "name": "description",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#keyword": {
+          "name": "keyword",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#lifecycle": {
+          "name": "lifecycle",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "active",
+            "retracted",
+            "superseded"
+          ]
+        },
+        "urn:c1:ns:core#projectReference": {
+          "name": "projectReference",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#provisionedScopeHint": {
+          "name": "provisionedScopeHint",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:batteries#Measurement": {
+      "storage_name": "Measurement",
+      "kind": "entity",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": {
+          "name": "label",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "http://www.w3.org/2004/02/skos/core#altLabel": {
+          "name": "altLabel",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/description": {
+          "name": "description",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#keyword": {
+          "name": "keyword",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#lifecycle": {
+          "name": "lifecycle",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "active",
+            "retracted",
+            "superseded"
+          ]
+        },
+        "urn:c1:ns:core#projectReference": {
+          "name": "projectReference",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#provisionedScopeHint": {
+          "name": "provisionedScopeHint",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    }
+  },
+  "predicates": {
+    "urn:c1:ns:batteries#hasProduct": {
+      "name": "hasProduct",
+      "ranges": [
+        "urn:c1:ns:batteries#Product"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#hasComponent": {
+      "name": "hasComponent",
+      "ranges": [
+        "urn:c1:ns:batteries#Battery",
+        "urn:c1:ns:batteries#BatteryVersion"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#hasVersion": {
+      "name": "hasVersion",
+      "ranges": [
+        "urn:c1:ns:batteries#BatteryVersion"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#hasInstrument": {
+      "name": "hasInstrument",
+      "ranges": [
+        "urn:c1:ns:core#Entity"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#capacity": {
+      "name": "capacity",
+      "ranges": [
+        "http://www.w3.org/2001/XMLSchema#decimal"
+      ],
+      "min_count": 0,
+      "max_count": 1,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#energyDensity": {
+      "name": "energyDensity",
+      "ranges": [
+        "http://www.w3.org/2001/XMLSchema#decimal"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#unit": {
+      "name": "unit",
+      "ranges": [
+        "http://www.w3.org/2001/XMLSchema#string"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#conditions": {
+      "name": "conditions",
+      "ranges": [
+        "http://www.w3.org/2001/XMLSchema#string"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#measuredOn": {
+      "name": "measuredOn",
+      "ranges": [
+        "http://www.w3.org/2001/XMLSchema#date"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#cycleLife": {
+      "name": "cycleLife",
+      "ranges": [
+        "http://www.w3.org/2001/XMLSchema#integer"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:batteries#measurementRef": {
+      "name": "measurementRef",
+      "ranges": [
+        "urn:c1:ns:batteries#Measurement"
+      ],
+      "min_count": 0,
+      "max_count": 1,
+      "enum": []
+    },
+    "http://purl.org/dc/terms/source": {
+      "name": "documentSource",
+      "ranges": [
+        "urn:c1:ns:core#Source"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    }
+  }
+}

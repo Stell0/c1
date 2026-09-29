@@ -1,0 +1,3 @@
+probe_exit=1
+tee_exit=0
+script_exit=1

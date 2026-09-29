@@ -1,0 +1,28 @@
+...FFAILED tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views [call]
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-DC-012"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+.................................................................... [100%]
+=================================== FAILURES ===================================
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-DC-012"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m06/test_t04_historical_rescope.py:174: AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-DC-012"}
+=============================== warnings summary ===============================
+tests/integration/m01/test_t07_interchange.py: 3 warnings
+tests/integration/m02/test_install_guards.py: 1 warning
+tests/integration/m02/test_t01_roundtrip.py: 2 warnings
+tests/integration/m02/test_t02_conflicts.py: 1 warning
+tests/integration/m02/test_t03_no_partial.py: 1 warning
+tests/integration/m02/test_t04_identity.py: 2 warnings
+tests/integration/m02/test_t07_extension.py: 2 warnings
+tests/integration/m03/test_journal_contract.py: 1 warning
+tests/integration/m05/test_backend_fetch.py: 1 warning
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views
+1 failed, 71 passed, 14 warnings in 7887.74s (2:11:27)
+pytest exit: 1

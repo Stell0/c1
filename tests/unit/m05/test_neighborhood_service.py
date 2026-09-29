@@ -12,6 +12,7 @@ import pytest
 
 from c1.authorization.principal import Principal
 from c1.model.literals import XSD_STRING, LiteralValue
+from c1.model.profiles import ProfileRegistry
 from c1.model.records import C1, AssertionRecord, EntityRecord
 from c1.query.plan import AuthorizedPlan
 from c1.query.service import AuthorizedRecords, QueryService
@@ -72,6 +73,7 @@ def test_default_traversal_page_has_compact_usable_cursor(
             fga=None,
             plane=None,
             knowledge=SimpleNamespace(head=AsyncMock(return_value="revision")),
+            registry=ProfileRegistry(),
         ),
     )
     service = QueryService(runtime)

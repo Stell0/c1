@@ -1,0 +1,15 @@
+.....FFAILED tests/integration/m07/test_t05_parity.py::test_t05_usable_payload_and_format_parity [call]
+E   AssertionError: ('evidence_id', '{"type":"about:blank#not-found","title":"Not Found","status":404,"detail":"Resource not found"}')
+    assert 404 == 200
+     +  where 404 = <Response [404 Not Found]>.status_code
+
+=================================== FAILURES ===================================
+E   AssertionError: ('evidence_id', '{"type":"about:blank#not-found","title":"Not Found","status":404,"detail":"Resource not found"}')
+    assert 404 == 200
+     +  where 404 = <Response [404 Not Found]>.status_code
+/root/c1/tests/integration/m07/test_t05_parity.py:30: AssertionError: ('evidence_id', '{"type":"about:blank#not-found","title":"Not Found","status":404,"detail":"Resource not found"}')
+=========================== short test summary info ============================
+FAILED tests/integration/m07/test_t05_parity.py::test_t05_usable_payload_and_format_parity
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 5 passed in 3209.64s (0:53:29)
+uv failed with exit status 1.

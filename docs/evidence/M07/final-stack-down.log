@@ -1,0 +1,2 @@
+uv run --locked python -m scripts.stack down
+c1-dev compose down completed

@@ -1,0 +1,11 @@
+Timing-only M06-T04 diagnostic plugin preservation and static checks
+
+The plugin was copied byte-for-byte from the reviewed temporary source. The
+temporary source remains unchanged. No pytest or live-service call was run.
+
+Commands and results:
+- `cp /tmp/c1-m07-t04-diagnostic/c1_m07_t04_timing.py docs/evidence/M07/c1_m07_t04_timing.py` — exit 0.
+- `sha256sum /tmp/c1-m07-t04-diagnostic/c1_m07_t04_timing.py docs/evidence/M07/c1_m07_t04_timing.py` — exit 0; both SHA-256 values are `7fe130e283a77e4861d721659b3cb2b9a1b85aec8661a1ef7a5a1c5c7441adb4`.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff check docs/evidence/M07/c1_m07_t04_timing.py` — exit 0.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff format --check docs/evidence/M07/c1_m07_t04_timing.py` — exit 0.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked mypy --strict docs/evidence/M07/c1_m07_t04_timing.py` — exit 0; no issues in one source file.

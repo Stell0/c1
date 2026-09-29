@@ -1,0 +1,31 @@
+{
+  "cases": [
+    {
+      "attempts": 2,
+      "case": "GET_disconnect_then_success",
+      "result": "PASS"
+    },
+    {
+      "attempts": 2,
+      "case": "GET_two_disconnects",
+      "result": "PASS"
+    },
+    {
+      "attempts": 1,
+      "case": "consumed_POST_is_not_replayed",
+      "result": "PASS"
+    },
+    {
+      "attempts": 1,
+      "case": "deadline_attempt_1",
+      "result": "PASS"
+    },
+    {
+      "attempts": 2,
+      "case": "deadline_attempt_2",
+      "result": "PASS"
+    }
+  ],
+  "peer": "synthetic_loopback_HTTP1.1",
+  "result": "PASS"
+}

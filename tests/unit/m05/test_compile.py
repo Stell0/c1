@@ -130,7 +130,12 @@ def test_graphql_chunks_have_global_bounded_concurrency(monkeypatch: pytest.Monk
     peak = 0
     calls = 0
 
-    async def installed(_storage: Terminus, _registry: ProfileRegistry) -> None:
+    async def installed(
+        _storage: Terminus,
+        _registry: ProfileRegistry,
+        *,
+        backend_gate: asyncio.Semaphore | None = None,
+    ) -> None:
         return None
 
     async def graphql(

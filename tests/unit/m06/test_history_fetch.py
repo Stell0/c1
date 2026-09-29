@@ -32,7 +32,12 @@ def _storage() -> Terminus:
     )
 
 
-async def _installed(_storage: Terminus, _registry: ProfileRegistry) -> None:
+async def _installed(
+    _storage: Terminus,
+    _registry: ProfileRegistry,
+    *,
+    backend_gate: asyncio.Semaphore | None = None,
+) -> None:
     return None
 
 
@@ -153,8 +158,15 @@ def test_shared_gate_bounds_all_network_reads_across_concurrent_snapshots(
         finally:
             active -= 1
 
-    async def installed(_storage: Terminus, _registry: ProfileRegistry) -> None:
-        await network("profiles")
+    async def installed(
+        _storage: Terminus,
+        _registry: ProfileRegistry,
+        *,
+        backend_gate: asyncio.Semaphore | None = None,
+    ) -> None:
+        assert backend_gate is not None
+        async with backend_gate:
+            await network("profiles")
 
     async def graphql(*_args: Any) -> dict[str, NodeRecord]:
         await network("graphql")

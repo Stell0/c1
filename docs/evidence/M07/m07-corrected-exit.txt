@@ -1,0 +1,2 @@
+pytest exit: 0
+7 passed in 5592.03s

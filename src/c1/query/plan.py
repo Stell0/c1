@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import time
-from collections.abc import Mapping
+from collections.abc import Awaitable, Callable, Mapping
 from dataclasses import dataclass
 from types import MappingProxyType
 
@@ -33,6 +33,7 @@ class AuthorizedPlan:
     readable_scopes: frozenset[str]
     authorized_ids: tuple[str, ...]
     scope_by_id: Mapping[str, str]
+    history_manifest: bytes | None = None
 
     def contains(self, resource_id: str) -> bool:
         return resource_id in self.authorized_ids
@@ -48,14 +49,14 @@ class AuthorizedSelection:
         index: CurrentBindingIndex | None = None,
         candidate_limit: int = 5000,
         max_readable_scopes: int = 500,
-        time_budget_ms: int = 2000,
+        time_budget_ms: int = 5000,
     ) -> None:
         if not 1 <= candidate_limit <= 5000:
             raise ValueError("candidate limit must be within 1..5000")
         if not 1 <= max_readable_scopes <= 500:
             raise ValueError("scope limit must be within 1..500")
-        if not 1 <= time_budget_ms <= 2000:
-            raise ValueError("time budget must be within 1..2000 ms")
+        if not 1 <= time_budget_ms <= 30000:
+            raise ValueError("time budget must be within 1..30000 ms")
         self.journal = journal
         self.fga = fga
         self.plane = plane
@@ -108,19 +109,91 @@ class AuthorizedSelection:
             raise QueryPlanError(503, "C1-QY-053", "time_budget")
         try:
             async with asyncio.timeout_at(effective_deadline):
-                if await self.journal.head() != plan.workflow_head:
-                    raise QueryPlanError(409, "C1-QY-051", "restart_required")
-                current = await self._authorize(principal, plan.authorized_ids, plan.scope_by_id)
-                if current != plan.authorized_ids:
-                    raise QueryPlanError(409, "C1-QY-051", "restart_required")
-                if await self.journal.head() != plan.workflow_head:
-                    raise QueryPlanError(409, "C1-QY-051", "restart_required")
+                authorization = asyncio.create_task(
+                    self._authorize(principal, plan.authorized_ids, plan.scope_by_id)
+                )
+                try:
+                    if await self.journal.head() != plan.workflow_head:
+                        raise QueryPlanError(409, "C1-QY-051", "restart_required")
+                    current = await authorization
+                    if current != plan.authorized_ids:
+                        raise QueryPlanError(409, "C1-QY-051", "restart_required")
+                    if await self.journal.head() != plan.workflow_head:
+                        raise QueryPlanError(409, "C1-QY-051", "restart_required")
+                except BaseException:
+                    if not authorization.done():
+                        authorization.cancel()
+                    await asyncio.gather(authorization, return_exceptions=True)
+                    raise
         except TimeoutError as exc:
             raise QueryPlanError(503, "C1-QY-053", "time_budget") from exc
         except QueryPlanError:
             raise
         except Exception as exc:
             raise QueryPlanError(503, "C1-QY-054", "authorization_unavailable") from exc
+
+    async def finalize_after(
+        self,
+        principal: Principal,
+        plan: AuthorizedPlan,
+        precondition: Callable[[], Awaitable[None]],
+        *,
+        deadline: float | None = None,
+    ) -> None:
+        """Overlap a publication precondition, retaining a final security barrier.
+
+        This internal factory is never client configuration. Knowledge-head
+        equality may overlap fresh authorization and the first workflow read;
+        the last workflow read starts only after all three checks succeed.
+        Precondition errors keep their caller's error semantics and priority.
+        """
+        local_deadline = time.monotonic() + self.time_budget_ms / 1000
+        effective_deadline = (
+            min(local_deadline, deadline) if deadline is not None else local_deadline
+        )
+        if effective_deadline <= time.monotonic():
+            raise QueryPlanError(503, "C1-QY-053", "time_budget")
+        precondition_done = False
+
+        async def check_precondition() -> None:
+            await precondition()
+
+        try:
+            async with asyncio.timeout_at(effective_deadline):
+                publication = asyncio.create_task(check_precondition())
+                authorization = asyncio.create_task(
+                    self._authorize(principal, plan.authorized_ids, plan.scope_by_id)
+                )
+                initial_head = asyncio.create_task(self.journal.head())
+                try:
+                    # Historical head mismatch/errors precede security errors,
+                    # even if an authorization task has already failed.
+                    await publication
+                    precondition_done = True
+                    try:
+                        if await initial_head != plan.workflow_head:
+                            raise QueryPlanError(409, "C1-QY-051", "restart_required")
+                        if await authorization != plan.authorized_ids:
+                            raise QueryPlanError(409, "C1-QY-051", "restart_required")
+                        if await self.journal.head() != plan.workflow_head:
+                            raise QueryPlanError(409, "C1-QY-051", "restart_required")
+                    except TimeoutError:
+                        raise
+                    except QueryPlanError:
+                        raise
+                    except Exception as exc:
+                        raise QueryPlanError(503, "C1-QY-054", "authorization_unavailable") from exc
+                finally:
+                    for task in (publication, authorization, initial_head):
+                        if not task.done():
+                            task.cancel()
+                    await asyncio.gather(
+                        publication, authorization, initial_head, return_exceptions=True
+                    )
+        except TimeoutError as exc:
+            if not precondition_done:
+                raise
+            raise QueryPlanError(503, "C1-QY-053", "time_budget") from exc
 
     async def _authorize(
         self,
@@ -178,23 +251,43 @@ class AuthorizedSelection:
     ) -> AuthorizedPlan:
         try:
             head = await self.journal.head()
-            objects = await self.fga.list_objects(principal.id, "reader", "scope")
-            if len(objects) >= self.max_readable_scopes:
-                raise QueryPlanError(422, "C1-QY-050", "authorization_set_unbounded")
-            readable: set[str] = set()
-            for obj in objects:
-                if not obj.startswith("scope:") or scope_object(obj[6:]) != obj:
-                    raise ValueError("invalid scope object")
-                if obj in readable:
-                    raise ValueError("duplicate scope object")
-                readable.add(obj)
-            readable_scopes = frozenset(obj[6:] for obj in readable)
-            snapshot = await self.index.snapshot(head)
-            provisional = snapshot.candidates(
-                readable_scopes, scope_ids=scope_ids, candidate_ids=candidate_ids
-            )
-            if len(provisional) > self.candidate_limit:
-                raise QueryPlanError(422, "C1-QY-052", "candidate_set_too_large")
+            try:
+                async with asyncio.TaskGroup() as group:
+                    objects_task = group.create_task(
+                        self.fga.list_objects(principal.id, "reader", "scope")
+                    )
+                    snapshot_task = group.create_task(self.index._prepare_after_head(head))
+            except ExceptionGroup as exc:
+                # Cold structural failures must not publish an error from a
+                # changed workflow epoch merely because validation ran early.
+                if exc.subgroup(IndexUnavailable) is not None and await self.journal.head() != head:
+                    raise QueryPlanError(409, "C1-QY-051", "restart_required") from None
+                raise
+            objects = objects_task.result()
+            prepared = snapshot_task.result()
+            snapshot = prepared.snapshot
+            try:
+                if len(objects) >= self.max_readable_scopes:
+                    raise QueryPlanError(422, "C1-QY-050", "authorization_set_unbounded")
+                readable: set[str] = set()
+                for obj in objects:
+                    if not obj.startswith("scope:") or scope_object(obj[6:]) != obj:
+                        raise ValueError("invalid scope object")
+                    if obj in readable:
+                        raise ValueError("duplicate scope object")
+                    readable.add(obj)
+                readable_scopes = frozenset(obj[6:] for obj in readable)
+                provisional = snapshot.candidates(
+                    readable_scopes, scope_ids=scope_ids, candidate_ids=candidate_ids
+                )
+                if len(provisional) > self.candidate_limit:
+                    raise QueryPlanError(422, "C1-QY-052", "candidate_set_too_large")
+            except (QueryPlanError, IndexUnavailable, ValueError):
+                # Preserve the bounds without launching oversized FGA work,
+                # and retain exact-head priority for candidate-derived errors.
+                if await self.journal.head() != head:
+                    raise IndexHeadChanged("workflow head changed") from None
+                raise
             provisional_set = set(provisional)
             provisional_scopes = {
                 binding.resource_id: binding.scope_id
@@ -204,6 +297,7 @@ class AuthorizedSelection:
             authorized = await self._authorize(principal, provisional, provisional_scopes)
             if await self.journal.head() != head:
                 raise IndexHeadChanged("workflow head changed")
+            self.index._publish_verified(prepared)
             authorized_set = set(authorized)
             current_scopes = {
                 binding.resource_id: binding.scope_id
@@ -215,6 +309,7 @@ class AuthorizedSelection:
                 readable_scopes,
                 authorized,
                 MappingProxyType(current_scopes),
+                snapshot.history_manifest,
             )
         except QueryPlanError:
             raise

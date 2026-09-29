@@ -45,7 +45,7 @@ class FGA:
         self.model_id = model_id
         self._client = httpx.AsyncClient(
             base_url=url.rstrip("/"),
-            timeout=2.0,
+            timeout=5.0,
             trust_env=False,
             headers={"Authorization": "Bearer " + token},
         )

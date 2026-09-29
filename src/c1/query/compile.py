@@ -31,6 +31,16 @@ class _GraphQLShapeError(Exception):
     """The server's GraphQL representation cannot preserve a NodeRecord."""
 
 
+class _GraphQLLiteralShapeError(_GraphQLShapeError):
+    """One numeric lexical value was coerced; its document must be fetched."""
+
+
+class _GraphQLRecordFallback(Exception):
+    def __init__(self, decoded: dict[str, NodeRecord], requested: dict[str, set[str]]) -> None:
+        self.decoded = decoded
+        self.requested = requested
+
+
 def _commit_id(revision: str) -> str:
     match = _COMMIT.fullmatch(revision)
     if match is None:
@@ -52,14 +62,22 @@ def _selection(definition: ClassDefinition) -> str:
 
 
 def _literal(value: object) -> dict[str, Any]:
-    if not isinstance(value, dict) or not isinstance(value.get("lexical"), str):
-        # The pinned GraphQL server turns some decimal/integer lexical strings
-        # into JSON numbers. Never reconstruct a lexical value from a number.
+    if not isinstance(value, dict):
         raise _GraphQLShapeError
     if not isinstance(value.get("datatype"), str):
         raise _GraphQLShapeError
     language = value.get("language")
     if language is not None and not isinstance(language, str):
+        raise _GraphQLShapeError
+    if not isinstance(value.get("lexical"), str):
+        # Never reconstruct exact lexical spelling from a JSON number. Only
+        # this known numeric coercion permits a selective document fallback.
+        if type(value.get("lexical")) in {int, float} and value["datatype"] in {
+            "http://www.w3.org/2001/XMLSchema#integer",
+            "http://www.w3.org/2001/XMLSchema#decimal",
+            "http://www.w3.org/2001/XMLSchema#double",
+        }:
+            raise _GraphQLLiteralShapeError
         raise _GraphQLShapeError
     result = {"@type": "LiteralValue", "lexical": value["lexical"], "datatype": value["datatype"]}
     if language is not None:
@@ -106,6 +124,16 @@ def _decode(
         "canonical_iri": item["canonical_iri"],
         "types": item["types"],
     }
+    numeric_coercion = False
+
+    def decode_value(value: object, prop: PropertyDefinition) -> object:
+        nonlocal numeric_coercion
+        try:
+            return _value(value, prop)
+        except _GraphQLLiteralShapeError:
+            numeric_coercion = True
+            return None
+
     for prop in definition.properties.values():
         raw = item[prop.name]
         if raw is None:
@@ -113,14 +141,16 @@ def _decode(
                 raise _GraphQLShapeError
             continue
         if prop.max_count == 1:
-            doc[prop.name] = _value(raw, prop)
+            doc[prop.name] = decode_value(raw, prop)
         else:
             if not isinstance(raw, list):
                 raise _GraphQLShapeError
             # GraphQL reports [] for both absent and stored empty Set fields.
             # Both have the same RDF meaning; use the absent representation.
             if raw:
-                doc[prop.name] = [_value(value, prop) for value in raw]
+                doc[prop.name] = [decode_value(value, prop) for value in raw]
+    if numeric_coercion:
+        raise _GraphQLLiteralShapeError
     try:
         record = document_to_record(doc, registry)
         if storage_id(record, definition, base) != doc["@id"]:
@@ -156,8 +186,41 @@ async def _graphql_chunk(
     ):
         raise _GraphQLShapeError
     result: dict[str, NodeRecord] = {}
-    for item in payload["data"][definition.storage_name]:
-        record = _decode(item, definition, registry, storage.config.instance_base)
+    rows = payload["data"][definition.storage_name]
+    seen_backend_ids: set[str] = set()
+    seen_canonical_ids: set[str] = set()
+    # Validate the identities of *every* row before decoding any literal. A
+    # malformed row must never turn an unrequested identity into a GET target.
+    for item in rows:
+        if not isinstance(item, dict):
+            raise _GraphQLShapeError
+        backend_id = item.get("_id")
+        canonical_id = item.get("canonical_iri")
+        types = item.get("types")
+        if not isinstance(backend_id, str) or not backend_id.startswith(_BACKEND_ID_BASE):
+            raise _GraphQLShapeError
+        backend_id = backend_id[len(_BACKEND_ID_BASE) :]
+        if (
+            backend_id not in requested
+            or not isinstance(canonical_id, str)
+            or canonical_id not in requested[backend_id]
+            or backend_id in seen_backend_ids
+            or canonical_id in seen_canonical_ids
+            or not isinstance(types, list)
+            or not all(isinstance(item, str) for item in types)
+            or definition.iri not in types
+        ):
+            raise _GraphQLShapeError
+        seen_backend_ids.add(backend_id)
+        seen_canonical_ids.add(canonical_id)
+    fallback: dict[str, set[str]] = {}
+    for item in rows:
+        backend_id = item["_id"][len(_BACKEND_ID_BASE) :]
+        try:
+            record = _decode(item, definition, registry, storage.config.instance_base)
+        except _GraphQLLiteralShapeError:
+            fallback[backend_id] = requested[backend_id]
+            continue
         backend_id = storage_id(record, definition, storage.config.instance_base)
         if (
             backend_id not in requested
@@ -166,6 +229,8 @@ async def _graphql_chunk(
         ):
             raise _GraphQLShapeError
         result[record.id] = record
+    if fallback:
+        raise _GraphQLRecordFallback(result, fallback)
     return result
 
 
@@ -206,37 +271,18 @@ async def _get_chunk(
     return {record.id: record for record in found if record is not None}
 
 
-async def fetch_records(
+async def _fetch_records_content(
     storage: Terminus,
     registry: ProfileRegistry,
-    ids: Iterable[str],
+    requested_ids: list[str],
+    commit_id: str,
     *,
-    revision: str | None = None,
-    backend_gate: asyncio.Semaphore | None = None,
-    storage_types: Mapping[str, frozenset[str]] | None = None,
+    backend_gate: asyncio.Semaphore,
+    storage_types: Mapping[str, frozenset[str]] | None,
 ) -> dict[str, NodeRecord]:
-    """Return existing records among preauthorized IDs at one knowledge commit.
-
-    Authorization, candidate bounds, and complete historical type hints are
-    caller responsibilities. Unknown hints preserve all-class probes. No class
-    scans or predicates are sent to TerminusDB. A GraphQL shape that loses
-    literal lexical identity falls back to document GET for its entire chunk.
-    """
-    requested_ids = list(dict.fromkeys(ids))
-    for canonical_id in requested_ids:
-        validate_iri(canonical_id)
-    if not requested_ids:
-        return {}
-    if revision is None:
-        revision = await storage.head()
-    commit_id = _commit_id(revision)
-    if backend_gate is None:
-        await assert_installed_profiles(storage, registry)
-    else:
-        async with backend_gate:
-            await assert_installed_profiles(storage, registry)
+    """Collect pinned content; only authority-gated wrappers may expose it."""
     result: dict[str, NodeRecord] = {}
-    semaphore = backend_gate or asyncio.Semaphore(FALLBACK_CONCURRENCY)
+    semaphore = backend_gate
     chunks: list[tuple[ClassDefinition, dict[str, set[str]]]] = []
     for definition in registry.classes.values():
         class_ids: dict[str, set[str]] = {}
@@ -260,11 +306,18 @@ async def fetch_records(
         try:
             async with semaphore:
                 return await _graphql_chunk(storage, registry, definition, chunk, commit_id)
+        except _GraphQLRecordFallback as fallback:
+            found = await _get_chunk(
+                storage, registry, definition, fallback.requested, commit_id, semaphore
+            )
+            if set(found).intersection(fallback.decoded):
+                raise StorageError(
+                    "C1-ST-005", "duplicate canonical identity in fallback"
+                ) from None
+            return {**fallback.decoded, **found}
         except _GraphQLShapeError:
             return await _get_chunk(storage, registry, definition, chunk, commit_id, semaphore)
 
-    # The same semaphore bounds all network reads, including fallback GETs.
-    # Gather preserves chunk order so collision checking remains deterministic.
     tasks = [asyncio.create_task(one(definition, chunk)) for definition, chunk in chunks]
     try:
         fetched_chunks = await asyncio.gather(*tasks)
@@ -280,3 +333,235 @@ async def fetch_records(
                 raise StorageError("C1-ST-005", "canonical identity resolves to multiple documents")
             result[canonical_id] = record
     return result
+
+
+async def fetch_records(
+    storage: Terminus,
+    registry: ProfileRegistry,
+    ids: Iterable[str],
+    *,
+    revision: str | None = None,
+    backend_gate: asyncio.Semaphore | None = None,
+    storage_types: Mapping[str, frozenset[str]] | None = None,
+) -> dict[str, NodeRecord]:
+    """Return preauthorized IDs only after this fetch's fresh profile checks.
+
+    Complete historical type hints are caller responsibilities. Unknown hints
+    preserve all-class probes; numeric lexical coercions use exact document GET.
+    """
+    requested_ids = list(dict.fromkeys(ids))
+    for canonical_id in requested_ids:
+        validate_iri(canonical_id)
+    if not requested_ids:
+        return {}
+    if revision is None:
+        revision = await storage.head()
+    commit_id = _commit_id(revision)
+    gate = backend_gate or asyncio.Semaphore(FALLBACK_CONCURRENCY)
+    authority_task = asyncio.create_task(
+        assert_installed_profiles(storage, registry, backend_gate=gate)
+    )
+    content_task = asyncio.create_task(
+        _fetch_records_content(
+            storage,
+            registry,
+            requested_ids,
+            commit_id,
+            backend_gate=gate,
+            storage_types=storage_types,
+        )
+    )
+    try:
+        await asyncio.gather(authority_task, content_task)
+    except BaseException:
+        for task in (authority_task, content_task):
+            if not task.done():
+                task.cancel()
+        await asyncio.gather(authority_task, content_task, return_exceptions=True)
+        raise
+    return content_task.result()
+
+
+class _HistoricalPreparation:
+    """One request's independently started authority for its first cohort."""
+
+    def __init__(
+        self,
+        storage: Terminus,
+        registry: ProfileRegistry,
+        backend_gate: asyncio.Semaphore,
+        origin: object,
+        workflow_head: str,
+        deadline: float,
+    ) -> None:
+        self._storage = storage
+        self._registry = registry
+        self._backend_gate = backend_gate
+        self._origin = origin
+        self._workflow_head = workflow_head
+        self._deadline = deadline
+        self._used = False
+        self._closed = False
+        self._collection: asyncio.Task[dict[str, dict[str, NodeRecord]]] | None = None
+        self._authority = asyncio.create_task(self._check())
+
+    @property
+    def registry(self) -> ProfileRegistry:
+        return self._registry
+
+    async def _check(self) -> None:
+        async with asyncio.timeout_at(self._deadline):
+            await assert_installed_profiles(
+                self._storage, self._registry, backend_gate=self._backend_gate
+            )
+
+    def _validate(
+        self,
+        storage: Terminus,
+        registry: ProfileRegistry,
+        backend_gate: asyncio.Semaphore,
+        origin: object,
+        workflow_head: str,
+        deadline: float,
+    ) -> None:
+        if (
+            self._closed
+            or self._used
+            or storage is not self._storage
+            or registry is not self._registry
+            or backend_gate is not self._backend_gate
+            or origin is not self._origin
+            or workflow_head != self._workflow_head
+            or deadline != self._deadline
+        ):
+            raise ValueError("historical preparation does not match this cohort")
+
+    async def close(self) -> None:
+        """Cancel and await unused work, or observe already completed work."""
+        self._closed = True
+        tasks = (
+            [self._authority] if self._collection is None else [self._authority, self._collection]
+        )
+        for task in tasks:
+            if not task.done():
+                task.cancel()
+        await asyncio.gather(*tasks, return_exceptions=True)
+
+
+def _snapshot_inputs(ids: Iterable[str], revisions: list[str]) -> tuple[list[str], list[str]]:
+    if len(revisions) > 8 or len(set(revisions)) != len(revisions):
+        raise ValueError("snapshot cohort must contain at most eight distinct revisions")
+    commits = [_commit_id(revision) for revision in revisions]
+    requested_ids = list(dict.fromkeys(ids))
+    for canonical_id in requested_ids:
+        validate_iri(canonical_id)
+    return requested_ids, commits
+
+
+async def _collect_record_snapshots(
+    storage: Terminus,
+    registry: ProfileRegistry,
+    requested_ids: list[str],
+    revisions: list[str],
+    commits: list[str],
+    authority_task: asyncio.Task[None],
+    *,
+    backend_gate: asyncio.Semaphore,
+    storage_types: Mapping[str, frozenset[str]] | None = None,
+) -> dict[str, dict[str, NodeRecord]]:
+    snapshots = [
+        asyncio.create_task(
+            _fetch_records_content(
+                storage,
+                registry,
+                requested_ids,
+                commit,
+                backend_gate=backend_gate,
+                storage_types=storage_types,
+            )
+        )
+        for commit in commits
+    ]
+    try:
+        await asyncio.gather(authority_task, *snapshots)
+    except BaseException:
+        for task in (authority_task, *snapshots):
+            if not task.done():
+                task.cancel()
+        await asyncio.gather(authority_task, *snapshots, return_exceptions=True)
+        raise
+    return {revision: task.result() for revision, task in zip(revisions, snapshots, strict=True)}
+
+
+async def fetch_record_snapshots(
+    storage: Terminus,
+    registry: ProfileRegistry,
+    ids: Iterable[str],
+    revisions: list[str],
+    *,
+    backend_gate: asyncio.Semaphore,
+    storage_types: Mapping[str, frozenset[str]] | None = None,
+) -> dict[str, dict[str, NodeRecord]]:
+    """Gate at most eight historical snapshots on one NEW current authority read."""
+    requested_ids, commits = _snapshot_inputs(ids, revisions)
+    if not requested_ids or not revisions:
+        return {revision: {} for revision in revisions}
+    authority = asyncio.create_task(
+        assert_installed_profiles(storage, registry, backend_gate=backend_gate)
+    )
+    return await _collect_record_snapshots(
+        storage,
+        registry,
+        requested_ids,
+        revisions,
+        commits,
+        authority,
+        backend_gate=backend_gate,
+        storage_types=storage_types,
+    )
+
+
+async def _fetch_prepared_snapshots(
+    storage: Terminus,
+    registry: ProfileRegistry,
+    ids: Iterable[str],
+    revisions: list[str],
+    preparation: _HistoricalPreparation,
+    *,
+    origin: object,
+    workflow_head: str,
+    deadline: float,
+    backend_gate: asyncio.Semaphore,
+    storage_types: Mapping[str, frozenset[str]] | None = None,
+) -> dict[str, dict[str, NodeRecord]]:
+    requested_ids, commits = _snapshot_inputs(ids, revisions)
+    if len(set(commits)) != len(commits):
+        raise ValueError("prepared cohort must contain distinct pinned commits")
+    preparation._validate(storage, registry, backend_gate, origin, workflow_head, deadline)
+    if not requested_ids or not revisions:
+        return {revision: {} for revision in revisions}
+    preparation._used = True
+    collection = asyncio.create_task(
+        _collect_record_snapshots(
+            storage,
+            registry,
+            requested_ids,
+            revisions,
+            commits,
+            preparation._authority,
+            backend_gate=backend_gate,
+            storage_types=storage_types,
+        )
+    )
+    preparation._collection = collection
+    try:
+        return await collection
+    except BaseException:
+        if not collection.done():
+            collection.cancel()
+        # Cancellation may happen before the collector's first turn, before
+        # its own cleanup can take ownership of the independent authority.
+        if not preparation._authority.done():
+            preparation._authority.cancel()
+        await asyncio.gather(collection, preparation._authority, return_exceptions=True)
+        raise

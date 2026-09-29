@@ -1,0 +1,13 @@
+M06-T04 timing plugin guarded-finalization hook
+
+Added `AuthorizedSelection.finalize_after` ->
+`final_authorization_guarded` using the existing timing wrapper. The plugin
+prose now clarifies that original M06-T04 behavior is unchanged except that
+the late-revocation monkeypatch follows the actual history entrypoint. Other
+hooks and timing behavior are unchanged. No tests or live calls were run.
+
+Commands and results:
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff check docs/evidence/M07/c1_m07_t04_timing.py` — exit 0.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff format --check docs/evidence/M07/c1_m07_t04_timing.py` — exit 0; already formatted.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked mypy --strict docs/evidence/M07/c1_m07_t04_timing.py` — exit 0; no issues in one source file.
+- `sha256sum docs/evidence/M07/c1_m07_t04_timing.py` — `3753e9408c8799a8b0bd4d1a2a9a048d60c7a24568210a94320942022b386148`.

@@ -23,10 +23,10 @@ from c1.changes.models import (
 )
 from c1.model.literals import XSD_STRING, LiteralValue
 from c1.model.nodes import NodeRecord
+from c1.model.profiles import ProfileRegistry
 from c1.storage.mapping import document_to_record
 
 if TYPE_CHECKING:
-    from c1.model.profiles import ProfileRegistry
     from c1.storage.terminus import Terminus
 
 C1 = "urn:c1:ns:core#"
@@ -121,11 +121,13 @@ def _assertion_id(record: NodeRecord) -> str | None:
     return values[0] if len(values) == 1 and isinstance(values[0], str) else None
 
 
-async def _entity(identifier: str, resolve: Resolver, authorize: Authority) -> NodeRecord:
+async def _entity(
+    identifier: str, resolve: Resolver, authorize: Authority, registry: ProfileRegistry
+) -> NodeRecord:
     if not await authorize(identifier):
         raise IdentityPlanError("Identity operation target is unavailable")
     record = await resolve(identifier)
-    if record is None or C1 + "Entity" not in record.types:
+    if record is None or not registry.is_entity(record.types):
         raise IdentityPlanError("Identity operation target is unavailable")
     return record
 
@@ -171,14 +173,16 @@ async def expand_identity(
     authorize: Authority,
     list_assertions: AssertionLister,
     all_records: Sequence[NodeRecord] = (),
+    registry: ProfileRegistry | None = None,
 ) -> list[ChangeOperation]:
     """Expand against one base revision; all reads/authority checks fail closed."""
+    registry = registry or ProfileRegistry()
     if isinstance(operation, ResolveOperation):
         if len(set(operation.candidates)) != len(operation.candidates):
             raise IdentityPlanError("Invalid identity candidates")
         candidate_records: list[NodeRecord] = []
         for identifier in operation.candidates:
-            candidate_records.append(await _entity(identifier, resolve, authorize))
+            candidate_records.append(await _entity(identifier, resolve, authorize, registry))
         resolution = _resolution(
             base, operation.candidates, operation.decision, operation.rationale, actor
         )
@@ -193,8 +197,8 @@ async def expand_identity(
     if isinstance(operation, MergeOperation):
         if operation.surviving_id == operation.merged_id:
             raise IdentityPlanError("Invalid identity candidates")
-        survivor = await _entity(operation.surviving_id, resolve, authorize)
-        merged = await _entity(operation.merged_id, resolve, authorize)
+        survivor = await _entity(operation.surviving_id, resolve, authorize, registry)
+        merged = await _entity(operation.merged_id, resolve, authorize, registry)
         assignment = await _assignment_operations(
             merged.id,
             survivor.id,
@@ -241,14 +245,14 @@ async def expand_identity(
         ]
 
     if isinstance(operation, SplitOperation):
-        source = await _entity(operation.source_id, resolve, authorize)
+        source = await _entity(operation.source_id, resolve, authorize, registry)
         try:
             new_raw = dict(operation.new_entity)
             new_raw.setdefault("id", _record_id(base, "entity"))
             new_entity = NodeRecord.model_validate(new_raw)
         except Exception as exc:
             raise IdentityPlanError("Invalid split entity") from exc
-        if C1 + "Entity" not in new_entity.types or not new_entity.id.startswith(base):
+        if not registry.is_entity(new_entity.types) or not new_entity.id.startswith(base):
             raise IdentityPlanError("Invalid split entity")
         assignment = await _assignment_operations(
             source.id,
@@ -285,8 +289,8 @@ async def expand_identity(
     ):
         raise IdentityPlanError("Resolution cannot be undone")
     survivor_id, merged_id = cast(list[str], candidates)
-    survivor = await _entity(survivor_id, resolve, authorize)
-    merged = await _entity(merged_id, resolve, authorize)
+    survivor = await _entity(survivor_id, resolve, authorize, registry)
+    merged = await _entity(merged_id, resolve, authorize, registry)
     assignment = await _assignment_operations(
         survivor.id,
         merged.id,

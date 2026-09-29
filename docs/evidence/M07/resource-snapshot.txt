@@ -1,0 +1,35 @@
+M07 read-only resource snapshot
+
+Single non-streaming snapshot. Container stats were queried immediately before
+the host sample at 2026-09-28 13:18:24 UTC. No trend or causal conclusion is
+drawn from this observation.
+
+Supported runtime: Podman. `podman stats --help` exited 0 under authorized
+read-only execution and documents CPU percentage, memory usage, and PIDs. The
+initial sandboxed help invocation exited 1 because Podman could not initialize
+`/run/user/1000/libpod` on the read-only filesystem; no stack data was changed.
+
+Exact container command (exit 0):
+`podman stats --no-stream --format 'table {{.ID}} {{.Name}} {{.CPUPerc}} {{.MemUsage}} {{.PIDs}}' b585d6195a7f bdebf3920c3d 4d946ea6db67 20484493df41`
+
+Observed service values:
+
+| Service | Container ID | CPU | Memory used / limit | PIDs |
+|---|---|---:|---:|---:|
+| TerminusDB | `b585d6195a7f` | 61.22% | 196.8 MB / 1.611 GB | 72 |
+| PostgreSQL | `bdebf3920c3d` | 0.41% | 88.24 MB / 536.9 MB | 28 |
+| OpenFGA | `4d946ea6db67` | 0.58% | 30.8 MB / 402.7 MB | 22 |
+| Keycloak | `20484493df41` | 1.18% | 545.6 MB / 1.074 GB | 69 |
+
+Exact host command (exit 0):
+`date -u '+%Y-%m-%d %H:%M:%S UTC'; cat /proc/loadavg; awk '/^MemTotal:|^MemAvailable:/ {printf "%s %s %s\n", $1, $2, $3}' /proc/meminfo`
+
+Host sample at 2026-09-28 13:18:24 UTC:
+- `/proc/loadavg`: `1.91 2.42 2.27 3/2846 4`
+- `MemTotal`: `12719592 kB`
+- `MemAvailable`: `4204620 kB`
+
+Only Podman stats fields, container IDs from the previously recorded running
+image check, load average, and host memory totals were read. No container
+environment, full inspect output, API, credentials, or private payloads were
+accessed. No service, process, or data was changed.

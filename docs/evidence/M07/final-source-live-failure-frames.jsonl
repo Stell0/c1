@@ -1,0 +1,2 @@
+{"kind": "session_start"}
+{"kind": "session_finish", "pytest_exit": 2}

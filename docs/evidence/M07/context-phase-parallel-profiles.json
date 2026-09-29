@@ -1,0 +1,1634 @@
+{
+  "configured_budget_ms": 2000,
+  "registry_class_count": 23,
+  "runs": [
+    {
+      "run": 1,
+      "total_ms": 2005.733,
+      "status": {
+        "error": "ContextError",
+        "status": 503,
+        "code": "C1-CX-014",
+        "reason": "time_budget"
+      },
+      "phases": [
+        {
+          "phase": "binding_snapshot",
+          "ms": 463.541,
+          "result": "ok"
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 215.59,
+          "result": "ok"
+        },
+        {
+          "phase": "selection",
+          "ms": 1039.985,
+          "result": "ok"
+        },
+        {
+          "phase": "fetch_and_project",
+          "ms": 394.852,
+          "result": "ok"
+        },
+        {
+          "phase": "resolve_anchor",
+          "ms": 0.128
+        },
+        {
+          "phase": "resolve_topics",
+          "ms": 0.059
+        },
+        {
+          "phase": "select_context",
+          "ms": 1.939
+        },
+        {
+          "phase": "build_units",
+          "ms": 1.107
+        },
+        {
+          "phase": "prepare_units",
+          "ms": 0.205
+        },
+        {
+          "phase": "build_page",
+          "ms": 11.5
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 255.131,
+          "result": "CancelledError"
+        },
+        {
+          "phase": "finalize",
+          "ms": 499.737,
+          "result": "CancelledError"
+        }
+      ],
+      "backend_chunks": {
+        "_graphql_chunk:Entity": {
+          "calls": 1,
+          "sum_ms": 63.45,
+          "failures": 0
+        },
+        "_graphql_chunk:Assertion": {
+          "calls": 1,
+          "sum_ms": 114.956,
+          "failures": 1
+        },
+        "_graphql_chunk:Source": {
+          "calls": 1,
+          "sum_ms": 62.997,
+          "failures": 0
+        },
+        "_graphql_chunk:Evidence": {
+          "calls": 1,
+          "sum_ms": 104.44,
+          "failures": 0
+        },
+        "_graphql_chunk:Activity": {
+          "calls": 1,
+          "sum_ms": 100.031,
+          "failures": 0
+        },
+        "_graphql_chunk:ResolutionRecord": {
+          "calls": 1,
+          "sum_ms": 65.29,
+          "failures": 0
+        },
+        "_graphql_chunk:Document": {
+          "calls": 1,
+          "sum_ms": 65.35,
+          "failures": 0
+        },
+        "_graphql_chunk:DocumentPart": {
+          "calls": 1,
+          "sum_ms": 55.845,
+          "failures": 0
+        },
+        "_graphql_chunk:SchemaProfile": {
+          "calls": 1,
+          "sum_ms": 44.88,
+          "failures": 0
+        },
+        "_graphql_chunk:ChangeSet": {
+          "calls": 1,
+          "sum_ms": 55.009,
+          "failures": 0
+        },
+        "_graphql_chunk:ValidationReport": {
+          "calls": 1,
+          "sum_ms": 53.944,
+          "failures": 0
+        },
+        "_graphql_chunk:ReviewDecision": {
+          "calls": 1,
+          "sum_ms": 51.076,
+          "failures": 0
+        },
+        "_graphql_chunk:ApplyReceipt": {
+          "calls": 1,
+          "sum_ms": 50.059,
+          "failures": 0
+        },
+        "_graphql_chunk:Keyword": {
+          "calls": 1,
+          "sum_ms": 53.662,
+          "failures": 0
+        },
+        "_graphql_chunk:TimeBoundary": {
+          "calls": 1,
+          "sum_ms": 54.948,
+          "failures": 0
+        },
+        "_graphql_chunk:TimeInterval": {
+          "calls": 1,
+          "sum_ms": 51.222,
+          "failures": 0
+        },
+        "_get_chunk:Assertion": {
+          "calls": 1,
+          "sum_ms": 171.898,
+          "failures": 0
+        },
+        "_graphql_chunk:Selector": {
+          "calls": 1,
+          "sum_ms": 60.631,
+          "failures": 0
+        },
+        "_graphql_chunk:Agent": {
+          "calls": 1,
+          "sum_ms": 58.331,
+          "failures": 0
+        },
+        "_graphql_chunk:Product": {
+          "calls": 1,
+          "sum_ms": 60.29,
+          "failures": 0
+        },
+        "_graphql_chunk:Battery": {
+          "calls": 1,
+          "sum_ms": 56.492,
+          "failures": 0
+        },
+        "_graphql_chunk:BatteryVersion": {
+          "calls": 1,
+          "sum_ms": 56.5,
+          "failures": 0
+        },
+        "_graphql_chunk:Measurement": {
+          "calls": 1,
+          "sum_ms": 45.338,
+          "failures": 0
+        },
+        "_graphql_chunk:Concept": {
+          "calls": 1,
+          "sum_ms": 46.968,
+          "failures": 0
+        }
+      },
+      "backend_requests": [
+        {
+          "backend": "knowledge",
+          "kind": "head",
+          "ms": 53.981,
+          "response_bytes": 5
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 255.061,
+          "response_bytes": 5
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 143.913,
+          "response_bytes": 5
+        },
+        {
+          "backend": "journal",
+          "kind": "document",
+          "ms": 167.664,
+          "response_bytes": 1007578
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 141.079,
+          "response_bytes": 5
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 101.126,
+          "response_bytes": 5
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 70.878,
+          "response_bytes": 1010
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 71.965,
+          "response_bytes": 1000
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 71.841,
+          "response_bytes": 1004
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 72.751,
+          "response_bytes": 1010
+        },
+        {
+          "backend": "knowledge",
+          "kind": "schema",
+          "ms": 92.566,
+          "response_bytes": 13979
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 55.316,
+          "response_bytes": 2797
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 63.045,
+          "response_bytes": 2037
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 62.654,
+          "response_bytes": 3122
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 65.243,
+          "response_bytes": 32
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 65.132,
+          "response_bytes": 1040
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 98.855,
+          "response_bytes": 17937
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 44.689,
+          "response_bytes": 29
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 103.649,
+          "response_bytes": 8497
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 110.161,
+          "response_bytes": 46691
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 49.959,
+          "response_bytes": 28
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 53.849,
+          "response_bytes": 32
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 50.976,
+          "response_bytes": 30
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 54.944,
+          "response_bytes": 25
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 53.29,
+          "response_bytes": 2316
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 51.038,
+          "response_bytes": 433
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 54.649,
+          "response_bytes": 1131
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 60.376,
+          "response_bytes": 545
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 56.288,
+          "response_bytes": 535
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 56.175,
+          "response_bytes": 1813
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 58.238,
+          "response_bytes": 21
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 59.942,
+          "response_bytes": 2046
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 44.863,
+          "response_bytes": 2626
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 46.529,
+          "response_bytes": 2604
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 106.887,
+          "response_bytes": 1752
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 108.211,
+          "response_bytes": 1771
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 109.801,
+          "response_bytes": 1771
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 244.522,
+          "response_bytes": 5
+        }
+      ],
+      "literal_shape_failures": [
+        {
+          "lexical_type": "float",
+          "datatype_type": "str",
+          "language_type": "NoneType"
+        },
+        {
+          "lexical_type": "float",
+          "datatype_type": "str",
+          "language_type": "NoneType"
+        },
+        {
+          "lexical_type": "float",
+          "datatype_type": "str",
+          "language_type": "NoneType"
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "total_ms": 1465.41,
+      "status": {
+        "outcome": "resolved",
+        "status": 200
+      },
+      "phases": [
+        {
+          "phase": "binding_snapshot",
+          "ms": 137.577,
+          "result": "ok"
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 222.686,
+          "result": "ok"
+        },
+        {
+          "phase": "selection",
+          "ms": 568.83,
+          "result": "ok"
+        },
+        {
+          "phase": "fetch_and_project",
+          "ms": 390.961,
+          "result": "ok"
+        },
+        {
+          "phase": "resolve_anchor",
+          "ms": 0.116
+        },
+        {
+          "phase": "resolve_topics",
+          "ms": 0.058
+        },
+        {
+          "phase": "select_context",
+          "ms": 1.898
+        },
+        {
+          "phase": "build_units",
+          "ms": 1.037
+        },
+        {
+          "phase": "prepare_units",
+          "ms": 0.203
+        },
+        {
+          "phase": "build_page",
+          "ms": 10.403
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 238.639,
+          "result": "ok"
+        },
+        {
+          "phase": "finalize",
+          "ms": 442.13,
+          "result": "ok"
+        }
+      ],
+      "backend_chunks": {
+        "_graphql_chunk:Entity": {
+          "calls": 1,
+          "sum_ms": 62.343,
+          "failures": 0
+        },
+        "_graphql_chunk:Assertion": {
+          "calls": 1,
+          "sum_ms": 111.711,
+          "failures": 1
+        },
+        "_graphql_chunk:Source": {
+          "calls": 1,
+          "sum_ms": 64.138,
+          "failures": 0
+        },
+        "_graphql_chunk:Evidence": {
+          "calls": 1,
+          "sum_ms": 97.04,
+          "failures": 0
+        },
+        "_graphql_chunk:Activity": {
+          "calls": 1,
+          "sum_ms": 100.026,
+          "failures": 0
+        },
+        "_graphql_chunk:ResolutionRecord": {
+          "calls": 1,
+          "sum_ms": 60.51,
+          "failures": 0
+        },
+        "_graphql_chunk:Document": {
+          "calls": 1,
+          "sum_ms": 58.202,
+          "failures": 0
+        },
+        "_graphql_chunk:DocumentPart": {
+          "calls": 1,
+          "sum_ms": 54.207,
+          "failures": 0
+        },
+        "_graphql_chunk:SchemaProfile": {
+          "calls": 1,
+          "sum_ms": 45.876,
+          "failures": 0
+        },
+        "_graphql_chunk:ChangeSet": {
+          "calls": 1,
+          "sum_ms": 54.922,
+          "failures": 0
+        },
+        "_graphql_chunk:ValidationReport": {
+          "calls": 1,
+          "sum_ms": 53.126,
+          "failures": 0
+        },
+        "_graphql_chunk:ReviewDecision": {
+          "calls": 1,
+          "sum_ms": 55.882,
+          "failures": 0
+        },
+        "_graphql_chunk:ApplyReceipt": {
+          "calls": 1,
+          "sum_ms": 50.561,
+          "failures": 0
+        },
+        "_graphql_chunk:Keyword": {
+          "calls": 1,
+          "sum_ms": 55.679,
+          "failures": 0
+        },
+        "_graphql_chunk:TimeBoundary": {
+          "calls": 1,
+          "sum_ms": 51.148,
+          "failures": 0
+        },
+        "_graphql_chunk:TimeInterval": {
+          "calls": 1,
+          "sum_ms": 63.789,
+          "failures": 0
+        },
+        "_get_chunk:Assertion": {
+          "calls": 1,
+          "sum_ms": 169.412,
+          "failures": 0
+        },
+        "_graphql_chunk:Selector": {
+          "calls": 1,
+          "sum_ms": 55.203,
+          "failures": 0
+        },
+        "_graphql_chunk:Agent": {
+          "calls": 1,
+          "sum_ms": 50.755,
+          "failures": 0
+        },
+        "_graphql_chunk:Product": {
+          "calls": 1,
+          "sum_ms": 58.213,
+          "failures": 0
+        },
+        "_graphql_chunk:Battery": {
+          "calls": 1,
+          "sum_ms": 56.285,
+          "failures": 0
+        },
+        "_graphql_chunk:BatteryVersion": {
+          "calls": 1,
+          "sum_ms": 54.234,
+          "failures": 0
+        },
+        "_graphql_chunk:Measurement": {
+          "calls": 1,
+          "sum_ms": 55.438,
+          "failures": 0
+        },
+        "_graphql_chunk:Concept": {
+          "calls": 1,
+          "sum_ms": 54.173,
+          "failures": 0
+        }
+      },
+      "backend_requests": [
+        {
+          "backend": "knowledge",
+          "kind": "head",
+          "ms": 47.674,
+          "response_bytes": 5
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 101.013,
+          "response_bytes": 5
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 137.513,
+          "response_bytes": 5
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 99.497,
+          "response_bytes": 5
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 73.04,
+          "response_bytes": 1010
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 74.02,
+          "response_bytes": 1000
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 74.465,
+          "response_bytes": 1004
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 75.412,
+          "response_bytes": 1010
+        },
+        {
+          "backend": "knowledge",
+          "kind": "schema",
+          "ms": 94.119,
+          "response_bytes": 13979
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 53.685,
+          "response_bytes": 2797
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 57.882,
+          "response_bytes": 1040
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 62.065,
+          "response_bytes": 2037
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 60.473,
+          "response_bytes": 32
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 63.805,
+          "response_bytes": 3122
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 96.03,
+          "response_bytes": 8497
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 98.439,
+          "response_bytes": 17937
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 45.691,
+          "response_bytes": 29
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 105.435,
+          "response_bytes": 46691
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 50.453,
+          "response_bytes": 28
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 52.955,
+          "response_bytes": 32
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 54.86,
+          "response_bytes": 25
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 55.762,
+          "response_bytes": 30
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 50.704,
+          "response_bytes": 1131
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 55.292,
+          "response_bytes": 2316
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 50.593,
+          "response_bytes": 21
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 63.534,
+          "response_bytes": 433
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 54.987,
+          "response_bytes": 545
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 56.01,
+          "response_bytes": 535
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 53.92,
+          "response_bytes": 1813
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 57.885,
+          "response_bytes": 2046
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 53.804,
+          "response_bytes": 2604
+        },
+        {
+          "backend": "knowledge",
+          "kind": "graphql",
+          "ms": 55.076,
+          "response_bytes": 2626
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 105.62,
+          "response_bytes": 1771
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 113.184,
+          "response_bytes": 1752
+        },
+        {
+          "backend": "knowledge",
+          "kind": "document",
+          "ms": 112.902,
+          "response_bytes": 1771
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 98.819,
+          "response_bytes": 5
+        },
+        {
+          "backend": "journal",
+          "kind": "head",
+          "ms": 104.553,
+          "response_bytes": 5
+        }
+      ],
+      "literal_shape_failures": [
+        {
+          "lexical_type": "float",
+          "datatype_type": "str",
+          "language_type": "NoneType"
+        },
+        {
+          "lexical_type": "float",
+          "datatype_type": "str",
+          "language_type": "NoneType"
+        },
+        {
+          "lexical_type": "float",
+          "datatype_type": "str",
+          "language_type": "NoneType"
+        }
+      ]
+    }
+  ],
+  "standalone_phases": {
+    "mode": "independent_read_only_phases_each_under_configured_2s_budget_not_request_gate",
+    "authorized_ids": 109,
+    "visible_records": 109,
+    "units": 4,
+    "pure_processing_ms": 13.478,
+    "phases": [
+      {
+        "phase": "binding_snapshot",
+        "ms": 141.168,
+        "result": "ok"
+      },
+      {
+        "phase": "fresh_resource_authorization",
+        "ms": 241.749,
+        "result": "ok"
+      },
+      {
+        "phase": "selection",
+        "ms": 583.501,
+        "result": "ok"
+      },
+      {
+        "phase": "fetch_and_project",
+        "ms": 501.977,
+        "result": "ok"
+      },
+      {
+        "phase": "resolve_anchor",
+        "ms": 0.107
+      },
+      {
+        "phase": "resolve_topics",
+        "ms": 0.046
+      },
+      {
+        "phase": "select_context",
+        "ms": 1.743
+      },
+      {
+        "phase": "build_units",
+        "ms": 1.031
+      },
+      {
+        "phase": "prepare_units",
+        "ms": 0.222
+      },
+      {
+        "phase": "build_page",
+        "ms": 10.26
+      },
+      {
+        "phase": "fresh_resource_authorization",
+        "ms": 234.585,
+        "result": "ok"
+      },
+      {
+        "phase": "finalize",
+        "ms": 528.027,
+        "result": "ok"
+      }
+    ],
+    "backend_chunks": {
+      "_graphql_chunk:Entity": {
+        "calls": 1,
+        "sum_ms": 179.089,
+        "failures": 0
+      },
+      "_graphql_chunk:Assertion": {
+        "calls": 1,
+        "sum_ms": 226.207,
+        "failures": 1
+      },
+      "_graphql_chunk:Source": {
+        "calls": 1,
+        "sum_ms": 173.826,
+        "failures": 0
+      },
+      "_graphql_chunk:Evidence": {
+        "calls": 1,
+        "sum_ms": 174.241,
+        "failures": 0
+      },
+      "_graphql_chunk:Activity": {
+        "calls": 1,
+        "sum_ms": 216.653,
+        "failures": 0
+      },
+      "_graphql_chunk:ResolutionRecord": {
+        "calls": 1,
+        "sum_ms": 170.541,
+        "failures": 0
+      },
+      "_graphql_chunk:Document": {
+        "calls": 1,
+        "sum_ms": 175.932,
+        "failures": 0
+      },
+      "_graphql_chunk:DocumentPart": {
+        "calls": 1,
+        "sum_ms": 175.979,
+        "failures": 0
+      },
+      "_graphql_chunk:SchemaProfile": {
+        "calls": 1,
+        "sum_ms": 46.011,
+        "failures": 0
+      },
+      "_graphql_chunk:ChangeSet": {
+        "calls": 1,
+        "sum_ms": 56.872,
+        "failures": 0
+      },
+      "_graphql_chunk:ValidationReport": {
+        "calls": 1,
+        "sum_ms": 56.525,
+        "failures": 0
+      },
+      "_graphql_chunk:ReviewDecision": {
+        "calls": 1,
+        "sum_ms": 55.398,
+        "failures": 0
+      },
+      "_graphql_chunk:ApplyReceipt": {
+        "calls": 1,
+        "sum_ms": 57.938,
+        "failures": 0
+      },
+      "_graphql_chunk:Keyword": {
+        "calls": 1,
+        "sum_ms": 54.192,
+        "failures": 0
+      },
+      "_graphql_chunk:TimeBoundary": {
+        "calls": 1,
+        "sum_ms": 63.014,
+        "failures": 0
+      },
+      "_graphql_chunk:TimeInterval": {
+        "calls": 1,
+        "sum_ms": 59.998,
+        "failures": 0
+      },
+      "_get_chunk:Assertion": {
+        "calls": 1,
+        "sum_ms": 166.698,
+        "failures": 0
+      },
+      "_graphql_chunk:Selector": {
+        "calls": 1,
+        "sum_ms": 51.942,
+        "failures": 0
+      },
+      "_graphql_chunk:Agent": {
+        "calls": 1,
+        "sum_ms": 55.024,
+        "failures": 0
+      },
+      "_graphql_chunk:Product": {
+        "calls": 1,
+        "sum_ms": 69.103,
+        "failures": 0
+      },
+      "_graphql_chunk:Battery": {
+        "calls": 1,
+        "sum_ms": 56.209,
+        "failures": 0
+      },
+      "_graphql_chunk:BatteryVersion": {
+        "calls": 1,
+        "sum_ms": 58.425,
+        "failures": 0
+      },
+      "_graphql_chunk:Measurement": {
+        "calls": 1,
+        "sum_ms": 65.44,
+        "failures": 0
+      },
+      "_graphql_chunk:Concept": {
+        "calls": 1,
+        "sum_ms": 51.333,
+        "failures": 0
+      }
+    },
+    "backend_requests": [
+      {
+        "backend": "knowledge",
+        "kind": "head",
+        "ms": 53.505,
+        "response_bytes": 5
+      },
+      {
+        "backend": "journal",
+        "kind": "head",
+        "ms": 96.461,
+        "response_bytes": 5
+      },
+      {
+        "backend": "journal",
+        "kind": "head",
+        "ms": 141.128,
+        "response_bytes": 5
+      },
+      {
+        "backend": "journal",
+        "kind": "head",
+        "ms": 99.764,
+        "response_bytes": 5
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 72.11,
+        "response_bytes": 1000
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 72.269,
+        "response_bytes": 1010
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 72.078,
+        "response_bytes": 1004
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 73.408,
+        "response_bytes": 1010
+      },
+      {
+        "backend": "knowledge",
+        "kind": "schema",
+        "ms": 93.885,
+        "response_bytes": 13979
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 170.487,
+        "response_bytes": 32
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 173.47,
+        "response_bytes": 3122
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 173.61,
+        "response_bytes": 8497
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 175.767,
+        "response_bytes": 1040
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 175.764,
+        "response_bytes": 2797
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 178.845,
+        "response_bytes": 2037
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 214.913,
+        "response_bytes": 17937
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 45.892,
+        "response_bytes": 29
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 220.41,
+        "response_bytes": 46691
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 56.804,
+        "response_bytes": 25
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 56.433,
+        "response_bytes": 32
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 55.258,
+        "response_bytes": 30
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 53.838,
+        "response_bytes": 2316
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 57.83,
+        "response_bytes": 28
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 59.78,
+        "response_bytes": 433
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 51.697,
+        "response_bytes": 545
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 62.706,
+        "response_bytes": 1131
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 54.902,
+        "response_bytes": 21
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 55.93,
+        "response_bytes": 535
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 58.038,
+        "response_bytes": 1813
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 68.619,
+        "response_bytes": 2046
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 65.008,
+        "response_bytes": 2626
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 50.965,
+        "response_bytes": 2604
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 111.099,
+        "response_bytes": 1771
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 112.349,
+        "response_bytes": 1752
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 104.782,
+        "response_bytes": 1771
+      },
+      {
+        "backend": "journal",
+        "kind": "head",
+        "ms": 193.261,
+        "response_bytes": 5
+      },
+      {
+        "backend": "journal",
+        "kind": "head",
+        "ms": 100.075,
+        "response_bytes": 5
+      }
+    ],
+    "literal_shape_failures": [
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      },
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      },
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      }
+    ]
+  },
+  "hint_comparison": {
+    "known_historical_origins": 102,
+    "unknown_origins": 7,
+    "manifest_read_ms": 177.645,
+    "same_authorized_records": true,
+    "phases": [
+      {
+        "phase": "fetch_and_project",
+        "ms": 392.671,
+        "result": "ok"
+      },
+      {
+        "phase": "fresh_resource_authorization",
+        "ms": 216.778,
+        "result": "ok"
+      },
+      {
+        "phase": "finalize",
+        "ms": 514.112,
+        "result": "ok"
+      }
+    ],
+    "backend_chunks": {
+      "_graphql_chunk:Entity": {
+        "calls": 1,
+        "sum_ms": 74.439,
+        "failures": 0
+      },
+      "_graphql_chunk:Assertion": {
+        "calls": 1,
+        "sum_ms": 90.553,
+        "failures": 1
+      },
+      "_graphql_chunk:Source": {
+        "calls": 1,
+        "sum_ms": 79.25,
+        "failures": 0
+      },
+      "_graphql_chunk:Evidence": {
+        "calls": 1,
+        "sum_ms": 92.241,
+        "failures": 0
+      },
+      "_graphql_chunk:Activity": {
+        "calls": 1,
+        "sum_ms": 80.106,
+        "failures": 0
+      },
+      "_graphql_chunk:Document": {
+        "calls": 1,
+        "sum_ms": 70.601,
+        "failures": 0
+      },
+      "_graphql_chunk:DocumentPart": {
+        "calls": 1,
+        "sum_ms": 70.587,
+        "failures": 0
+      },
+      "_graphql_chunk:SchemaProfile": {
+        "calls": 1,
+        "sum_ms": 73.352,
+        "failures": 0
+      },
+      "_graphql_chunk:ValidationReport": {
+        "calls": 1,
+        "sum_ms": 53.994,
+        "failures": 0
+      },
+      "_graphql_chunk:ReviewDecision": {
+        "calls": 1,
+        "sum_ms": 85.016,
+        "failures": 0
+      },
+      "_graphql_chunk:ApplyReceipt": {
+        "calls": 1,
+        "sum_ms": 75.576,
+        "failures": 0
+      },
+      "_graphql_chunk:Keyword": {
+        "calls": 1,
+        "sum_ms": 60.166,
+        "failures": 0
+      },
+      "_graphql_chunk:TimeBoundary": {
+        "calls": 1,
+        "sum_ms": 77.27,
+        "failures": 0
+      },
+      "_graphql_chunk:TimeInterval": {
+        "calls": 1,
+        "sum_ms": 71.951,
+        "failures": 0
+      },
+      "_get_chunk:Assertion": {
+        "calls": 1,
+        "sum_ms": 185.489,
+        "failures": 0
+      },
+      "_graphql_chunk:Selector": {
+        "calls": 1,
+        "sum_ms": 59.265,
+        "failures": 0
+      },
+      "_graphql_chunk:Agent": {
+        "calls": 1,
+        "sum_ms": 59.45,
+        "failures": 0
+      },
+      "_graphql_chunk:Product": {
+        "calls": 1,
+        "sum_ms": 52.584,
+        "failures": 0
+      },
+      "_graphql_chunk:Battery": {
+        "calls": 1,
+        "sum_ms": 62.285,
+        "failures": 0
+      },
+      "_graphql_chunk:BatteryVersion": {
+        "calls": 1,
+        "sum_ms": 66.324,
+        "failures": 0
+      },
+      "_graphql_chunk:Measurement": {
+        "calls": 1,
+        "sum_ms": 64.39,
+        "failures": 0
+      },
+      "_graphql_chunk:Concept": {
+        "calls": 1,
+        "sum_ms": 63.348,
+        "failures": 0
+      }
+    },
+    "backend_requests": [
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 74.425,
+        "response_bytes": 1000
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 74.196,
+        "response_bytes": 1004
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 76.052,
+        "response_bytes": 1010
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 75.982,
+        "response_bytes": 1010
+      },
+      {
+        "backend": "knowledge",
+        "kind": "schema",
+        "ms": 106.685,
+        "response_bytes": 13979
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 70.274,
+        "response_bytes": 1040
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 70.295,
+        "response_bytes": 2797
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 74.148,
+        "response_bytes": 2037
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 73.287,
+        "response_bytes": 29
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 78.844,
+        "response_bytes": 3122
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 78.509,
+        "response_bytes": 17937
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 85.636,
+        "response_bytes": 46691
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 91.513,
+        "response_bytes": 8497
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 53.912,
+        "response_bytes": 32
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 59.676,
+        "response_bytes": 2316
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 75.508,
+        "response_bytes": 28
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 59.059,
+        "response_bytes": 545
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 59.368,
+        "response_bytes": 21
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 71.789,
+        "response_bytes": 433
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 84.942,
+        "response_bytes": 30
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 76.934,
+        "response_bytes": 1131
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 51.979,
+        "response_bytes": 2046
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 61.984,
+        "response_bytes": 535
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 63.89,
+        "response_bytes": 2626
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 62.989,
+        "response_bytes": 2604
+      },
+      {
+        "backend": "knowledge",
+        "kind": "graphql",
+        "ms": 66.022,
+        "response_bytes": 1813
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 115.558,
+        "response_bytes": 1752
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 114.945,
+        "response_bytes": 1771
+      },
+      {
+        "backend": "knowledge",
+        "kind": "document",
+        "ms": 115.033,
+        "response_bytes": 1771
+      },
+      {
+        "backend": "journal",
+        "kind": "head",
+        "ms": 193.543,
+        "response_bytes": 5
+      },
+      {
+        "backend": "journal",
+        "kind": "head",
+        "ms": 103.672,
+        "response_bytes": 5
+      }
+    ],
+    "literal_shape_failures": [
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      },
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      },
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      }
+    ]
+  }
+}

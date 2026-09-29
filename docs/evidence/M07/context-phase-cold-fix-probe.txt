@@ -1,0 +1,200 @@
+"""Read-only request timing; credentials and selected content never enter output."""
+import asyncio
+import json
+import os
+import sys
+import time
+from collections import defaultdict
+from pathlib import Path
+
+sys.path.insert(0, str(Path.cwd()))
+sys.path.insert(0, str(Path.cwd() / "src"))
+
+from probes.config import environment
+from scripts.load_fixture import Loader
+from c1.config import Settings
+from c1.runtime import Runtime
+from c1.changes.profiles import detect_installed_registry
+from c1.context.request import ContextRequest
+import c1.context.service as context_module
+import c1.query.compile as compile_module
+from c1.context.resolve import resolve_anchor
+from c1.context.topics import resolve_topics
+from c1.context.select import select_context
+from c1.context.units import build_units
+from c1.context.budget import build_page, prepare_units
+from c1.documents.service import _history_candidates
+from c1.query.service import AuthorizedRecords
+
+events = []
+network = defaultdict(lambda: {"calls": 0, "sum_ms": 0, "failures": 0})
+shape_failures = []
+requests = []
+
+def instrument_async(owner, name, phase):
+    original = getattr(owner, name)
+    async def timed(*args, **kwargs):
+        started = time.monotonic()
+        result = "ok"
+        try:
+            value = await original(*args, **kwargs)
+            return value
+        except BaseException as exc:
+            result = type(exc).__name__
+            raise
+        finally:
+            events.append({"phase": phase, "ms": round((time.monotonic() - started)*1000, 3),
+                           "result": result})
+    setattr(owner, name, timed)
+
+def instrument_sync(owner, name):
+    original = getattr(owner, name)
+    def timed(*args, **kwargs):
+        started = time.monotonic()
+        try:
+            return original(*args, **kwargs)
+        finally:
+            events.append({"phase": name, "ms": round((time.monotonic() - started)*1000, 3)})
+    setattr(owner, name, timed)
+
+async def main():
+    for key, value in environment().items():
+        os.environ.setdefault(key, value)
+    runtime = Runtime(Settings.from_env())
+    # Do not call Runtime.start: that enters recovery and can write. Registry
+    # detection, token validation, selection, reads and finalize are read-only.
+    try:
+        runtime.registry = await detect_installed_registry(runtime.knowledge)
+        token = await Loader(None, {}).user_token("dave")
+        principal = await runtime.tokens.authenticate(token)
+        instrument_async(runtime.query, "selection", "selection")
+        instrument_async(runtime.query, "records", "fetch_and_project")
+        instrument_async(runtime.query.planner, "_authorize", "fresh_resource_authorization")
+        instrument_async(runtime.query.planner, "finalize", "finalize")
+        instrument_async(runtime.query.planner.index, "_snapshot_after_head", "binding_snapshot")
+        for storage, label in [(runtime.knowledge, "knowledge"), (runtime.journal._storage, "journal")]:
+            original = storage._request
+            def make_request_wrapper(original, label):
+                async def timed(method, path, **kwargs):
+                    started = time.monotonic()
+                    result = await original(method, path, **kwargs)
+                    params = kwargs.get("params", {})
+                    kind = "head" if params.get("count") == 0 else "schema" if params.get("graph_type") == "schema" else "graphql" if "/graphql/" in path else "document"
+                    requests.append({"backend": label, "kind": kind,
+                                     "ms": round((time.monotonic()-started)*1000, 3),
+                                     "response_bytes": len(result.content)})
+                    return result
+                return timed
+            storage._request = make_request_wrapper(original, label)
+        original_literal = compile_module._literal
+        def timed_literal(value):
+            try:
+                return original_literal(value)
+            except Exception:
+                if isinstance(value, dict):
+                    shape_failures.append({"lexical_type": type(value.get("lexical")).__name__,
+                                           "datatype_type": type(value.get("datatype")).__name__,
+                                           "language_type": type(value.get("language")).__name__})
+                else:
+                    shape_failures.append({"value_type": type(value).__name__})
+                raise
+        compile_module._literal = timed_literal
+        for name in ("resolve_anchor", "resolve_topics", "select_context", "build_units", "prepare_units", "build_page"):
+            instrument_sync(context_module, name)
+        for name in ("_graphql_chunk", "_get_chunk"):
+            original = getattr(compile_module, name)
+            def make_wrapper(original, name):
+                async def timed(*args, **kwargs):
+                    key = name + ":" + args[2].storage_name
+                    started = time.monotonic()
+                    network[key]["calls"] += 1
+                    try:
+                        return await original(*args, **kwargs)
+                    except BaseException:
+                        network[key]["failures"] += 1
+                        raise
+                    finally:
+                        network[key]["sum_ms"] += round((time.monotonic()-started)*1000, 3)
+                return timed
+            setattr(compile_module, name, make_wrapper(original, name))
+        request = ContextRequest.model_validate({"profile": "graph-context", "profile_version": "1",
+                                                "anchor": {"label": "Tesla"}, "topics": ["batteries"]})
+        runs = []
+        for index in range(0 if os.environ.get("M07_HINT_ONLY") else 2):
+            events.clear()
+            network.clear()
+            requests.clear()
+            shape_failures.clear()
+            started = time.monotonic()
+            try:
+                response = await runtime.context.build(principal, request)
+                status = {"outcome": response.get("outcome"), "status": 200}
+            except Exception as exc:
+                status = {"error": type(exc).__name__, "status": getattr(exc, "status", None),
+                          "code": getattr(exc, "code", None), "reason": getattr(exc, "reason", None)}
+            runs.append({"run": index+1, "total_ms": round((time.monotonic()-started)*1000, 3),
+                         "status": status, "phases": list(events),
+                         "backend_chunks": dict(network), "backend_requests": list(requests),
+                         "literal_shape_failures": list(shape_failures)})
+        events.clear()
+        network.clear()
+        requests.clear()
+        shape_failures.clear()
+        revision = await runtime.knowledge.head()
+        plan, _ = await runtime.query.selection(principal, deadline=time.monotonic()+2)
+        records = await runtime.query.records(plan, revision, deadline=time.monotonic()+2)
+        profile = runtime.context_catalog().get(request.profile, request.profile_version)
+        pure_started = time.monotonic()
+        deadline = pure_started+2
+        anchor = context_module.resolve_anchor(records, request.anchor, profile, runtime.registry)
+        topics = context_module.resolve_topics(records, request.topics, profile)
+        selection = context_module.select_context(records, anchor["anchor"]["id"], topics["topics"], profile, request, deadline=deadline, registry=runtime.registry)
+        units = context_module.build_units(records, selection, profile, runtime.registry, deadline=deadline)
+        public_units = context_module.prepare_units(units)
+        base = {"interpretation": {"profile": profile.name, "profile_version": profile.version,
+                    "revision": revision, "anchor": anchor["anchor"], "topics": topics["topics"]},
+                "orientation": context_module._orientation(selection, records),
+                "fields": request.fields, "field_predicates": {name: value if isinstance(value,str) else value.model_dump(mode="json") for name,value in profile.fields.items()},
+                "anchor_label": anchor["anchor"]["label"], "revision": revision}
+        context_module.build_page(base, public_units, offset=0, maximum=request.budget.maximum,
+                                  cursor_for_offset=lambda end: None, deadline=deadline)
+        pure_ms = round((time.monotonic()-pure_started)*1000, 3)
+        await runtime.query.planner.finalize(principal, plan, deadline=time.monotonic()+2)
+        standalone = {"mode": "independent_read_only_phases_each_under_configured_2s_budget_not_request_gate",
+                      "authorized_ids": len(plan.authorized_ids), "visible_records": len(records),
+                      "units": len(units), "pure_processing_ms": pure_ms,
+                      "phases": list(events), "backend_chunks": dict(network),
+                      "backend_requests": list(requests), "literal_shape_failures": list(shape_failures)}
+        before = await runtime.journal.head()
+        if before != plan.workflow_head:
+            raise RuntimeError("workflow_head_changed")
+        manifest_started = time.monotonic()
+        manifest = await runtime.journal.list_many({"Operation", "ChangeSet"})
+        manifest_ms = round((time.monotonic()-manifest_started)*1000, 3)
+        if await runtime.journal.head() != before:
+            raise RuntimeError("workflow_head_changed")
+        _, hints = _history_candidates("urn:diagnostic:no-document", plan, AuthorizedRecords({}, {}), manifest)
+        events.clear()
+        network.clear()
+        requests.clear()
+        shape_failures.clear()
+        hinted = await runtime.query.records(plan, revision, deadline=time.monotonic()+2, storage_types=hints)
+        if hinted != records or hinted.hidden_bounds != records.hidden_bounds:
+            raise RuntimeError("hinted_selection_differs")
+        await runtime.query.planner.finalize(principal, plan, deadline=time.monotonic()+2)
+        hint_comparison = {"known_historical_origins": len(hints), "unknown_origins": len(plan.authorized_ids)-len(hints),
+                           "manifest_read_ms": manifest_ms, "same_authorized_records": True,
+                           "phases": list(events), "backend_chunks": dict(network),
+                           "backend_requests": list(requests), "literal_shape_failures": list(shape_failures)}
+        result = {"configured_budget_ms": runtime.settings.query_time_budget_ms,
+                  "registry_class_count": len(runtime.registry.classes), "runs": runs,
+                  "standalone_phases": standalone, "hint_comparison": hint_comparison}
+        output = "context-phase-cold-fix.json"
+        Path("docs/evidence/M07/"+output).write_text(json.dumps(result, indent=2)+"\n")
+        print(json.dumps({"runs": [{"total_ms":run["total_ms"],"status":run["status"],"phases":run["phases"]} for run in runs],
+                          "standalone_phases": standalone["phases"],
+                          "hint_comparison": {key:value for key,value in hint_comparison.items() if key not in {"backend_chunks", "backend_requests"}}}, indent=2))
+    finally:
+        await runtime.close()
+
+asyncio.run(main())

@@ -1,0 +1,11 @@
+Command: env -u C1_STACK UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked pytest --collect-only -q -p no:cacheprovider -p tests.integration.m06.diagnostics tests/integration/m04/test_t01_reviewed_apply.py tests/integration/m04/test_t04_retry_crash.py
+Result: exit 0; 6 tests collected; no test fixtures or services executed.
+
+tests/integration/m04/test_t01_reviewed_apply.py::test_t01_reviewed_source_and_manual_claims_commit_once
+tests/integration/m04/test_t04_retry_crash.py::test_t04_create_idempotency_replays_without_duplicate
+tests/integration/m04/test_t04_retry_crash.py::test_t04_crash_recovery_has_one_receipt[journal]
+tests/integration/m04/test_t04_retry_crash.py::test_t04_crash_recovery_has_one_receipt[commit]
+tests/integration/m04/test_t04_retry_crash.py::test_t04_crash_recovery_has_one_receipt[tuple]
+tests/integration/m04/test_t04_retry_crash.py::test_t04_crash_recovery_has_one_receipt[confirm]
+
+6 tests collected in 0.01s

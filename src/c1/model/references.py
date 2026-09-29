@@ -16,6 +16,7 @@ RESOURCE_REFS = frozenset(
         C1 + "assertionRef",
         C1 + "candidate",
         C1 + "partOfDocument",
+        "http://www.w3.org/2004/02/skos/core#inScheme",
         "http://www.w3.org/ns/oa#hasSource",
         "http://www.w3.org/ns/oa#hasSelector",
         "http://www.w3.org/ns/prov#wasGeneratedBy",

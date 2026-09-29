@@ -413,6 +413,14 @@ class ProfileRegistry:
             fail("C1-PR-001", "Exactly one registered primary class is required", "/@type")
         return matches[0]
 
+    def is_entity(self, types: list[str]) -> bool:
+        """Recognize one explicitly declared entity class, without type inference."""
+        try:
+            definition = self.primary_class(types)
+        except ProfileError:
+            return False
+        return definition.iri == "urn:c1:ns:core#Entity" or definition.kind == "entity"
+
     def load(self, path: Path) -> None:
         if path.is_symlink():
             fail("C1-PR-001", "Profile path symlink is unsupported", str(path))
@@ -483,7 +491,7 @@ class ProfileRegistry:
                 r"[A-Z][A-Za-z0-9]*", storage_name
             ):
                 fail("C1-PR-001", "Invalid storage class name", f"/classes/{iri}")
-            if kind not in {"record", "auxiliary", "workflow"} or key_strategy not in {
+            if kind not in {"record", "entity", "auxiliary", "workflow"} or key_strategy not in {
                 "Random",
                 "ValueHash",
             }:
@@ -499,11 +507,37 @@ class ProfileRegistry:
             }
             if len({prop.name for prop in parsed.values()}) != len(parsed):
                 fail("C1-PR-001", "Duplicate storage property name", f"/classes/{iri}")
+            if kind == "entity":
+                entity = self.classes.get("urn:c1:ns:core#Entity")
+                if entity is None or any(
+                    parsed.get(predicate) != definition
+                    for predicate, definition in entity.properties.items()
+                ):
+                    fail(
+                        "C1-PR-001",
+                        "Entity class must preserve the full core Entity template",
+                        f"/classes/{iri}",
+                    )
             classes[class_iri] = ClassDefinition(
                 class_iri, storage_name, kind, key_strategy, parsed
             )
         _validate_shape_manifest(graph, classes, str(shape_path))
         property_constraints = _supplemental_constraints(graph, classes, str(shape_path))
+        for definition in classes.values():
+            if definition.kind != "entity":
+                continue
+            entity = self.classes["urn:c1:ns:core#Entity"]
+            core_constraints = self.profiles["core"].property_constraints
+            if any(
+                property_constraints.get(f"{definition.iri} {predicate}", ())
+                != core_constraints.get(f"{entity.iri} {predicate}", ())
+                for predicate in entity.properties
+            ):
+                fail(
+                    "C1-PR-001",
+                    "Entity class must preserve core Entity SHACL constraints",
+                    definition.iri,
+                )
         predicates = {
             _iri(k, "/predicates"): _property(v, f"/predicates/{k}")
             for k, v in raw_predicates.items()

@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M05 VERIFIED. M06 is in verification; later milestones remain unimplemented.
+**Status:** M00–M06 VERIFIED. M07 is IN_PROGRESS under the owner's authorization; M08–M13 remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -75,7 +75,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M04 | Reviewed knowledge writes and history | M03 | Atomic, retry-safe ChangeSets and policy-safe historical reads | VERIFIED |
 | M05 | Shared identity and deterministic query API | M04 | Keyword/structured retrieval and a permission-correct multi-company directory | VERIFIED |
 | M06 | Scoped documents and reconstruction | M05 | Ordered text retrieval with mixed visibility and preserved evidence | VERIFIED |
-| M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | PLANNED |
+| M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | IN_PROGRESS |
 | M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | NOT_PLANNED |
 | M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | NOT_PLANNED |
 | M10 | Documentation-first support context | M09 | Two-stage support retrieval with a stable software target and controlled fallback | NOT_PLANNED |
@@ -309,6 +309,8 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 
 **Exit gate:** A15/G9 pass with the no-AI environment and consumer-ready golden fixtures.
 
+**Current execution status (2026-09-29):** M07 remains `IN_PROGRESS` until its implementation revision is committed and recorded. All M07 gate checks now pass on the final 351-input source: the full 79-case live gate (79 passed, exact expected identities), `make check` (810 passed, 79 skipped), the fixture CLI on an isolated install, the M01 probe (12 passed), and the no-AI context demo. The pass followed per-test TerminusDB `_system` compaction in the test harness and the owner-approved D22 deadline change (request budget 5,000 ms default, configurable to 30,000 ms; backend client timeouts 5 s). Earlier failed attempts remain recorded in the [M07 report](docs/milestones/M07-report.md). This status note does not change the M07 acceptance contract.
+
 ## M08 — Software profile and source-version ingestion
 
 **Goal:** represent code and documentation from multiple software products without conflating their versions or promising an all-language analyzer.
@@ -525,4 +527,4 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S4 — Current planning instruction.** Produce AGENTS.md and PLAN.md; divide work into milestones with verifiable outputs and specific tests, and plan each milestone separately. This is the authority for the execution policy and delivery structure in this file.
 
-No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M06 are now VERIFIED as recorded in their milestone reports. The owner has authorized implementation of the remaining planned milestone, M07, after revalidating its provisional plan against the M06 report. M08–M13 remain NOT_PLANNED.
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M06 are now VERIFIED as recorded in their milestone reports. The owner authorized M07 implementation after its plan was revalidated against the M06 report. M07 is IN_PROGRESS and its gate remains open; M08–M13 remain NOT_PLANNED.

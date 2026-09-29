@@ -59,6 +59,7 @@ _REFERENCE_PROPERTIES = frozenset(
         C1 + "evidence",
         C1 + "assertionRef",
         C1 + "partOfDocument",
+        "http://www.w3.org/2004/02/skos/core#inScheme",
         C1 + "candidate",
         C1 + "keyword",
         "urn:c1:ns:identity#from",

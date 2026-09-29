@@ -100,6 +100,18 @@ ChangeOperation = Annotated[
     | UndoMergeOperation,
     Field(discriminator="kind"),
 ]
+
+
+def validate_operation_group(operations: list[ChangeOperation]) -> list[ChangeOperation]:
+    """Profile installation publishes one schema and one matching receipt."""
+    kinds = {operation.kind for operation in operations}
+    if "install_profile" in kinds and len(kinds) != 1:
+        raise ValueError("install_profile cannot be mixed with content operations")
+    if "install_profile" in kinds and len(operations) != 1:
+        raise ValueError("install_profile requires exactly one operation")
+    return operations
+
+
 ChangeSetState = Literal[
     "draft",
     "submitted",
@@ -140,9 +152,14 @@ class ChangeSet(_StrictModel):
 
     @model_validator(mode="after")
     def _check_payload(self) -> Self:
-        kinds = {operation.kind for operation in self.operations}
-        if "install_profile" in kinds and len(kinds) != 1:
-            raise ValueError("install_profile cannot be mixed with content operations")
+        if self.state == "applied" and all(
+            isinstance(operation, InstallProfileOperation) for operation in self.operations
+        ):
+            # Read-only legacy audit data may contain the old unsupported
+            # multi-profile payload. No executable state accepts it.
+            pass
+        else:
+            validate_operation_group(self.operations)
         digest = request_digest(self.base_revision, self.operations, self.rationale)
         if self.request_digest and self.request_digest != digest:
             raise ValueError("request_digest does not match the proposal payload")

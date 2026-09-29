@@ -1,0 +1,115 @@
+{
+  "name": "topics",
+  "version": "1.0.0",
+  "requires_core": "1.0.0",
+  "context": "context.jsonld",
+  "shapes": "shapes.ttl",
+  "classes": {
+    "http://www.w3.org/2004/02/skos/core#Concept": {
+      "storage_name": "Concept",
+      "kind": "entity",
+      "key_strategy": "Random",
+      "properties": {
+        "http://www.w3.org/2004/02/skos/core#prefLabel": {
+          "name": "label",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "http://www.w3.org/2004/02/skos/core#altLabel": {
+          "name": "altLabel",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "http://purl.org/dc/terms/description": {
+          "name": "description",
+          "ranges": [
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:core#keyword": {
+          "name": "keyword",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#lifecycle": {
+          "name": "lifecycle",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "active",
+            "retracted",
+            "superseded"
+          ]
+        },
+        "urn:c1:ns:core#projectReference": {
+          "name": "projectReference",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:core#provisionedScopeHint": {
+          "name": "provisionedScopeHint",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "http://www.w3.org/2004/02/skos/core#inScheme": {
+          "name": "inScheme",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    }
+  },
+  "predicates": {
+    "http://www.w3.org/2004/02/skos/core#broader": {
+      "name": "broader",
+      "ranges": [
+        "http://www.w3.org/2004/02/skos/core#Concept"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "http://purl.org/dc/terms/subject": {
+      "name": "topic",
+      "ranges": [
+        "http://www.w3.org/2004/02/skos/core#Concept"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    }
+  }
+}

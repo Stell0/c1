@@ -1,0 +1,23 @@
+{"correlation_id": "d532332a-933f-4a8e-93c7-e112a6b6236a", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.0c02d576-45eb-4460-a71e-c184e51f7541", "reason": "", "target": "urn:c1:instance:dev:changeset-7655db5f256a42ae80f338e6f96ba285"}
+{"actor": "service", "state": "approved", "reason": null}
+{"correlation_id": "c49798ac-c0b5-467c-9ee4-602bd4cde0b0", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "", "target": "urn:c1:instance:dev:changeset-7655db5f256a42ae80f338e6f96ba285"}
+{"actor": "reviewer", "state": "approved", "reason": null}
+{"diagnostic_status": 404, "diagnostic_reason": "not_found", "frames": ["_exception_handler.py:42:wrapped_app", "routing.py:144:app", "routing.py:706:app", "routing.py:352:run_endpoint_function", "changesets.py:181:apply", "apply.py:1174:apply", "apply.py:994:_planned_records", "<stdin>:5:diagnosed"]}
+{"correlation_id": "8f47e9a1-efb7-4e83-afb7-a776158ca33c", "operation": "changeset_apply", "outcome": "denied", "principal": "user:c1-dev.cd03e800-88fc-4033-9aa8-46b366bb80c9", "reason": "not_found", "target": ""}
+Traceback (most recent call last):
+  File "<stdin>", line 19, in <module>
+  File "/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 196, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py", line 119, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/tux/personalbuild/c1/.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "<stdin>", line 17, in run
+  File "/home/tux/personalbuild/c1/scripts/load_fixture.py", line 125, in request
+    raise RuntimeError(
+        f"C1 {method} {path} returned {response.status_code}: {response.text[:500]}"
+    )
+RuntimeError: C1 POST /v1/changesets/urn%3Ac1%3Ainstance%3Adev%3Achangeset-7655db5f256a42ae80f338e6f96ba285/apply returned 404: {"type":"about:blank#not-found","title":"Not Found","status":404,"detail":"Resource not found"}

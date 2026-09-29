@@ -1,0 +1,11 @@
+FFAILED tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views [call]
+E   c1.authorization.fga.FGAError: authorization service unavailable
+
+=================================== FAILURES ===================================
+E   c1.authorization.fga.FGAError: authorization service unavailable
+/root/c1/src/c1/authorization/fga.py:74: c1.authorization.fga.FGAError: authorization service unavailable
+=========================== short test summary info ============================
+FAILED tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 2.41s
+uv failed with exit status 1.

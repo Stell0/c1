@@ -1,0 +1,4 @@
+make_exit=0
+tee_exit=0
+step_exit=0
+script_exit=0

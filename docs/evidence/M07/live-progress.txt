@@ -1,0 +1,156 @@
+M07 live-progress metadata observation
+Recorded: 2026-09-28 07:32:49 UTC
+
+This is a bounded state observation, not evidence of latency, test completion,
+or a completed write. No follow-up live calls were made.
+
+The isolated M03 integration database pair observed through the admin metadata
+endpoint was:
+- knowledge: c1_m03_k_36a92e85ff0b4e9fb8b64676e8d41b76
+- workflow: c1_m03_w_36a92e85ff0b4e9fb8b64676e8d41b76
+
+Journal metadata contained four changeset_apply operations: three had state
+applied and one had state pending. The pending operation targeted
+urn:c1:instance:dev:changeset-b13fbef24ff145a28f4c366a759de387; its associated
+ChangeSet state was applying. This is consistent with an active producer apply,
+but does not establish that it will complete successfully. Only operation kind,
+state, and target metadata were inspected; no credential or content payload was
+read. No writer, recovery, Runtime.start, or service-stop action was performed.
+
+Follow-up observation recorded: 2026-09-28 07:57:41 UTC
+The database-list endpoint returned HTTP 200 with a JSON list. Two M03
+knowledge/workflow pairs were present. Reading only Operation kind/state/target
+metadata and associated ChangeSet state yielded:
+- pair suffix 36a92e85ff0b4e9fb8b64676e8d41b76: 4 changeset_apply operations,
+  all applied; no pending ChangeSet.
+- pair suffix 99acec6dbb36422f8461a508dbb08be4: 3 changeset_apply operations,
+  all applied; no pending ChangeSet.
+
+The available operation metadata does not establish which pair belongs to
+T03 versus T07, so these counts are recorded by database-pair suffix only.
+This is a state observation, not proof of test completion, timing, or the
+remaining run's outcome. No workflow content payload or credentials were
+recorded, and no mutating action or service change was performed.
+
+Follow-up observation recorded: 2026-09-28 08:23:43 UTC
+The local database-list endpoint returned HTTP 200 with a JSON list and two M03
+knowledge/workflow pairs. Workflow apply metadata was:
+- pair suffix 36a92e85ff0b4e9fb8b64676e8d41b76: 4 apply operations, all
+  applied; no pending ChangeSet.
+- pair suffix 4880bb881ff04bf4a7774f8429bcf0f7: 3 apply operations, all
+  applied; no pending ChangeSet.
+
+Since the prior snapshot, the second pair suffix changed from
+99acec6dbb36422f8461a508dbb08be4 to 4880bb881ff04bf4a7774f8429bcf0f7. The
+new pair has three applied operations, consistent with fixture/apply progress;
+the metadata exposes no pending apply or concrete workflow blocker. This does
+not prove T07 completion or test success, and pair ownership is not encoded in
+the inspected fields. Only operation kind/state/target and pending ChangeSet
+state were inspected; no content payload or credentials were recorded and no
+services or data were changed.
+
+Follow-up observation recorded: 2026-09-28 08:38:22 UTC
+Two M03 knowledge/workflow pairs were present. Workflow apply metadata was:
+- pair suffix 36a92e85ff0b4e9fb8b64676e8d41b76: 4 apply operations, all
+  applied; no pending ChangeSet.
+- pair suffix 4880bb881ff04bf4a7774f8429bcf0f7: 4 apply operations, 3 applied
+  and 1 pending; the pending operation's ChangeSet state was applying.
+
+Compared with 08:23:43 UTC, the first pair is unchanged. The second pair's
+apply count increased from 3 to 4 and now has one pending/applying operation.
+This is a changed workflow state consistent with a new apply in progress; it
+does not establish its eventual outcome or test completion. Only apply
+kind/state/target metadata and the pending ChangeSet state were inspected. No
+content payload or credentials were recorded, and no service or data mutation
+was performed.
+
+Corrected M07 gate session 49247 progress observation, recorded
+2026-09-28 09:06:48 UTC (session started 2026-09-28 08:52:48 UTC): the local
+database-list endpoint returned HTTP 200 with one M03 knowledge/workflow pair,
+suffix 9c37f041a5b444c6ab7126527fc4a9b8. Its workflow journal had 3
+changeset_apply operations, all applied, with no pending ChangeSet. This shows
+the fixture apply stage has recorded applied operations and no current pending
+apply in the inspected metadata; it is consistent with forward progress and
+shows no concrete workflow blocker. It does not establish test completion or
+success. Only operation kind/state/target and pending ChangeSet state were
+inspected; no content payload or credentials were recorded, and no service or
+data mutation was performed.
+
+Corrected M07 gate session 49247 progress observation, recorded
+2026-09-28 09:23:05 UTC: the database-list endpoint returned HTTP 200 with one
+M03 knowledge/workflow pair, suffix 9c37f041a5b444c6ab7126527fc4a9b8. It now
+has 4 changeset_apply operations: 3 applied and 1 pending, with the pending
+ChangeSet state applying. Compared with 09:06:48 UTC, the apply count increased
+from 3 to 4 and a new pending/applying operation appeared, consistent with a
+new apply in progress. This does not establish the operation's outcome or test
+completion. Only operation kind/state/target and pending ChangeSet state were
+inspected; no content payload or credentials were recorded, and no service or
+data mutation was performed.
+
+Corrected M07 gate session 49247 progress observation, recorded
+2026-09-28 09:38:51 UTC. The database-list endpoint returned HTTP 200 with two
+M03 knowledge/workflow pairs. Workflow apply metadata was:
+- pair suffix 9c37f041a5b444c6ab7126527fc4a9b8: 4 apply operations, all
+  applied; no pending ChangeSet. At 09:23:05 UTC this pair had 3 applied and
+  1 pending/applying.
+- pair suffix 86b20318bc784231a307a3bda60b2f50: 3 apply operations, all
+  applied; no pending ChangeSet.
+
+The earlier pending operation is now applied, and a second pair with three
+applied operations is present. This is consistent with forward progress during
+the corrected run and shows no pending apply in the inspected pairs. The
+metadata does not assign a pair to T03 or prove the test result. Only apply
+kind/state/target and pending ChangeSet state were inspected; no content
+payload or credentials were recorded, and no service or data mutation was
+performed.
+
+Corrected M07 gate session 49247 progress observation, recorded
+2026-09-28 09:54:25 UTC. The database-list endpoint returned HTTP 200 with two
+M03 knowledge/workflow pairs. Workflow apply metadata was:
+- pair suffix 9c37f041a5b444c6ab7126527fc4a9b8: 4 apply operations, all
+  applied; no pending ChangeSet.
+- pair suffix 86b20318bc784231a307a3bda60b2f50: 5 apply operations, 4 applied
+  and 1 pending; the pending operation's ChangeSet state was applying.
+
+Compared with 09:38:51 UTC, the first pair is unchanged. The second pair's
+apply count increased from 3 to 5 and now has one pending/applying operation.
+This is a changed workflow state consistent with an apply in progress; it does
+not establish its eventual outcome or test completion. No concrete workflow
+blocker appears in this metadata snapshot. Only apply kind/state/target and
+pending ChangeSet state were inspected; no content payload or credentials were
+recorded, and no service or data mutation was performed.
+
+Corrected M07 gate session 49247 progress observation, recorded
+2026-09-28 10:08:46 UTC. The database-list endpoint returned HTTP 200 with two
+M03 knowledge/workflow pairs. Workflow apply metadata was:
+- pair suffix 9c37f041a5b444c6ab7126527fc4a9b8: 4 apply operations, all
+  applied; no pending ChangeSet.
+- pair suffix 331c2e44dc664d8790f5b11dca0b9a22: 3 apply operations, all
+  applied; no pending ChangeSet.
+
+Compared with 09:54:25 UTC, pair suffix 86b20318bc784231a307a3bda60b2f50
+is no longer listed, and a new pair suffix 331c2e44dc664d8790f5b11dca0b9a22
+is present with three applied operations. The previously pending operation on
+pair 86b20318... is not visible in this snapshot, so its outcome is unknown.
+The new pair state is consistent with fixture/apply progress for the active
+T07 case, but does not prove test completion or success. No pending apply or
+concrete workflow blocker appears in the currently listed pairs. Only apply
+kind/state/target and pending ChangeSet state were inspected; no content
+payload or credentials were recorded, and no service or data mutation was
+performed.
+
+Corrected M07 gate session 49247 progress observation, recorded
+2026-09-28 10:23:48 UTC. The database-list endpoint returned HTTP 200 with two
+M03 knowledge/workflow pairs. Workflow apply metadata was:
+- pair suffix 9c37f041a5b444c6ab7126527fc4a9b8: 4 apply operations, all
+  applied; no pending ChangeSet.
+- pair suffix 331c2e44dc664d8790f5b11dca0b9a22: 4 apply operations, 3 applied
+  and 1 pending; the pending operation's ChangeSet state was applying.
+
+Compared with 10:08:46 UTC, the first pair is unchanged. The second pair's
+apply count increased from 3 to 4, with one new pending/applying operation.
+This is consistent with a new apply in progress, not proof of its outcome or
+T07 completion. No concrete workflow blocker appears in this snapshot. Only
+apply kind/state/target and pending ChangeSet state were inspected; no content
+payload or credentials were recorded, and no service or data mutation was
+performed.

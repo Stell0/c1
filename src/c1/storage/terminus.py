@@ -101,7 +101,15 @@ class Terminus:
         return f"/api/document/{self._database_path}"
 
     async def _request(self, method: str, path: str, **kwargs: Any) -> httpx.Response:
-        response = await self._client.request(method, path, **kwargs)
+        client = self._client
+        try:
+            response = await client.request(method, path, **kwargs)
+        except httpx.RemoteProtocolError:
+            if method.upper() != "GET":
+                raise
+            # A disconnected read is safe to repeat once. Both attempts retain
+            # the caller's deadline/cancellation and the existing client pool.
+            response = await client.request(method, path, **kwargs)
         if response.is_error:
             backend_code: str | None = None
             try:

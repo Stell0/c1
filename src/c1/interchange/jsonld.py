@@ -279,7 +279,9 @@ def _semantic_assertion(record: NodeRecord, registry: ProfileRegistry) -> None:
         fail("C1-IX-030", "Confidence needs a method and attribution", record.id)
 
 
-def _canonicalize(records: list[NodeRecord]) -> tuple[list[NodeRecord], list[Diagnostic]]:
+def _canonicalize(
+    records: list[NodeRecord], registry: ProfileRegistry
+) -> tuple[list[NodeRecord], list[Diagnostic]]:
     from c1.model.keywords import Keyword
 
     canonical: list[NodeRecord] = []
@@ -342,7 +344,7 @@ def _canonicalize(records: list[NodeRecord]) -> tuple[list[NodeRecord], list[Dia
     result: list[NodeRecord] = []
     coalesced_links: set[str] = set()
     for record in canonical:
-        if _C1 + "Entity" not in record.types:
+        if not registry.is_entity(record.types):
             result.append(record)
             continue
         links = record.properties.get(_C1 + "keyword", [])
@@ -399,7 +401,7 @@ def validate_records(
 ) -> ValidatedBatch:
     """Validate caller-constructed records as rigorously as imported JSON-LD."""
     registry = registry or ProfileRegistry()
-    normalized, diagnostics = _canonicalize(list(records))
+    normalized, diagnostics = _canonicalize(list(records), registry)
     seen: set[str] = set()
     for record in normalized:
         validate_iri(record.id)
@@ -419,7 +421,7 @@ def validate_records(
     from c1.interchange.shacl import validate_shacl
 
     validate_shacl(graph_from_records(normalized), registry)
-    diagnostics.extend(duplicate_candidates(normalized))
+    diagnostics.extend(duplicate_candidates(normalized, registry=registry))
     return ValidatedBatch(records=normalized, diagnostics=diagnostics)
 
 
@@ -533,7 +535,9 @@ def graph_from_records(records: Iterable[NodeRecord]) -> Graph:
 
 
 def duplicate_candidates(
-    records: Iterable[NodeRecord], visible_existing: Iterable[NodeRecord] = ()
+    records: Iterable[NodeRecord],
+    visible_existing: Iterable[NodeRecord] = (),
+    registry: ProfileRegistry | None = None,
 ) -> list[Diagnostic]:
     """Suggest similar visible entities without resolving or querying identities.
 
@@ -542,6 +546,7 @@ def duplicate_candidates(
     """
     from c1.model.keywords import normalize
 
+    registry = registry or ProfileRegistry()
     incoming = list(records)
     existing = list(visible_existing)
 
@@ -576,8 +581,8 @@ def duplicate_candidates(
             )
         return labels, tuple(sorted(keywords, key=lambda item: (item[0] or "", item[1])))
 
-    old_entities = [record for record in existing if _C1 + "Entity" in record.types]
-    incoming_entities = [record for record in incoming if _C1 + "Entity" in record.types]
+    old_entities = [record for record in existing if registry.is_entity(record.types)]
+    incoming_entities = [record for record in incoming if registry.is_entity(record.types)]
     diagnostics: list[Diagnostic] = []
     for index, entity in enumerate(incoming_entities):
         own = signature(entity, incoming)

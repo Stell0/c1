@@ -1,0 +1,86 @@
+{
+  "name": "graph-context",
+  "version": "1",
+  "anchor_types": [
+    "urn:c1:ns:core#Entity"
+  ],
+  "target_types": [
+    "urn:c1:ns:batteries#BatteryVersion"
+  ],
+  "topic_scheme": "urn:c1:instance:dev:entity/397afdb5-6e1e-41da-b314-91799fc4994b",
+  "topic_predicate": "http://purl.org/dc/terms/subject",
+  "topic_expand": "off",
+  "paths": [
+    {
+      "steps": [
+        {
+          "predicate": "urn:c1:ns:batteries#hasProduct",
+          "direction": "out",
+          "target_types": [
+            "urn:c1:ns:batteries#Product"
+          ]
+        },
+        {
+          "predicate": "urn:c1:ns:batteries#hasComponent",
+          "direction": "out",
+          "target_types": [
+            "urn:c1:ns:batteries#Battery",
+            "urn:c1:ns:batteries#BatteryVersion"
+          ]
+        },
+        {
+          "predicate": "urn:c1:ns:batteries#hasVersion",
+          "direction": "out",
+          "target_types": [
+            "urn:c1:ns:batteries#BatteryVersion"
+          ]
+        }
+      ],
+      "max_depth": 3
+    }
+  ],
+  "fact_predicates": "declared",
+  "qualifier_predicates": [
+    "urn:c1:ns:core#validDuring",
+    "urn:c1:ns:batteries#unit",
+    "urn:c1:ns:batteries#conditions",
+    "urn:c1:ns:batteries#measuredOn"
+  ],
+  "measurement_predicate": "urn:c1:ns:batteries#measurementRef",
+  "document_source_predicate": "http://purl.org/dc/terms/source",
+  "required_qualifiers": {
+    "urn:c1:ns:batteries#capacity": [
+      "urn:c1:ns:batteries#unit",
+      "urn:c1:ns:batteries#conditions"
+    ],
+    "urn:c1:ns:batteries#energyDensity": [
+      "urn:c1:ns:batteries#unit"
+    ]
+  },
+  "role_types": {
+    "product": [
+      "urn:c1:ns:batteries#Product"
+    ],
+    "version": [
+      "urn:c1:ns:batteries#BatteryVersion"
+    ]
+  },
+  "conflict_basis": "declared",
+  "fields": {
+    "capacity": "urn:c1:ns:batteries#capacity",
+    "energy_density": "urn:c1:ns:batteries#energyDensity",
+    "cycle_life": "urn:c1:ns:batteries#cycleLife"
+  },
+  "group_by": "node",
+  "order": "distance,label,id",
+  "sections": [
+    "interpretation",
+    "orientation",
+    "facts",
+    "text",
+    "disagreements",
+    "gaps",
+    "sources",
+    "bounds"
+  ]
+}

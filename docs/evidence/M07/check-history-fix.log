@@ -1,0 +1,25 @@
+uv run --locked ruff check .
+I001 [*] Import block is un-sorted or un-formatted
+ --> docs/evidence/M07/verify-manifest.py:2:1
+  |
+1 |   """Verify M07 frozen inputs; symlinks are hashed as their link text."""
+2 | / from pathlib import Path
+3 | | import hashlib
+4 | | import os
+  | |_________^
+5 |
+6 |   root = Path(__file__).resolve().parents[3]
+  |
+help: Organize imports
+  |
+1 | """Verify M07 frozen inputs; symlinks are hashed as their link text."""
+  - from pathlib import Path
+2 | import hashlib
+3 | import os
+4 + from pathlib import Path
+5 |
+  |
+
+Found 1 error.
+[*] 1 fixable with the `--fix` option.
+make: *** [Makefile:15: lint] Error 1

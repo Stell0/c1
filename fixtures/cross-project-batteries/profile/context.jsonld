@@ -1,0 +1,6 @@
+{
+  "@id": "urn:c1:context:batteries:1.0.0",
+  "@context": {
+    "batteries": "urn:c1:ns:batteries#"
+  }
+}

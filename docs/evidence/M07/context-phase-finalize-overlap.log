@@ -1,0 +1,226 @@
+{
+  "runs": [
+    {
+      "total_ms": 1899.46,
+      "status": {
+        "outcome": "resolved",
+        "status": 200
+      },
+      "phases": [
+        {
+          "phase": "binding_snapshot",
+          "ms": 358.534,
+          "result": "ok"
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 287.722,
+          "result": "ok"
+        },
+        {
+          "phase": "selection",
+          "ms": 990.614,
+          "result": "ok"
+        },
+        {
+          "phase": "fetch_and_project",
+          "ms": 346.23,
+          "result": "ok"
+        },
+        {
+          "phase": "resolve_anchor",
+          "ms": 0.134
+        },
+        {
+          "phase": "resolve_topics",
+          "ms": 0.067
+        },
+        {
+          "phase": "select_context",
+          "ms": 2.044
+        },
+        {
+          "phase": "build_units",
+          "ms": 1.249
+        },
+        {
+          "phase": "prepare_units",
+          "ms": 0.217
+        },
+        {
+          "phase": "build_page",
+          "ms": 14.14
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 382.81,
+          "result": "ok"
+        },
+        {
+          "phase": "finalize",
+          "ms": 541.87,
+          "result": "ok"
+        }
+      ]
+    },
+    {
+      "total_ms": 1330.727,
+      "status": {
+        "outcome": "resolved",
+        "status": 200
+      },
+      "phases": [
+        {
+          "phase": "binding_snapshot",
+          "ms": 0.011,
+          "result": "ok"
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 263.733,
+          "result": "ok"
+        },
+        {
+          "phase": "selection",
+          "ms": 567.017,
+          "result": "ok"
+        },
+        {
+          "phase": "fetch_and_project",
+          "ms": 353.142,
+          "result": "ok"
+        },
+        {
+          "phase": "resolve_anchor",
+          "ms": 0.12
+        },
+        {
+          "phase": "resolve_topics",
+          "ms": 0.056
+        },
+        {
+          "phase": "select_context",
+          "ms": 1.934
+        },
+        {
+          "phase": "build_units",
+          "ms": 1.014
+        },
+        {
+          "phase": "prepare_units",
+          "ms": 0.205
+        },
+        {
+          "phase": "build_page",
+          "ms": 11.712
+        },
+        {
+          "phase": "fresh_resource_authorization",
+          "ms": 285.743,
+          "result": "ok"
+        },
+        {
+          "phase": "finalize",
+          "ms": 392.597,
+          "result": "ok"
+        }
+      ]
+    }
+  ],
+  "standalone_phases": [
+    {
+      "phase": "binding_snapshot",
+      "ms": 0.011,
+      "result": "ok"
+    },
+    {
+      "phase": "fresh_resource_authorization",
+      "ms": 275.095,
+      "result": "ok"
+    },
+    {
+      "phase": "selection",
+      "ms": 507.413,
+      "result": "ok"
+    },
+    {
+      "phase": "fetch_and_project",
+      "ms": 339.019,
+      "result": "ok"
+    },
+    {
+      "phase": "resolve_anchor",
+      "ms": 0.105
+    },
+    {
+      "phase": "resolve_topics",
+      "ms": 0.042
+    },
+    {
+      "phase": "select_context",
+      "ms": 1.934
+    },
+    {
+      "phase": "build_units",
+      "ms": 1.009
+    },
+    {
+      "phase": "prepare_units",
+      "ms": 0.212
+    },
+    {
+      "phase": "build_page",
+      "ms": 10.591
+    },
+    {
+      "phase": "fresh_resource_authorization",
+      "ms": 293.171,
+      "result": "ok"
+    },
+    {
+      "phase": "finalize",
+      "ms": 402.203,
+      "result": "ok"
+    }
+  ],
+  "hint_comparison": {
+    "known_historical_origins": 102,
+    "unknown_origins": 7,
+    "manifest_read_ms": 188.43,
+    "same_authorized_records": true,
+    "phases": [
+      {
+        "phase": "fetch_and_project",
+        "ms": 308.478,
+        "result": "ok"
+      },
+      {
+        "phase": "fresh_resource_authorization",
+        "ms": 283.446,
+        "result": "ok"
+      },
+      {
+        "phase": "finalize",
+        "ms": 454.308,
+        "result": "ok"
+      }
+    ],
+    "literal_shape_failures": [
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      },
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      },
+      {
+        "lexical_type": "float",
+        "datatype_type": "str",
+        "language_type": "NoneType"
+      }
+    ]
+  }
+}

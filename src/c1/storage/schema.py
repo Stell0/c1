@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import json
 from dataclasses import asdict
@@ -174,16 +175,40 @@ def _assert_authority(schema: list[dict[str, Any]], registry: ProfileRegistry) -
                 raise StorageError("C1-ST-006", "installed profile class differs from manifest")
 
 
-async def assert_installed_profiles(client: Terminus, registry: ProfileRegistry) -> None:
+async def assert_installed_profiles(
+    client: Terminus,
+    registry: ProfileRegistry,
+    *,
+    backend_gate: asyncio.Semaphore | None = None,
+) -> None:
     """Require schema authority and its instance-graph projection to agree."""
     if "core" not in registry.profiles:
         raise StorageError("C1-ST-006", "core profile is not registered")
-    schema = await client.schema_documents()
-    _assert_authority(schema, registry)
-    for name in registry.profiles:
-        expected = _profile_marker(registry, name)
+    gate = backend_gate or asyncio.Semaphore(8)
+    expected_markers = [_profile_marker(registry, name) for name in registry.profiles]
+
+    async def schema_read() -> list[dict[str, Any]]:
+        async with gate:
+            return await client.schema_documents()
+
+    async def marker_read(expected: NodeRecord) -> dict[str, Any] | None:
         marker_id = record_to_document(expected, registry, client.config.instance_base)["@id"]
-        stored = await client.get(marker_id)
+        async with gate:
+            return await client.get(marker_id)
+
+    schema_task = asyncio.create_task(schema_read())
+    marker_tasks = [asyncio.create_task(marker_read(expected)) for expected in expected_markers]
+    try:
+        await asyncio.gather(schema_task, *marker_tasks)
+    except BaseException:
+        for task in [schema_task, *marker_tasks]:
+            if not task.done():
+                task.cancel()
+        await asyncio.gather(schema_task, *marker_tasks, return_exceptions=True)
+        raise
+    _assert_authority(schema_task.result(), registry)
+    for expected, task in zip(expected_markers, marker_tasks, strict=True):
+        stored = task.result()
         if stored is None:
             raise StorageError("C1-ST-006", "installed profile marker is missing")
         from c1.storage.mapping import document_to_record

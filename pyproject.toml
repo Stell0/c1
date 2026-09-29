@@ -41,6 +41,9 @@ packages = ["src/c1"]
 "profiles/available/example-vehicle-v2-incompatible" = "c1/profiles/available/example-vehicle-v2-incompatible"
 "profiles/available/identity" = "c1/profiles/available/identity"
 "profiles/available/directory" = "c1/profiles/available/directory"
+"profiles/available/topics" = "c1/profiles/available/topics"
+"profiles/available/batteries" = "c1/profiles/available/batteries"
+"profiles/context" = "c1/profiles/context"
 "deployment/openfga/c1-v1.json" = "c1/authorization/c1-v1.json"
 
 [tool.uv]

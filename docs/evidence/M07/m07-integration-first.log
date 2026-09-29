@@ -1,0 +1,31 @@
+FFAILED tests/integration/m07/test_t01_reuse.py::test_t01_reuse_and_reviewed_golden_package [call]
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-QY-053"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+.FFAILED tests/integration/m07/test_t03_authorized_paths.py::test_t03_hidden_material_has_no_influence [call]
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-CX-014","reason":"time_budget"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+...FFAILED tests/integration/m07/test_t07_ambiguity_revocation.py::test_t07_ambiguity_gaps_and_revoked_continuation [call]
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-CX-014","reason":"time_budget"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+                                                                  [100%]
+=================================== FAILURES ===================================
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-QY-053"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m07/test_t01_reuse.py:83: AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-QY-053"}
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-CX-014","reason":"time_budget"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m07/conftest.py:91: AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-CX-014","reason":"time_budget"}
+E   AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-CX-014","reason":"time_budget"}
+    assert 503 == 200
+     +  where 503 = <Response [503 Service Unavailable]>.status_code
+/home/tux/personalbuild/c1/tests/integration/m07/conftest.py:91: AssertionError: {"type":"about:blank#unavailable","title":"Service Unavailable","status":503,"detail":"Service unavailable","code":"C1-CX-014","reason":"time_budget"}
+=========================== short test summary info ============================
+FAILED tests/integration/m07/test_t01_reuse.py::test_t01_reuse_and_reviewed_golden_package
+FAILED tests/integration/m07/test_t03_authorized_paths.py::test_t03_hidden_material_has_no_influence
+FAILED tests/integration/m07/test_t07_ambiguity_revocation.py::test_t07_ambiguity_gaps_and_revoked_continuation
+3 failed, 4 passed in 5640.86s (1:34:00)

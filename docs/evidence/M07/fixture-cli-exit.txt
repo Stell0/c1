@@ -1,0 +1,3 @@
+child_returncode=0
+cleanup_status=PASS
+wrapper_returncode=0

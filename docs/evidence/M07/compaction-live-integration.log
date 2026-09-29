@@ -1,0 +1,11 @@
+...FFAILED tests/integration/m07/test_t03_authorized_paths.py::test_t03_hidden_material_has_no_influence [call]
+E   c1.authorization.fga.FGAError: authorization service unavailable
+
+=================================== FAILURES ===================================
+E   c1.authorization.fga.FGAError: authorization service unavailable
+/home/tux/personalbuild/c1/src/c1/authorization/fga.py:74: c1.authorization.fga.FGAError: authorization service unavailable
+=========================== short test summary info ============================
+FAILED tests/integration/m07/test_t03_authorized_paths.py::test_t03_hidden_material_has_no_influence
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 3 passed in 1515.54s (0:25:15)
+uv failed with exit status 1.

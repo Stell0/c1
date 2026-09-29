@@ -1,0 +1,41 @@
+command: PYTHONPATH=. UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked python - <<'PY' [read-only script: probes.config.runtime(); for each of terminusdb, postgres, openfga, keycloak run `podman ps -a --filter label=com.docker.compose.project=c1-dev --filter label=com.docker.compose.service=<service> --format '{{.ID}}'`; for the single ID run `podman inspect --format '{{.State.Status}}\t{{.State.OOMKilled}}\t{{.State.ExitCode}}\t{{.State.StartedAt}}\t{{.State.FinishedAt}}' <id>`; record only selected fields] 
+exit=0
+selected_state_output:
+{
+  "project": "c1-dev",
+  "runtime": "podman",
+  "services": {
+    "keycloak": {
+      "container_count": 1,
+      "exit_code": 0,
+      "finished_at": "2026-09-28 21:07:12.003291245 +0200 CEST",
+      "oom_killed": false,
+      "started_at": "2026-09-28 21:07:12.652732783 +0200 CEST",
+      "status": "running"
+    },
+    "openfga": {
+      "container_count": 1,
+      "exit_code": 0,
+      "finished_at": "2026-09-28 21:07:02.471741251 +0200 CEST",
+      "oom_killed": false,
+      "started_at": "2026-09-28 21:07:04.798262339 +0200 CEST",
+      "status": "running"
+    },
+    "postgres": {
+      "container_count": 1,
+      "exit_code": 0,
+      "finished_at": "0001-01-01 00:00:00 +0000 UTC",
+      "oom_killed": false,
+      "started_at": "2026-09-28 07:00:40.22616548 +0200 CEST",
+      "status": "running"
+    },
+    "terminusdb": {
+      "container_count": 1,
+      "exit_code": 0,
+      "finished_at": "0001-01-01 00:00:00 +0000 UTC",
+      "oom_killed": false,
+      "started_at": "2026-09-28 07:00:40.071099485 +0200 CEST",
+      "status": "running"
+    }
+  }
+}

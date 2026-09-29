@@ -1,0 +1,14 @@
+started_utc=2026-09-29T06:35:55Z
+suspended_seconds_since_boot_before=12171.939
+# journal suspend/resume lines since 2026-09-29 01:30 UTC (D21 gate window included):
+2026-09-29T06:03:22+00:00 tux-ThinkBook-13s-G4-ARB systemd-logind[2018]: Lid closed.
+2026-09-29T06:03:23+00:00 tux-ThinkBook-13s-G4-ARB systemd[1]: Reached target sleep.target - Sleep.
+2026-09-29T06:03:23+00:00 tux-ThinkBook-13s-G4-ARB systemd-sleep[1461182]: Successfully froze unit 'user.slice'.
+2026-09-29T06:03:23+00:00 tux-ThinkBook-13s-G4-ARB systemd-sleep[1461182]: Performing sleep operation 'suspend'...
+2026-09-29T06:03:23+00:00 tux-ThinkBook-13s-G4-ARB kernel: PM: suspend entry (s2idle)
+2026-09-29T06:23:11+00:00 tux-ThinkBook-13s-G4-ARB systemd-logind[2018]: Lid opened.
+2026-09-29T06:23:11+00:00 tux-ThinkBook-13s-G4-ARB systemd-sleep[1461182]: System returned from sleep operation 'suspend'.
+2026-09-29T06:23:11+00:00 tux-ThinkBook-13s-G4-ARB kernel: PM: suspend exit
+2026-09-29T06:23:11+00:00 tux-ThinkBook-13s-G4-ARB systemd-sleep[1461182]: Successfully thawed unit 'user.slice'.
+finished_utc=2026-09-29T06:39:24Z
+suspended_seconds_since_boot_after=12171.940

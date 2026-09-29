@@ -1,0 +1,14 @@
+M07 final live-gate collection-only check
+
+No tests were executed. The exact literal test_paths array was parsed from
+`run-final-live-gate.sh`; that script was not sourced or executed.
+
+Exact command (environment prefix followed by argv):
+env -u OPENAI_API_KEY -u ANTHROPIC_API_KEY -u GEMINI_API_KEY -u GOOGLE_API_KEY -u HF_TOKEN -u AZURE_OPENAI_API_KEY C1_STACK=0 UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked pytest --collect-only -q -x --tb=line --show-capture=no -p no:cacheprovider -p tests.integration.m06.diagnostics tests/integration/m06/test_t04_historical_rescope.py::test_t04_rescoped_part_disappears_from_old_document_views tests/integration/m07 tests/integration/m06/test_t01_ordered_views.py tests/integration/m06/test_t02_no_hidden_structure.py tests/integration/m06/test_t03_search_export.py tests/integration/m06/test_t05_content_integrity.py tests/integration/m06/test_t06_structure.py tests/integration/m06/test_t07_safe_rendering.py tests/integration/m01 tests/integration/m02 tests/integration/m03 tests/integration/m04 tests/integration/m05
+Exit: 0
+Collected node IDs: 79
+Unique node IDs: 79
+M06-T04 node count: 1
+Pytest collection summary:
+- 79 tests collected in 0.46s
+Result: PASS

@@ -38,6 +38,16 @@ PROV = "http://www.w3.org/ns/prov#"
 OA = "http://www.w3.org/ns/oa#"
 
 
+def query_time_budget_ms() -> int:
+    """The live request budget; C1_QUERY_TIME_BUDGET_MS overrides the product default."""
+    return int(os.environ.get("C1_QUERY_TIME_BUDGET_MS", "5000"))
+
+
+def client_timeout() -> float:
+    """Keep the harness client deadline above the server budget it observes."""
+    return query_time_budget_ms() / 1000 + 10
+
+
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     for item in items:
         if "/integration/m03/" in str(item.path):
@@ -319,6 +329,7 @@ async def live_case() -> AsyncIterator[LiveCase]:
                 independent_review=True,
                 enable_probe_routes=True,
                 cursor_secret=uuid.uuid4().hex + uuid.uuid4().hex,
+                query_time_budget_ms=query_time_budget_ms(),
             )
             knowledge_config = StorageConfig(
                 settings.terminus_url,
@@ -366,7 +377,7 @@ async def live_case() -> AsyncIterator[LiveCase]:
                                         async with httpx.AsyncClient(
                                             transport=httpx.ASGITransport(app=app),
                                             base_url="http://c1.test",
-                                            timeout=10,
+                                            timeout=client_timeout(),
                                         ) as client:
                                             yield LiveCase(
                                                 settings,

@@ -1,0 +1,15 @@
+Read-only checker helper validation
+
+Scope: `docs/evidence/M07/running-image-check.py` only. No tests, services,
+container inspection, or API calls were run for this validation. The prior
+successful image metadata output remains unchanged in
+`running-images-corrected.log`.
+
+Initial commands:
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff check docs/evidence/M07/running-image-check.py` — exit 0.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff format --check docs/evidence/M07/running-image-check.py` — exit 1; Ruff requested a formatting-only line wrap.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff format docs/evidence/M07/running-image-check.py` — exit 0; reformatted the helper only.
+
+Final commands:
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff check docs/evidence/M07/running-image-check.py` — exit 0, all checks passed.
+- `UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache uv run --locked ruff format --check docs/evidence/M07/running-image-check.py` — exit 0, already formatted.

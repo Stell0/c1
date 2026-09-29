@@ -1,0 +1,15 @@
+{
+  "executed_unique": 6,
+  "exits": {
+    "pytest_exit": "0",
+    "restore_exit": "0",
+    "script_exit": "0",
+    "tee_exit": "0"
+  },
+  "expected_count": 6,
+  "failed": 0,
+  "passed": 6,
+  "result": "PASS",
+  "skipped": 0,
+  "unexecuted": []
+}

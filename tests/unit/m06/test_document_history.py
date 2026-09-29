@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 import asyncio
-import time
+from collections.abc import Awaitable, Callable
 from types import SimpleNamespace
 from typing import Any, cast
-from unittest.mock import AsyncMock
+from unittest.mock import AsyncMock, Mock
 
 import pytest
 
@@ -149,8 +149,19 @@ def _service(monkeypatch: pytest.MonkeyPatch) -> tuple[DocumentsService, Any, Au
     async def metadata(_plan: AuthorizedPlan, key: str, _revision: str, **_kwargs: Any) -> Any:
         return {"items": histories[key], "next_cursor": None}
 
-    async def snapshot(_plan: AuthorizedPlan, revision: str, **_kwargs: Any) -> Any:
-        return snapshots[revision]
+    async def snapshot_cohort(
+        _plan: AuthorizedPlan, revisions: list[str], **_kwargs: Any
+    ) -> dict[str, AuthorizedRecords]:
+        return {revision: snapshots[revision] for revision in revisions}
+
+    async def finalize_after(
+        _principal: Principal,
+        _plan: AuthorizedPlan,
+        precondition: Callable[[], Awaitable[None]],
+        *,
+        deadline: float,
+    ) -> None:
+        await precondition()
 
     runtime = SimpleNamespace(
         settings=SimpleNamespace(instance_id="history-test", query_time_budget_ms=2000),
@@ -163,16 +174,14 @@ def _service(monkeypatch: pytest.MonkeyPatch) -> tuple[DocumentsService, Any, Au
             history_service=SimpleNamespace(metadata=AsyncMock(side_effect=metadata))
         ),
         query=SimpleNamespace(
-            records=AsyncMock(side_effect=snapshot),
-            planner=SimpleNamespace(finalize=AsyncMock()),
+            selection=AsyncMock(return_value=(plan, {})),
+            records=AsyncMock(return_value=records),
+            historical_records=AsyncMock(side_effect=snapshot_cohort),
+            prepare_historical_records=Mock(return_value=SimpleNamespace(close=AsyncMock())),
+            planner=SimpleNamespace(finalize_after=AsyncMock(side_effect=finalize_after)),
         ),
     )
     service = DocumentsService(cast(Runtime, runtime))
-    monkeypatch.setattr(
-        service,
-        "_selection",
-        AsyncMock(return_value=(plan, records, HEAD, time.monotonic() + 5)),
-    )
     return service, runtime, plan
 
 
@@ -188,9 +197,15 @@ def test_document_history_includes_departure_and_reuses_revision_snapshots(
             "branch:r0",
         ]
         assert result["count"] == 3
-        revisions = [call.args[1] for call in runtime.query.records.await_args_list]
+        revisions = [
+            revision
+            for call in runtime.query.historical_records.await_args_list
+            for revision in call.args[1]
+        ]
         assert sorted(revisions) == ["branch:r1", "branch:r2", "branch:r3"]
-        assert all(call.args[0] is plan for call in runtime.query.records.await_args_list)
+        assert all(
+            call.args[0] is plan for call in runtime.query.historical_records.await_args_list
+        )
         calls = runtime.changes.history_service.metadata.await_args_list
         assert {call.args[1] for call in calls} == {DOC, P, Q}
         assert all(call.args[0] is plan and call.args[2] == HEAD for call in calls)
@@ -199,7 +214,13 @@ def test_document_history_includes_departure_and_reuses_revision_snapshots(
         assert hints[Q] is None  # Untracked creation must retain full-class probes.
         gates = {id(call.kwargs["backend_gate"]) for call in calls}
         assert len(gates) == 1
-        runtime.query.planner.finalize.assert_awaited_once()
+        runtime.query.planner.finalize_after.assert_awaited_once()
+        final_call = runtime.query.planner.finalize_after.await_args
+        assert final_call.args[:2] == (PRINCIPAL, plan)
+        assert callable(final_call.args[2])
+        assert (
+            final_call.kwargs["deadline"] == runtime.query.selection.await_args.kwargs["deadline"]
+        )
 
     asyncio.run(run())
 
@@ -218,7 +239,7 @@ def test_snapshot_narrowing_requires_complete_reference_independent_types(
             )
         result = await service.history(PRINCIPAL, DOC)
         assert result["count"] == 3
-        for call in runtime.query.records.await_args_list:
+        for call in runtime.query.historical_records.await_args_list:
             snapshot_plan = call.args[0]
             if historical_kind is None:
                 assert snapshot_plan is not plan
@@ -227,7 +248,7 @@ def test_snapshot_narrowing_requires_complete_reference_independent_types(
             else:
                 assert snapshot_plan is plan
                 assert snapshot_plan.contains(UNRELATED)
-        assert runtime.query.planner.finalize.await_args.args[1] is plan
+        assert runtime.query.planner.finalize_after.await_args.args[1] is plan
 
     asyncio.run(run())
 
@@ -251,8 +272,8 @@ def test_manifest_races_reject_before_candidates_or_history_fetches(
         assert caught.value.status == 409 and caught.value.code == "C1-DC-014"
         assert runtime.journal.head.await_count == 2
         runtime.changes.history_service.metadata.assert_not_awaited()
-        runtime.query.records.assert_not_awaited()
-        runtime.query.planner.finalize.assert_not_awaited()
+        runtime.query.historical_records.assert_not_awaited()
+        runtime.query.planner.finalize_after.assert_not_awaited()
 
     asyncio.run(run())
 
@@ -270,17 +291,23 @@ def test_final_authorization_failure_prevents_document_history_publication(
             order.append("head")
             return HEAD
 
-        async def finalize(*_args: Any, **_kwargs: Any) -> None:
-            order.append("finalize")
+        async def fail_finalization(
+            _principal: Principal,
+            _plan: AuthorizedPlan,
+            precondition: Callable[[], Awaitable[None]],
+            **_kwargs: Any,
+        ) -> None:
+            await precondition()
+            order.append("finalize_after")
             raise failure
 
         runtime.knowledge.head.side_effect = head
-        runtime.query.planner.finalize.side_effect = finalize
+        runtime.query.planner.finalize_after.side_effect = fail_finalization
         with pytest.raises(QueryPlanError) as caught:
             await service.history(PRINCIPAL, DOC)
         assert caught.value is failure
-        assert order == ["head", "finalize"]
-        runtime.query.planner.finalize.assert_awaited_once()
+        assert order == ["head", "head", "finalize_after"]
+        runtime.query.planner.finalize_after.assert_awaited_once()
 
     asyncio.run(run())
 
@@ -290,11 +317,16 @@ def test_changed_knowledge_head_prevents_document_history_publication(
 ) -> None:
     async def run() -> None:
         service, runtime, _plan = _service(monkeypatch)
-        runtime.knowledge.head.return_value = "branch:changed"
+        runtime.knowledge.head.side_effect = [HEAD, "branch:changed"]
         with pytest.raises(QueryPlanError) as caught:
             await service.history(PRINCIPAL, DOC)
-        assert caught.value.reason == "restart_required"
-        runtime.query.planner.finalize.assert_not_awaited()
+        assert (caught.value.status, caught.value.code, caught.value.reason) == (
+            409,
+            "C1-DC-014",
+            "restart_required",
+        )
+        runtime.query.planner.finalize_after.assert_awaited_once()
+        assert runtime.query.planner.finalize_after.await_args.args[1] is _plan
 
     asyncio.run(run())
 
@@ -310,14 +342,20 @@ def test_document_history_checks_head_before_final_authorization_await(
             order.append("head")
             return HEAD
 
-        async def finalize(*_args: Any, **_kwargs: Any) -> None:
-            order.append("finalize")
+        async def finish_after_precondition(
+            _principal: Principal,
+            _plan: AuthorizedPlan,
+            precondition: Callable[[], Awaitable[None]],
+            **_kwargs: Any,
+        ) -> None:
+            await precondition()
+            order.append("finalize_after")
 
         runtime.knowledge.head.side_effect = head
-        runtime.query.planner.finalize.side_effect = finalize
+        runtime.query.planner.finalize_after.side_effect = finish_after_precondition
         response = await service.history(PRINCIPAL, DOC)
         assert response["count"] == 3
-        assert order == ["head", "finalize"]
+        assert order == ["head", "head", "finalize_after"]
 
     asyncio.run(run())
 
@@ -349,7 +387,23 @@ def test_failed_metadata_cancels_and_awaits_document_history_siblings(
             await service.history(PRINCIPAL, DOC)
         assert caught.value is failure
         assert cancelled == {P, Q} and not active
-        runtime.query.records.assert_not_awaited()
-        runtime.query.planner.finalize.assert_not_awaited()
+        runtime.query.historical_records.assert_not_awaited()
+        runtime.query.planner.finalize_after.assert_not_awaited()
+
+    asyncio.run(run())
+
+
+@pytest.mark.parametrize("failure", [StorageError("C1-ST-003", "head read failed"), TimeoutError()])
+def test_history_publication_precondition_keeps_backend_and_timeout_errors(
+    monkeypatch: pytest.MonkeyPatch, failure: Exception
+) -> None:
+    async def run() -> None:
+        service, runtime, plan = _service(monkeypatch)
+        runtime.knowledge.head.side_effect = [HEAD, failure]
+        with pytest.raises(type(failure)) as error:
+            await service.history(PRINCIPAL, DOC)
+        assert error.value is failure
+        runtime.query.planner.finalize_after.assert_awaited_once()
+        assert runtime.query.planner.finalize_after.await_args.args[1] is plan
 
     asyncio.run(run())

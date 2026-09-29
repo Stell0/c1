@@ -1,0 +1,932 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+339 files already formatted
+uv run --locked mypy
+Success: no issues found in 242 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collected 768 items
+
+tests/integration/m01/test_t01_inventory.py s                            [  0%]
+tests/integration/m01/test_t02_atomic.py s                               [  0%]
+tests/integration/m01/test_t03_stale_and_reconcile.py s                  [  0%]
+tests/integration/m01/test_t04_revisions.py s                            [  0%]
+tests/integration/m01/test_t05_freshness.py ss                           [  0%]
+tests/integration/m01/test_t06_publication.py ssss                       [  1%]
+tests/integration/m01/test_t07_interchange.py ss                         [  1%]
+tests/integration/m02/test_install_guards.py ss                          [  1%]
+tests/integration/m02/test_t01_roundtrip.py s                            [  1%]
+tests/integration/m02/test_t02_conflicts.py s                            [  2%]
+tests/integration/m02/test_t03_no_partial.py ss                          [  2%]
+tests/integration/m02/test_t04_identity.py s                             [  2%]
+tests/integration/m02/test_t07_extension.py ss                           [  2%]
+tests/integration/m03/test_authority_contract.py ss                      [  2%]
+tests/integration/m03/test_cascade.py s                                  [  3%]
+tests/integration/m03/test_journal_contract.py sss                       [  3%]
+tests/integration/m03/test_t01_tokens.py s                               [  3%]
+tests/integration/m03/test_t02_separation.py s                           [  3%]
+tests/integration/m03/test_t03_independent.py s                          [  3%]
+tests/integration/m03/test_t04_historical.py s                           [  4%]
+tests/integration/m03/test_t05_bindings.py ss                            [  4%]
+tests/integration/m03/test_t06_crash.py sss                              [  4%]
+tests/integration/m03/test_t07_boundary.py sss                           [  5%]
+tests/integration/m04/test_storage_paging.py s                           [  5%]
+tests/integration/m04/test_t01_reviewed_apply.py s                       [  5%]
+tests/integration/m04/test_t02_invalidation.py s                         [  5%]
+tests/integration/m04/test_t03_cross_scope.py s                          [  5%]
+tests/integration/m04/test_t04_retry_crash.py sssss                      [  6%]
+tests/integration/m04/test_t05_revision.py s                             [  6%]
+tests/integration/m04/test_t06_restore_security.py s                     [  6%]
+tests/integration/m04/test_t07_schema_conflict.py sss                    [  6%]
+tests/integration/m05/test_backend_fetch.py s                            [  7%]
+tests/integration/m05/test_t01_directory.py s                            [  7%]
+tests/integration/m05/test_t02_filters.py ss                             [  7%]
+tests/integration/m05/test_t03_noninterference.py s                      [  7%]
+tests/integration/m05/test_t04_identity_m05.py s                         [  7%]
+tests/integration/m05/test_t05_cursors.py ss                             [  7%]
+tests/integration/m05/test_t06_limits.py sss                             [  8%]
+tests/integration/m05/test_t07_views.py s                                [  8%]
+tests/integration/m06/test_t01_ordered_views.py s                        [  8%]
+tests/integration/m06/test_t02_no_hidden_structure.py s                  [  8%]
+tests/integration/m06/test_t03_search_export.py s                        [  8%]
+tests/integration/m06/test_t04_historical_rescope.py s                   [  8%]
+tests/integration/m06/test_t05_content_integrity.py s                    [  9%]
+tests/integration/m06/test_t06_structure.py s                            [  9%]
+tests/integration/m06/test_t07_safe_rendering.py s                       [  9%]
+tests/integration/m07/test_t01_reuse.py s                                [  9%]
+tests/integration/m07/test_t02_graph_vs_keywords.py s                    [  9%]
+tests/integration/m07/test_t03_authorized_paths.py s                     [  9%]
+tests/integration/m07/test_t04_evidence.py s                             [  9%]
+tests/integration/m07/test_t05_parity.py s                               [ 10%]
+tests/integration/m07/test_t06_determinism_budget.py s                   [ 10%]
+tests/integration/m07/test_t07_ambiguity_revocation.py s                 [ 10%]
+tests/test_baseline.py ........                                          [ 11%]
+tests/test_harness.py ...                                                [ 11%]
+tests/test_interchange.py .s...                                          [ 12%]
+tests/test_secret_hygiene.py ........                                    [ 13%]
+tests/test_terminus_contract.py ....                                     [ 13%]
+tests/unit/m02/test_export.py .....                                      [ 14%]
+tests/unit/m02/test_extension.py ..........                              [ 15%]
+tests/unit/m02/test_identity_values.py ..........                        [ 17%]
+tests/unit/m02/test_keywords.py ..                                       [ 17%]
+tests/unit/m02/test_literals.py ........................                 [ 20%]
+tests/unit/m02/test_records.py .....                                     [ 21%]
+tests/unit/m02/test_storage_guard.py .................                   [ 23%]
+tests/unit/m02/test_time.py ........                                     [ 24%]
+tests/unit/m02/test_unsupported.py .......F                              [ 25%]
+tests/unit/m02/test_validation.py ......                                 [ 26%]
+tests/unit/m03/test_api_boundary.py ...                                  [ 26%]
+tests/unit/m03/test_config.py .........                                  [ 27%]
+tests/unit/m03/test_journal.py .........                                 [ 29%]
+tests/unit/m03/test_plane.py ....                                        [ 29%]
+tests/unit/m03/test_probe_canonical.py .                                 [ 29%]
+tests/unit/m03/test_provision_privacy.py .....                           [ 30%]
+tests/unit/m03/test_record_confirmation.py .......                       [ 31%]
+tests/unit/m03/test_recovery_authority.py ..........                     [ 32%]
+tests/unit/m03/test_tokens.py FFFFFFFFFFFFFF                             [ 34%]
+tests/unit/m04/test_changeset_validation.py ..........                   [ 35%]
+tests/unit/m04/test_digest.py ....                                       [ 36%]
+tests/unit/m04/test_history.py ......                                    [ 36%]
+tests/unit/m04/test_idempotency.py ..                                    [ 37%]
+tests/unit/m04/test_models.py ............                               [ 38%]
+tests/unit/m04/test_profiles.py ........                                 [ 39%]
+tests/unit/m04/test_routes.py ...                                        [ 40%]
+tests/unit/m04/test_storage.py .....                                     [ 40%]
+tests/unit/m05/test_compile.py .....                                     [ 41%]
+tests/unit/m05/test_cursor.py ..                                         [ 41%]
+tests/unit/m05/test_directory_fixture.py ..                              [ 42%]
+tests/unit/m05/test_filters.py ...................                       [ 44%]
+tests/unit/m05/test_identity.py .....                                    [ 45%]
+tests/unit/m05/test_neighborhood_service.py .                            [ 45%]
+tests/unit/m05/test_plan.py .......                                      [ 46%]
+tests/unit/m05/test_traverse.py .....                                    [ 46%]
+tests/unit/m06/test_changes_wiring.py ................                   [ 48%]
+tests/unit/m06/test_document_history.py ..............                   [ 50%]
+tests/unit/m06/test_document_routes.py ....................              [ 53%]
+tests/unit/m06/test_history_concurrency.py .....                         [ 54%]
+tests/unit/m06/test_history_fetch.py ........                            [ 55%]
+tests/unit/m06/test_history_types.py .....                               [ 55%]
+tests/unit/m06/test_order.py ...................                         [ 58%]
+tests/unit/m06/test_render.py ....                                       [ 58%]
+tests/unit/m06/test_search.py ...                                        [ 59%]
+tests/unit/m06/test_service_limits.py .                                  [ 59%]
+tests/unit/m06/test_text.py .......                                      [ 60%]
+tests/unit/m07/test_api.py ......                                        [ 60%]
+tests/unit/m07/test_cold_index.py .....                                  [ 61%]
+tests/unit/m07/test_compile_fallback.py ..........                       [ 62%]
+tests/unit/m07/test_entities_concurrency.py .........                    [ 64%]
+tests/unit/m07/test_entity_kind.py ...........                           [ 65%]
+tests/unit/m07/test_fetch_authority.py .....                             [ 66%]
+tests/unit/m07/test_finalize_concurrency.py ..............               [ 67%]
+tests/unit/m07/test_fixture_loader.py ...                                [ 68%]
+tests/unit/m07/test_guarded_finalize.py .........................        [ 71%]
+tests/unit/m07/test_historical_projection.py ....                        [ 72%]
+tests/unit/m07/test_history_cohort.py ............                       [ 73%]
+tests/unit/m07/test_history_prefetch.py ................                 [ 75%]
+tests/unit/m07/test_plan_concurrency.py ......                           [ 76%]
+tests/unit/m07/test_profile_install_boundary.py ...                      [ 76%]
+tests/unit/m07/test_profile_reads.py ........                            [ 77%]
+tests/unit/m07/test_profiles.py .......................................  [ 83%]
+tests/unit/m07/test_render_budget.py ......................              [ 85%]
+tests/unit/m07/test_request.py ...............................           [ 89%]
+tests/unit/m07/test_resolution.py .....                                  [ 90%]
+tests/unit/m07/test_selection.py ...........                             [ 92%]
+tests/unit/m07/test_service.py .........                                 [ 93%]
+tests/unit/m07/test_storage_preflight.py ................                [ 95%]
+tests/unit/m07/test_topic_references.py ......                           [ 96%]
+tests/unit/m07/test_units.py ..............................              [100%]
+
+=================================== FAILURES ===================================
+_________________ test_no_remote_fetch_for_nonbundled_context __________________
+
+    def test_no_remote_fetch_for_nonbundled_context() -> None:
+        from http.server import BaseHTTPRequestHandler, HTTPServer
+        from threading import Thread
+    
+        requests: list[str] = []
+    
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self) -> None:
+                requests.append(self.path)
+                self.send_response(200)
+                self.end_headers()
+    
+            def log_message(self, _format: str, *args: object) -> None:
+                pass
+    
+>       server = HTTPServer(("127.0.0.1", 0), Handler)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/unit/m02/test_unsupported.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+____________________ test_valid_human_service_and_ec_tokens ____________________
+
+    def test_valid_human_service_and_ec_tokens() -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:126: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+___________________ test_bad_signed_claims_rejected[change0] ___________________
+
+change = {'iss': 'http://other.invalid/realms/test'}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"iss": "http://other.invalid/realms/test"},
+            {"aud": "other-api"},
+            {"typ": "ID"},
+            {"c1_principal_kind": "robot"},
+            {"sub": "admin:reader"},
+            {"sub": ""},
+            {"exp": None},
+            {"iat": None},
+        ],
+    )
+    def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+___________________ test_bad_signed_claims_rejected[change1] ___________________
+
+change = {'aud': 'other-api'}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"iss": "http://other.invalid/realms/test"},
+            {"aud": "other-api"},
+            {"typ": "ID"},
+            {"c1_principal_kind": "robot"},
+            {"sub": "admin:reader"},
+            {"sub": ""},
+            {"exp": None},
+            {"iat": None},
+        ],
+    )
+    def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+___________________ test_bad_signed_claims_rejected[change2] ___________________
+
+change = {'typ': 'ID'}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"iss": "http://other.invalid/realms/test"},
+            {"aud": "other-api"},
+            {"typ": "ID"},
+            {"c1_principal_kind": "robot"},
+            {"sub": "admin:reader"},
+            {"sub": ""},
+            {"exp": None},
+            {"iat": None},
+        ],
+    )
+    def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+___________________ test_bad_signed_claims_rejected[change3] ___________________
+
+change = {'c1_principal_kind': 'robot'}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"iss": "http://other.invalid/realms/test"},
+            {"aud": "other-api"},
+            {"typ": "ID"},
+            {"c1_principal_kind": "robot"},
+            {"sub": "admin:reader"},
+            {"sub": ""},
+            {"exp": None},
+            {"iat": None},
+        ],
+    )
+    def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+___________________ test_bad_signed_claims_rejected[change4] ___________________
+
+change = {'sub': 'admin:reader'}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"iss": "http://other.invalid/realms/test"},
+            {"aud": "other-api"},
+            {"typ": "ID"},
+            {"c1_principal_kind": "robot"},
+            {"sub": "admin:reader"},
+            {"sub": ""},
+            {"exp": None},
+            {"iat": None},
+        ],
+    )
+    def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+___________________ test_bad_signed_claims_rejected[change5] ___________________
+
+change = {'sub': ''}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"iss": "http://other.invalid/realms/test"},
+            {"aud": "other-api"},
+            {"typ": "ID"},
+            {"c1_principal_kind": "robot"},
+            {"sub": "admin:reader"},
+            {"sub": ""},
+            {"exp": None},
+            {"iat": None},
+        ],
+    )
+    def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+___________________ test_bad_signed_claims_rejected[change6] ___________________
+
+change = {'exp': None}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"iss": "http://other.invalid/realms/test"},
+            {"aud": "other-api"},
+            {"typ": "ID"},
+            {"c1_principal_kind": "robot"},
+            {"sub": "admin:reader"},
+            {"sub": ""},
+            {"exp": None},
+            {"iat": None},
+        ],
+    )
+    def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+___________________ test_bad_signed_claims_rejected[change7] ___________________
+
+change = {'iat': None}
+
+    @pytest.mark.parametrize(
+        "change",
+        [
+            {"iss": "http://other.invalid/realms/test"},
+            {"aud": "other-api"},
+            {"typ": "ID"},
+            {"c1_principal_kind": "robot"},
+            {"sub": "admin:reader"},
+            {"sub": ""},
+            {"exp": None},
+            {"iat": None},
+        ],
+    )
+    def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+__________ test_time_claims_use_thirty_second_leeway_and_optional_nbf __________
+
+    def test_time_claims_use_thirty_second_leeway_and_optional_nbf() -> None:
+>       with oidc_server() as (settings, keys, _state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:181: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+______________ test_wrong_keys_algorithms_and_tampering_rejected _______________
+
+    def test_wrong_keys_algorithms_and_tampering_rejected() -> None:
+>       with oidc_server() as (settings, keys, state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:203: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+_________ test_cached_known_key_survives_outage_but_unknown_key_denied _________
+
+    def test_cached_known_key_survives_outage_but_unknown_key_denied() -> None:
+>       with oidc_server() as (settings, keys, state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:232: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+_________________ test_discovery_issuer_mismatch_fails_closed __________________
+
+    def test_discovery_issuer_mismatch_fails_closed() -> None:
+>       with oidc_server() as (settings, keys, state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:252: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+____________ test_discovery_cannot_redirect_jwks_to_another_origin _____________
+
+    def test_discovery_cannot_redirect_jwks_to_another_origin() -> None:
+>       with oidc_server() as (settings, keys, state):
+             ^^^^^^^^^^^^^
+
+tests/unit/m03/test_tokens.py:268: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/unit/m03/test_tokens.py:87: in oidc_server
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/socket.py:233: PermissionError
+=============================== warnings summary ===============================
+tests/test_interchange.py: 4 warnings
+tests/unit/m02/test_export.py: 5 warnings
+tests/unit/m02/test_extension.py: 4 warnings
+tests/unit/m02/test_validation.py: 1 warning
+tests/unit/m04/test_storage.py: 2 warnings
+tests/unit/m07/test_entity_kind.py: 1 warning
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/m01/test_t01_inventory.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t02_atomic.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t03_stale_and_reconcile.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t04_revisions.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m01/test_t05_freshness.py: M01 live stack requires C1_STACK=1
+SKIPPED [3] tests/integration/m01/test_t06_publication.py:58: M01 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m01/test_t06_publication.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m01/test_t07_interchange.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m02/test_install_guards.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m02/test_t01_roundtrip.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m02/test_t02_conflicts.py: M02 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m02/test_t03_no_partial.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] tests/integration/m02/test_t04_identity.py: M02 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m02/test_t07_extension.py: M02 live stack requires C1_STACK=1
+SKIPPED [2] tests/integration/m03/test_authority_contract.py: M03 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m03/test_cascade.py: M03 real services require C1_STACK=1
+SKIPPED [3] tests/integration/m03/test_journal_contract.py: M03 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m03/test_t01_tokens.py: M03 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m03/test_t02_separation.py: M03 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m03/test_t03_independent.py: M03 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m03/test_t04_historical.py: M03 real services require C1_STACK=1
+SKIPPED [2] tests/integration/m03/test_t05_bindings.py: M03 real services require C1_STACK=1
+SKIPPED [3] tests/integration/m03/test_t06_crash.py:53: M03 real services require C1_STACK=1
+SKIPPED [3] tests/integration/m03/test_t07_boundary.py: M03 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m04/test_storage_paging.py: requires pinned live stack
+SKIPPED [1] tests/integration/m04/test_t01_reviewed_apply.py: M04 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m04/test_t02_invalidation.py: M04 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m04/test_t03_cross_scope.py: M04 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m04/test_t04_retry_crash.py: M04 real services require C1_STACK=1
+SKIPPED [4] tests/integration/m04/test_t04_retry_crash.py:108: M04 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m04/test_t05_revision.py: M04 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m04/test_t06_restore_security.py: M04 real services require C1_STACK=1
+SKIPPED [3] tests/integration/m04/test_t07_schema_conflict.py: M04 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m05/test_backend_fetch.py:33: M05 real TerminusDB required
+SKIPPED [1] tests/integration/m05/test_t01_directory.py:131: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t02_filters.py:78: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t02_filters.py:218: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t03_noninterference.py:82: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t04_identity_m05.py:45: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t05_cursors.py:33: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t05_cursors.py:133: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t06_limits.py:20: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t06_limits.py:53: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t06_limits.py:75: M05 real services required
+SKIPPED [1] tests/integration/m05/test_t07_views.py:36: M05 real services required
+SKIPPED [1] tests/integration/m06/test_t01_ordered_views.py: M06 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m06/test_t02_no_hidden_structure.py: M06 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m06/test_t03_search_export.py: M06 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m06/test_t04_historical_rescope.py: M06 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m06/test_t05_content_integrity.py: M06 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m06/test_t06_structure.py: M06 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m06/test_t07_safe_rendering.py: M06 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m07/test_t01_reuse.py: M07 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m07/test_t02_graph_vs_keywords.py: M07 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m07/test_t03_authorized_paths.py: M07 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m07/test_t04_evidence.py: M07 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m07/test_t05_parity.py: M07 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m07/test_t06_determinism_budget.py: M07 real services require C1_STACK=1
+SKIPPED [1] tests/integration/m07/test_t07_ambiguity_revocation.py: M07 real services require C1_STACK=1
+SKIPPED [1] tests/test_interchange.py:64: local socket creation denied by execution sandbox
+FAILED tests/unit/m02/test_unsupported.py::test_no_remote_fetch_for_nonbundled_context
+FAILED tests/unit/m03/test_tokens.py::test_valid_human_service_and_ec_tokens
+FAILED tests/unit/m03/test_tokens.py::test_bad_signed_claims_rejected[change0]
+FAILED tests/unit/m03/test_tokens.py::test_bad_signed_claims_rejected[change1]
+FAILED tests/unit/m03/test_tokens.py::test_bad_signed_claims_rejected[change2]
+FAILED tests/unit/m03/test_tokens.py::test_bad_signed_claims_rejected[change3]
+FAILED tests/unit/m03/test_tokens.py::test_bad_signed_claims_rejected[change4]
+FAILED tests/unit/m03/test_tokens.py::test_bad_signed_claims_rejected[change5]
+FAILED tests/unit/m03/test_tokens.py::test_bad_signed_claims_rejected[change6]
+FAILED tests/unit/m03/test_tokens.py::test_bad_signed_claims_rejected[change7]
+FAILED tests/unit/m03/test_tokens.py::test_time_claims_use_thirty_second_leeway_and_optional_nbf
+FAILED tests/unit/m03/test_tokens.py::test_wrong_keys_algorithms_and_tampering_rejected
+FAILED tests/unit/m03/test_tokens.py::test_cached_known_key_survives_outage_but_unknown_key_denied
+FAILED tests/unit/m03/test_tokens.py::test_discovery_issuer_mismatch_fails_closed
+FAILED tests/unit/m03/test_tokens.py::test_discovery_cannot_redirect_jwks_to_another_origin
+=========== 15 failed, 673 passed, 80 skipped, 17 warnings in 24.21s ===========
+make: *** [Makefile:22: test] Error 1
