@@ -320,7 +320,7 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 
 ## M08 — Software profile and source-version ingestion
 
-**Current execution status (2026-09-29):** M08 is `VERIFIED`; see the [M08 report](docs/milestones/M08-report.md). The 86-case live gate (M01–M07 regressions plus M08-T01–T07), `make check`, the M01 probe and the no-AI producer demonstration passed on the 421-input source. This status note does not change the M08 acceptance contract.
+**Current execution status (2026-09-29):** M08 is `VERIFIED`; implementation revision `5b598ca7e0e46bfe1ce0b1200b18557346265d8b`; see the [M08 report](docs/milestones/M08-report.md). The 86-case live gate (M01–M07 regressions plus M08-T01–T07), `make check`, the M01 probe and the no-AI producer demonstration passed on the 421-input source. This status note does not change the M08 acceptance contract.
 
 **Goal:** represent code and documentation from multiple software products without conflating their versions or promising an all-language analyzer.
 

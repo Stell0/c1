@@ -2,7 +2,7 @@
 
 **Gate:** VERIFIED
 
-Approved plan [M08](M08.md), plan commit `910d3ec`. Implementation revision: `@@REV@@` (the commit containing exactly the verified source). It was verified on the 421-input source listed in [`implementation-files.sha256`](../evidence/M08/implementation-files.sha256), file SHA-256 `d835525d43e00b5bb2fac867875a7673b913b21a4d08a27633402be70cfe0446`. That manifest matched before and after the live gate. The same source is committed as the implementation revision.
+Approved plan [M08](M08.md), plan commit `910d3ec`. Implementation revision: `5b598ca7e0e46bfe1ce0b1200b18557346265d8b` (the commit containing exactly the verified source). It was verified on the 421-input source listed in [`implementation-files.sha256`](../evidence/M08/implementation-files.sha256), file SHA-256 `d835525d43e00b5bb2fac867875a7673b913b21a4d08a27633402be70cfe0446`. That manifest matched before and after the live gate. The same source is committed as the implementation revision.
 
 ## Named checks
 
