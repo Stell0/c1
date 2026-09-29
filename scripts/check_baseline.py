@@ -84,8 +84,8 @@ def state_errors(root: Path) -> list[str]:
         if not milestone_map
         else re.findall(r"^\| (M\d{2}) \|.*?\| ([A-Z_]+) \|$", milestone_map.group(1), re.MULTILINE)
     )
-    if {row[0] for row in rows} != {f"M{number:02}" for number in range(14)}:
-        errors.append("PLAN.md:1: milestone map must contain M00–M13")
+    if {row[0] for row in rows} != {f"M{number:02}" for number in range(19)}:
+        errors.append("PLAN.md:1: milestone map must contain M00–M18")
     statuses = {
         "NOT_PLANNED",
         "PLANNED",
