@@ -1,6 +1,8 @@
 # M07 — Consumer-ready context and cross-project reuse: execution report
 
-**Gate: ALL CHECKS PASS — VERIFIED pending commit of the implementation revision.** Every named M07 check, the M01–M06 regression selection, the fixture CLI, the M01 probe, and the no-AI demo passed on the final 351-input source (manifest [`implementation-files-budget-harness.sha256`](../evidence/M07/implementation-files-budget-harness.sha256), file SHA-256 `5c174a5b89bd199c5e39dc37a112901cf8d448ab52a12e28e1cfb9bc860a1140`). After the gate, two new evidence files were audited as secret-scan false positives and added to `.secrets.baseline`; the resulting audited manifest [`implementation-files-final-audited.sha256`](../evidence/M07/implementation-files-final-audited.sha256) (file SHA-256 `2d7ec061cdd245415df9503d93ac5c9c110edd1d833acfb2c402bb914191a970`) differs only in that file, and the corrected `make check` passed ([audit](../evidence/M07/final-secret-audit.md)). The source is uncommitted; the milestone becomes VERIFIED when that source is committed and its revision is recorded here. Earlier failed attempts remain recorded below and in the attempt history.
+**Gate:** VERIFIED
+
+Implementation revision `ed54568313a911a6c3596d8e527d57e4f40f6784`. Every named M07 check, the M01–M06 regression selection, the fixture CLI, the M01 probe, and the no-AI demo passed on the final 351-input source (manifest [`implementation-files-budget-harness.sha256`](../evidence/M07/implementation-files-budget-harness.sha256), file SHA-256 `5c174a5b89bd199c5e39dc37a112901cf8d448ab52a12e28e1cfb9bc860a1140`). After the gate, two new evidence files were audited as secret-scan false positives and added to `.secrets.baseline`; the resulting audited manifest [`implementation-files-final-audited.sha256`](../evidence/M07/implementation-files-final-audited.sha256) (file SHA-256 `2d7ec061cdd245415df9503d93ac5c9c110edd1d833acfb2c402bb914191a970`) differs only in that file, and the corrected `make check` passed ([audit](../evidence/M07/final-secret-audit.md)). That audited source is committed as `ed54568313a911a6c3596d8e527d57e4f40f6784`; the manifest verified unchanged against the committed tree. Earlier failed attempts remain recorded below and in the attempt history.
 
 ## Final verification (2026-09-29)
 
@@ -87,4 +89,4 @@ Earlier combined runs include a preserved 344-input M07-T01 cold lookup failure 
 
 ## Remaining closure work
 
-- Commit the final source and evidence, then record the implementation revision in this report and set PLAN.md M07 to `VERIFIED`. No later milestone is started by this report.
+- None for the gate. The implementation revision `ed54568313a911a6c3596d8e527d57e4f40f6784` is recorded and PLAN.md marks M07 `VERIFIED`. Owner review remains open for closing the two historical `RemoteProtocolError` incidents. No later milestone is started by this report; the next bounded action is planning M08 when the owner selects it.
