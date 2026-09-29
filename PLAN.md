@@ -19,6 +19,8 @@ The software use cases add a data-only software profile, source-snapshot applica
 
 No mandatory LLM or AI key, embeddings, semantic/vector search, automatic synonym generation, internal LLM extraction, research agent, plugin system, Graphiti/TypeDB/Cognee dependency, additional graph backend, unrestricted SPARQL endpoint, full OWL reasoner, cross-instance federation, multi-tenant SaaS administration, rich collaborative editor, or arbitrary binary-document renderer.
 
+Post-MVP extensions may optionally add embeddings/vector retrieval and bounded decision-model providers such as Jev or Kev. These extensions are never part of the mandatory C1 path: an instance without them must retain canonical storage, authorization, deterministic retrieval, context construction, history, import/export, and Explorer functionality. Jev/Kev are optional providers behind a generic decision-gate interface, not authorities for identity, authorization, truth, or persistence. Semantic indexes are rebuildable projections/caches over canonical C1 resources, not knowledge stores or authorization authorities.
+
 Separate installations serve administratively independent customers. Projects/collections/views are optional organization and filters; they are not ACL grants, storage partitions, or transaction boundaries.
 
 ### Planning conventions introduced by this file
@@ -82,8 +84,13 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M11 | Cross-software documentation-update context | M10 | Applicable, source-grounded context and reviewable documentation revisions | NOT_PLANNED |
 | M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | NOT_PLANNED |
 | M13 | Release hardening and operational acceptance | M12 | Independently repeatable deployment, recovery, and complete acceptance evidence | NOT_PLANNED |
+| M14 | Retrieval and storage benchmark | M13 | Reproducible quality, security-isolation, fidelity, and performance baselines for C1 retrieval | NOT_PLANNED |
+| M15 | Semantic Seed Index (optional extension) | M14 | Authorization-safe semantic candidate discovery through a rebuildable vector projection | NOT_PLANNED |
+| M16 | Decision Gate (optional extension) | M14 | Generic bounded decision interface with optional Jev/Kev providers and calibrated evaluation | NOT_PLANNED |
+| M17 | Non-generative enrichment (optional extension) | M16 | Reviewed entity/type/keyword/resolution proposals from deterministic candidates plus optional bounded decisions | NOT_PLANNED |
+| M18 | Adaptive hybrid context (optional extension) | M15, M16 | Optional semantic/gated seed selection feeding deterministic graph reconstruction with bounded sufficiency retries | NOT_PLANNED |
 
-The baseline's four broad delivery phases are decomposed here rather than discarded: foundations in M00–M03; durable knowledge in M04–M06; context in M07 and M08–M11; Explorer/operations in M12–M13.
+The baseline's four broad delivery phases are decomposed here rather than discarded: foundations in M00–M03; durable knowledge in M04–M06; context in M07 and M08–M11; Explorer/operations in M12–M13. M14 establishes a post-release benchmark baseline. M15–M18 are optional extensions: none is required for the C1 release contract or for operation of the canonical deterministic path.
 
 ## 4. Shared fixtures and test rules
 
@@ -460,6 +467,134 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 
 ---
 
+## M14 — Retrieval and storage benchmark
+
+**Goal:** measure how effectively C1 stores, preserves, retrieves, authorizes, and reconstructs knowledge before optional semantic or decision-model extensions are used to change retrieval behavior.
+
+**Verifiable outputs**
+
+- A versioned benchmark harness with declared synthetic corpora, gold query-to-resource/context mappings, hardware/service versions, and reproducible commands.
+- Separate score families for storage fidelity, retrieval quality, security isolation, context quality under a size budget, and performance; no single aggregate score may hide a security or correctness failure.
+- Baselines for deterministic retrieval and Context Builder behavior, with later optional configurations measured as ablations against the same gold data.
+- Security twin-corpus tests in which inaccessible highly relevant resources are added without changing any observation available to the tested principal.
+
+**Specific tests**
+
+- **M14-T01 — Storage fidelity:** ingest and retrieve known entities, assertions, conflicts, temporal qualifiers, evidence, provenance, documents, and scoped parts without unintended semantic loss.
+- **M14-T02 — Retrieval quality:** report Recall@K, Precision@K, nDCG@K, MRR, graph/path recall where applicable, and required-evidence/context coverage under declared context budgets.
+- **M14-T03 — Security invariance:** adding or modifying inaccessible high-relevance resources does not change visible result sets, ranking, counts, pagination, match explanations, graph paths, or reconstructed context.
+- **M14-T04 — Revocation benchmark:** after a binding or grant change, the next benchmark request reflects current authorization and historical content does not reintroduce the former visibility.
+- **M14-T05 — Performance envelope:** measure latency, memory, index/storage overhead, and context-construction costs on declared dataset sizes without turning measurements into unverified scalability claims.
+- **M14-T06 — Extension ablations:** when optional semantic or decision-gate components are available, compare deterministic, semantic-seeds, semantic-plus-gate, and hybrid-plus-gate-plus-graph configurations without making any optional component necessary to run the benchmark baseline.
+
+**Plan separately:** benchmark corpora, gold-label process, metrics, hardware declaration, statistical repeat count, regression thresholds, and retained evidence format.
+
+**Exit gate:** C1 has a reproducible deterministic baseline against which later retrieval/enrichment changes can demonstrate improvement or regression.
+
+## M15 — Semantic Seed Index (optional extension)
+
+**Goal:** optionally add semantic candidate discovery without making the vector store a knowledge database, authorization authority, or required C1 dependency.
+
+**Verifiable outputs**
+
+- A separately deployable/rebuildable semantic index populated from canonical C1 resources and removable without affecting mandatory C1 operation.
+- Vector records containing embeddings, canonical C1 resource IDs, and only the minimal non-content projection metadata required for versioning, reconstruction, and authorization-safe prefiltering.
+- An ingestion/update/rebuild pipeline, potentially reusing architectural work from Stell0/ns8-rag, while preserving C1 as the source of truth.
+- A semantic retrieval path that returns candidate resource IDs only; canonical objects are then reauthorized and retrieved from C1 before deterministic graph/context reconstruction.
+- A documented rule preventing one embedding from combining independently authorized resources into a representation that could leak hidden semantic information.
+
+**Specific tests**
+
+- **M15-T01 — Optionality:** start and exercise C1 with the semantic service absent; all mandatory deterministic APIs, Context Builder behavior, history, import/export, and Explorer workflows continue to work.
+- **M15-T02 — Rebuildability:** destroy the vector index, rebuild it from canonical C1 resources, and recover equivalent semantic results within declared model/index tolerances.
+- **M15-T03 — Authorization before ranking effects:** semantic search is constrained using current authorization-compatible projection data before top-K ranking, then every candidate is authoritatively rechecked by C1 before use.
+- **M15-T04 — Hidden-candidate invariance:** adding inaccessible vectors that would otherwise rank above visible results does not displace or reorder the principal's visible semantic candidates.
+- **M15-T05 — Re-scope/revoke:** current binding changes invalidate or bypass stale index authorization metadata so the next request cannot be influenced by the old visibility.
+- **M15-T06 — Canonical reconstruction:** vector hits contribute only C1 IDs/segment locators; returned facts, excerpts, evidence, provenance, conflicts, and graph paths come from authorized canonical C1 resources.
+- **M15-T07 — Benchmark improvement:** measure semantic Recall@K/context coverage against M14 rather than assuming that the added index improves retrieval.
+
+**Plan separately:** vector backend, embedding model, embedding recipes by resource type, segment reconstruction, projection metadata, index-generation consistency, synchronization, and licensing implications of reused ns8-rag code.
+
+**Exit gate:** semantic search can improve candidate discovery without changing C1's canonical authority, security invariants, or no-vector operating mode.
+
+## M16 — Decision Gate (optional extension)
+
+**Goal:** provide an optional generic interface for bounded probabilistic decisions such as yes/no, choice among declared candidates, or scoring, without introducing a required generative model.
+
+**Verifiable outputs**
+
+- A provider-neutral decision-gate API with typed inputs/outputs, declared candidate sets, model/provider/version metadata, thresholds, and traceable probability/score outputs.
+- Optional Jev and/or Kev provider adapters. Neither Jev nor Kev is required to install, start, query, benchmark, or operate C1.
+- Calibrated benchmark tasks for relevance, classification, candidate resolution, and other enabled gates, including coverage at declared error budgets.
+- Provenance for every gate-derived proposal or ranking signal; gate output never becomes an authorization grant, canonical identity decision, truth claim, or persistent knowledge update by itself.
+- Deterministic fallback behavior when no decision provider is configured or the provider fails.
+
+**Specific tests**
+
+- **M16-T01 — Provider absence:** with Jev, Kev, and every other decision provider disabled, mandatory C1 and M14 benchmark paths remain functional and deterministic.
+- **M16-T02 — Provider interchange:** the same typed decision contract can be exercised by any configured provider without changing canonical C1 data structures.
+- **M16-T03 — Calibration:** report task accuracy/F1 as applicable plus Brier score or equivalent calibration metrics and automation coverage at declared maximum error rates.
+- **M16-T04 — Bounded output:** the gate can select/score only declared options, plus an explicit unknown/none outcome where required; it cannot silently invent new schema terms, IDs, permissions, or facts.
+- **M16-T05 — Failure isolation:** provider timeout, malformed output, or low confidence falls back to the declared deterministic/manual path without corrupting knowledge or leaking protected candidates.
+- **M16-T06 — Authorization discipline:** only already-authorized candidate material may reach a relevance/reranking gate, and gate traces do not expose inaccessible alternatives.
+
+**Plan separately:** provider interface, Jev/Kev adapters, local versus remote execution, model metadata, threshold policy, calibration datasets, privacy boundary, timeout/fallback behavior, and observability.
+
+**Exit gate:** bounded decision models can improve selected workflows while remaining optional, replaceable, measurable, and subordinate to canonical C1 semantics and authorization.
+
+## M17 — Non-generative enrichment (optional extension)
+
+**Goal:** optionally enrich new resources without free-form generative extraction by combining deterministic candidate generation with bounded decision gates and the existing reviewed ChangeSet path.
+
+**Verifiable outputs**
+
+- Deterministic/source-specific extraction of candidate mentions, entity types, controlled-vocabulary terms, keywords, canonical-entity matches, and permitted relationships.
+- Optional gate-assisted classification/ranking of those candidates using the M16 interface; Jev/Kev may be used when configured but are not required.
+- All accepted enrichment is submitted as ordinary attributed ChangeSet content or resolution proposals with method/model/version/input provenance.
+- No automatic merge, schema invention, truth selection, or direct persistence bypass based solely on gate output.
+
+**Specific tests**
+
+- **M17-T01 — Type/category enrichment:** choose only among types/categories allowed by the active data profile, retaining unknown/other when confidence is insufficient.
+- **M17-T02 — Keyword enrichment:** score/select from deterministically generated keyphrase candidates; the decision model does not invent arbitrary hidden keywords.
+- **M17-T03 — Entity resolution:** choose among visible deterministic/semantic candidate IDs or none; ambiguous/low-confidence cases remain unresolved rather than auto-merged.
+- **M17-T04 — Relation proposal:** choose only among profile-permitted predicates or none, producing a proposal that still follows ordinary validation/review.
+- **M17-T05 — Provenance and replay:** store enough method/model/candidate-set metadata to reproduce or later reevaluate the enrichment decision without treating it as source evidence.
+- **M17-T06 — No-gate mode:** disabling all decision providers leaves deterministic/manual ingestion available; previously stored canonical knowledge remains readable and valid.
+- **M17-T07 — Enrichment benchmark:** report type/category accuracy, keyword precision/recall, entity-resolution precision/recall, false-merge rate, and review acceptance rate against M14/M16 gold data.
+
+**Plan separately:** candidate extractors, controlled vocabularies, confidence thresholds, resolution workflow, provenance shape, review policy, and re-evaluation semantics after model/profile changes.
+
+**Exit gate:** optional bounded models can reduce manual enrichment work without converting C1 into a generative ingestion engine.
+
+## M18 — Adaptive hybrid context (optional extension)
+
+**Goal:** optionally combine semantic seed discovery and bounded decision gates with C1's deterministic graph/context reconstruction while keeping all expansion limits explicit and retaining a deterministic fallback.
+
+**Verifiable outputs**
+
+- A hybrid context mode in which optional semantic search proposes authorized seed IDs, an optional gate refines those candidates or graph frontiers, and the existing C1 graph/document logic reconstructs the actual context.
+- Optional relevance, graph-frontier, context-budget, and context-sufficiency gates using the M16 provider interface.
+- A bounded retry/expansion policy with explicit maximum semantic K, graph depth, visited nodes, context budget, gate calls, and iterations.
+- A retrieval trace explaining semantic discovery score/model, gate decisions, canonical seed IDs, graph paths, included evidence, truncation, and fallback behavior.
+- Deterministic Context Builder remains available unchanged when semantic search and all gate providers are disabled.
+
+**Specific tests**
+
+- **M18-T01 — Hybrid security:** every semantic seed, gate input, traversed edge, endpoint, assertion, excerpt, and citation is independently authorized; hidden resources cannot alter visible ranking or expansion decisions.
+- **M18-T02 — Deterministic fallback:** disable vector search and Jev/Kev/other gate providers and obtain the existing deterministic context behavior for the same deterministic profile.
+- **M18-T03 — Bounded sufficiency loop:** an insufficient-context decision may trigger only the declared bounded expansion; the loop terminates at configured limits and reports remaining gaps.
+- **M18-T04 — Context-budget gate:** optional scoring may choose among already-authorized candidate facts/excerpts but cannot rewrite them, suppress required qualifications, or invent summaries.
+- **M18-T05 — Retrieval trace:** each returned item can be traced from discovery through authorization, optional gate decisions, canonical retrieval, graph path, and source/evidence inclusion without exposing denied candidates.
+- **M18-T06 — Ablation result:** compare deterministic, semantic-only, semantic-plus-gate, and full hybrid modes on M14 context coverage/precision/token-cost and latency metrics.
+- **M18-T07 — Optional component failure:** vector or decision-provider outage degrades to the documented lower-capability path rather than failing mandatory C1 reads.
+
+**Plan separately:** hybrid query API/profile fields, seed fusion, reranking, sufficiency questions, retry policy, trace schema, latency budgets, and degradation policy.
+
+**Exit gate:** the optional hybrid path demonstrates measurable benefit over the deterministic baseline while preserving C1's canonical authority, current-authorization guarantees, inspectability, and complete operation without Jev/Kev or vector infrastructure.
+
+---
+
 ## 5. Acceptance register and milestone ownership
 
 A01–A17 retain the v0.2 acceptance IDs and intent. A18–A22 carry the accepted software-use-case discussion into this roadmap. Entries below are summaries for navigation; the referenced source and milestone tests preserve their required detail.
@@ -509,6 +644,8 @@ An early proof does not discharge later application tests. Software-context mile
 
 Exact dependency versions, HTTP/frontend framework, concrete OpenFGA model, durable security-operation journal, policy-generation/cursor strategy, query compilation mechanics, normalization version, document order keys, context budgeting, source-index format subset, first fixture languages, and packaging commands are chosen when the relevant milestone is planned.
 
+For the post-MVP sequence, M14 defines the measurement baseline before choosing semantic/index or decision-model details. M15–M18 must remain optional extensions. Vector backends, embedding models, and decision providers such as Jev/Kev are selected only in their separate plans; no later plan may make them prerequisites for canonical storage, authorization, deterministic query/context behavior, history, import/export, or Explorer use.
+
 Source priority and applicability must be defined for the consumer task, not as a universal “documentation always wins” or “code always wins” rule. Completeness is always relative to selected, authorized, successfully ingested sources. Unknown compatibility and missing data stay explicit.
 
 The detailed planner must resolve any conflict between these choices and the source requirements before implementation. Do not solve uncertainty by introducing mandatory models, new graph databases, project partitions, or unreviewed policy shortcuts.
@@ -525,4 +662,4 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S4 — Current planning instruction.** Produce AGENTS.md and PLAN.md; divide work into milestones with verifiable outputs and specific tests, and plan each milestone separately. This is the authority for the execution policy and delivery structure in this file.
 
-No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M06 are now VERIFIED as recorded in their milestone reports. The owner has authorized implementation of the remaining planned milestone, M07, after revalidating its provisional plan against the M06 report. M08–M13 remain NOT_PLANNED.
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M06 are now VERIFIED as recorded in their milestone reports. The owner has authorized implementation of the remaining planned milestone, M07, after revalidating its provisional plan against the M06 report. M08–M14 remain NOT_PLANNED. M15–M18 are additional NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.
