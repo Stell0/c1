@@ -15,7 +15,7 @@ import pytest
 from c1.authorization.fga import resource_object, scope_object
 from c1.model.nodes import ValidatedBatch
 from scripts import api as api_process
-from tests.integration.m03.conftest import bearer
+from tests.integration.m03.conftest import bearer, client_timeout
 from tests.integration.m04.conftest import (
     LiveCase,
     action,
@@ -126,7 +126,7 @@ def test_t04_crash_recovery_has_one_receipt(point: str) -> None:
                 pid = api_process._pid()
                 assert pid is not None and api_process._owned_process(pid)
                 async with httpx.AsyncClient(
-                    base_url="http://127.0.0.1:18000", timeout=10, trust_env=False
+                    base_url="http://127.0.0.1:18000", timeout=client_timeout(), trust_env=False
                 ) as client:
                     carol = bearer(await case.token("carol"))
                     dave = bearer(await case.token("dave"))

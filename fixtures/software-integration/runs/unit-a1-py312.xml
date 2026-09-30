@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+  <testsuite name="ledger-unit" tests="1" failures="0" errors="0" skipped="0" time="0.016" timestamp="2026-01-22T09:00:00">
+    <testcase classname="tests.test_api" name="test_create_invoice_stores_invoice" time="0.015"/>
+  </testsuite>
+</testsuites>

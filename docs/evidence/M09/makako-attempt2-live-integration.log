@@ -1,0 +1,17 @@
+.......FFAILED tests/integration/m07/test_t07_ambiguity_revocation.py::test_t07_ambiguity_gaps_and_revoked_continuation [call]
+E   httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+E   httpx.ReadError
+
+=================================== FAILURES ===================================
+E   httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+E   httpx.ReadError
+/root/c1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py:118: httpx.ReadError
+=========================== short test summary info ============================
+FAILED tests/integration/m07/test_t07_ambiguity_revocation.py::test_t07_ambiguity_gaps_and_revoked_continuation
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 7 passed in 1208.82s (0:20:08)
+uv failed with exit status 1.

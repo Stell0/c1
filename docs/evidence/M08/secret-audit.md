@@ -11,3 +11,13 @@ was inspected locally; no raw values are copied here.
 
 These entries were added to `.secrets.baseline` with `is_secret: false`.
 Detector plugins and filters are unchanged.
+
+## Post-gate evidence (audited 2026-09-29, recorded during M09)
+
+The M08 demonstration evidence was written after the M08 `make check`, so its
+secret scan first ran in the M09 check. Values were inspected locally.
+
+| File | Detector | Values | Disposition |
+|---|---|---|---|
+| `docs/evidence/M08/demo-env-check.txt`, `attempt1-demo-env-check.txt` | Secret Keyword | 1 each | False positive: the line records that the provider-key variable is `unset`. |
+| `docs/evidence/M08/demo.log` | Hex High Entropy String | 2 | False positive: the public, deterministic fixture git commit IDs of a1 and b1. |

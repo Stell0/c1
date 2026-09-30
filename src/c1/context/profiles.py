@@ -154,22 +154,128 @@ class ContextProfile(BaseModel):
         return value
 
 
-def profile_digest(profile: ContextProfile) -> str:
+SoftwareSection = Literal[
+    "interpretation",
+    "target",
+    "normative",
+    "implementation",
+    "interfaces",
+    "tests",
+    "runs",
+    "fixtures",
+    "instructions",
+    "discrepancies",
+    "gaps",
+    "sources",
+    "bounds",
+]
+SOFTWARE_SECTIONS: list[SoftwareSection] = [
+    "interpretation",
+    "target",
+    "normative",
+    "implementation",
+    "interfaces",
+    "tests",
+    "runs",
+    "fixtures",
+    "instructions",
+    "discrepancies",
+    "gaps",
+    "sources",
+    "bounds",
+]
+EvidenceRole = Literal["normative", "structural", "interpretive", "observed", "instruction"]
+# Every unit kind the test-development stage can produce needs a declared role.
+SOFTWARE_UNIT_KINDS = frozenset(
+    {
+        "documentation-part",
+        "contract-part",
+        "code-unit",
+        "dependency-unit",
+        "operation",
+        "test-definition",
+        "test-run",
+        "fixture-unit",
+        "instruction-part",
+        "discrepancy",
+    }
+)
+
+
+class SoftwareTask(BaseModel):
+    """Bounded, declarative software-task selection; no templates or code."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid", strict=True)
+
+    task: Literal["test-development"]
+    requires_target: Literal[True] = True
+    requires_goal: Literal[True] = True
+    anchor_kinds: list[Literal["symbol", "capability", "operation"]] = Field(
+        min_length=1, max_length=3
+    )
+    dependency_depth: int = Field(ge=0, le=1)
+    max_dependencies: int = Field(ge=0, le=20)
+    max_tests: int = Field(ge=1, le=50)
+    max_runs: int = Field(ge=1, le=100)
+    role_map: dict[str, EvidenceRole]
+    sections: list[SoftwareSection] = Field(default_factory=lambda: list(SOFTWARE_SECTIONS))
+
+    @model_validator(mode="after")
+    def check_task(self) -> Self:
+        if len(self.anchor_kinds) != len(set(self.anchor_kinds)):
+            raise ValueError("anchor kinds must be unique")
+        if set(self.role_map) != SOFTWARE_UNIT_KINDS:
+            raise ValueError("role_map must declare exactly the software unit kinds")
+        if self.sections != SOFTWARE_SECTIONS:
+            raise ValueError("sections must use the fixed test-development template order")
+        return self
+
+
+class SoftwareContextProfile(BaseModel):
+    """A software-task context profile; graph paths are not used in this mode."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid", strict=True)
+
+    name: str = Field(pattern=r"^[a-z][a-z0-9-]{0,63}$")
+    version: str = Field(pattern=r"^[0-9]+(?:\.[0-9]+){0,2}$", max_length=32)
+    software: SoftwareTask
+
+    # Uniform catalog/listing surface shared with graph profiles.
+    @property
+    def fields(self) -> dict[str, str]:
+        return {}
+
+
+AnyContextProfile = ContextProfile | SoftwareContextProfile
+
+
+def profile_digest(profile: AnyContextProfile) -> str:
     payload = json.dumps(
         profile.model_dump(mode="json"), sort_keys=True, separators=(",", ":"), ensure_ascii=False
     )
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
-def load_context_profile(path: Path) -> ContextProfile:
+def load_any_context_profile(path: Path) -> AnyContextProfile:
     """Read an explicit local file; never resolve imports or remote contexts."""
     if path.is_symlink() or not path.is_file() or path.suffix != ".json":
         fail("C1-CX-002", "Expected a local context profile JSON file", str(path))
     try:
         raw = json.loads(path.read_text(encoding="utf-8"))
+        # Exactly one mode per profile: a `software` block selects the task kind.
+        if isinstance(raw, dict) and "software" in raw:
+            return SoftwareContextProfile.model_validate(raw)
         return ContextProfile.model_validate(raw)
     except (OSError, UnicodeError, json.JSONDecodeError, ValidationError, ValueError) as exc:
         fail("C1-CX-002", f"Invalid context profile: {type(exc).__name__}", str(path))
+
+
+def load_context_profile(path: Path) -> ContextProfile:
+    """A graph-context profile; any other kind is rejected."""
+    profile = load_any_context_profile(path)
+    if not isinstance(profile, ContextProfile):
+        fail("C1-CX-002", "Expected a graph context profile", str(path))
+    return profile
 
 
 def _catalog_root() -> Path:
@@ -185,12 +291,12 @@ class ContextProfileCatalog:
     """Exact profile/version selection from an eagerly validated local catalog."""
 
     def __init__(self) -> None:
-        self.profiles: dict[tuple[str, str], ContextProfile] = {}
+        self.profiles: dict[tuple[str, str], AnyContextProfile] = {}
         root = _catalog_root()
         for path in sorted(root.iterdir()):
             if path.is_symlink() or not path.is_file() or path.suffix != ".json":
                 fail("C1-CX-002", "Unsupported context catalog entry", str(path))
-            profile = load_context_profile(path)
+            profile = load_any_context_profile(path)
             key = (profile.name, profile.version)
             if key in self.profiles:
                 fail("C1-CX-002", "Duplicate context profile name and version", str(path))
@@ -198,14 +304,21 @@ class ContextProfileCatalog:
         if not self.profiles:
             fail("C1-CX-002", "Trusted context profile catalog is empty")
 
-    def get(self, name: str, version: str) -> ContextProfile:
+    def get_any(self, name: str, version: str) -> AnyContextProfile:
         profile = self.profiles.get((name, version))
         if profile is None:
             fail("C1-CX-002", "Context profile version is not in the trusted local catalog")
         return profile
 
+    def get(self, name: str, version: str) -> ContextProfile:
+        """A graph-context profile; software-task profiles use `get_any`."""
+        profile = self.get_any(name, version)
+        if not isinstance(profile, ContextProfile):
+            fail("C1-CX-002", "Context profile is not a graph context profile")
+        return profile
+
     def digest(self, name: str, version: str) -> str:
-        return profile_digest(self.get(name, version))
+        return profile_digest(self.get_any(name, version))
 
     def catalog(self) -> list[dict[str, object]]:
         return [
@@ -213,7 +326,9 @@ class ContextProfileCatalog:
                 "name": profile.name,
                 "version": profile.version,
                 "digest": profile_digest(profile),
-                "anchor_types": profile.anchor_types,
+                "anchor_types": profile.anchor_types
+                if isinstance(profile, ContextProfile)
+                else sorted(profile.software.anchor_kinds),
                 "fields": sorted(profile.fields),
             }
             for _, profile in sorted(self.profiles.items())

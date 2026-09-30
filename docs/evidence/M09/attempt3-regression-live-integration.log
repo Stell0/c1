@@ -1,0 +1,32 @@
+[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m [ 78%]
+[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[31mE[0mFAILED tests/integration/m08/test_t01_identities.py::test_t01_independent_identities_and_shared_capability [setup]
+E   httpcore.RemoteProtocolError: Server disconnected without sending a response.
+
+The above exception was the direct cause of the following exception:
+E   httpx.RemoteProtocolError: Server disconnected without sending a response.
+
+==================================== ERRORS ====================================
+[31m[1m___ ERROR at setup of test_t01_independent_identities_and_shared_capability ____[0m
+[1m[31mE   httpcore.RemoteProtocolError: Server disconnected without sending a response.[0m
+
+[33mThe above exception was the direct cause of the following exception:[0m
+[1m[31mE   httpx.RemoteProtocolError: Server disconnected without sending a response.[0m
+[33m=============================== warnings summary ===============================[0m
+tests/integration/m01/test_t07_interchange.py: 3 warnings
+tests/integration/m02/test_install_guards.py: 1 warning
+tests/integration/m02/test_t01_roundtrip.py: 2 warnings
+tests/integration/m02/test_t02_conflicts.py: 1 warning
+tests/integration/m02/test_t03_no_partial.py: 1 warning
+tests/integration/m02/test_t04_identity.py: 2 warnings
+tests/integration/m02/test_t07_extension.py: 2 warnings
+tests/integration/m03/test_journal_contract.py: 1 warning
+tests/integration/m05/test_backend_fetch.py: 1 warning
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[36m[1m=========================== short test summary info ============================[0m
+[31mERROR[0m tests/integration/m08/test_t01_identities.py::[1mtest_t01_independent_identities_and_shared_capability[0m - httpx.RemoteProtocolError: Server disconnected without sending a response.
+[31m!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!![0m
+[31m[32m79 passed[0m, [33m14 warnings[0m, [31m[1m1 error[0m[31m in 2654.40s (0:44:14)[0m[0m
+uv failed with exit status 1.

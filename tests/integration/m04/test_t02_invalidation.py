@@ -11,6 +11,7 @@ import pytest
 
 from c1.api.app import create_app
 from c1.runtime import Runtime
+from tests.integration.m03.conftest import client_timeout
 from tests.integration.m04.conftest import (
     action,
     changeset_path,
@@ -82,7 +83,9 @@ def test_t02_edit_requires_fresh_review_and_self_review_policy(
             app = create_app(settings, runtime=runtime)
             async with app.router.lifespan_context(app):
                 async with httpx.AsyncClient(
-                    transport=httpx.ASGITransport(app=app), base_url="http://c1.test", timeout=10
+                    transport=httpx.ASGITransport(app=app),
+                    base_url="http://c1.test",
+                    timeout=client_timeout(),
                 ) as client:
                     case.runtime = runtime
                     case.client = client

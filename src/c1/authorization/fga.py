@@ -40,12 +40,19 @@ def model_definition() -> dict[str, Any]:
 
 
 class FGA:
-    def __init__(self, url: str, token: str, store_id: str = "", model_id: str = "") -> None:
+    def __init__(
+        self,
+        url: str,
+        token: str,
+        store_id: str = "",
+        model_id: str = "",
+        timeout: float = 5.0,
+    ) -> None:
         self.store_id = store_id
         self.model_id = model_id
         self._client = httpx.AsyncClient(
             base_url=url.rstrip("/"),
-            timeout=5.0,
+            timeout=timeout,
             trust_env=False,
             headers={"Authorization": "Bearer " + token},
         )

@@ -16,7 +16,7 @@ from c1.model.nodes import NodeRecord
 from c1.model.records import AssertionRecord, EvidenceRecord, SourceRecord
 from c1.runtime import Runtime
 from scripts import api as api_process
-from tests.integration.m03.conftest import LiveCase, bearer
+from tests.integration.m03.conftest import LiveCase, bearer, client_timeout
 from tests.integration.m03.conftest import source_record as probe_source_record
 from tests.integration.m04.conftest import (
     C1,
@@ -268,7 +268,7 @@ def test_t07_schema_commit_crash_blocks_reads_until_recovery() -> None:
                 pid = api_process._pid()
                 assert pid is not None and api_process._owned_process(pid)
                 async with httpx.AsyncClient(
-                    base_url="http://127.0.0.1:18000", timeout=10, trust_env=False
+                    base_url="http://127.0.0.1:18000", timeout=client_timeout(), trust_env=False
                 ) as child:
                     frank = bearer(await case.token("frank"))
                     with pytest.raises(httpx.HTTPError):
@@ -293,7 +293,7 @@ def test_t07_schema_commit_crash_blocks_reads_until_recovery() -> None:
                         async with httpx.AsyncClient(
                             transport=httpx.ASGITransport(app=inspection_app),
                             base_url="http://c1.test",
-                            timeout=10,
+                            timeout=client_timeout(),
                         ) as inspection:
                             alice = bearer(await case.token("alice"))
                             guarded = await inspection.get(path(existing.id), headers=alice)

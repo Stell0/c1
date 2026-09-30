@@ -27,7 +27,7 @@ FIXTURE_PATH = ROOT / "fixtures/directory/fixture.json"
 
 def _api_timeout() -> float:
     """Stay above the configured server request budget (default 5 s)."""
-    budget_ms = int(os.environ.get("C1_QUERY_TIME_BUDGET_MS", "5000"))
+    budget_ms = int(os.environ.get("C1_QUERY_TIME_BUDGET_MS", "10000"))
     return max(20.0, budget_ms / 1000 + 10)
 
 

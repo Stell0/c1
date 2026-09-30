@@ -1,0 +1,24 @@
+...............................................FFAILED tests/integration/m03/test_t06_crash.py::test_t06_real_process_crash_and_recovery[journal] [call]
+E   RuntimeError: C1 API health deadline exceeded
+
+=================================== FAILURES ===================================
+E   RuntimeError: C1 API health deadline exceeded
+/root/c1/scripts/api.py:127: RuntimeError: C1 API health deadline exceeded
+=============================== warnings summary ===============================
+tests/integration/m01/test_t07_interchange.py: 3 warnings
+tests/integration/m02/test_install_guards.py: 1 warning
+tests/integration/m02/test_t01_roundtrip.py: 2 warnings
+tests/integration/m02/test_t02_conflicts.py: 1 warning
+tests/integration/m02/test_t03_no_partial.py: 1 warning
+tests/integration/m02/test_t04_identity.py: 2 warnings
+tests/integration/m02/test_t07_extension.py: 2 warnings
+tests/integration/m03/test_journal_contract.py: 1 warning
+  /root/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/integration/m03/test_t06_crash.py::test_t06_real_process_crash_and_recovery[journal]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 47 passed, 13 warnings in 3165.32s (0:52:45)
+uv failed with exit status 1.

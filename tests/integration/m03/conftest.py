@@ -40,7 +40,12 @@ OA = "http://www.w3.org/ns/oa#"
 
 def query_time_budget_ms() -> int:
     """The live request budget; C1_QUERY_TIME_BUDGET_MS overrides the product default."""
-    return int(os.environ.get("C1_QUERY_TIME_BUDGET_MS", "5000"))
+    return int(os.environ.get("C1_QUERY_TIME_BUDGET_MS", "10000"))
+
+
+def backend_timeout_s() -> float:
+    """OpenFGA/OIDC client timeout; C1_BACKEND_TIMEOUT_S overrides the product default."""
+    return float(os.environ.get("C1_BACKEND_TIMEOUT_S", "5"))
 
 
 def client_timeout() -> float:
@@ -67,7 +72,7 @@ class TokenSource:
 
     def __init__(self) -> None:
         self._private = environment()
-        self._client = httpx.AsyncClient(timeout=10, trust_env=False)
+        self._client = httpx.AsyncClient(timeout=client_timeout(), trust_env=False)
 
     async def __aenter__(self) -> TokenSource:
         return self
@@ -310,7 +315,7 @@ async def live_case() -> AsyncIterator[LiveCase]:
     if not password or not fga_token:
         raise RuntimeError("M03 real stack credentials are missing")
     suffix = uuid.uuid4().hex
-    async with FGA("http://127.0.0.1:18080", fga_token) as fga:
+    async with FGA("http://127.0.0.1:18080", fga_token, timeout=backend_timeout_s()) as fga:
         await fga.create_store("c1-m03-" + suffix)
         try:
             settings = Settings(
@@ -333,6 +338,7 @@ async def live_case() -> AsyncIterator[LiveCase]:
                 enable_probe_routes=True,
                 cursor_secret=uuid.uuid4().hex + uuid.uuid4().hex,
                 query_time_budget_ms=query_time_budget_ms(),
+                backend_timeout_s=backend_timeout_s(),
             )
             knowledge_config = StorageConfig(
                 settings.terminus_url,

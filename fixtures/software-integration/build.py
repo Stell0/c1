@@ -127,7 +127,7 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
     }
     return {
         "name": "software-integration",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "profile": "software",
         "scopes": {
             "sw-shared": "Software shared",
@@ -202,7 +202,10 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
             },
             "CONTRIBUTING.md": {"repository": "ledger", "describes": ["a1", "a2"], "documents": {}},
         },
-        "configurations": {"default": ["python=3.13", "ledger_url=http://ledger.test"]},
+        "configurations": {
+            "default": ["python=3.13", "ledger_url=http://ledger.test"],
+            "py312": ["python=3.12", "ledger_url=http://ledger.test"],
+        },
         "test_cases": {
             "ledger-create": {
                 "repository": "ledger",
@@ -245,6 +248,32 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
                 "started_at": "2026-02-20T09:00:00Z",
                 "ended_at": "2026-02-20T09:00:01Z",
             },
+            # v1.1 (M09): a mocked shop run at b1, and a ledger run at a1 under
+            # another configuration (never verification of a `default` target).
+            {
+                "key": "mocked-b1",
+                "test_case": "shop-mocked",
+                "snapshots": ["b1"],
+                "configuration": "default",
+                "mode": "mocked",
+                "mocked": ["ledger"],
+                "report": "runs/mocked-b1.xml",
+                "exercised": [],
+                "started_at": "2026-01-21T09:00:00Z",
+                "ended_at": "2026-01-21T09:00:01Z",
+            },
+            {
+                "key": "unit-a1-py312",
+                "test_case": "ledger-create",
+                "snapshots": ["a1"],
+                "configuration": "py312",
+                "mode": "live",
+                "mocked": [],
+                "report": "runs/unit-a1-py312.xml",
+                "exercised": [],
+                "started_at": "2026-01-22T09:00:00Z",
+                "ended_at": "2026-01-22T09:00:01Z",
+            },
             {
                 "key": "unit-a2",
                 "test_case": "ledger-create",
@@ -261,6 +290,32 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
         # The competing analyzer resolves one call by name only and disagrees
         # with the indexer's reference-based static call (M08 D11, T05).
         "name_match_calls": ["validate"],
+        # v1.1 (M09 D3, D9): declared test-development context. Instructions are
+        # stored text only; nothing here is ever executed by C1 or the producer.
+        "execution_instructions": {
+            "CONTRIBUTING.md": {"repository": "ledger", "heading": "Running tests"},
+        },
+        "test_fixtures": [
+            {
+                "repository": "ledger",
+                "path": "tests/conftest.py",
+                "descriptor": "`tests.conftest`/sample_invoice().",
+                "test_case": "ledger-create",
+            }
+        ],
+        # A checked-in review note: a1 `validate` accepts zero, which the
+        # documentation says is rejected. a2 fixes it.
+        "discrepancies": [
+            {
+                "key": "a1-zero-amount",
+                "snapshot": "a1",
+                "implementation": {"path": "ledger/api.py", "quote": "return amount >= 0"},
+                "normative": {
+                    "path": "docs/invoicing.md",
+                    "quote": "The amount must be greater than zero; zero is rejected with 422.",
+                },
+            }
+        ],
     }
 
 

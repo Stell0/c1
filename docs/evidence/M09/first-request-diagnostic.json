@@ -1,0 +1,38 @@
+{
+  "budget_ms": "30000",
+  "results": [
+    {
+      "optimize": false,
+      "commits": 30
+    },
+    {
+      "step": "first lookup",
+      "status": 200,
+      "seconds": 3.697
+    },
+    {
+      "step": "second lookup",
+      "status": 200,
+      "seconds": 3.406
+    },
+    {
+      "optimize": true,
+      "commits": 30
+    },
+    {
+      "step": "optimize",
+      "status": 200,
+      "seconds": 0.067
+    },
+    {
+      "step": "first lookup",
+      "status": 200,
+      "seconds": 3.68
+    },
+    {
+      "step": "second lookup",
+      "status": 200,
+      "seconds": 3.539
+    }
+  ]
+}

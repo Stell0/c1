@@ -1,0 +1,4 @@
+pytest_exit=1
+tee_exit=0
+restore_exit=0
+script_exit=1

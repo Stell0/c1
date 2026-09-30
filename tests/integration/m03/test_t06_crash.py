@@ -16,6 +16,7 @@ from scripts.stack import compose
 from tests.integration.m03.conftest import (
     LiveCase,
     bearer,
+    client_timeout,
     entity_record,
     live_case,
     resource_path,
@@ -84,7 +85,7 @@ def test_t06_real_process_crash_and_recovery(point: str) -> None:
                 pid = api_process._pid()
                 assert pid is not None and api_process._owned_process(pid)
                 async with httpx.AsyncClient(
-                    base_url="http://127.0.0.1:18000", timeout=10, trust_env=False
+                    base_url="http://127.0.0.1:18000", timeout=client_timeout(), trust_env=False
                 ) as client:
                     erin = bearer(await case.token("erin"))
                     alice = bearer(await case.token("alice"))

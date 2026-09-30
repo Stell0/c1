@@ -10,6 +10,11 @@ from c1.context.errors import ContextError
 from c1.context.markdown import render_markdown
 from c1.context.structured import public_value, render_structured, unit_citations
 
+StructuredRenderer = Callable[
+    [dict[str, Any], list[dict[str, Any]], dict[str, Any]], dict[str, Any]
+]
+MarkdownRenderer = Callable[[dict[str, Any]], str]
+
 
 def prepare_units(units: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Number citations over the full selection before pagination, without mutation."""
@@ -17,7 +22,7 @@ def prepare_units(units: list[dict[str, Any]]) -> list[dict[str, Any]]:
     numbers: dict[str, int] = {}
     for unit in prepared:
         for citation in unit_citations(unit):
-            identifier = citation.get("id", citation["evidence_id"])
+            identifier = citation["id"] if "id" in citation else citation["evidence_id"]
             citation["id"] = identifier
             citation["n"] = numbers.setdefault(identifier, len(numbers) + 1)
     return prepared  # type: ignore[no-any-return]
@@ -32,6 +37,7 @@ def _render_page(
     maximum: int,
     cursor: str | None,
     deadline: float | None,
+    renderers: tuple[StructuredRenderer, MarkdownRenderer] = (render_structured, render_markdown),
 ) -> dict[str, Any]:
     deferred = len(units) - offset - count
     bounds: dict[str, Any] = {
@@ -45,12 +51,12 @@ def _render_page(
         "included_units": count,
     }
     _check_deadline(deadline)
-    structured = render_structured(base, units[offset : offset + count], bounds)
+    structured = renderers[0](base, units[offset : offset + count], bounds)
     structured["bounds"] = bounds
     # Only the decimal byte count is self-referential; its digit count stabilizes.
     for _ in range(16):
         _check_deadline(deadline)
-        markdown = render_markdown(structured)
+        markdown = renderers[1](structured)
         _check_deadline(deadline)
         measured = len(markdown.encode("utf-8"))
         if measured == bounds["rendered_bytes"]:
@@ -67,8 +73,11 @@ def build_page(
     maximum: int = 65536,
     cursor_for_offset: Callable[[int], str | None],
     deadline: float | None = None,
+    render_structured: StructuredRenderer = render_structured,
+    render_markdown: MarkdownRenderer = render_markdown,
 ) -> dict[str, Any]:
     """Choose the longest fitting contiguous prefix, never emit a zero-progress page."""
+    renderers = (render_structured, render_markdown)
     if not 0 <= offset <= len(units):
         raise ValueError("invalid context unit offset")
     if maximum < 1:
@@ -76,7 +85,14 @@ def build_page(
     _check_deadline(deadline)
     remaining = len(units) - offset
     fixed = _render_page(
-        base, units, offset=offset, count=0, maximum=maximum, cursor=None, deadline=deadline
+        base,
+        units,
+        offset=offset,
+        count=0,
+        maximum=maximum,
+        cursor=None,
+        deadline=deadline,
+        renderers=renderers,
     )
     if not remaining:
         if fixed["bounds"]["rendered_bytes"] > maximum:
@@ -87,6 +103,7 @@ def build_page(
                 count=0,
                 cursor=None,
                 deadline=deadline,
+                renderers=renderers,
                 initial=fixed["bounds"]["rendered_bytes"],
             )
             raise ContextError(
@@ -106,6 +123,7 @@ def build_page(
         maximum=maximum,
         cursor=None,
         deadline=deadline,
+        renderers=renderers,
     )
     if complete["bounds"]["rendered_bytes"] <= maximum:
         return complete
@@ -124,6 +142,7 @@ def build_page(
             maximum=maximum,
             cursor=cursor,
             deadline=deadline,
+            renderers=renderers,
         )
         size = candidate["bounds"]["rendered_bytes"]
         if size < minimum_required:
@@ -139,6 +158,7 @@ def build_page(
             count=smallest_count,
             cursor=smallest_cursor,
             deadline=deadline,
+            renderers=renderers,
             initial=minimum_required,
         )
         raise ContextError(
@@ -161,6 +181,7 @@ def _minimum_required(
     cursor: str | None,
     deadline: float | None,
     initial: int,
+    renderers: tuple[StructuredRenderer, MarkdownRenderer] = (render_structured, render_markdown),
 ) -> int:
     # The suggested retry maximum is itself part of the rendered bounds.
     minimum = initial
@@ -173,6 +194,7 @@ def _minimum_required(
             maximum=minimum,
             cursor=cursor,
             deadline=deadline,
+            renderers=renderers,
         )
         measured: int = candidate["bounds"]["rendered_bytes"]
         if measured == minimum:

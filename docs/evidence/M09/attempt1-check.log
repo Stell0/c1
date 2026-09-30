@@ -1,0 +1,261 @@
+uv run --locked ruff check .
+[1;32mAll checks passed![0m
+uv run --locked ruff format --check .
+421 files already formatted
+uv run --locked mypy
+[1m[32mSuccess: no issues found in 282 source files(B[m
+uv run --locked pytest
+[1m============================= test session starts ==============================[0m
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/personalbuild/c1
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collected 934 items
+
+tests/integration/m01/test_t01_inventory.py [33ms[0m[32m                            [  0%][0m
+tests/integration/m01/test_t02_atomic.py [33ms[0m[32m                               [  0%][0m
+tests/integration/m01/test_t03_stale_and_reconcile.py [33ms[0m[32m                  [  0%][0m
+tests/integration/m01/test_t04_revisions.py [33ms[0m[32m                            [  0%][0m
+tests/integration/m01/test_t05_freshness.py [33ms[0m[33ms[0m[32m                           [  0%][0m
+tests/integration/m01/test_t06_publication.py [33ms[0m[33ms[0m[33ms[0m[33ms[0m[32m                       [  1%][0m
+tests/integration/m01/test_t07_interchange.py [33ms[0m[33ms[0m[32m                         [  1%][0m
+tests/integration/m02/test_install_guards.py [33ms[0m[33ms[0m[32m                          [  1%][0m
+tests/integration/m02/test_t01_roundtrip.py [33ms[0m[32m                            [  1%][0m
+tests/integration/m02/test_t02_conflicts.py [33ms[0m[32m                            [  1%][0m
+tests/integration/m02/test_t03_no_partial.py [33ms[0m[33ms[0m[32m                          [  1%][0m
+tests/integration/m02/test_t04_identity.py [33ms[0m[32m                             [  2%][0m
+tests/integration/m02/test_t07_extension.py [33ms[0m[33ms[0m[32m                           [  2%][0m
+tests/integration/m03/test_authority_contract.py [33ms[0m[33ms[0m[32m                      [  2%][0m
+tests/integration/m03/test_cascade.py [33ms[0m[32m                                  [  2%][0m
+tests/integration/m03/test_journal_contract.py [33ms[0m[33ms[0m[33ms[0m[32m                       [  2%][0m
+tests/integration/m03/test_t01_tokens.py [33ms[0m[32m                               [  2%][0m
+tests/integration/m03/test_t02_separation.py [33ms[0m[32m                           [  3%][0m
+tests/integration/m03/test_t03_independent.py [33ms[0m[32m                          [  3%][0m
+tests/integration/m03/test_t04_historical.py [33ms[0m[32m                           [  3%][0m
+tests/integration/m03/test_t05_bindings.py [33ms[0m[33ms[0m[32m                            [  3%][0m
+tests/integration/m03/test_t06_crash.py [33ms[0m[33ms[0m[33ms[0m[32m                              [  3%][0m
+tests/integration/m03/test_t07_boundary.py [33ms[0m[33ms[0m[33ms[0m[32m                           [  4%][0m
+tests/integration/m04/test_storage_paging.py [33ms[0m[32m                           [  4%][0m
+tests/integration/m04/test_t01_reviewed_apply.py [33ms[0m[32m                       [  4%][0m
+tests/integration/m04/test_t02_invalidation.py [33ms[0m[32m                         [  4%][0m
+tests/integration/m04/test_t03_cross_scope.py [33ms[0m[32m                          [  4%][0m
+tests/integration/m04/test_t04_retry_crash.py [33ms[0m[33ms[0m[33ms[0m[33ms[0m[33ms[0m[32m                      [  5%][0m
+tests/integration/m04/test_t05_revision.py [33ms[0m[32m                             [  5%][0m
+tests/integration/m04/test_t06_restore_security.py [33ms[0m[32m                     [  5%][0m
+tests/integration/m04/test_t07_schema_conflict.py [33ms[0m[33ms[0m[33ms[0m[32m                    [  5%][0m
+tests/integration/m05/test_backend_fetch.py [33ms[0m[32m                            [  5%][0m
+tests/integration/m05/test_t01_directory.py [33ms[0m[32m                            [  5%][0m
+tests/integration/m05/test_t02_filters.py [33ms[0m[33ms[0m[32m                             [  6%][0m
+tests/integration/m05/test_t03_noninterference.py [33ms[0m[32m                      [  6%][0m
+tests/integration/m05/test_t04_identity_m05.py [33ms[0m[32m                         [  6%][0m
+tests/integration/m05/test_t05_cursors.py [33ms[0m[33ms[0m[32m                             [  6%][0m
+tests/integration/m05/test_t06_limits.py [33ms[0m[33ms[0m[33ms[0m[32m                             [  6%][0m
+tests/integration/m05/test_t07_views.py [33ms[0m[32m                                [  6%][0m
+tests/integration/m06/test_t01_ordered_views.py [33ms[0m[32m                        [  7%][0m
+tests/integration/m06/test_t02_no_hidden_structure.py [33ms[0m[32m                  [  7%][0m
+tests/integration/m06/test_t03_search_export.py [33ms[0m[32m                        [  7%][0m
+tests/integration/m06/test_t04_historical_rescope.py [33ms[0m[32m                   [  7%][0m
+tests/integration/m06/test_t05_content_integrity.py [33ms[0m[32m                    [  7%][0m
+tests/integration/m06/test_t06_structure.py [33ms[0m[32m                            [  7%][0m
+tests/integration/m06/test_t07_safe_rendering.py [33ms[0m[32m                       [  7%][0m
+tests/integration/m07/test_t01_reuse.py [33ms[0m[32m                                [  7%][0m
+tests/integration/m07/test_t02_graph_vs_keywords.py [33ms[0m[32m                    [  7%][0m
+tests/integration/m07/test_t03_authorized_paths.py [33ms[0m[32m                     [  8%][0m
+tests/integration/m07/test_t04_evidence.py [33ms[0m[32m                             [  8%][0m
+tests/integration/m07/test_t05_parity.py [33ms[0m[32m                               [  8%][0m
+tests/integration/m07/test_t06_determinism_budget.py [33ms[0m[32m                   [  8%][0m
+tests/integration/m07/test_t07_ambiguity_revocation.py [33ms[0m[32m                 [  8%][0m
+tests/integration/m08/test_t01_identities.py [33ms[0m[32m                           [  8%][0m
+tests/integration/m08/test_t02_targets.py [33ms[0m[32m                              [  8%][0m
+tests/integration/m08/test_t03_evidence.py [33ms[0m[32m                             [  8%][0m
+tests/integration/m08/test_t04_partial.py [33ms[0m[32m                              [  8%][0m
+tests/integration/m08/test_t05_idempotent.py [33ms[0m[32m                           [  8%][0m
+tests/integration/m08/test_t06_relationships.py [33ms[0m[32m                        [  9%][0m
+tests/integration/m08/test_t07_protected.py [33ms[0m[32m                            [  9%][0m
+tests/integration/m09/test_t01_required.py [33ms[0m[32m                             [  9%][0m
+tests/integration/m09/test_t02_discrepancy.py [33ms[0m[32m                          [  9%][0m
+tests/integration/m09/test_t03_runs.py [33ms[0m[32m                                 [  9%][0m
+tests/integration/m09/test_t04_mock.py [33ms[0m[32m                                 [  9%][0m
+tests/integration/m09/test_t05_consumer.py [33ms[0m[32m                             [  9%][0m
+tests/integration/m09/test_t06_restricted.py [33ms[0m[32m                           [  9%][0m
+tests/test_baseline.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m                                          [ 10%][0m
+tests/test_harness.py [32m.[0m[32m.[0m[32m.[0m[32m                                                [ 11%][0m
+tests/test_interchange.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                          [ 11%][0m
+tests/test_secret_hygiene.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                    [ 12%][0m
+tests/test_terminus_contract.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                     [ 12%][0m
+tests/unit/m02/test_export.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                      [ 13%][0m
+tests/unit/m02/test_extension.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                              [ 14%][0m
+tests/unit/m02/test_identity_values.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                        [ 15%][0m
+tests/unit/m02/test_keywords.py [32m.[0m[32m.[0m[33m                                       [ 15%][0m
+tests/unit/m02/test_literals.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                 [ 18%][0m
+tests/unit/m02/test_records.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                     [ 18%][0m
+tests/unit/m02/test_storage_guard.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                   [ 20%][0m
+tests/unit/m02/test_time.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                     [ 21%][0m
+tests/unit/m02/test_unsupported.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                              [ 22%][0m
+tests/unit/m02/test_validation.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                 [ 23%][0m
+tests/unit/m03/test_api_boundary.py [32m.[0m[32m.[0m[32m.[0m[33m                                  [ 23%][0m
+tests/unit/m03/test_config.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                  [ 24%][0m
+tests/unit/m03/test_journal.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                 [ 25%][0m
+tests/unit/m03/test_plane.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                        [ 25%][0m
+tests/unit/m03/test_probe_canonical.py [32m.[0m[33m                                 [ 25%][0m
+tests/unit/m03/test_provision_privacy.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                           [ 26%][0m
+tests/unit/m03/test_record_confirmation.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                       [ 27%][0m
+tests/unit/m03/test_recovery_authority.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                     [ 28%][0m
+tests/unit/m03/test_tokens.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                             [ 29%][0m
+tests/unit/m04/test_changeset_validation.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                   [ 30%][0m
+tests/unit/m04/test_digest.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                       [ 31%][0m
+tests/unit/m04/test_history.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                    [ 31%][0m
+tests/unit/m04/test_idempotency.py [32m.[0m[32m.[0m[33m                                    [ 32%][0m
+tests/unit/m04/test_models.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                               [ 33%][0m
+tests/unit/m04/test_profiles.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                 [ 34%][0m
+tests/unit/m04/test_routes.py [32m.[0m[32m.[0m[32m.[0m[33m                                        [ 34%][0m
+tests/unit/m04/test_storage.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                     [ 35%][0m
+tests/unit/m05/test_compile.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                     [ 35%][0m
+tests/unit/m05/test_cursor.py [32m.[0m[32m.[0m[33m                                         [ 35%][0m
+tests/unit/m05/test_directory_fixture.py [32m.[0m[32m.[0m[33m                              [ 35%][0m
+tests/unit/m05/test_filters.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                       [ 38%][0m
+tests/unit/m05/test_identity.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                    [ 38%][0m
+tests/unit/m05/test_neighborhood_service.py [32m.[0m[33m                            [ 38%][0m
+tests/unit/m05/test_plan.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                      [ 39%][0m
+tests/unit/m05/test_traverse.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                    [ 39%][0m
+tests/unit/m06/test_changes_wiring.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                   [ 41%][0m
+tests/unit/m06/test_document_history.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                   [ 43%][0m
+tests/unit/m06/test_document_routes.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m              [ 45%][0m
+tests/unit/m06/test_history_authority_prefetch.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m         [ 46%][0m
+tests/unit/m06/test_history_concurrency.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                         [ 47%][0m
+tests/unit/m06/test_history_fetch.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                            [ 48%][0m
+tests/unit/m06/test_history_manifest.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                [ 50%][0m
+tests/unit/m06/test_history_types.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                               [ 50%][0m
+tests/unit/m06/test_order.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                         [ 52%][0m
+tests/unit/m06/test_render.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                       [ 52%][0m
+tests/unit/m06/test_search.py [32m.[0m[32m.[0m[32m.[0m[33m                                        [ 53%][0m
+tests/unit/m06/test_service_limits.py [32m.[0m[33m                                  [ 53%][0m
+tests/unit/m06/test_text.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                      [ 54%][0m
+tests/unit/m07/test_api.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                        [ 54%][0m
+tests/unit/m07/test_cold_index.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                  [ 55%][0m
+tests/unit/m07/test_compile_fallback.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                       [ 56%][0m
+tests/unit/m07/test_entities_concurrency.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                    [ 57%][0m
+tests/unit/m07/test_entity_kind.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                           [ 58%][0m
+tests/unit/m07/test_fetch_authority.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                             [ 59%][0m
+tests/unit/m07/test_finalize_concurrency.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m               [ 60%][0m
+tests/unit/m07/test_fixture_loader.py [32m.[0m[32m.[0m[32m.[0m[33m                                [ 60%][0m
+tests/unit/m07/test_guarded_finalize.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m        [ 63%][0m
+tests/unit/m07/test_historical_preparation.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m      [ 65%][0m
+tests/unit/m07/test_historical_projection.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                        [ 66%][0m
+tests/unit/m07/test_history_cohort.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                       [ 67%][0m
+tests/unit/m07/test_history_prefetch.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                 [ 69%][0m
+tests/unit/m07/test_plan_concurrency.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                           [ 69%][0m
+tests/unit/m07/test_profile_install_boundary.py [32m.[0m[32m.[0m[32m.[0m[33m                      [ 70%][0m
+tests/unit/m07/test_profile_reads.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                            [ 71%][0m
+tests/unit/m07/test_profiles.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m  [ 75%][0m
+tests/unit/m07/test_provisional_index.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m [ 78%]
+[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                                                 [ 79%][0m
+tests/unit/m07/test_read_retry_authorization.py [32m.[0m[32m.[0m[32m.[0m[33m                      [ 79%][0m
+tests/unit/m07/test_render_budget.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m              [ 82%][0m
+tests/unit/m07/test_request.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m           [ 85%][0m
+tests/unit/m07/test_resolution.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                  [ 85%][0m
+tests/unit/m07/test_selection.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                             [ 87%][0m
+tests/unit/m07/test_service.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                 [ 88%][0m
+tests/unit/m07/test_storage_preflight.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                [ 89%][0m
+tests/unit/m07/test_terminus_read_retry.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m  [ 92%][0m
+tests/unit/m07/test_topic_references.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                           [ 93%][0m
+tests/unit/m07/test_units.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m              [ 96%][0m
+tests/unit/m08/test_journal_snapshot.py [32m.[0m[33m                                [ 96%][0m
+tests/unit/m08/test_producer.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                  [ 97%][0m
+tests/unit/m08/test_software_profile.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                         [ 98%][0m
+tests/unit/m09/test_request.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                                  [ 99%][0m
+tests/unit/m09/test_software_selection.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[33m                        [100%][0m
+
+[33m=============================== warnings summary ===============================[0m
+tests/test_interchange.py: 4 warnings
+tests/unit/m02/test_export.py: 5 warnings
+tests/unit/m02/test_extension.py: 4 warnings
+tests/unit/m02/test_validation.py: 1 warning
+tests/unit/m04/test_storage.py: 2 warnings
+tests/unit/m07/test_entity_kind.py: 1 warning
+  /home/tux/personalbuild/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+[36m[1m=========================== short test summary info ============================[0m
+[33mSKIPPED[0m [1] tests/integration/m01/test_t01_inventory.py: M01 live stack requires C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m01/test_t02_atomic.py: M01 live stack requires C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m01/test_t03_stale_and_reconcile.py: M01 live stack requires C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m01/test_t04_revisions.py: M01 live stack requires C1_STACK=1
+[33mSKIPPED[0m [2] tests/integration/m01/test_t05_freshness.py: M01 live stack requires C1_STACK=1
+[33mSKIPPED[0m [3] tests/integration/m01/test_t06_publication.py:58: M01 live stack requires C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m01/test_t06_publication.py: M01 live stack requires C1_STACK=1
+[33mSKIPPED[0m [2] tests/integration/m01/test_t07_interchange.py: M01 live stack requires C1_STACK=1
+[33mSKIPPED[0m [2] tests/integration/m02/test_install_guards.py: M02 live stack requires C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m02/test_t01_roundtrip.py: M02 live stack requires C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m02/test_t02_conflicts.py: M02 live stack requires C1_STACK=1
+[33mSKIPPED[0m [2] tests/integration/m02/test_t03_no_partial.py: M02 live stack requires C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m02/test_t04_identity.py: M02 live stack requires C1_STACK=1
+[33mSKIPPED[0m [2] tests/integration/m02/test_t07_extension.py: M02 live stack requires C1_STACK=1
+[33mSKIPPED[0m [2] tests/integration/m03/test_authority_contract.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m03/test_cascade.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [3] tests/integration/m03/test_journal_contract.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m03/test_t01_tokens.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m03/test_t02_separation.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m03/test_t03_independent.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m03/test_t04_historical.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [2] tests/integration/m03/test_t05_bindings.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [3] tests/integration/m03/test_t06_crash.py:53: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [3] tests/integration/m03/test_t07_boundary.py: M03 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m04/test_storage_paging.py: requires pinned live stack
+[33mSKIPPED[0m [1] tests/integration/m04/test_t01_reviewed_apply.py: M04 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m04/test_t02_invalidation.py: M04 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m04/test_t03_cross_scope.py: M04 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m04/test_t04_retry_crash.py: M04 real services require C1_STACK=1
+[33mSKIPPED[0m [4] tests/integration/m04/test_t04_retry_crash.py:108: M04 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m04/test_t05_revision.py: M04 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m04/test_t06_restore_security.py: M04 real services require C1_STACK=1
+[33mSKIPPED[0m [3] tests/integration/m04/test_t07_schema_conflict.py: M04 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m05/test_backend_fetch.py:33: M05 real TerminusDB required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t01_directory.py:131: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t02_filters.py:78: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t02_filters.py:218: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t03_noninterference.py:82: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t04_identity_m05.py:45: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t05_cursors.py:33: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t05_cursors.py:133: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t06_limits.py:20: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t06_limits.py:53: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t06_limits.py:75: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m05/test_t07_views.py:36: M05 real services required
+[33mSKIPPED[0m [1] tests/integration/m06/test_t01_ordered_views.py: M06 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m06/test_t02_no_hidden_structure.py: M06 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m06/test_t03_search_export.py: M06 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m06/test_t04_historical_rescope.py: M06 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m06/test_t05_content_integrity.py: M06 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m06/test_t06_structure.py: M06 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m06/test_t07_safe_rendering.py: M06 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m07/test_t01_reuse.py: M07 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m07/test_t02_graph_vs_keywords.py: M07 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m07/test_t03_authorized_paths.py: M07 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m07/test_t04_evidence.py: M07 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m07/test_t05_parity.py: M07 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m07/test_t06_determinism_budget.py: M07 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m07/test_t07_ambiguity_revocation.py: M07 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m08/test_t01_identities.py: M08 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m08/test_t02_targets.py: M08 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m08/test_t03_evidence.py: M08 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m08/test_t04_partial.py: M08 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m08/test_t05_idempotent.py: M08 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m08/test_t06_relationships.py: M08 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m08/test_t07_protected.py: M08 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m09/test_t01_required.py: M09 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m09/test_t02_discrepancy.py: M09 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m09/test_t03_runs.py: M09 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m09/test_t04_mock.py: M09 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m09/test_t05_consumer.py: M09 real services require C1_STACK=1
+[33mSKIPPED[0m [1] tests/integration/m09/test_t06_restricted.py: M09 real services require C1_STACK=1
+[33m================ [32m842 passed[0m, [33m[1m92 skipped[0m, [33m[1m17 warnings[0m[33m in 31.47s[0m[33m =================[0m
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 1099 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).
+uv run --locked python scripts/build_profile.py --check
+uv run --locked python scripts/build_software_profile.py --check
+software profile is current

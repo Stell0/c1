@@ -50,7 +50,9 @@ services:
       OPENFGA_AUTHN_PRESHARED_KEYS: ${C1_FGA_TOKEN:?run make stack-up}
       OPENFGA_PLAYGROUND_ENABLED: "false"
       OPENFGA_LIST_OBJECTS_MAX_RESULTS: "1000"
-      OPENFGA_LIST_OBJECTS_DEADLINE: "3s"
+      # Server deadlines default to OpenFGA's 3 s; slow hosts may raise them (M09 D13).
+      OPENFGA_LIST_OBJECTS_DEADLINE: "${C1_FGA_DEADLINE:-3s}"
+      OPENFGA_REQUEST_TIMEOUT: "${C1_FGA_DEADLINE:-3s}"
     depends_on:
       openfga-migrate: {condition: service_completed_successfully}
     ports: ["127.0.0.1:18080:8080"]

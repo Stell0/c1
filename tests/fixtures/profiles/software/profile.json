@@ -1,6 +1,6 @@
 {
   "name": "software",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "requires_core": "1.0.0",
   "context": "context.jsonld",
   "shapes": "shapes.ttl",
@@ -1137,6 +1137,7 @@
             "docs",
             "junit-runs",
             "openapi-operations",
+            "review-notes",
             "scip-occurrences"
           ]
         },
@@ -1457,6 +1458,33 @@
       "name": "definedAt",
       "ranges": [
         "urn:c1:ns:software#SymbolOccurrence"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:software#executionInstructions": {
+      "name": "executionInstructions",
+      "ranges": [
+        "urn:c1:ns:software#CodeRepository"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:software#fixtureOf": {
+      "name": "fixtureOf",
+      "ranges": [
+        "urn:c1:ns:software#TestCase"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "urn:c1:ns:software#discrepancy": {
+      "name": "discrepancy",
+      "ranges": [
+        "urn:c1:ns:core#DocumentPart"
       ],
       "min_count": 0,
       "max_count": null,

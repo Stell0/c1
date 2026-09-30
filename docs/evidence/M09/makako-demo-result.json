@@ -1,0 +1,288 @@
+{
+  "before_consumer": {
+    "goal_statement": "Goal: conformance. The normative expectations are the only oracle source; the implementation shows current behavior and may be defective.",
+    "normative": [
+      [
+        "docs/invoicing.md",
+        "4c4c16d1fd9a",
+        "# Invoicing"
+      ],
+      [
+        "docs/invoicing.md",
+        "4c4c16d1fd9a",
+        "## Creating an invoice"
+      ],
+      [
+        "docs/invoicing.md",
+        "4c4c16d1fd9a",
+        "Call `POST /invoices` with a customer and an amount.\n\nThe amount must be greater than zero"
+      ],
+      [
+        "docs/invoicing.md",
+        "4c4c16d1fd9a",
+        "## Reading an invoice"
+      ],
+      [
+        "docs/invoicing.md",
+        "4c4c16d1fd9a",
+        "Call `GET /invoices/{invoiceId}` to read a stored invoice."
+      ],
+      [
+        "openapi.json",
+        "4c4c16d1fd9a",
+        "{\n  \"openapi\": \"3.1.1\",\n  \"info\": {\"title\": \"Ledger API\", \"version\": \"1.0.0\"},\n  \"paths\": "
+      ]
+    ],
+    "implementation": [
+      [
+        "code-unit",
+        "ledger/api.py",
+        "complete-unit",
+        "def create_invoice(customer: str, amount: int) -> Invoice:"
+      ],
+      [
+        "dependency-unit",
+        "ledger/models.py",
+        "complete-unit",
+        "@dataclass(frozen=True)"
+      ],
+      [
+        "dependency-unit",
+        "ledger/api.py",
+        "complete-unit",
+        "def validate(amount: int) -> bool:"
+      ],
+      [
+        "dependency-unit",
+        "ledger/api.py",
+        "complete-unit",
+        "class InvalidAmount(ValueError):"
+      ],
+      [
+        "dependency-unit",
+        "ledger/store.py",
+        "complete-unit",
+        "def save(invoice: Invoice) -> None:"
+      ]
+    ],
+    "tests": [
+      [
+        "ledger-create",
+        "definition-only",
+        []
+      ],
+      [
+        "shop-live",
+        "matching-run",
+        [
+          "pass"
+        ]
+      ],
+      [
+        "shop-mocked",
+        "matching-run",
+        [
+          "pass"
+        ]
+      ]
+    ],
+    "runs": [
+      [
+        "pass",
+        "other-target",
+        "live",
+        false,
+        [
+          "ledger a1"
+        ],
+        "py312"
+      ],
+      [
+        "pass",
+        "other-target",
+        "live",
+        false,
+        [
+          "ledger a2"
+        ],
+        "default"
+      ],
+      [
+        "pass",
+        "matching",
+        "live",
+        true,
+        [
+          "ledger a1",
+          "shop b1"
+        ],
+        "default"
+      ],
+      [
+        "pass",
+        "matching",
+        "mocked",
+        false,
+        [
+          "shop b1"
+        ],
+        "default"
+      ],
+      [
+        "pass",
+        "other-target",
+        "mocked",
+        false,
+        [
+          "shop b2"
+        ],
+        "default"
+      ]
+    ],
+    "instructions": [
+      [
+        "CONTRIBUTING.md",
+        true
+      ]
+    ],
+    "discrepancies": [
+      [
+        "The amount must be greater than zero; zero is rejected with 422.",
+        "return amount >= 0"
+      ]
+    ],
+    "gaps": [
+      "dependencies"
+    ],
+    "rendered_bytes": 39665
+  },
+  "consumer": {
+    "cited": [
+      "urn:c1:instance:dev:part/745b6703-5f4f-4979-8a11-7b92f4a1d078",
+      "urn:c1:instance:dev:part/83af3ebf-c29a-411b-a745-cd2bb2cc44df"
+    ],
+    "results": {
+      "a1": "fail",
+      "a2": "pass"
+    },
+    "imported": [
+      {
+        "run": "consumer/case",
+        "state": "applied",
+        "records": 8
+      },
+      {
+        "run": "consumer/a1",
+        "state": "applied",
+        "records": 5
+      },
+      {
+        "run": "consumer/a2",
+        "state": "applied",
+        "records": 5
+      }
+    ]
+  },
+  "after_consumer_tests": [
+    [
+      "consumer-zero-amount",
+      "matching-run",
+      [
+        "fail"
+      ]
+    ],
+    [
+      "ledger-create",
+      "definition-only",
+      []
+    ],
+    [
+      "shop-live",
+      "matching-run",
+      [
+        "pass"
+      ]
+    ],
+    [
+      "shop-mocked",
+      "matching-run",
+      [
+        "pass"
+      ]
+    ]
+  ],
+  "after_consumer_runs": [
+    [
+      "fail",
+      "matching",
+      "live",
+      false,
+      [
+        "ledger a1"
+      ],
+      "default"
+    ],
+    [
+      "pass",
+      "other-target",
+      "live",
+      false,
+      [
+        "ledger a2"
+      ],
+      "default"
+    ],
+    [
+      "pass",
+      "other-target",
+      "live",
+      false,
+      [
+        "ledger a1"
+      ],
+      "py312"
+    ],
+    [
+      "pass",
+      "other-target",
+      "live",
+      false,
+      [
+        "ledger a2"
+      ],
+      "default"
+    ],
+    [
+      "pass",
+      "matching",
+      "live",
+      true,
+      [
+        "ledger a1",
+        "shop b1"
+      ],
+      "default"
+    ],
+    [
+      "pass",
+      "matching",
+      "mocked",
+      false,
+      [
+        "shop b1"
+      ],
+      "default"
+    ],
+    [
+      "pass",
+      "other-target",
+      "mocked",
+      false,
+      [
+        "shop b2"
+      ],
+      "default"
+    ]
+  ],
+  "markdown_excerpt": "# Test\\-development context: ledger\\.api\\.create\\_invoice\n\n## Interpretation\n\n- profile: test\\-development\n\n- profile\\_version: 1\n\n- profile\\_digest: fb9d4fe202d87016c6a68a07d89a2d563a72b3f2d610bc8b54f01e85a5c5e06f\n\n- revision: branch:neshauux6y4c9cucnlpnmje1dqowwe5\n\n- anchor: \\{\"id\":\"urn:c1:instance:dev:entity/fdf64115\\-4837\\-4b21\\-9e9e\\-ecf5032c292c\",\"label\":\"ledger\\.api\\.create\\_invoice\",\"types\":\\[\"urn:c1:ns:software\\#CodeSymbol\"\\]\\}\n\n- goal: conformance\n\n- target\\_symbols: \\[\\{\"id\":\"urn:c1:instance:dev:entity/fdf64115\\-4837\\-4b21\\-9e9e\\-ecf5032c292c\",\"label\":\"ledger\\.api\\.create\\_invoice\"\\}\\]\n\n- coverage: \\[\\{\"id\":\"urn:c1:instance:dev:coverage/7245548e\\-7f7f\\-4d76\\-98af\\-55f47cd2c4e9\",\"method\":\"ast\\-calls\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/38b38bf8\\-78f0\\-48a0\\-87ab\\-0153a0b022de\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/c946dbd3\\-27b7\\-4e65\\-9311\\-96d09c9e4eed\",\"method\":\"ast\\-calls\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/38b38bf8\\-78f0\\-48a0\\-87ab\\-0153a0b022de\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/5f84d4db\\-aa02\\-47d3\\-9798\\-54425db70e06\",\"method\":\"docs\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/38b38bf8\\-78f0\\-48a0\\-87ab\\-0153a0b022de\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/cddab75e\\-42e0\\-4924\\-9447\\-a42b06babe07\",\"method\":\"docs\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/38b38bf8\\-78f0\\-48a0\\-87ab\\-0153a0b022de\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/71fdc6f6\\-6e57\\-431c"
+}

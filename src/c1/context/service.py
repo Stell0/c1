@@ -12,9 +12,11 @@ from typing import TYPE_CHECKING, Any
 from c1.authorization.principal import Principal
 from c1.context.budget import build_page, prepare_units
 from c1.context.errors import ContextError
+from c1.context.profiles import SoftwareContextProfile
 from c1.context.request import ContextRequest, request_digest
 from c1.context.resolve import primary_label, resolve_anchor
 from c1.context.select import select_context
+from c1.context.software_service import build_software_context
 from c1.context.topics import resolve_topics
 from c1.context.units import build_units
 from c1.model.diagnostics import ProfileError
@@ -118,9 +120,16 @@ class ContextService:
     ) -> dict[str, Any]:
         catalog = self.runtime.context_catalog()
         try:
-            profile = catalog.get(request.profile, request.profile_version)
+            profile = catalog.get_any(request.profile, request.profile_version)
         except ProfileError as exc:
             raise ContextError(400, "C1-CX-002", "unknown_context_profile") from exc
+        if isinstance(profile, SoftwareContextProfile):
+            return await build_software_context(
+                self, principal, request, profile, deadline=deadline
+            )
+        if request.target is not None or request.goal is not None:
+            # Target sets and goals belong to software-task profiles only (M09 D1).
+            raise ContextError(400, "C1-CX-001", "unsupported_selector")
         if set(request.fields) - profile.fields.keys():
             raise ContextError(400, "C1-CX-001", "unknown_field")
         digest = _digest(

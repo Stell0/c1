@@ -26,6 +26,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
+from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -1519,6 +1520,132 @@ class Planner:
                 )
         return run
 
+    # M09 declarations ------------------------------------------------------------------
+
+    def testing_run(self, snapshot: str) -> Run:
+        """Declared execution instructions and test fixtures (indexer, M09 D3)."""
+        repo = self.repo_of(snapshot)
+        principal = self.principals["indexer"]
+        commit = self.commit(snapshot)
+        run = Run(
+            f"testing/{snapshot}",
+            "indexer",
+            "docs",
+            snapshot,
+            activity_record(
+                f"testing/{snapshot}", principal, "docs", [source_id(snapshot)], "sw-shared"
+            ),
+        )
+        run.add(run.activity)
+        for path, spec in sorted(self.fixture["execution_instructions"].items()):
+            if spec["repository"] != repo or path not in self.inputs.files[snapshot]:
+                continue
+            parts = self._parts[(snapshot, path)]
+            heading = next(
+                index
+                for index, (_identifier, part) in enumerate(parts)
+                if part.kind.startswith("heading-")
+                and part.text.lstrip("#").strip() == spec["heading"]
+            )
+            section = parts[heading + 1][0]
+            scope = self.file_scope(snapshot, path)
+            run.touch(scope, path)
+            # The declared section is stored text only; C1 and this producer never run it.
+            claim_with_evidence(
+                run,
+                f"executionInstructions/{snapshot}/{path}",
+                file_id(snapshot, path),
+                S + "executionInstructions",
+                repository_id(repo),
+                scope=scope,
+                principal=principal,
+                target=section,
+                revision=commit,
+            )
+        for spec in self.fixture["test_fixtures"]:
+            if spec["repository"] != repo or (repo, spec["descriptor"]) not in self._symbol_scope:
+                continue
+            part = self._definition_part(snapshot, repo, spec["descriptor"])
+            if part is None:
+                continue
+            scope = self._symbol_scope[(repo, spec["descriptor"])]
+            run.touch(scope, spec["path"])
+            claim_with_evidence(
+                run,
+                f"fixtureOf/{snapshot}/{spec['descriptor']}",
+                symbol_id(repo, spec["descriptor"]),
+                S + "fixtureOf",
+                test_case_id(spec["test_case"]),
+                scope=scope,
+                principal=principal,
+                target=part,
+                revision=commit,
+            )
+        return run
+
+    def review_run(self) -> Run:
+        """Checked-in review notes: recorded discrepancies (analyzer, M09 D9)."""
+        principal = self.principals["analyzer"]
+        run = Run(
+            "reviews",
+            "analyzer",
+            "review-notes",
+            "a1",
+            activity_record("reviews", principal, "review-notes", [], "sw-shared"),
+        )
+        run.add(run.activity)
+        for note in self.fixture["discrepancies"]:
+            snapshot = note["snapshot"]
+            implementation = note["implementation"]
+            normative = note["normative"]
+            parts = {}
+            for side in (implementation, normative):
+                found = [
+                    identifier
+                    for identifier, part in self._parts[(snapshot, side["path"])]
+                    if side["quote"] in part.text
+                ]
+                if len(found) != 1:
+                    raise ValueError(f"review quote must occur in exactly one part: {side['path']}")
+                parts[side["path"]] = found[0]
+            scope = restrictive(
+                self.file_scope(snapshot, implementation["path"]),
+                self.file_scope(snapshot, normative["path"]),
+            )
+            key = f"discrepancy/{note['key']}"
+            claim = ident(f"assertion/{key}", "assertion")
+            evidence_ids = []
+            for side in (implementation, normative):
+                selector = run.add(
+                    {**quote_selector(f"{key}/{side['path']}", side["quote"]), "scope": scope}
+                )
+                evidence = evidence_record(
+                    f"{key}/{side['path']}",
+                    claim,
+                    parts[side["path"]],
+                    self.commit(snapshot),
+                    scope=scope,
+                    activity=run.activity["id"],
+                    selector=selector,
+                )
+                evidence_ids.append(evidence["id"])
+                run.add(evidence)
+            record = assertion(
+                key,
+                parts[implementation["path"]],
+                S + "discrepancy",
+                parts[normative["path"]],
+                scope=scope,
+                principal=principal,
+                activity=run.activity["id"],
+                evidence=evidence_ids[0],
+            )
+            record["properties"][C1 + "evidence"] = evidence_ids
+            run.add(record)
+            run.touch(scope, implementation["path"])
+            run.touch(scope, normative["path"])
+        return run
+
     def runs(self) -> list[Run]:
         """All runs in dependency order; repeatable (planning state is reset)."""
         self._symbol_scope.clear()
@@ -1540,11 +1667,166 @@ class Planner:
             result.append(self.calls_run(key))
         for key in order:
             result.append(self.analyzer_run(key))
+        for key in order:
+            result.append(self.testing_run(key))
+        result.append(self.review_run())
         result.append(self.verifies_run())
         for spec in self.fixture["test_runs"]:
             result.append(self.ci_run(spec))
         # A run that would record nothing but its own activity is not submitted.
         return [run for run in result if run.key == "seed" or len(run.records) > 1]
+
+
+# --- M09: external consumer results ---------------------------------------------------
+
+CONSUMER_CASE = "consumer-zero-amount"
+CONSUMER_PATH = "consumer/test_invoice_zero_amount_rejected.py"
+
+
+def canonical_junit(report: bytes) -> bytes:
+    """Keep only the JUnit subset C1 records: one testcase, its name, and its outcome.
+
+    Timing, host, and timestamp attributes vary per execution; dropping them
+    makes an identical outcome an identical, idempotent import.
+    """
+    result = junit_result(report)
+    case = next(ET.fromstring(report).iter("testcase"))
+
+    def attribute(value: str) -> str:
+        return escape(value, {'"': "&quot;"})
+
+    classname, name = attribute(case.get("classname", "")), attribute(case.get("name", ""))
+    attributes = f'classname="{classname}" name="{name}"'
+    body = ""
+    if result in {"fail", "error"}:
+        tag = "failure" if result == "fail" else "error"
+        detail = case.find(tag)
+        message = detail.get("message", "") if detail is not None else ""
+        body = f'<{tag} message="{attribute(message[:500])}"/>'
+    elif result == "skipped":
+        body = "<skipped/>"
+    return (
+        '<?xml version="1.0" encoding="utf-8"?>\n'
+        '<testsuite name="consumer" tests="1">'
+        f"<testcase {attributes}>{body}</testcase></testsuite>\n"
+    ).encode()
+
+
+def consumer_case_run(principal: str) -> Run:
+    """The reviewed external test as a Document and TestCase that verifies createInvoice."""
+    data = (FIXTURE / CONSUMER_PATH).read_bytes()
+    revision = "consumer:" + sha256(data)
+    run = Run(
+        "consumer/case",
+        "ci",
+        "junit-runs",
+        "a1",
+        activity_record("consumer/case", principal, "junit-runs", [], "sw-ledger"),
+    )
+    run.add(run.activity)
+    document = ident(f"consumer/{CONSUMER_PATH}", "document")
+    part = ident(f"consumer-part/{CONSUMER_PATH}", "part")
+    run.add(
+        {
+            "id": document,
+            "types": [C1 + "Document"],
+            "scope": "sw-ledger",
+            "properties": {
+                DCT + "title": [lit(CONSUMER_PATH)],
+                C1 + "sourceRevision": [lit(revision)],
+                C1 + "contentDigest": [lit("sha256:" + sha256(data))],
+            },
+        }
+    )
+    run.add(
+        {
+            "id": part,
+            "types": [C1 + "DocumentPart"],
+            "scope": "sw-ledger",
+            "properties": {
+                C1 + "partOfDocument": [document],
+                C1 + "orderKey": [lit(order_key(1))],
+                C1 + "text": [lit(data.decode("utf-8"))],
+                C1 + "partKind": [lit("code:python")],
+            },
+        }
+    )
+    run.add(entity(test_case_id(CONSUMER_CASE), "TestCase", CONSUMER_CASE, "sw-ledger"))
+    claim_with_evidence(
+        run,
+        f"verifies/{CONSUMER_CASE}",
+        test_case_id(CONSUMER_CASE),
+        S + "verifies",
+        operation_id("ledger", "createInvoice"),
+        scope="sw-ledger",
+        principal=principal,
+        target=part,
+        revision=revision,
+        selector=quote_selector(f"verifies/{CONSUMER_CASE}", 'create_invoice("acme", 0)'),
+    )
+    run.touch("sw-ledger", CONSUMER_PATH)
+    return run
+
+
+def consumer_run(snapshot: str, result: str, report: bytes, principal: str) -> Run:
+    """One external execution of the reviewed test at one fixture snapshot."""
+    key = f"consumer/{snapshot}"
+    run = Run(
+        key,
+        "ci",
+        "junit-runs",
+        snapshot,
+        activity_record(key, principal, "junit-runs", [], "sw-ledger"),
+    )
+    run.add(run.activity)
+    if junit_result(report) != result:
+        raise ValueError("canonical report disagrees with the recorded result")
+    revision = "report:" + sha256(report)
+    report_doc = ident(f"report/{key}", "document")
+    report_part = ident(f"report-part/{key}", "part")
+    run.add(
+        {
+            "id": report_doc,
+            "types": [C1 + "Document"],
+            "scope": "sw-ledger",
+            "properties": {
+                DCT + "title": [lit(f"consumer-{snapshot}.xml")],
+                C1 + "sourceRevision": [lit(revision)],
+                C1 + "contentDigest": [lit("sha256:" + sha256(report))],
+            },
+        }
+    )
+    run.add(
+        {
+            "id": report_part,
+            "types": [C1 + "DocumentPart"],
+            "scope": "sw-ledger",
+            "properties": {
+                C1 + "partOfDocument": [report_doc],
+                C1 + "orderKey": [lit(order_key(1))],
+                C1 + "text": [lit(report.decode("utf-8"))],
+                C1 + "partKind": [lit("code-unit:xml")],
+            },
+        }
+    )
+    run.add(
+        {
+            "id": ident(f"test-run/{key}", "test-run"),
+            "types": [S + "TestRun"],
+            "scope": "sw-ledger",
+            "properties": {
+                S + "testCaseRef": [test_case_id(CONSUMER_CASE)],
+                S + "snapshotRef": [snapshot_id(snapshot)],
+                S + "configurationRef": [configuration_id("default")],
+                S + "result": [lit(result)],
+                S + "integrationMode": [lit("live")],
+                S + "reportRef": [report_doc],
+                PROV + "wasGeneratedBy": [run.activity["id"]],
+            },
+        }
+    )
+    run.touch("sw-ledger", f"consumer-{snapshot}.xml")
+    return run
 
 
 def without_scopes(runs: list[Run], scopes: set[str]) -> list[Run]:

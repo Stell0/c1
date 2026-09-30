@@ -17,6 +17,7 @@ import httpx
 import pytest
 
 from probes.config import environment
+from tests.integration.software import software  # noqa: F401  (shared session fixture)
 
 _TERMINUS_URL = "http://127.0.0.1:16363"
 

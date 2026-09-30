@@ -27,6 +27,10 @@ RDFS = "http://www.w3.org/2000/01/rdf-schema#"
 PROV = "http://www.w3.org/ns/prov#"
 DCT = "http://purl.org/dc/terms/"
 
+# 1.1.0 adds the M09 test-development predicates. There is no in-place
+# upgrade path; development databases are reinstalled (owner, 2026-09-29).
+VERSION = "1.1.0"
+
 STRING = XSD + "string"
 INTEGER = XSD + "integer"
 STAMP = XSD + "dateTimeStamp"
@@ -157,7 +161,14 @@ RECORD_CLASSES: dict[str, dict[str, Any]] = {
                 [STRING],
                 1,
                 1,
-                ["ast-calls", "docs", "junit-runs", "openapi-operations", "scip-occurrences"],
+                [
+                    "ast-calls",
+                    "docs",
+                    "junit-runs",
+                    "openapi-operations",
+                    "review-notes",
+                    "scip-occurrences",
+                ],
             ),
             S + "analyzedScope": ([STRING], 1, None, []),
             S + "payloadDigest": ([STRING], 1, 1, []),
@@ -213,6 +224,10 @@ RELATIONSHIPS: dict[str, list[str]] = {
     "exercised": [S + "InterfaceOperation"],
     "specifiedIn": [C1 + "Document"],
     "definedAt": [S + "SymbolOccurrence"],
+    # M09 (ADR-0018): declared test-development context.
+    "executionInstructions": [S + "CodeRepository"],
+    "fixtureOf": [S + "TestCase"],
+    "discrepancy": [C1 + "DocumentPart"],
 }
 
 
@@ -260,7 +275,7 @@ def build_manifest(core: dict[str, Any]) -> dict[str, Any]:
     predicates[DCT + "source"] = _prop("documentSource", [C1 + "Source"], 0, None, [])
     return {
         "name": "software",
-        "version": "1.0.0",
+        "version": VERSION,
         "requires_core": core["version"],
         "context": "context.jsonld",
         "shapes": "shapes.ttl",
@@ -329,7 +344,7 @@ def build_files() -> dict[str, str]:
     core = json.loads((ROOT / "profiles/core/profile.json").read_text(encoding="utf-8"))
     manifest = build_manifest(core)
     shapes = build_shapes(manifest, (ROOT / "profiles/core/shapes.ttl").read_text(encoding="utf-8"))
-    context = {"@id": "urn:c1:context:software:1.0.0", "@context": {"software": S}}
+    context = {"@id": f"urn:c1:context:software:{VERSION}", "@context": {"software": S}}
     return {
         "profile.json": json.dumps(manifest, indent=2) + "\n",
         "context.jsonld": json.dumps(context, indent=2) + "\n",

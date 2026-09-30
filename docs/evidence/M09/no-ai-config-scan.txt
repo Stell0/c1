@@ -1,0 +1,7 @@
+# Static no-AI configuration scan, 2026-09-29T22:53:12Z
+# Command:
+grep -n -i -E 'openai|anthropic|gemini|genai|huggingface|transformers|litellm|langchain|ollama|azure|sentence.transformers|embedding|model_name|llm' pyproject.toml deployment/compose.yaml deployment/.env.example
+# Output:
+# grep exit=1 (1 means no match; PASS)
+# New M09 request paths import no provider SDK or network client:
+# grep exit=1 (1 means no match; PASS)

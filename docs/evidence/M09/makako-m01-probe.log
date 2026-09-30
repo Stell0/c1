@@ -1,0 +1,34 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /root/c1
+configfile: pyproject.toml
+plugins: anyio-4.15.1
+collected 12 items
+
+tests/integration/m01/test_t01_inventory.py .
+tests/integration/m01/test_t02_atomic.py .
+tests/integration/m01/test_t03_stale_and_reconcile.py .
+tests/integration/m01/test_t04_revisions.py .
+tests/integration/m01/test_t05_freshness.py .terminusdb: ready
+openfga: ready
+keycloak: ready
+terminusdb: ready
+keycloak: ready
+openfga: ready
+.
+tests/integration/m01/test_t06_publication.py {"crash": "journal", "journal_write_ms": [150.71292500942945, 152.02368516474962, 148.73300306499004]}
+.{"crash": "content", "journal_write_ms": [149.32446274906397, 137.67842762172222, 142.01018679887056]}
+.{"crash": "binding", "journal_write_ms": [101.0732501745224, 142.29840599000454, 145.1152339577675]}
+..
+tests/integration/m01/test_t07_interchange.py ..
+
+=============================== warnings summary ===============================
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+tests/integration/m01/test_t07_interchange.py::test_t07_interchange_round_trip
+  /root/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+-- generated xml file: /root/c1/docs/evidence/M09/makako-m01-probe-junit.xml ---
+======================= 12 passed, 3 warnings in 44.89s ========================

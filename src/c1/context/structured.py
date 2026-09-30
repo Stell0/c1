@@ -19,8 +19,8 @@ def public_value(value: Any) -> Any:
 
 
 def unit_citations(unit: dict[str, Any]) -> list[dict[str, Any]]:
-    """Return citations in claim then qualifier first-use order."""
-    result: list[dict[str, Any]] = []
+    """Return a unit's own citations, then claim and qualifier citations in first-use order."""
+    result: list[dict[str, Any]] = list(unit.get("citations", []))
 
     def visit(claim: dict[str, Any]) -> None:
         result.extend(claim.get("citations", []))

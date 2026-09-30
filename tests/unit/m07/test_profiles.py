@@ -51,7 +51,8 @@ def test_graph_context_contract_and_catalog() -> None:
         "hasVersion",
     ]
     assert catalog.digest("graph-context", "1") == profile_digest(profile)
-    assert catalog.catalog() == [
+    # M09 adds the software-task `test-development` profile to the same catalog.
+    assert [item for item in catalog.catalog() if item["name"] == "graph-context"] == [
         {
             "name": "graph-context",
             "version": "1",

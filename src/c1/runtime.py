@@ -45,7 +45,13 @@ class Runtime:
         self.registry = ProfileRegistry()
         self.knowledge = Terminus(storage_config(settings))
         self.journal = Journal(storage_config(settings, workflow=True))
-        self.fga = FGA(settings.fga_url, settings.fga_token, settings.fga_store, settings.fga_model)
+        self.fga = FGA(
+            settings.fga_url,
+            settings.fga_token,
+            settings.fga_store,
+            settings.fga_model,
+            timeout=settings.backend_timeout_s,
+        )
         self.plane = AuthorizationPlane(self.journal, self.fga, settings.instance_id, self.audit)
         self.operations = SecurityOperations(
             settings, self.journal, self.fga, self.plane, self.knowledge, self.registry, self.audit

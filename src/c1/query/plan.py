@@ -49,7 +49,7 @@ class AuthorizedSelection:
         index: CurrentBindingIndex | None = None,
         candidate_limit: int = 5000,
         max_readable_scopes: int = 500,
-        time_budget_ms: int = 5000,
+        time_budget_ms: int = 10000,
     ) -> None:
         if not 1 <= candidate_limit <= 5000:
             raise ValueError("candidate limit must be within 1..5000")

@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M08 VERIFIED. M09–M18 remain unimplemented.
+**Status:** M00–M09 VERIFIED. M10–M18 remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -79,7 +79,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M06 | Scoped documents and reconstruction | M05 | Ordered text retrieval with mixed visibility and preserved evidence | VERIFIED |
 | M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | VERIFIED |
 | M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | VERIFIED |
-| M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | PLANNED |
+| M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | VERIFIED |
 | M10 | Documentation-first support context | M09 | Two-stage support retrieval with a stable software target and controlled fallback | NOT_PLANNED |
 | M11 | Cross-software documentation-update context | M10 | Applicable, source-grounded context and reviewable documentation revisions | NOT_PLANNED |
 | M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | NOT_PLANNED |
@@ -346,6 +346,8 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 **Exit gate:** the software model and A21 source-consistency behavior work through ordinary APIs with no LLM or mandatory new backend. A fixture import is not company-wide production ingestion.
 
 ## M09 — Coding-agent test-development context
+
+**Current execution status (2026-09-30):** M09 is `VERIFIED`; see the [M09 report](docs/milestones/M09-report.md). The 92-case live gate (M01–M08 regressions plus M09-T01–T06) passed on makako.sf.nethserver.net with the owner-approved timeout settings (M09 D12–D13). `make check`, the M01 probe and the no-AI consumer demonstration also passed. This status note does not change the M09 acceptance contract.
 
 **Goal:** supply the evidence a coding agent or human needs to write an appropriate test, without making C1 generate or execute it.
 
@@ -666,4 +668,4 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S4 — Current planning instruction.** Produce AGENTS.md and PLAN.md; divide work into milestones with verifiable outputs and specific tests, and plan each milestone separately. This is the authority for the execution policy and delivery structure in this file.
 
-No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M08 are now VERIFIED as recorded in their milestone reports; the owner authorized M07 implementation after revalidating its provisional plan against the M06 report. M08–M14 remain NOT_PLANNED. M15–M18 are additional NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M09 are now VERIFIED as recorded in their milestone reports; the owner authorized M07 implementation after revalidating its provisional plan against the M06 report. M08–M14 remain NOT_PLANNED. M15–M18 are additional NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.

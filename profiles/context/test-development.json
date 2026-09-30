@@ -1,0 +1,45 @@
+{
+  "name": "test-development",
+  "version": "1",
+  "software": {
+    "task": "test-development",
+    "requires_target": true,
+    "requires_goal": true,
+    "anchor_kinds": [
+      "symbol",
+      "capability",
+      "operation"
+    ],
+    "dependency_depth": 1,
+    "max_dependencies": 20,
+    "max_tests": 50,
+    "max_runs": 100,
+    "role_map": {
+      "documentation-part": "normative",
+      "contract-part": "normative",
+      "code-unit": "structural",
+      "dependency-unit": "structural",
+      "operation": "structural",
+      "test-definition": "structural",
+      "test-run": "observed",
+      "fixture-unit": "structural",
+      "instruction-part": "instruction",
+      "discrepancy": "interpretive"
+    },
+    "sections": [
+      "interpretation",
+      "target",
+      "normative",
+      "implementation",
+      "interfaces",
+      "tests",
+      "runs",
+      "fixtures",
+      "instructions",
+      "discrepancies",
+      "gaps",
+      "sources",
+      "bounds"
+    ]
+  }
+}

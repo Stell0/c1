@@ -1,0 +1,4 @@
+tests 92 unique 92 expected 92 match True bad 0
+time 18887.841
+m09 times {'test_t01_required_context_for_create_invoice': 217.819, 'test_t02_discrepancy_is_preserved_not_canonized': 37.528, 'test_t03_definition_versus_execution': 76.711, 'test_t04_mock_versus_integration': 38.931, 'test_t05_consumer_reproducibility': 2182.137, 'test_t06_restricted_dependency_is_an_authorized_gap': 3958.898}
+PASS

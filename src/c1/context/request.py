@@ -54,6 +54,47 @@ class ContextBudget(BaseModel):
     maximum: int = Field(default=65536, ge=2048, le=524288)
 
 
+class TargetSelector(BaseModel):
+    """An explicit software target set; branch names resolve only through the software API."""
+
+    model_config = ConfigDict(frozen=True, extra="forbid", strict=True)
+
+    target_set_id: str | None = None
+    snapshots: list[str] = Field(default_factory=list, max_length=50)
+    contracts: list[str] = Field(default_factory=list, max_length=50)
+    configurations: list[str] = Field(default_factory=list, max_length=50)
+
+    @field_validator("target_set_id")
+    @classmethod
+    def check_target_set(cls, value: str | None) -> str | None:
+        return validate_iri(value) if value is not None else None
+
+    @field_validator("snapshots", "contracts", "configurations")
+    @classmethod
+    def check_members(cls, values: list[str]) -> list[str]:
+        if len(values) != len(set(values)):
+            raise ValueError("target members must be unique")
+        return [validate_iri(value) for value in values]
+
+    @model_validator(mode="after")
+    def check_shape(self) -> Self:
+        members = self.snapshots or self.contracts or self.configurations
+        if self.target_set_id is not None and members:
+            raise ValueError("target_set_id excludes inline members")
+        if self.target_set_id is None and not self.snapshots:
+            raise ValueError("a target needs snapshots or a target_set_id")
+        return self
+
+    def spec(self) -> dict[str, object]:
+        if self.target_set_id is not None:
+            return {"target_set_id": self.target_set_id}
+        return {
+            "snapshots": list(self.snapshots),
+            "contracts": list(self.contracts),
+            "configurations": list(self.configurations),
+        }
+
+
 class ContextRequest(BaseModel):
     """Explicit selectors and narrowing; profile fields are checked by the service."""
 
@@ -73,6 +114,9 @@ class ContextRequest(BaseModel):
     )
     budget: ContextBudget = Field(default_factory=ContextBudget)
     cursor: str | None = Field(default=None, min_length=1, max_length=16384)
+    # Software-task profiles only (M09 D1); graph profiles reject both.
+    target: TargetSelector | None = None
+    goal: Literal["conformance", "characterization"] | None = None
 
     @field_validator("topics", mode="before")
     @classmethod
@@ -126,6 +170,12 @@ class ContextRequest(BaseModel):
 
 def request_digest(request: ContextRequest) -> str:
     """Bind continuations to selection and rendering; budget may change per page."""
-    value = request.model_dump(mode="json", exclude={"cursor", "budget", "revision"})
+    value = request.model_dump(
+        mode="json", exclude={"cursor", "budget", "revision", "target", "goal"}
+    )
+    # Absent software fields leave graph-profile digests exactly as in M07.
+    for key in ("target", "goal"):
+        if getattr(request, key) is not None:
+            value[key] = request.model_dump(mode="json", include={key})[key]
     payload = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()

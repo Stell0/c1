@@ -68,7 +68,10 @@ class Settings:
     cursor_secret: str = field(default="", repr=False)
     query_candidate_limit: int = 5000
     max_readable_scopes: int = 500
-    query_time_budget_ms: int = 5000
+    # M09 D12 (owner-approved 2026-09-30): 5,000 -> 10,000 ms default; cap unchanged.
+    query_time_budget_ms: int = 10000
+    # M09 D13: OpenFGA and OIDC client timeouts; default unchanged (M07 D22).
+    backend_timeout_s: float = 5.0
 
     def __post_init__(self) -> None:
         if not _NAME.fullmatch(self.instance_id):
@@ -109,6 +112,8 @@ class Settings:
         ):
             if setting_value < 1 or setting_value > maximum:
                 raise ValueError(f"{setting_name} must be between 1 and {maximum}")
+        if not 1 <= self.backend_timeout_s <= 30:
+            raise ValueError("C1_BACKEND_TIMEOUT_S must be between 1 and 30")
         if self.cursor_secret and len(self.cursor_secret) < 32:
             raise ValueError("C1_CURSOR_SECRET must contain at least 32 characters")
 
@@ -155,5 +160,6 @@ class Settings:
             cursor_secret=os.environ["C1_CURSOR_SECRET"],
             query_candidate_limit=int(get("C1_QUERY_CANDIDATE_LIMIT", "5000")),
             max_readable_scopes=int(get("C1_MAX_READABLE_SCOPES", "500")),
-            query_time_budget_ms=int(get("C1_QUERY_TIME_BUDGET_MS", "5000")),
+            query_time_budget_ms=int(get("C1_QUERY_TIME_BUDGET_MS", "10000")),
+            backend_timeout_s=float(get("C1_BACKEND_TIMEOUT_S", "5")),
         )

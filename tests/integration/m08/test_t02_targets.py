@@ -32,7 +32,11 @@ def test_t02_target_pinning_and_explicit_branch_resolution(software: Software) -
             if item["kind"] == "relationship" and item["evidence"]["target_member"]:
                 assert item["evidence"]["target_member"] in {snapshot("a1"), snapshot("b1")}
         runs = {item["id"] for item in current if item["kind"] == "run"}
-        assert runs == {sp.ident("test-run/live-a1b1", "test-run")}
+        # Fixture v1.1 (M09) adds a mocked b1 run and an a1 run under `py312`.
+        assert runs == {
+            sp.ident(f"test-run/{key}", "test-run")
+            for key in ("live-a1b1", "mocked-b1", "unit-a1-py312")
+        }
         operations = {item["operation_id"] for item in current if item["kind"] == "operation"}
         assert operations == {"createInvoice", "getInvoice"}
         documents = {item["path"] for item in current if item["kind"] == "document"}

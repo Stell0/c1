@@ -1,0 +1,3 @@
+tests 80 unique 80 expected 92 match False bad 1
+missing ['tests/integration/m08/test_t02_targets.py::test_t02_target_pinning_and_explicit_branch_resolution', 'tests/integration/m08/test_t03_evidence.py::test_t03_citations_resolve_to_immutable_snapshot_content', 'tests/integration/m08/test_t04_partial.py::test_t04_partial_import_is_explicit_and_never_relabeled', 'tests/integration/m08/test_t05_idempotent.py::test_t05_repeat_import_is_idempotent_and_competing_claims_coexist', 'tests/integration/m08/test_t06_relationships.py::test_t06_relationship_basis_and_mock_versus_observed'] extra []
+FAIL

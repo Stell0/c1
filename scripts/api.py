@@ -108,11 +108,12 @@ def up(crash_after: str | None) -> None:
         with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
             json.dump({"pid": process.pid}, stream)
             stream.write("\n")
-        deadline = time.monotonic() + 30
         # Readiness itself waits on bounded backend timeouts. During recovery
         # fault tests, OpenFGA may be intentionally paused and return 503 only
-        # after its 5-second client deadline.
-        with httpx.Client(timeout=15, trust_env=False) as client:
+        # after the configured backend client deadline (default 5 s, M09 D13).
+        backend = float(_environment(crash_after).get("C1_BACKEND_TIMEOUT_S", "5"))
+        deadline = time.monotonic() + max(30.0, 2 * backend + 20)
+        with httpx.Client(timeout=max(15.0, backend + 10), trust_env=False) as client:
             while time.monotonic() < deadline:
                 if process.poll() is not None:
                     raise RuntimeError(f"C1 API exited during startup ({process.returncode})")
