@@ -306,9 +306,77 @@ class LiveCase:
         return value
 
 
+# TerminusDB's own listen address inside its container (compose maps 16363 -> 6363);
+# a local clone names its source repository by this address.
+_TERMINUS_INTERNAL = "http://127.0.0.1:6363"
+
+
+@dataclass(frozen=True)
+class CaseTemplate:
+    """A loaded live case that fresh cases can copy instead of reloading.
+
+    A copy clones both TerminusDB databases with their full commit history
+    (same commit IDs, so recorded revisions stay valid) and writes the same
+    OpenFGA tuples into a fresh store. The instance ID is reused because
+    instance-level grants name it. Every copy is an independent repository.
+    """
+
+    instance_id: str
+    knowledge_database: str
+    workflow_database: str
+    tuples: tuple[tuple[str, str, str], ...]
+
+
+async def capture_template(case: LiveCase) -> CaseTemplate:
+    """Record a template from a live case; the case must stay open while it is copied."""
+    return CaseTemplate(
+        case.settings.instance_id,
+        case.settings.knowledge_database,
+        case.settings.workflow_database,
+        tuple(sorted(await _all_tuples(case.fga))),
+    )
+
+
+async def _all_tuples(fga: FGA) -> list[tuple[str, str, str]]:
+    """Every tuple in the store; a read-all request omits the tuple key entirely."""
+    result: list[tuple[str, str, str]] = []
+    token = ""
+    for _ in range(1000):
+        body: dict[str, Any] = {"page_size": 100, "consistency": "HIGHER_CONSISTENCY"}
+        if token:
+            body["continuation_token"] = token
+        payload = await fga._request("POST", fga._path + "/read", json=body)
+        for item in payload.get("tuples", []):
+            key = item["key"]
+            result.append((str(key["user"]), str(key["relation"]), str(key["object"])))
+        token = payload.get("continuation_token", "")
+        if not token:
+            return result
+    raise RuntimeError("template tuple read did not finish")
+
+
+async def _clone(storage: Terminus, source: str, password: str) -> None:
+    import base64
+
+    remote = base64.b64encode(f"admin:{password}".encode()).decode()
+    await storage._request(
+        "POST",
+        f"/api/clone/{storage._database_path}",
+        headers={"Authorization-Remote": "Basic " + remote},
+        json={
+            "remote_url": f"{_TERMINUS_INTERNAL}/admin/{source}",
+            "label": storage.config.database,
+            "comment": "M03 harness template copy",
+        },
+    )
+
+
 @asynccontextmanager
-async def live_case() -> AsyncIterator[LiveCase]:
-    """Give each test fresh knowledge/workflow databases and its own FGA store."""
+async def live_case(template: CaseTemplate | None = None) -> AsyncIterator[LiveCase]:
+    """Give each test fresh knowledge/workflow databases and its own FGA store.
+
+    With a template, the fresh databases and store start as copies of it.
+    """
     private = environment()
     password = private.get("C1_TERMINUS_PASSWORD")
     fga_token = private.get("C1_FGA_TOKEN")
@@ -319,7 +387,7 @@ async def live_case() -> AsyncIterator[LiveCase]:
         await fga.create_store("c1-m03-" + suffix)
         try:
             settings = Settings(
-                instance_id="m03_" + suffix,
+                instance_id=template.instance_id if template else "m03_" + suffix,
                 instance_base="urn:c1:instance:dev:",
                 issuer=KEYCLOAK + "/realms/c1-dev",
                 issuer_alias="c1-dev",
@@ -355,11 +423,18 @@ async def live_case() -> AsyncIterator[LiveCase]:
                 settings.instance_base,
             )
             async with Terminus(knowledge_config) as knowledge:
-                await knowledge.create()
+                if template is None:
+                    await knowledge.create()
+                else:
+                    await _clone(knowledge, template.knowledge_database, password)
                 try:
-                    await knowledge.install_profile(ProfileRegistry())
+                    if template is None:
+                        await knowledge.install_profile(ProfileRegistry())
                     async with Journal(workflow_config) as journal:
-                        await journal.initialize()
+                        if template is None:
+                            await journal.initialize()
+                        else:
+                            await _clone(journal._storage, template.workflow_database, password)
                         try:
                             async with TokenSource() as token_source:
                                 validator = TokenValidator(settings)
@@ -376,7 +451,13 @@ async def live_case() -> AsyncIterator[LiveCase]:
                                         grants.append(
                                             (principal.id, role, "instance:" + settings.instance_id)
                                         )
-                                    await fga.write(grants)
+                                    if template is None:
+                                        await fga.write(grants)
+                                    else:
+                                        # The template's tuples already hold these grants.
+                                        copied = list(template.tuples)
+                                        for start in range(0, len(copied), 100):
+                                            await fga.write(copied[start : start + 100])
                                     from c1.api.app import create_app
                                     from c1.runtime import Runtime
 

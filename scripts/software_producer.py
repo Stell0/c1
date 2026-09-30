@@ -1665,10 +1665,19 @@ class Planner:
             result.append(self.docs_run(key))
         for key in order:
             result.append(self.calls_run(key))
+        # The competing analyzer and the declared test context are exercised on
+        # each repository's first snapshot only (a1, b1): later snapshots would
+        # repeat the same cases at about 20 s of load time per ChangeSet.
+        first = [
+            self.fixture["repositories"][name]["snapshots"][0]
+            for name in self.fixture["repositories"]
+        ]
         for key in order:
-            result.append(self.analyzer_run(key))
+            if key in first:
+                result.append(self.analyzer_run(key))
         for key in order:
-            result.append(self.testing_run(key))
+            if key in first:
+                result.append(self.testing_run(key))
         result.append(self.review_run())
         result.append(self.verifies_run())
         for spec in self.fixture["test_runs"]:

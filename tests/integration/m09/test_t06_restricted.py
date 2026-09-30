@@ -7,19 +7,19 @@ import json
 from urllib.parse import quote
 
 from scripts import software_producer as sp
-from tests.integration.m03.conftest import live_case
 from tests.integration.m09.conftest import package, shop_symbol, target, units, volatile
-from tests.integration.software import load
+from tests.integration.software import Template, copy_of
 
 HIDDEN_PATH = "shop/pricing_internal.py"
 
 
-def test_t06_restricted_dependency_is_an_authorized_gap() -> None:
-    """Uses its own fresh repositories and a twin load without the restricted module."""
+def test_t06_restricted_dependency_is_an_authorized_gap(
+    software_template: Template, software_twin_template: Template
+) -> None:
+    """Uses fresh copies of the loaded repository and of its twin without the module."""
 
     async def run() -> None:
-        async with live_case() as case:
-            await load(case)
+        async with copy_of(software_template) as case:
             dave = await package(case, "dave", shop_symbol(), target("a1", "b1"))
             carol = await package(case, "carol", shop_symbol(), target("a1", "b1"))
 
@@ -71,8 +71,7 @@ def test_t06_restricted_dependency_is_an_authorized_gap() -> None:
                     assert f"{unit['language']} {label}" in carol["markdown"]
 
             # Noninterference: byte-identical to a twin that never had the module.
-            async with live_case() as twin:
-                await load(twin, lambda runs: sp.without_scopes(runs, {"sw-restricted"}))
+            async with copy_of(software_twin_template) as twin:
                 other = await package(twin, "dave", shop_symbol(), target("a1", "b1"))
                 assert volatile(other["structured"], other["revision"]) == volatile(
                     dave["structured"], dave["revision"]

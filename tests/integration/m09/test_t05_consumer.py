@@ -6,17 +6,15 @@ import asyncio
 
 from scripts import demo_m09_consumer as consumer
 from scripts import software_producer as sp
-from tests.integration.m03.conftest import live_case
 from tests.integration.m09.conftest import ledger_symbol, package, target, units
-from tests.integration.software import CaseLoader, load
+from tests.integration.software import CaseLoader, Template, copy_of
 
 
-def test_t05_consumer_reproducibility() -> None:
-    """Uses its own fresh repository: it imports new TestRuns."""
+def test_t05_consumer_reproducibility(software_template: Template) -> None:
+    """Uses its own fresh copy: it imports new TestRuns."""
 
     async def run() -> None:
-        async with live_case() as case:
-            await load(case)
+        async with copy_of(software_template) as case:
             outcome = await consumer.consume(CaseLoader(case))
             assert outcome["results"] == {"a1": "fail", "a2": "pass"}
             assert outcome["cited"]

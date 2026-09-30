@@ -8,14 +8,14 @@ from typing import Any
 from urllib.parse import quote
 
 from scripts import software_producer as sp
-from tests.integration.m03.conftest import LiveCase, live_case
+from tests.integration.m03.conftest import LiveCase
 from tests.integration.m08.conftest import (
     CaseLoader,
-    load,
     lookup,
     lookup_all,
     snapshot,
 )
+from tests.integration.software import Template, copy_of
 
 S = "urn:c1:ns:software#"
 C1 = "urn:c1:ns:core#"
@@ -26,18 +26,19 @@ def _canonical(items: list[dict[str, Any]]) -> str:
     return json.dumps(items, sort_keys=True)
 
 
-def test_t07_restricted_source_has_no_influence_and_follows_current_bindings() -> None:
-    """Uses its own fresh repositories: it writes, and compares against a twin load."""
+def test_t07_restricted_source_has_no_influence_and_follows_current_bindings(
+    software_template: Template, software_twin_template: Template
+) -> None:
+    """Uses its own fresh copies: it writes, and compares against the twin load."""
 
     async def run() -> None:
-        async with live_case() as case:
-            loaded = await load(case)
-            await checks(case, loaded)
+        async with copy_of(software_template) as case:
+            await checks(case, software_template.loaded, software_twin_template)
 
     asyncio.run(run())
 
 
-async def checks(case: LiveCase, loaded: dict[str, Any]) -> None:
+async def checks(case: LiveCase, loaded: dict[str, Any], twin_template: Template) -> None:
     target = {"snapshots": [snapshot("a1"), snapshot("b1")]}
     dave = await lookup_all(case, "dave", {"target": target})
     carol = await lookup_all(case, "carol", {"target": target})
@@ -66,8 +67,7 @@ async def checks(case: LiveCase, loaded: dict[str, Any]) -> None:
 
     # Noninterference: the same readers see byte-identical results in a twin
     # repository where the restricted-scope records were never written.
-    async with live_case() as twin:
-        await load(twin, lambda runs: sp.without_scopes(runs, {"sw-restricted"}))
+    async with copy_of(twin_template) as twin:
         twin_items = await lookup_all(twin, "dave", {"target": target})
         assert _canonical(twin_items) == _canonical(dave)
         first_twin = await lookup(twin, "dave", {"target": target, "limit": 7})
