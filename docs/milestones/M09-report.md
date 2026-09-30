@@ -2,7 +2,7 @@
 
 **Gate:** VERIFIED
 
-Approved plan: [M09](M09.md), revalidated against the M08 report (§1a) and authorized for implementation by the owner on 2026-09-29. Implementation revision: `@@REV@@`.
+Approved plan: [M09](M09.md), revalidated against the M08 report (§1a) and authorized for implementation by the owner on 2026-09-29. Implementation revision: `c6b53548c499634f0851635f5584ace5ebe35908`.
 
 It was verified on the 441-input source listed in [`implementation-files.sha256`](../evidence/M09/implementation-files.sha256), whose file SHA-256 is `089ce8164e1421949a492f5caf0f7610b4e5c93df183ca56185c1244f74857bb`. The manifest matched both before and after the live gate. After the gate, one evidence file was audited as a secret-scan false positive ([audit](../evidence/M09/secret-audit.md)). The resulting [audited manifest](../evidence/M09/implementation-files-audited.sha256) differs only in `.secrets.baseline`, and the corrected `make check` passed. The committed implementation revision contains exactly the audited source.
 

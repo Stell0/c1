@@ -347,7 +347,7 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 
 ## M09 — Coding-agent test-development context
 
-**Current execution status (2026-09-30):** M09 is `VERIFIED`; see the [M09 report](docs/milestones/M09-report.md). The 92-case live gate (M01–M08 regressions plus M09-T01–T06) passed on makako.sf.nethserver.net with the owner-approved timeout settings (M09 D12–D13). `make check`, the M01 probe and the no-AI consumer demonstration also passed. This status note does not change the M09 acceptance contract.
+**Current execution status (2026-09-30):** M09 is `VERIFIED` at implementation revision `c6b53548c499634f0851635f5584ace5ebe35908`; see the [M09 report](docs/milestones/M09-report.md). The 92-case live gate (M01–M08 regressions plus M09-T01–T06) passed on makako.sf.nethserver.net with the owner-approved timeout settings (M09 D12–D13). `make check`, the M01 probe and the no-AI consumer demonstration also passed. This status note does not change the M09 acceptance contract.
 
 **Goal:** supply the evidence a coding agent or human needs to write an appropriate test, without making C1 generate or execute it.
 
