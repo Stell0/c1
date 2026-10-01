@@ -80,7 +80,8 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | VERIFIED |
 | M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | VERIFIED |
 | M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | VERIFIED |
-| M10 | Documentation-first support context | M09 | Two-stage support retrieval with a stable software target and controlled fallback | NOT_PLANNED |
+| M09a | Batched current-authorization verification | M09 | Decision-identical authorization with bounded backend work per request and ChangeSet step | PLANNED |
+| M10 | Documentation-first support context | M09, M09a | Two-stage support retrieval with a stable software target and controlled fallback | NOT_PLANNED |
 | M11 | Cross-software documentation-update context | M10 | Applicable, source-grounded context and reviewable documentation revisions | NOT_PLANNED |
 | M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | NOT_PLANNED |
 | M13 | Release hardening and operational acceptance | M12 | Independently repeatable deployment, recovery, and complete acceptance evidence | NOT_PLANNED |
@@ -370,6 +371,32 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 **Plan separately:** profile fields, bounded dependency paths, distinction between conformance and characterization goals, fixture expectations, and the external demonstration runner.
 
 **Exit gate:** A18 passes. The consumer can begin test development from the material returned, without pretending the core is an agent or CI executor.
+
+## M09a — Batched current-authorization verification
+
+**Inserted by the owner on 2026-10-01**, after M09 measured about 3.5 s per authorized request and about 12.5 minutes per software fixture load. The work goes into its own milestone, before M10.
+
+**Goal:** remove per-resource and per-call overhead from current-authorization verification, without changing any decision, error contract, or freshness guarantee.
+
+**Verifiable outputs**
+
+- Per-step immutable security views and no whole-journal copying per decision.
+- A batched plane decision API used by query planning, finalize, and the ChangeSet decision memo, with an exact `bound_to` source.
+- Cached parsing of trusted catalog profiles, while readiness still reads the installed schema freshly.
+- Deterministic work counters, before/after evidence, and an ADR.
+
+**Specific tests**
+
+- **M09a-T01 — Decision equivalence:** batched and single-resource decisions are identical under every M03–M09 security state, including injected missing, extra and unknown-scope `bound_to` tuples and pending operations.
+- **M09a-T02 — No cached authority:** a revocation, rescope or injected tuple between requests, between plan and finalize, or during a scan takes effect without reuse of earlier decisions.
+- **M09a-T03 — Scan failure is closed:** an authorization outage, a non-advancing pagination, or an exceeded page cap returns no partial selection.
+- **M09a-T04 — Bounded work:** OpenFGA requests per authorized selection, journal listings per decision step, and catalog parses per readiness call stay within the declared ceilings on the software fixture.
+- **M09a-T05 — Profile changes still detected:** an installed-schema or marker change fails readiness on the next call despite cached candidates.
+- **M09a-T06 — Full regression:** the M01–M09 selection passes with unchanged defaults.
+
+**Plan separately:** the batching strategy's selection rule and caps, the immutability mechanism, and the counter instrumentation.
+
+**Exit gate:** decision equivalence and freshness are proven on the real stack, the work ceilings hold, and all earlier regressions pass.
 
 ## M10 — Documentation-first support context
 
