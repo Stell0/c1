@@ -81,7 +81,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | VERIFIED |
 | M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | VERIFIED |
 | M09a | Batched current-authorization verification | M09 | Decision-identical authorization with bounded backend work per request and ChangeSet step | PLANNED |
-| M10 | Documentation-first support context | M09, M09a | Two-stage support retrieval with a stable software target and controlled fallback | NOT_PLANNED |
+| M10 | Documentation-first support context | M09, M09a | Two-stage support retrieval with a stable software target and controlled fallback | PLANNED |
 | M11 | Cross-software documentation-update context | M10 | Applicable, source-grounded context and reviewable documentation revisions | NOT_PLANNED |
 | M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | NOT_PLANNED |
 | M13 | Release hardening and operational acceptance | M12 | Independently repeatable deployment, recovery, and complete acceptance evidence | NOT_PLANNED |
