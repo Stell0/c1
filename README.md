@@ -1,21 +1,91 @@
 # C1
 
-C1 is planned as an open-source, versioned knowledge framework for people, applications, and external software agents. The intended product uses one shared knowledge repository, attributed claims and evidence, explicit permissions, controlled changes, and deterministic context retrieval. Its required workflows do not depend on an LLM, embeddings, or an AI-provider key. The project requirements are in [PROJECT_SPECIFICATION.md](PROJECT_SPECIFICATION.md); the proposed architecture is in [MVP_ARCHITECTURE.md](MVP_ARCHITECTURE.md); development proceeds one milestone at a time as recorded in [PLAN.md](PLAN.md).
+C1 is an open-source, versioned knowledge framework for people, applications, and external software agents.
+
+A C1 instance uses one shared knowledge repository. It stores attributed claims, evidence, permissions, controlled changes, and version history. It also provides deterministic queries and context retrieval.
+
+The required C1 workflows do not depend on an LLM, embeddings, or an AI-provider key.
+
+For detailed information:
+
+- [PROJECT_SPECIFICATION.md](PROJECT_SPECIFICATION.md) defines the product requirements.
+- [MVP_ARCHITECTURE.md](MVP_ARCHITECTURE.md) describes the proposed architecture.
+- [PLAN.md](PLAN.md) contains the development roadmap and milestone status.
+
+Development proceeds one milestone at a time.
+
+## Architecture overview
+
+People, applications, and external agents use the same authenticated C1 API.
+
+They do not normally access the knowledge or authorization backends directly.
+
+```mermaid
+flowchart LR
+    H[Human client]
+    A[Application]
+    G[External software agent]
+
+    H --> API[C1 API]
+    A --> API
+    G --> API
+
+    API --> AUTH[Authentication and authorization]
+    API --> CHANGE[ChangeSet service]
+    API --> QUERY[Query service]
+    API --> DOC[Document service]
+    API --> CTX[Context Builder]
+    API --> SW[Software knowledge service]
+
+    AUTH --> OIDC[OIDC / Keycloak]
+    AUTH --> FGA[OpenFGA]
+
+    CHANGE --> DB[TerminusDB]
+    QUERY --> DB
+    DOC --> DB
+    CTX --> QUERY
+    CTX --> DOC
+    SW --> DB
+
+    OIDC --> PG[PostgreSQL]
+    FGA --> PG
+```
+
+TerminusDB contains the versioned C1 knowledge repository.
+
+OpenFGA contains current authorization state.
+
+The OIDC provider supplies authenticated identities.
+
+Current authorization state and historical knowledge are separate. An old knowledge revision cannot restore an old permission.
 
 ## What exists today
 
-- Harness: Python project metadata and a lockfile, Make targets for bootstrapping/checking, a clean-start helper, and a GitHub Actions check workflow.
-- Model: canonical records, bundled JSON-LD/SHACL profiles, exact lexical values, keywords and time qualifiers, with a verified internal TerminusDB round-trip; see the [M02 report](docs/milestones/M02-report.md).
-- Security: authenticated HTTP boundaries, OIDC tokens, current-binding authorization, durable security operations and crash recovery passed the real-service gate; see the [M03 report](docs/milestones/M03-report.md).
-- Baseline: repository-local, attributed specification and architecture documents, with the software-use-case extension recorded separately.
-- Checks: local code-quality, type, test, secret-hygiene, and baseline-consistency checks.
-- CI: the pinned GitHub Actions workflow passed; deliberate canary failure and restored success are verified in the [M00 report](docs/milestones/M00-report.md).
-- Conventions: milestone plan and report guidance and templates are provided.
-- License: Apache-2.0 project license and a third-party notices placeholder are present.
+- **Harness:** Python project metadata, a lockfile, Make targets for setup and checks, a clean-start helper, and a GitHub Actions workflow.
+- **Model:** Canonical records, bundled JSON-LD and SHACL profiles, exact lexical values, keywords, and time qualifiers. The internal TerminusDB round-trip is verified. See the [M02 report](docs/milestones/M02-report.md).
+- **Security:** Authenticated HTTP boundaries, OIDC tokens, current-binding authorization, durable security operations, and crash recovery. These functions passed the real-service gate. See the [M03 report](docs/milestones/M03-report.md).
+- **Controlled writes:** ChangeSets, validation, review, atomic application, authorized resource reads, and resource history are implemented and verified.
+- **Queries:** Deterministic entity, assertion, source, evidence, export, and graph-neighborhood queries are implemented and verified.
+- **Documents:** Authorization-aware document storage, search, reconstruction, rendering, export, and history are implemented and verified.
+- **Context:** Deterministic context packages with structured data and Markdown output are implemented and verified.
+- **Software knowledge:** Source snapshots, symbols, occurrences, contracts, tests, runs, configurations, target sets, coverage, and related software records are implemented through the data-only software profile.
+- **Test-development context:** Target-pinned context for coding agents is implemented. It separates normative material, implementation evidence, tests, test runs, instructions, discrepancies, and gaps.
+- **Baseline:** Repository-local specification and architecture documents with source attribution. The software use-case extension is recorded separately.
+- **Checks:** Local checks for code quality, types, tests, secret hygiene, and baseline consistency.
+- **CI:** The pinned GitHub Actions workflow passed. The M00 tests also verified an intentional canary failure and the restored successful state. See the [M00 report](docs/milestones/M00-report.md).
+- **Conventions:** The repository includes guidance and templates for milestone plans and reports.
+- **License:** The repository contains the Apache-2.0 project license and a placeholder for third-party notices.
 
 ## Run the harness
 
-Prerequisites: Git, `uv` 0.12 or later, GNU Make, and network access for the first dependency sync. From the repository root:
+Prerequisites:
+
+- Git
+- `uv` 0.12 or later
+- GNU Make
+- Network access for the first dependency sync
+
+Run these commands from the repository root:
 
 ```sh
 make bootstrap
@@ -23,12 +93,31 @@ make check
 make clean-start
 ```
 
-`make bootstrap` installs the locked development environment, and `make check` runs the local checks. `make clean-start` requires a clean, committed checkout. To check an ephemeral snapshot of the current uncommitted work, run `bash scripts/clean_start.sh --worktree`. None of these commands needs an AI-provider credential.
+`make bootstrap` installs the locked development environment.
+
+`make check` runs the local checks.
+
+`make clean-start` requires a clean and committed checkout.
+
+To check a temporary snapshot of the current uncommitted work, run:
+
+```sh
+bash scripts/clean_start.sh --worktree
+```
+
+These commands do not require an AI-provider credential.
 
 ## Isolated infrastructure proofs
 
-M01 adds a local experimental stack and probes outside the product package.
-With Podman 5.x, podman-compose, and about 4 GB free RAM:
+M01 adds a local experimental stack and test probes outside the product package.
+
+Prerequisites:
+
+- Podman 5.x
+- podman-compose
+- approximately 4 GB of free RAM
+
+Run:
 
 ```sh
 make stack-up
@@ -37,38 +126,82 @@ C1_STACK=1 make probe
 make stack-down
 ```
 
-First startup downloads pinned images and creates private random credentials in
-ignored `deployment/.env`. Services bind only to loopback. Tests use synthetic
-records, pause/restart the owned OpenFGA service, and remove their databases and
-stores. Run this gate sequentially on the dedicated development stack.
-`make stack-down` preserves volumes; `make stack-reset` deletes only this stack's
-development volumes. Default `make check` skips these real-service tests.
-The [M01 plan](docs/milestones/M01.md) records scope and limitations.
+The first startup downloads pinned images.
+
+The startup process creates random private credentials in `deployment/.env`. Git ignores this file.
+
+The services bind only to the loopback interface.
+
+The tests use synthetic records. They pause and restart the OpenFGA service owned by the test stack. They also remove their test databases and stores.
+
+Run this gate sequentially on the dedicated development stack.
+
+`make stack-down` stops the stack and preserves its volumes.
+
+`make stack-reset` deletes only the development volumes that belong to this stack.
+
+The default `make check` command skips these real-service tests.
+
+See the [M01 plan](docs/milestones/M01.md) for scope and limitations.
 
 ## Canonical model development
 
-M02 adds a versioned profile in `profiles/core/` and the synthetic fixture in
-`fixtures/core-knowledge/`. The model has no HTTP endpoint or authorization bypass.
-Profile and pure-model checks are part of `make check`; the full real-service
-regression gate is `C1_STACK=1 make integration`. See the
-[M02 plan](docs/milestones/M02.md) for the supported subset and accepted decisions,
-and the [M02 report](docs/milestones/M02-report.md) for executed evidence.
+M02 adds a versioned profile in `profiles/core/` and a synthetic fixture in `fixtures/core-knowledge/`.
+
+The model has no authorization bypass.
+
+Profile checks and pure-model checks are part of:
+
+```sh
+make check
+```
+
+Run the full real-service regression gate with:
+
+```sh
+C1_STACK=1 make integration
+```
+
+See the [M02 plan](docs/milestones/M02.md) for the supported subset and accepted decisions.
+
+See the [M02 report](docs/milestones/M02-report.md) for the executed verification evidence.
 
 ## Identity and authorization (M03)
 
-The current M03 implementation adds bearer-token authentication, a current
-OpenFGA authorization plane, workflow-journaled scope and binding operations,
-and readiness checks for identity, authorization, and storage services. The
-probe routes are disabled by default and limited to synthetic records; ordinary
-knowledge CRUD remains out of scope. M03 is **VERIFIED**: 185 local tests and
-39 real-service integration tests passed, including historical access denial,
-three process crash points and identity/authorization outages. See the
-[M03 report](docs/milestones/M03-report.md) for evidence and limits.
+M03 adds bearer-token authentication and a current OpenFGA authorization plane.
 
-For a local development demonstration, `make stack-up` creates the pinned
-services and synthetic identity fixtures; `make api-up` starts the loopback API
-with probe routes explicitly enabled. This helper is for development only.
-The following uses the generated private credentials without printing a token:
+It also adds:
+
+- journaled scope operations;
+- journaled binding operations;
+- readiness checks for identity services;
+- readiness checks for authorization services;
+- readiness checks for storage services.
+
+The probe routes are disabled by default and operate only on synthetic records.
+
+Ordinary knowledge CRUD was outside the M03 milestone scope. It was added by later milestones.
+
+M03 is **VERIFIED**.
+
+The M03 verification included:
+
+- 185 local tests;
+- 39 real-service integration tests;
+- historical access denial;
+- three process crash points;
+- identity-service outages;
+- authorization-service outages.
+
+See the [M03 report](docs/milestones/M03-report.md) for evidence and limitations.
+
+For a local development demonstration, `make stack-up` starts the pinned services and creates the synthetic identity fixtures.
+
+`make api-up` starts the loopback API with the probe routes explicitly enabled.
+
+This helper is for development only.
+
+The following example uses the generated private credentials without printing an access token:
 
 ```bash
 uv run --locked python - <<'PY'
@@ -91,21 +224,82 @@ PY
 make api-down
 ```
 
-The reproducible two-administrator re-scope demonstration, including denial at
-both head and the older revision, is
-`C1_STACK=1 uv run --locked pytest -q tests/integration/m03/test_t04_historical.py`.
-The full `C1_STACK=1 make integration` gate additionally runs real API process
-crashes and service outages, so run it without another development API process.
-Stop the services with `make stack-down` when finished; it preserves volumes.
+Run the reproducible two-administrator re-scope demonstration with:
+
+```sh
+C1_STACK=1 uv run --locked pytest -q tests/integration/m03/test_t04_historical.py
+```
+
+This test verifies denial at the current revision and at the older revision.
+
+The full integration gate also tests real API process crashes and service outages:
+
+```sh
+C1_STACK=1 make integration
+```
+
+Do not run another development API process during this gate.
+
+When finished, stop the services with:
+
+```sh
+make stack-down
+```
+
+This command preserves the volumes.
 
 ## Reviewed changes and history (M04)
 
-M04 adds ChangeSet drafts, validation, independent review, atomic application,
-authorized resource reads, and resource history. The
-[M04 report](docs/milestones/M04-report.md) records its verified gate; the
-[M04 API notes](docs/milestones/M04-api.md) describe the request contract and
-access rules. Ordinary knowledge writes use ChangeSets. The synthetic probe
-routes remain a development test surface.
+M04 adds:
+
+- ChangeSet drafts;
+- validation;
+- independent review;
+- atomic application;
+- authorized resource reads;
+- resource history.
+
+M04 is **VERIFIED**.
+
+The [M04 report](docs/milestones/M04-report.md) contains the verified gate results.
+
+The [M04 API notes](docs/milestones/M04-api.md) describe the request contract and access rules.
+
+Ordinary knowledge writes use ChangeSets.
+
+The synthetic probe routes remain a development test surface.
+
+### Controlled write workflow
+
+Normal knowledge writes do not write directly to the active repository state.
+
+```mermaid
+flowchart TD
+    P[Producer submits ChangeSet] --> D[Draft]
+    D --> V[Validate schema, references and permissions]
+
+    V -->|invalid| X[Reject]
+    V -->|valid| R[Review exact payload]
+
+    R -->|rejected| X
+    R -->|approved| A[Apply]
+
+    A --> C{Base revision and permissions still valid?}
+
+    C -->|No| S[Reject as stale or unauthorized]
+    C -->|Yes| T[Atomic knowledge commit]
+
+    T --> H[New repository revision and history]
+
+    V -. authorization checks .-> FGA[Current authorization state]
+    A -. recheck .-> FGA
+```
+
+Changing the payload after validation invalidates the previous validation and approval.
+
+Application is all-or-nothing.
+
+Authorization is checked again before the ChangeSet is applied.
 
 To run the reviewed-write demonstration against the pinned local services:
 
@@ -115,27 +309,52 @@ uv run --locked python -m scripts.demo_m04
 make stack-down
 ```
 
-The script creates and cleans up isolated test databases and an OpenFGA store.
-It obtains real synthetic user tokens without printing them, then prints the
-ChangeSet receipt and the authorized history listing. It does not need a running
-`make api-up` process.
+The script creates isolated test databases and an OpenFGA store.
+
+It removes these resources when the test is complete.
+
+The script gets real synthetic user tokens without printing them.
+
+It then prints the ChangeSet receipt and the authorized history list.
+
+You do not need to run `make api-up` for this demonstration.
 
 ## Shared identity and queries (M05)
 
-M05 adds a deterministic query API over the one shared repository. Authenticated
-clients can use `/v1/catalog`, `/v1/entities`, `/v1/entities/search`,
-`/v1/assertions`, `/v1/sources`, `/v1/evidence`, `/v1/export`, and an entity's
-`/neighborhood` route. Simple filters are URL parameters; combined entity
-filters use the strict JSON body of `POST /v1/entities/search`. Every result is
-selected under current resource bindings, including when reading an older
-knowledge revision. Cursors pin the content revision and are reauthorized on
-continuation. Query limits and explicit failure behavior are in
-[the M05 plan](docs/milestones/M05.md) and [execution report](docs/milestones/M05-report.md).
+M05 adds a deterministic query API over the shared repository.
 
-The synthetic directory fixture uses one Person ID for Company A and Company B
-and protects each contact assertion independently. To load it into the configured
-local development database and see the four principals' authorized IDs and
-counts:
+M05 is **VERIFIED**.
+
+Authenticated clients can use:
+
+- `/v1/catalog`
+- `/v1/entities`
+- `/v1/entities/search`
+- `/v1/assertions`
+- `/v1/sources`
+- `/v1/evidence`
+- `/v1/export`
+- an entity's `/neighborhood` route
+
+Use URL parameters for simple filters.
+
+Use the strict JSON body of `POST /v1/entities/search` for combined entity filters.
+
+Every result is selected under the current resource bindings.
+
+This rule also applies when the client reads an older knowledge revision.
+
+Cursors pin the content revision. C1 checks authorization again when a client continues a cursor request.
+
+See the [M05 plan](docs/milestones/M05.md) for query limits and explicit failure behavior.
+
+See the [M05 execution report](docs/milestones/M05-report.md) for verification results.
+
+The synthetic directory fixture uses one Person ID for Company A and Company B.
+
+Each contact assertion has independent protection.
+
+To load the fixture into the configured local development database and show the authorized IDs and counts for four principals, run:
 
 ```sh
 make stack-up
@@ -144,24 +363,56 @@ uv run --locked python scripts/demo_m05.py
 make stack-down
 ```
 
-The loader uses local development credentials and authenticated C1 APIs. Its
-service principal authors the knowledge ChangeSet; a separate reviewer approves
-it. Use a fresh local stack for a fresh fixture load.
+The loader uses local development credentials and authenticated C1 APIs.
+
+Its service principal creates the knowledge ChangeSet.
+
+A separate reviewer approves the ChangeSet.
+
+Use a fresh local stack for a fresh fixture load.
 
 ## Scoped documents (M06)
 
-Authenticated clients can list and search `/v1/documents`, inspect a document
-and its ordered `/parts`, and request `/render`, `/export`, or `/history`.
-Use `/v1/documents/by-id?document_id=` for detail lookup of arbitrary canonical
-IRIs, including IDs that end in an operation suffix.
-Reconstruction includes only currently readable parts, including for historical
-revisions. Text preserves supplied Unicode code points and whitespace; each
-returned part includes its UTF-8 SHA-256 digest. Markdown rendering neutralizes
-links and HTML, and labels source-code excerpts explicitly.
+M06 is **VERIFIED**.
 
-The [M06 plan](docs/milestones/M06.md) defines the flat part model, ordering,
-evidence selectors, and limits. The [API notes](docs/milestones/M06-api.md)
-describe request and response contracts. To run the synthetic demonstration:
+Authenticated clients can list and search `/v1/documents`.
+
+Clients can also:
+
+- inspect a document;
+- inspect its ordered `/parts`;
+- request `/render`;
+- request `/export`;
+- request `/history`.
+
+Use:
+
+`/v1/documents/by-id?document_id=`
+
+to retrieve a document by an arbitrary canonical IRI.
+
+This path also supports IDs that end in an operation suffix.
+
+Document reconstruction includes only parts that the caller can currently read.
+
+This rule also applies to historical revisions.
+
+C1 preserves the supplied Unicode code points and whitespace.
+
+Each returned part includes the SHA-256 digest of its UTF-8 text.
+
+Markdown rendering neutralizes links and HTML. It also identifies source-code excerpts explicitly.
+
+The [M06 plan](docs/milestones/M06.md) defines:
+
+- the flat part model;
+- ordering;
+- evidence selectors;
+- limits.
+
+The [M06 API notes](docs/milestones/M06-api.md) describe the request and response contracts.
+
+To run the synthetic demonstration:
 
 ```sh
 make stack-up
@@ -170,21 +421,465 @@ uv run --locked python scripts/demo_m06.py
 make stack-down
 ```
 
-Use a fresh local stack for a fresh fixture load. The loader uses the ordinary
-authenticated ChangeSet path with separate author and reviewer credentials.
+Use a fresh local stack for a fresh fixture load.
+
+The loader uses the normal authenticated ChangeSet path.
+
+Separate credentials identify the author and reviewer.
 
 ## Consumer-ready context (M07)
 
-M07 adds the authenticated, read-only `POST /v1/context` path. Versioned local
-data profiles select authorized paths and produce Markdown plus matching
-structured facts, excerpts, citations, qualifiers, gaps, and continuation
-bounds. Exact keyword filters retain M05 behavior; topic resolution is a
-separate explicit mode. Context rendering uses no model or provider credential.
-The full M07 acceptance gate is still in progress; see the
-[M07 plan](docs/milestones/M07.md), [API notes](docs/milestones/M07-api.md),
-and [execution report](docs/milestones/M07-report.md) for current scope and
-verification status.
+M07 adds the authenticated, read-only `POST /v1/context` path.
+
+M07 is **VERIFIED**.
+
+Versioned local data profiles select authorized paths.
+
+The context operation produces Markdown and equivalent structured data.
+
+The output can include:
+
+- facts;
+- excerpts;
+- citations;
+- qualifiers;
+- gaps;
+- continuation limits.
+
+Exact keyword filters keep the M05 behavior.
+
+Topic resolution is a separate explicit mode.
+
+Context rendering does not use a model or an AI-provider credential.
+
+### Deterministic retrieval workflow
+
+Authorization is part of retrieval. C1 does not first collect unrestricted data and remove hidden data afterward.
+
+```mermaid
+flowchart TD
+    Q[Authenticated request] --> I[Resolve principal and operation]
+    I --> B[Resolve current resource bindings]
+    B --> R[Pin knowledge revision]
+    R --> P[Parse selectors and profile]
+    P --> S[Select only authorized resources]
+    S --> G[Perform bounded filtering or traversal]
+    G --> E[Collect facts, evidence and readable document parts]
+    E --> O[Apply ordering and size limits]
+    O --> M[Render Markdown]
+    O --> J[Render structured result]
+
+    B --> FGA[OpenFGA]
+    R --> DB[TerminusDB]
+    S --> DB
+    G --> DB
+    E --> DB
+```
+
+A historical knowledge revision still uses the caller's current authorization.
+
+Hidden resources must not affect visible counts, paths, ordering, explanations, or reconstructed content.
+
+The M07 acceptance gate passed its full real-service verification.
+
+See:
+
+- [M07 plan](docs/milestones/M07.md)
+- [M07 API notes](docs/milestones/M07-api.md)
+- [M07 execution report](docs/milestones/M07-report.md)
+
+for the implemented scope and verification evidence.
+
+## Software profile and source-version ingestion (M08)
+
+M08 is **VERIFIED**.
+
+M08 adds the data-only software knowledge model and source-version ingestion workflow.
+
+The current software profile is version `1.1.0`. M08 introduced the profile, and M09 later extended it.
+
+The current model includes records for:
+
+- software products;
+- code repositories;
+- software releases;
+- immutable source snapshots;
+- capabilities;
+- code symbols;
+- interface operations;
+- symbol occurrences;
+- test cases;
+- test runs;
+- configurations;
+- target sets;
+- branch observations;
+- import coverage;
+- import issues;
+- unresolved references.
+
+The API includes:
+
+- `POST /v1/software/targets/resolve`
+- `POST /v1/software/lookup`
+
+Target resolution uses explicit source snapshots. It does not treat a branch name as immutable evidence.
+
+Software lookup is target-pinned and authorization-aware.
+
+The verified software fixture includes source snapshots, code occurrences, documentation, OpenAPI information, test information, import coverage, and restricted source data.
+
+External deterministic producers prepare and submit software data through the C1 write path.
+
+C1 does not run a compiler, source indexer, test runner, or CI system as part of this feature.
+
+### Software knowledge workflow
+
+Software analysis happens outside C1.
+
+C1 stores the resulting records and evidence.
+
+```mermaid
+flowchart LR
+    SRC[Source repository] --> EXT[External producer or analyzer]
+    CONTRACT[API contract] --> EXT
+    DOCS[Documentation] --> EXT
+    TESTS[Test and CI results] --> EXT
+
+    EXT --> CS[Authenticated ChangeSets]
+    CS --> C1[C1 software knowledge]
+
+    C1 --> SNAP[Immutable source snapshots]
+    C1 --> SYM[Symbols and occurrences]
+    C1 --> API[Interface operations]
+    C1 --> TST[Test cases and runs]
+    C1 --> COV[Coverage, issues and unresolved references]
+
+    SNAP --> LOOKUP[Target-pinned lookup]
+    SYM --> LOOKUP
+    API --> LOOKUP
+    TST --> LOOKUP
+    COV --> LOOKUP
+
+    LOOKUP --> CONSUMER[External consumer or coding agent]
+```
+
+C1 stores results from external tools. It does not execute those tools as part of the knowledge request path.
+
+See:
+
+- [M08 plan](docs/milestones/M08.md)
+- [M08 execution report](docs/milestones/M08-report.md)
+
+for the implemented scope and verification evidence.
+
+## Coding-agent test-development context (M09)
+
+M09 is **VERIFIED**.
+
+M09 adds the `test-development` context profile.
+
+The profile uses the existing `POST /v1/context` endpoint.
+
+A test-development request requires:
+
+- an explicit target;
+- an explicit goal;
+- an anchor that is a symbol, capability, or interface operation.
+
+The context package can contain:
+
+- normative documentation;
+- interface contracts;
+- implementation code units;
+- direct implementation dependencies;
+- test definitions;
+- test runs;
+- fixtures;
+- execution instructions;
+- recorded discrepancies;
+- gaps;
+- evidence-role labels.
+
+The target stays pinned to explicit source snapshots, contracts, and configurations.
+
+Test runs distinguish live, mocked, and other target evidence.
+
+Stored execution instructions are returned as untrusted text.
+
+C1 does not generate tests and does not execute tests.
+
+### Test-development workflow
+
+C1 prepares evidence for an external coding agent. The coding agent performs the development work outside C1.
+
+```mermaid
+sequenceDiagram
+    participant Agent as External coding agent
+    participant C1 as C1
+    participant Repo as Source repository
+    participant Runner as External test runner
+
+    Agent->>C1: POST /v1/context<br/>profile=test-development
+    C1-->>Agent: Normative + implementation + tests + gaps
+
+    Agent->>Repo: Read or modify target source
+    Agent->>Runner: Run proposed test
+    Runner-->>Agent: Test result
+
+    Agent->>C1: Import TestCase / TestRun through ChangeSet
+    C1-->>Agent: Reviewed knowledge revision
+```
+
+C1 supplies the evidence package.
+
+The external consumer decides what test to write.
+
+The external runner executes the test.
+
+The result can then return to C1 as source-backed knowledge.
+
+The verified M09 demonstration used an external deterministic consumer. The test failed against the defective source snapshot and passed against the corrected source snapshot. The resulting test records were then imported into C1.
+
+See:
+
+- [M09 plan](docs/milestones/M09.md)
+- [M09 execution report](docs/milestones/M09-report.md)
+
+for the implemented scope and verification evidence.
+
+## Backlog
+
+The tags in this section have these meanings:
+
+- **[PLANNED]** — A detailed milestone plan exists, but the feature is not implemented or verified.
+- **[FUTURE]** — The roadmap defines the intended milestone, but a complete implementation plan does not yet exist.
+
+### Roadmap overview
+
+```mermaid
+flowchart LR
+    M00[M00<br/>VERIFIED] --> M01[M01<br/>VERIFIED]
+    M01 --> M02[M02<br/>VERIFIED]
+    M02 --> M03[M03<br/>VERIFIED]
+    M03 --> M04[M04<br/>VERIFIED]
+    M04 --> M05[M05<br/>VERIFIED]
+    M05 --> M06[M06<br/>VERIFIED]
+    M06 --> M07[M07<br/>VERIFIED]
+    M07 --> M08[M08<br/>VERIFIED]
+    M08 --> M09[M09<br/>VERIFIED]
+
+    M09 --> M09A[M09a<br/>PLANNED]
+    M09A --> M10[M10<br/>PLANNED]
+    M10 --> M11[M11<br/>PLANNED]
+
+    M11 --> M12[M12<br/>FUTURE]
+    M12 --> M13[M13<br/>FUTURE]
+    M13 --> M14[M14<br/>FUTURE]
+
+    M14 --> M15[M15<br/>FUTURE]
+    M14 --> M16[M16<br/>FUTURE]
+    M16 --> M17[M17<br/>FUTURE]
+    M15 --> M18[M18<br/>FUTURE]
+    M16 --> M18
+```
+
+M00 through M09 have implementation and verification evidence.
+
+M09a through M11 have detailed plans but no verified implementation.
+
+M12 through M18 remain roadmap work.
+
+### [PLANNED] M09a — Batched current-authorization verification
+
+M09a improves the cost of current authorization checks without changing their security decisions.
+
+The plan includes:
+
+- per-step security views;
+- batched authorization decisions;
+- bounded OpenFGA work;
+- removal of repeated full journal copies;
+- caching of parsed trusted catalog profiles;
+- equivalence tests against the current authorization behavior;
+- performance measurements.
+
+M09a does not change the OpenFGA authorization model or the current-binding security rules.
+
+M09a is not implemented.
+
+See the [M09a plan](docs/milestones/M09a.md).
+
+### [PLANNED] M10 — Documentation-first support context
+
+M10 adds two software support context modes:
+
+- `support-documentation`
+- `support-implementation`
+
+The documentation stage is designed to return applicable support documentation first.
+
+The implementation stage is a separate request. It is designed to return focused implementation evidence only when the caller explicitly requests it.
+
+Both stages use the same pinned software target and C1 content revision.
+
+The planned flow is:
+
+```mermaid
+flowchart TD
+    Q[Support request] --> D[PLANNED: support-documentation]
+    D --> G[Applicable guidance]
+    D --> M[Missing aspects]
+
+    M --> C{Caller requests implementation evidence?}
+
+    C -->|No| END[Stop]
+    C -->|Yes| I[PLANNED: support-implementation]
+
+    I --> CODE[Focused code and configuration]
+    I --> IFACE[Relevant interfaces]
+    I --> TEST[Relevant test evidence]
+
+    D -. same pinned target and revision .-> I
+```
+
+This diagram describes planned M10 behavior. It is not an implemented workflow.
+
+The plan also includes:
+
+- exact support-aspect records;
+- applicable and explicitly non-applicable support documents;
+- missing-aspect reporting;
+- a signed follow-up token;
+- focused code, configuration, interface, and test retrieval;
+- no automatic fallback from documentation to implementation.
+
+M10 is not implemented.
+
+See the [M10 plan](docs/milestones/M10.md).
+
+### [PLANNED] M11 — Cross-software documentation-update context
+
+The M11 plan is complete but provisional until M10 is implemented and verified.
+
+M11 is designed to add:
+
+- explicit applicability states;
+- deterministic documentation review candidates;
+- a `documentation-update` context profile;
+- documentation draft records;
+- source-to-draft lineage;
+- applicability revalidation;
+- controlled widening of a draft's audience;
+- external publication receipts.
+
+The planned workflow is:
+
+```mermaid
+flowchart TD
+    CTX[PLANNED: documentation-update context] --> AUTHOR[External author]
+    AUTHOR --> DRAFT[Draft document in private drafting scope]
+
+    DRAFT --> REVIEW[Reviewed ChangeSet]
+    REVIEW --> APPROVED[Approved C1 draft]
+
+    APPROVED --> RESCOPE{Widen audience?}
+    RESCOPE -->|Yes| ACCESS[Separate access review]
+    ACCESS --> SHARED[Shared draft]
+
+    APPROVED --> PUB{External publication occurs?}
+    SHARED --> PUB
+
+    PUB -->|Yes| RECEIPT[Import publication receipt]
+    PUB -->|No| NP[Remain not published]
+```
+
+This diagram describes planned M11 behavior. It is not an implemented workflow.
+
+C1 will not generate documentation text or publish it automatically.
+
+M11 is not implemented.
+
+See the [M11 plan](docs/milestones/M11.md).
+
+### [FUTURE] M12 — Human Explorer
+
+M12 is intended to add browser workflows for C1.
+
+The Explorer is expected to use the same secured APIs and context packages as other clients.
+
+No complete M12 implementation plan exists.
+
+### [FUTURE] M13 — Release hardening and operational acceptance
+
+M13 is intended to complete release-level operational work.
+
+Its roadmap goal includes independently repeatable deployment, recovery, and complete acceptance evidence.
+
+No complete M13 implementation plan exists.
+
+### [FUTURE] M14 — Retrieval and storage benchmark
+
+M14 is intended to establish reproducible baselines for:
+
+- retrieval quality;
+- security isolation;
+- data fidelity;
+- performance.
+
+No complete M14 implementation plan exists.
+
+### [FUTURE] M15 — Semantic Seed Index
+
+M15 is an optional post-release extension.
+
+It is intended to add authorization-safe semantic candidate discovery through a rebuildable vector projection.
+
+The semantic index is not intended to become the canonical knowledge store or the authorization authority.
+
+No complete M15 implementation plan exists.
+
+### [FUTURE] M16 — Decision Gate
+
+M16 is an optional post-release extension.
+
+It is intended to add a generic bounded decision interface with optional decision-model providers.
+
+These providers are not intended to become authorities for identity, authorization, truth, or persistence.
+
+No complete M16 implementation plan exists.
+
+### [FUTURE] M17 — Non-generative enrichment
+
+M17 is an optional post-release extension.
+
+It is intended to produce reviewed entity, type, keyword, and resolution proposals from deterministic candidates and optional bounded decisions.
+
+No complete M17 implementation plan exists.
+
+### [FUTURE] M18 — Adaptive hybrid context
+
+M18 is an optional post-release extension.
+
+It is intended to combine optional semantic or gated seed selection with deterministic graph reconstruction and bounded sufficiency retries.
+
+No complete M18 implementation plan exists.
+
+M15 through M18 are optional extensions. They are not required for the core C1 release contract or for the canonical deterministic path.
 
 ## Milestone status
 
-See [PLAN.md](PLAN.md) for scope and status. Roadmap entries describe future acceptance contracts; they do not imply that the corresponding product features exist or have passed verification. Each milestone has its own plan and evidence report.
+Current roadmap status:
+
+- **M00–M09:** VERIFIED
+- **M09a–M11:** PLANNED and not implemented
+- **M12–M18:** FUTURE and not implemented
+
+See [PLAN.md](PLAN.md) for the authoritative scope and status of each milestone.
+
+Roadmap entries describe future acceptance contracts.
+
+A roadmap entry does not mean that the related product feature exists.
+
+It also does not mean that the feature passed verification.
+
+Each implemented milestone has its own plan and evidence report.
