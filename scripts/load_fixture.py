@@ -222,11 +222,13 @@ class Loader:
         value = response.json()
         return f"user:{value['issuer_alias']}.{value['subject']}"
 
-    async def _membership(self, scope_id: str, member: str, role: str) -> None:
+    async def _membership(
+        self, scope_id: str, member: str, role: str, *, actor: str = "admin"
+    ) -> None:
         await self.request(
             "POST",
             f"/v1/access-scopes/{quote(scope_id, safe='')}/members",
-            actor="admin",
+            actor=actor,
             json_body={"member": member, "role": role},
         )
 

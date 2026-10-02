@@ -7,6 +7,7 @@ only section labels and the header statement, never which units appear.
 from __future__ import annotations
 
 import hashlib
+from collections.abc import Callable
 from typing import Any
 
 from c1.changes.digest import canonical_json
@@ -345,6 +346,132 @@ def render_support_markdown(package: dict[str, Any]) -> str:
     )
     if package["gaps"]:
         sections.extend("- " + _safe(gap) for gap in package["gaps"])
+    sections.append("## Sources")
+    sections.extend(
+        f"[^{citation['n']}]: "
+        + _safe(citation.get("path"))
+        + "; "
+        + _safe({key: value for key, value in citation.items() if key not in {"n", "quote"}})
+        for citation in package["sources"]
+    )
+    sections.append("## Bounds")
+    sections.extend(
+        "- "
+        + _safe(key)
+        + ": "
+        + (_cursor(value) if key == "next_cursor" and value is not None else _safe(value))
+        for key, value in package["bounds"].items()
+    )
+    sections.append("Format parity digest: " + package["format_parity_digest"])
+    return "\n\n".join(sections) + "\n"
+
+
+# M11 documentation-update packages ----------------------------------------------------
+
+UPDATE_LABELS = {
+    "document-structure": "Existing documentation and its applicability per target snapshot",
+    "responsibilities": "Responsibilities per repository (implementation evidence)",
+    "interface-contract": "Interface contract and explicit links",
+    "configuration": "Configuration",
+    "tests-and-runs": "Test runs",
+    "changes": "Review candidates and recorded discrepancies",
+    "drafts": "Documentation drafts (C1 records; not external publication)",
+    "compatibility": "Compatibility per pair of target snapshots",
+}
+
+
+def render_update_structured(
+    base: dict[str, Any], units: list[dict[str, Any]], bounds: dict[str, Any]
+) -> dict[str, Any]:
+    selected = public_value(units)
+    citations: dict[int, dict[str, Any]] = {}
+    for unit in selected:
+        for citation in unit_citations(unit):
+            citations.setdefault(citation["n"], citation)
+    names = [name for name in base["sections"] if name in UPDATE_LABELS]
+    sections: dict[str, list[dict[str, Any]]] = {name: [] for name in names}
+    for unit in selected:
+        sections[unit["section"]].append(unit)
+    return {
+        "title": base["title"],
+        "interpretation": public_value(base["interpretation"]),
+        "publication": base["publication"],
+        "target": public_value(base["target"]),
+        "section_labels": {name: UPDATE_LABELS[name] for name in names},
+        "sections": sections,
+        "gaps": public_value(base["gaps"]),
+        "sources": [citations[n] for n in sorted(citations)],
+        "bounds": public_value(bounds),
+        "format_parity_digest": hashlib.sha256(
+            canonical_json(parity_identifiers(selected)).encode("utf-8")
+        ).hexdigest(),
+    }
+
+
+def _update_unit_lines(unit: dict[str, Any]) -> list[str]:
+    if unit["kind"] == "document-part":
+        lines = _part_lines(unit)
+        lines.insert(
+            1,
+            "Applicability: "
+            + _safe({key: value["state"] for key, value in unit["applicability"].items()}),
+        )
+        return lines
+    if unit["kind"] in {"code-unit", "dependency-unit", "contract-part"} or unit["kind"] in {
+        "operation",
+        "test-run",
+        "discrepancy",
+    }:
+        return _unit_lines(unit)
+    headings: dict[str, Callable[[dict[str, Any]], str]] = {
+        "other-target-document": lambda u: (
+            "#### " + _safe(u["document"]["title"]) + ": " + _safe(u["statement"])
+        ),
+        "configuration": lambda u: "#### Configuration " + _safe(u["configuration"].get("name")),
+        "applicability-record": lambda u: (
+            "#### " + _safe(u["state"]) + " (" + _safe(u["basis"]) + "): " + _safe(u["statement"])
+        ),
+        "draft": lambda u: (
+            "#### Draft "
+            + _safe(u["title"])
+            + ": "
+            + _safe(u["draft_state"])
+            + ", "
+            + _safe(u["publication_state"])
+        ),
+        "compatibility": lambda u: (
+            "#### " + _safe(u["pair"]) + ": " + _safe(u["status"]) + ". " + _safe(u["statement"])
+        ),
+    }
+    heading = headings[unit["kind"]]
+    lines = [
+        heading(unit) + _refs(unit),
+        "Unit: "
+        + _safe({key: value for key, value in unit.items() if key not in {"citations", "parts"}}),
+    ]
+    for part in unit.get("parts", []):
+        lines.append("Draft part " + _safe(part["part_id"]) + ":")
+        lines.append(_quoted(part["text"]))
+        lines.append("Derived from: " + _safe(part["derived_from"]))
+    return lines
+
+
+def render_update_markdown(package: dict[str, Any]) -> str:
+    sections = ["# " + _safe(package["title"]), "## Interpretation"]
+    sections.extend(
+        "- " + _safe(key) + ": " + _safe(value) for key, value in package["interpretation"].items()
+    )
+    sections.append(_safe(package["publication"]))
+    sections.append("## Target")
+    sections.extend(
+        "- " + _safe(key) + ": " + _safe(value) for key, value in package["target"].items()
+    )
+    for name, label in package["section_labels"].items():
+        sections.append("## " + _safe(label))
+        for unit in package["sections"][name]:
+            sections.extend(_update_unit_lines(unit))
+    sections.append("## Gaps")
+    sections.extend("- " + _safe(gap) for gap in package["gaps"])
     sections.append("## Sources")
     sections.extend(
         f"[^{citation['n']}]: "

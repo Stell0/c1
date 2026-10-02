@@ -23,6 +23,7 @@ class _StrictRequest(BaseModel):
 class ScopeCreate(_StrictRequest):
     label: str
     id: str | None = None
+    kind: Literal["standard", "drafting"] = "standard"
 
 
 class Membership(_StrictRequest):
@@ -67,7 +68,9 @@ async def create_scope(
     principal: Annotated[Principal, Depends(get_principal)],
     runtime: Annotated[Runtime, Depends(get_runtime)],
 ) -> dict[str, Any]:
-    result = await runtime.operations.create_scope(principal, body.label, id=body.id)
+    result = await runtime.operations.create_scope(
+        principal, body.label, id=body.id, kind=body.kind
+    )
     audit(request, principal, "scope_create", target=str(result.get("id", "")))
     return result
 

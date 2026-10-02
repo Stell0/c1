@@ -38,7 +38,9 @@ class RecordingLoader(Loader):
     async def grant_instance(self, member: str, role: str) -> None:
         pass
 
-    async def _membership(self, scope_id: str, member: str, role: str) -> None:
+    async def _membership(
+        self, scope_id: str, member: str, role: str, *, actor: str = "admin"
+    ) -> None:
         pass
 
     async def request(

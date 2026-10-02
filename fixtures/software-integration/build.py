@@ -127,19 +127,49 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
     }
     return {
         "name": "software-integration",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "profile": "software",
         "scopes": {
             "sw-shared": "Software shared",
             "sw-ledger": "Ledger source",
             "sw-shop": "Shop source",
             "sw-restricted": "Restricted pricing source",
+            # v1.3 (M11 D7, D8): a quarantined drafting scope, the widened
+            # documentation audience, and publication receipts.
+            "drafts-bob": "Bob's documentation drafts",
+            "sw-docs": "Published software documentation",
+            "sw-publications": "Publication receipts",
         },
         # Human readers per scope; carol also reviews. Dave cannot read restricted code.
         "readers": {
             "carol": ["sw-shared", "sw-ledger", "sw-shop", "sw-restricted"],
-            "dave": ["sw-shared", "sw-ledger", "sw-shop"],
-            "alice": ["sw-shared"],
+            "dave": [
+                "sw-shared",
+                "sw-ledger",
+                "sw-shop",
+                "drafts-bob",
+                "sw-docs",
+                "sw-publications",
+            ],
+            "alice": ["sw-shared", "sw-docs", "sw-publications"],
+            "bob": ["sw-shared", "sw-ledger", "sw-shop", "drafts-bob", "sw-publications"],
+        },
+        # Who creates each scope (and so administers it), its kind, and which
+        # producers hold roles there; unlisted scopes use the defaults.
+        "scope_settings": {
+            "drafts-bob": {"kind": "drafting", "creator": "admin", "producers": []},
+            "sw-docs": {"creator": "frank", "producers": []},
+            "sw-publications": {"producers": ["ci"]},
+        },
+        # Extra scope roles, granted by the scope's creator (M11 §1a item 6).
+        "scope_roles": {
+            "drafts-bob": [
+                ["bob", "contributor"],
+                ["bob", "creator"],
+                ["dave", "reviewer"],
+                ["carol", "access_admin"],
+            ],
+            "sw-docs": [["carol", "access_admin"]],
         },
         "products": {
             "ledger": {"label": "Ledger", "scope": "sw-shared"},
@@ -355,6 +385,55 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
                 "aspect": "retry",
             },
         ],
+        # v1.3 (M11 D9): part-level `documents` per section of the invoicing guide.
+        "part_documents": {
+            "docs/invoicing.md": {
+                "Creating an invoice": ["createInvoice"],
+                "Reading an invoice": ["getInvoice"],
+            }
+        },
+        # The external review-candidate rule (scripts/doc_review_rule.py) runs
+        # once over this target during the load.
+        "review_rule": {
+            "rule": "doc-dependency-change/1",
+            "target": {"snapshots": ["a2", "b2"], "contract": "a2"},
+            "checked_at": "2026-03-01T09:00:00Z",
+        },
+        # Bob's draft and the publisher report; tests and the demo submit them.
+        "draft": {
+            "title": "Invoicing (1.1)",
+            "revises": {"snapshot": "a1", "path": "docs/invoicing.md"},
+            "target": {"snapshots": ["a2", "b2"], "contract": "a2"},
+            "parts": [
+                {
+                    "text": "## Creating an invoice",
+                    "kind": "heading-2",
+                    "lineage": [],
+                },
+                {
+                    "text": "Call `POST /invoices` with a `customer_id`, an amount, "
+                    "and optionally `retries`.",
+                    "kind": "text",
+                    "lineage": [
+                        {"contract": "a2"},
+                        {
+                            "repository": "ledger",
+                            "snapshot": "a2",
+                            "descriptor": "`ledger.api`/create_invoice().",
+                        },
+                        {
+                            "repository": "shop",
+                            "snapshot": "b2",
+                            "descriptor": "`shop.client`/submit_order().",
+                        },
+                    ],
+                },
+            ],
+            "publication": {
+                "locator": "https://git.example.invalid/ledger/docs/invoicing.md",
+                "published_at": "2026-03-05T12:00:00Z",
+            },
+        },
         # A checked-in review note: a1 `validate` accepts zero, which the
         # documentation says is rejected. a2 fixes it.
         "discrepancies": [

@@ -260,6 +260,21 @@ def markdown_parts(text: str) -> list[Part]:
     return parts
 
 
+def section_parts(parts: list[tuple[str, Part]]) -> dict[str, list[str]]:
+    """Heading-2 section name -> its heading and body part IDs, in order."""
+    result: dict[str, list[str]] = {}
+    current: str | None = None
+    for identifier, part in parts:
+        if part.kind.startswith("heading-"):
+            level = int(part.kind.split("-", 1)[1])
+            current = part.text.lstrip("#").strip() if level == 2 else None
+            if level <= 1:
+                continue
+        if current is not None:
+            result.setdefault(current, []).append(identifier)
+    return result
+
+
 def part_containing(parts: list[tuple[str, Part]], line: int) -> str | None:
     for identifier, part in parts:
         if part.start_line <= line <= part.end_line:
@@ -1192,6 +1207,24 @@ class Planner:
                     target=first_part,
                     revision=commit,
                 )
+            # v1.3 (M11 D9): each part of a declared section documents its operations.
+            by_section = section_parts(self._parts[(snapshot, path)])
+            documented = self.fixture.get("part_documents", {}).get(path, {})
+            for section, names in sorted(documented.items()):
+                for part in by_section.get(section, []):
+                    for name in names:
+                        target = operation_id(self.fixture["contracts"]["provider"], name)
+                        claim_with_evidence(
+                            run,
+                            f"part-documents/{snapshot}/{path}/{part}/{name}",
+                            part,
+                            S + "documents",
+                            target,
+                            scope=scope,
+                            principal=principal,
+                            target=part,
+                            revision=commit,
+                        )
         return run
 
     # ast-calls -------------------------------------------------------------------------
@@ -1860,6 +1893,11 @@ class Planner:
             if key in first:
                 result.append(self.analyzer_run(key))
         result.append(self.aspects_run())
+        if "review_rule" in self.fixture:
+            from scripts import doc_review_rule
+
+            spec = self.fixture["review_rule"]
+            result.append(doc_review_rule.rule_run(self, spec["target"], spec["checked_at"]))
         for key in order:
             if key in first:
                 result.append(self.testing_run(key))
@@ -2101,24 +2139,31 @@ async def install_and_prepare(loader: Any, fixture: dict[str, Any]) -> dict[str,
     principals = {
         actor: await loader.whoami(actor) for actor in ("indexer", "analyzer", "ci", "reviewer")
     }
-    readers = {name: await loader._whoami_user(name) for name in ("dave", "alice")}
+    users = sorted(name for name in fixture["readers"] if name != "carol")
+    readers = {name: await loader._whoami_user(name) for name in users}
+    readers["carol"] = principals["reviewer"]
+    settings = fixture.get("scope_settings", {})
     for key, label in fixture["scopes"].items():
+        setting = settings.get(key, {})
+        # The creator administers the scope and grants every role in it.
+        creator = setting.get("creator", "admin")
         if key not in existing:
+            body: dict[str, Any] = {"id": key, "label": label}
+            if "kind" in setting:
+                body["kind"] = setting["kind"]
             await loader.request(
-                "POST",
-                "/v1/access-scopes",
-                actor="admin",
-                json_body={"id": key, "label": label},
-                expected=(201,),
+                "POST", "/v1/access-scopes", actor=creator, json_body=body, expected=(201,)
             )
-        for actor in ("indexer", "analyzer", "ci"):
+        for actor in setting.get("producers", ("indexer", "analyzer", "ci")):
             for role in ("reader", "creator", "contributor"):
-                await loader._membership(key, principals[actor], role)
-        await loader._membership(key, principals["reviewer"], "reader")
-        await loader._membership(key, principals["reviewer"], "reviewer")
+                await loader._membership(key, principals[actor], role, actor=creator)
+        await loader._membership(key, principals["reviewer"], "reader", actor=creator)
+        await loader._membership(key, principals["reviewer"], "reviewer", actor=creator)
         for name, allowed in fixture["readers"].items():
-            if name in readers and key in allowed:
-                await loader._membership(key, readers[name], "reader")
+            if name in readers and name != "carol" and key in allowed:
+                await loader._membership(key, readers[name], "reader", actor=creator)
+        for name, role in fixture.get("scope_roles", {}).get(key, []):
+            await loader._membership(key, readers[name], role, actor=creator)
     return {
         "indexer": principals["indexer"],
         "analyzer": principals["analyzer"],

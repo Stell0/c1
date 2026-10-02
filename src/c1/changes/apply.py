@@ -8,6 +8,7 @@ OpenFGA remain the authority for publication and reads.
 from __future__ import annotations
 
 import builtins
+import collections.abc
 import json
 import os
 from datetime import UTC, datetime
@@ -19,6 +20,7 @@ from c1.authorization.fga import resource_object, scope_object
 from c1.authorization.models import Binding, Decision, Operation
 from c1.authorization.principal import Principal
 from c1.changes.digest import receipt_message, request_digest
+from c1.changes.drafts import draft_diagnostics
 from c1.changes.history import HistoryService, InvalidHistoryCursor, StaleHistoryCursor
 from c1.changes.idempotency import (
     IdempotencyConflict,
@@ -583,6 +585,55 @@ class ChangeService:
             return set(), {}
         return wanted, found
 
+    async def _draft_diagnostics(
+        self,
+        p: Principal,
+        changeset: ChangeSet,
+        operations: collections.abc.Sequence[ChangeOperation],
+        checks: _DecisionMemo,
+    ) -> builtins.list[Diagnostic]:
+        """M11 draft quarantine, approval freshness and receipt rules."""
+        check_class = self.registry.classes.get("urn:c1:ns:software#ApplicabilityCheck")
+        if check_class is None:
+            return []
+
+        async def scope_kind(scope: str) -> str | None:
+            value = await self.plane.current.scope(scope)
+            return value.kind if value is not None and value.state == "active" else None
+
+        async def binding_scope(identifier: str) -> str | None:
+            binding = await self.plane.bindings(identifier)
+            return binding.scope_id if binding is not None and binding.state == "active" else None
+
+        async def reference(identifier: str) -> NodeRecord | None:
+            if not (await checks.check_read(p, identifier)).allowed:
+                return None
+            return await self.knowledge.get_record(
+                identifier, self.registry, commit=changeset.base_revision
+            )
+
+        async def checks_for(rule: str) -> builtins.list[NodeRecord]:
+            found = []
+            for document in await self.knowledge.documents_of_type(
+                check_class.storage_name, commit=changeset.base_revision
+            ):
+                record = document_to_record(document, self.registry)
+                rules = [
+                    getattr(value, "lexical", None)
+                    for value in record.properties.get("urn:c1:ns:software#ruleRef", [])
+                ]
+                if rule in rules and (await checks.check_read(p, record.id)).allowed:
+                    found.append(record)
+            return found
+
+        return await draft_diagnostics(
+            operations,
+            scope_kind=scope_kind,
+            binding_scope=binding_scope,
+            reference=reference,
+            checks_for=checks_for,
+        )
+
     async def _validate_locked(self, p: Principal, changeset: ChangeSet) -> dict[str, Any]:
         if changeset.state != "submitted":
             raise SecurityError(409, "invalid_changeset_state")
@@ -820,6 +871,10 @@ class ChangeService:
                 storage_diagnostics(
                     result.normalized_operations, self.registry, self.settings.instance_base
                 )
+            )
+        if result.accepted:
+            extra_diagnostics.extend(
+                await self._draft_diagnostics(p, changeset, result.normalized_operations, checks)
             )
         staged_scopes = {
             str(operation.record.get("id")): operation.scope_id

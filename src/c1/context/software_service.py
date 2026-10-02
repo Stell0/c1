@@ -13,6 +13,7 @@ import re
 from typing import TYPE_CHECKING, Any
 
 from c1.context.budget import build_page, prepare_units
+from c1.context.doc_update import DocUpdateSelection
 from c1.context.errors import ContextError
 from c1.context.profiles import SoftwareContextProfile
 from c1.context.request import ContextRequest, request_digest
@@ -26,6 +27,8 @@ from c1.context.software_render import (
     render_software_structured,
     render_support_markdown,
     render_support_structured,
+    render_update_markdown,
+    render_update_structured,
 )
 from c1.context.support import PUBLICATION_STATEMENT, SupportSelection, resolve_aspects
 from c1.query.cursor import CursorError
@@ -69,7 +72,7 @@ async def build_software_context(
         raise ContextError(400, "C1-CX-001", "goal_required")
     if not profile.software.requires_goal and request.goal is not None:
         raise ContextError(400, "C1-CX-001", "unsupported_selector")
-    if task == "test-development" and request.aspects:
+    if task in {"test-development", "documentation-update"} and request.aspects:
         raise ContextError(400, "C1-CX-001", "unsupported_selector")
     if profile.software.requires_aspects and not request.aspects:
         raise ContextError(400, "C1-CX-001", "aspects_required")
@@ -144,11 +147,18 @@ async def build_software_context(
             raise ContextError(409, "C1-CX-011", "restart_required")
         await runtime.query.planner.finalize(principal, plan, deadline=deadline)
         return {"outcome": anchor["outcome"], "revision": revision, "anchor_resolution": anchor}
+    if task == "documentation-update" and len(target.snapshots) < 2:
+        # A cross-software update names snapshots of at least two repositories (M11 D4).
+        if position is not None:
+            raise ContextError(409, "C1-CX-011", "restart_required")
+        raise ContextError(400, "C1-CX-001", "target_requires_two_repositories")
     anchor_node = records[anchor["anchor"]["id"]]
     aspect_report: list[dict[str, Any]] = []
     selection: SoftwareSelection
     if task == "test-development":
         selection = SoftwareSelection(records, target, anchor_node, profile, deadline=deadline)
+    elif task == "documentation-update":
+        selection = DocUpdateSelection(records, target, anchor_node, profile, deadline=deadline)
     else:
         aspects, aspect_report = resolve_aspects(records, list(request.aspects))
         selection = SupportSelection(
@@ -183,7 +193,7 @@ async def build_software_context(
         interpretation["target_symbols"] = [
             {"id": node.id, "label": _label(node)} for node in built["symbols"]
         ]
-    else:
+    elif task != "documentation-update":
         interpretation["aspects"] = aspect_report
     missing = selection.missing_aspects() if isinstance(selection, SupportSelection) else []
     common = frozenset(
@@ -237,6 +247,13 @@ async def build_software_context(
     }
     if task == "test-development":
         renderers = (render_software_structured, render_software_markdown)
+    elif task == "documentation-update":
+        base.update(
+            title="Documentation update: " + str(anchor["anchor"]["label"]),
+            sections=list(profile.software.sections),
+            publication=PUBLICATION_STATEMENT,
+        )
+        renderers = (render_update_structured, render_update_markdown)
     else:
         base.update(
             title=(

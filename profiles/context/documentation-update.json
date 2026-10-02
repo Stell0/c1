@@ -1,0 +1,47 @@
+{
+  "name": "documentation-update",
+  "version": "1",
+  "software": {
+    "task": "documentation-update",
+    "requires_target": true,
+    "requires_goal": false,
+    "requires_aspects": false,
+    "anchor_kinds": [
+      "capability",
+      "operation"
+    ],
+    "dependency_depth": 1,
+    "max_dependencies": 20,
+    "max_tests": 50,
+    "max_runs": 100,
+    "role_map": {
+      "document-part": "normative",
+      "other-target-document": "normative",
+      "code-unit": "structural",
+      "dependency-unit": "structural",
+      "operation": "structural",
+      "contract-part": "normative",
+      "configuration": "structural",
+      "test-run": "observed",
+      "applicability-record": "interpretive",
+      "discrepancy": "interpretive",
+      "draft": "interpretive",
+      "compatibility": "observed"
+    },
+    "sections": [
+      "interpretation",
+      "target",
+      "document-structure",
+      "responsibilities",
+      "interface-contract",
+      "configuration",
+      "tests-and-runs",
+      "changes",
+      "drafts",
+      "compatibility",
+      "gaps",
+      "sources",
+      "bounds"
+    ]
+  }
+}

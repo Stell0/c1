@@ -77,7 +77,7 @@ class _Operations:
         self.calls: list[tuple[str, str]] = []
 
     async def create_scope(
-        self, _p: Principal, label: str, id: str | None = None
+        self, _p: Principal, label: str, id: str | None = None, kind: str = "standard"
     ) -> dict[str, Any]:
         self.calls.append(("create_scope", label))
         return {"id": id or _SCOPE, "label": label, "state": "active"}

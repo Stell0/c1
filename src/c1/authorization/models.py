@@ -16,6 +16,9 @@ class Scope(SecurityRecord):
     id: str
     label: str
     state: Literal["provisioning", "active", "retired"] = "active"
+    # M11 D7: a drafting scope quarantines documentation drafts. The kind is
+    # fixed at creation; absent in earlier journals, it means "standard".
+    kind: Literal["standard", "drafting"] = "standard"
 
 
 class Binding(SecurityRecord):

@@ -176,6 +176,14 @@ SoftwareSection = Literal[
     "configuration",
     "observed-tests",
     "interpretations",
+    # M11 documentation-update template
+    "document-structure",
+    "responsibilities",
+    "interface-contract",
+    "tests-and-runs",
+    "changes",
+    "drafts",
+    "compatibility",
 ]
 SOFTWARE_SECTIONS: list[SoftwareSection] = [
     "interpretation",
@@ -232,6 +240,21 @@ SUPPORT_IMPLEMENTATION_SECTIONS: list[SoftwareSection] = [
     "sources",
     "bounds",
 ]
+DOCUMENTATION_UPDATE_SECTIONS: list[SoftwareSection] = [
+    "interpretation",
+    "target",
+    "document-structure",
+    "responsibilities",
+    "interface-contract",
+    "configuration",
+    "tests-and-runs",
+    "changes",
+    "drafts",
+    "compatibility",
+    "gaps",
+    "sources",
+    "bounds",
+]
 # Fixed template per task: (section order, unit kinds needing a declared role).
 TASK_TEMPLATES: dict[str, tuple[list[SoftwareSection], frozenset[str]]] = {
     "test-development": (SOFTWARE_SECTIONS, SOFTWARE_UNIT_KINDS),
@@ -239,6 +262,25 @@ TASK_TEMPLATES: dict[str, tuple[list[SoftwareSection], frozenset[str]]] = {
         SUPPORT_DOCUMENTATION_SECTIONS,
         frozenset(
             {"guidance-part", "applicability-warning", "discrepancy", "other-target-document"}
+        ),
+    ),
+    "documentation-update": (
+        DOCUMENTATION_UPDATE_SECTIONS,
+        frozenset(
+            {
+                "document-part",
+                "other-target-document",
+                "code-unit",
+                "dependency-unit",
+                "operation",
+                "contract-part",
+                "configuration",
+                "test-run",
+                "applicability-record",
+                "discrepancy",
+                "draft",
+                "compatibility",
+            }
         ),
     ),
     "support-implementation": (
@@ -262,7 +304,12 @@ class SoftwareTask(BaseModel):
 
     model_config = ConfigDict(frozen=True, extra="forbid", strict=True)
 
-    task: Literal["test-development", "support-documentation", "support-implementation"]
+    task: Literal[
+        "test-development",
+        "support-documentation",
+        "support-implementation",
+        "documentation-update",
+    ]
     requires_target: Literal[True] = True
     requires_goal: bool = True
     requires_aspects: bool = False
@@ -289,6 +336,8 @@ class SoftwareTask(BaseModel):
             raise ValueError("only test-development requires a goal")
         if self.task == "support-implementation" and not self.requires_aspects:
             raise ValueError("support-implementation requires aspects")
+        if self.task in {"test-development", "documentation-update"} and self.requires_aspects:
+            raise ValueError("only support tasks accept aspects")
         return self
 
 

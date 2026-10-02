@@ -230,6 +230,28 @@ class Terminus:
             raise StorageError("C1-ST-003", "backend returned an invalid document page")
         return payload
 
+    async def documents_of_type(
+        self, storage_name: str, *, commit: str | None = None
+    ) -> list[dict[str, Any]]:
+        """All instance documents of one storage class, optionally at a commit."""
+        if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{0,63}", storage_name):
+            raise ValueError("storage_name must be a class storage name")
+        path = self._document_path
+        if commit is not None:
+            commit_id = commit.removeprefix("branch:").removeprefix("commit:")
+            if not re.fullmatch(r"[A-Za-z0-9_-]+", commit_id):
+                raise ValueError("commit must be an identifier or branch:<identifier>")
+            path += f"/local/commit/{commit_id}"
+        response = await self._request(
+            "GET",
+            path,
+            params={"as_list": "true", "graph_type": "instance", "type": storage_name},
+        )
+        payload = response.json()
+        if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
+            raise StorageError("C1-ST-003", "backend returned an invalid document list")
+        return payload
+
     async def schema_documents(self) -> list[dict[str, Any]]:
         return await self.documents(graph_type="schema")
 

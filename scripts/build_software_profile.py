@@ -28,9 +28,11 @@ PROV = "http://www.w3.org/ns/prov#"
 DCT = "http://purl.org/dc/terms/"
 
 # 1.1.0 adds the M09 test-development predicates; 1.2.0 adds M10 support
-# aspects and the minimal negative applicability declaration. There is no in-place
-# upgrade path; development databases are reinstalled (owner, 2026-09-29).
-VERSION = "1.2.0"
+# aspects and the minimal negative applicability declaration; 1.3.0 adds M11
+# applicability records, documentation drafts, publication receipts and
+# part-to-part lineage. There is no in-place upgrade path; development
+# databases are reinstalled (owner, 2026-09-29).
+VERSION = "1.3.0"
 
 STRING = XSD + "string"
 INTEGER = XSD + "integer"
@@ -210,6 +212,72 @@ RECORD_CLASSES: dict[str, dict[str, Any]] = {
     },
 }
 
+# M11 (ADR-0022): applicability, drafts and publication receipts are records.
+APPLICABILITY_STATES = ["applicable", "contradicted", "needs-review", "not-applicable"]
+APPLICABILITY_BASES = ["declared", "review", "rule", "test"]
+RECORD_CLASSES.update(
+    {
+        # One deterministic rule run over an exact target (M11 D3, D6).
+        "ApplicabilityCheck": {
+            "storage": "SwApplicabilityCheck",
+            "properties": {
+                S + "ruleRef": ([STRING], 1, 1, []),
+                S + "targetSnapshotRef": ([S + "SourceSnapshot"], 1, None, []),
+                S + "targetContractRef": ([C1 + "Document"], 0, None, []),
+                S + "checkedAt": ([STAMP], 1, 1, []),
+                S + "activityRef": ([PROV + "Activity"], 1, 1, []),
+            },
+        },
+        # Applicability of a Document or DocumentPart relative to target snapshots.
+        "ApplicabilityRecord": {
+            "storage": "SwApplicabilityRecord",
+            "properties": {
+                S + "subjectRef": ([C1 + "Document", C1 + "DocumentPart"], 1, 1, []),
+                S + "targetSnapshotRef": ([S + "SourceSnapshot"], 1, None, []),
+                S + "applicabilityState": ([STRING], 1, 1, APPLICABILITY_STATES),
+                S + "applicabilityBasis": ([STRING], 1, 1, APPLICABILITY_BASES),
+                S + "ruleRef": ([STRING], 0, 1, []),
+                S + "checkRef": ([S + "ApplicabilityCheck"], 0, 1, []),
+                S + "activityRef": ([PROV + "Activity"], 1, 1, []),
+                S + "evidencePartRef": ([C1 + "DocumentPart"], 1, None, []),
+                S + "evidenceDigest": ([STRING], 0, None, []),
+                S + "recordNote": ([STRING], 0, 1, []),
+                S + "reviewStatus": ([STRING], 1, 1, ["confirmed", "disputed", "reported"]),
+            },
+        },
+        # A documentation draft; its text is an ordinary Document (M11 D5).
+        "DocumentationDraft": {
+            "storage": "SwDocumentationDraft",
+            "properties": {
+                S + "documentRef": ([C1 + "Document"], 1, 1, []),
+                S + "revises": ([C1 + "Document"], 0, 1, []),
+                S + "targetSnapshotRef": ([S + "SourceSnapshot"], 1, None, []),
+                S + "targetContractRef": ([C1 + "Document"], 0, None, []),
+                S + "authorRef": (["@id"], 1, 1, []),
+                S + "draftState": (
+                    [STRING],
+                    1,
+                    1,
+                    ["approved", "draft", "submitted-for-review", "withdrawn"],
+                ),
+                S + "applicabilityCheckRef": ([S + "ApplicabilityCheck"], 0, 1, []),
+            },
+        },
+        # The only record of external publication (M11 D8); locators are inert data.
+        "ExternalPublication": {
+            "storage": "SwExternalPublication",
+            "properties": {
+                S + "draftRef": ([S + "DocumentationDraft"], 1, 1, []),
+                S + "locator": ([STRING], 1, None, []),
+                S + "publishedAt": ([STAMP], 1, 1, []),
+                S + "publisherRef": (["@id"], 1, 1, []),
+                S + "activityRef": ([PROV + "Activity"], 1, 1, []),
+                S + "reportRef": ([C1 + "Document"], 0, 1, []),
+            },
+        },
+    }
+)
+
 # Relationship predicates used by ordinary Assertions; the predicate names the
 # evidence basis (M08 D6). None has a record-field role.
 RELATIONSHIPS: dict[str, list[str]] = {
@@ -279,6 +347,10 @@ def build_manifest(core: dict[str, Any]) -> dict[str, Any]:
         S + name: _prop(name, ranges, 0, None, []) for name, ranges in RELATIONSHIPS.items()
     }
     predicates[DCT + "source"] = _prop("documentSource", [C1 + "Source"], 0, None, [])
+    # M11 D5: part-to-part draft lineage reuses the PROV term.
+    predicates[PROV + "wasDerivedFrom"] = _prop(
+        "wasDerivedFrom", [C1 + "DocumentPart"], 0, None, []
+    )
     return {
         "name": "software",
         "version": VERSION,

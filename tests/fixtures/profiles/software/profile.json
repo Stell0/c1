@@ -1,6 +1,6 @@
 {
   "name": "software",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "requires_core": "1.0.0",
   "context": "context.jsonld",
   "shapes": "shapes.ttl",
@@ -1407,6 +1407,315 @@
           "enum": []
         }
       }
+    },
+    "urn:c1:ns:software#ApplicabilityCheck": {
+      "storage_name": "SwApplicabilityCheck",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:software#ruleRef": {
+          "name": "ruleRef",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#targetSnapshotRef": {
+          "name": "targetSnapshotRef",
+          "ranges": [
+            "urn:c1:ns:software#SourceSnapshot"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:software#targetContractRef": {
+          "name": "targetContractRef",
+          "ranges": [
+            "urn:c1:ns:core#Document"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:software#checkedAt": {
+          "name": "checkedAt",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#activityRef": {
+          "name": "activityRef",
+          "ranges": [
+            "http://www.w3.org/ns/prov#Activity"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:software#ApplicabilityRecord": {
+      "storage_name": "SwApplicabilityRecord",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:software#subjectRef": {
+          "name": "subjectRef",
+          "ranges": [
+            "urn:c1:ns:core#Document",
+            "urn:c1:ns:core#DocumentPart"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#targetSnapshotRef": {
+          "name": "targetSnapshotRef",
+          "ranges": [
+            "urn:c1:ns:software#SourceSnapshot"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:software#applicabilityState": {
+          "name": "applicabilityState",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "applicable",
+            "contradicted",
+            "needs-review",
+            "not-applicable"
+          ]
+        },
+        "urn:c1:ns:software#applicabilityBasis": {
+          "name": "applicabilityBasis",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "declared",
+            "review",
+            "rule",
+            "test"
+          ]
+        },
+        "urn:c1:ns:software#ruleRef": {
+          "name": "ruleRef",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#checkRef": {
+          "name": "checkRef",
+          "ranges": [
+            "urn:c1:ns:software#ApplicabilityCheck"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#activityRef": {
+          "name": "activityRef",
+          "ranges": [
+            "http://www.w3.org/ns/prov#Activity"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#evidencePartRef": {
+          "name": "evidencePartRef",
+          "ranges": [
+            "urn:c1:ns:core#DocumentPart"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:software#evidenceDigest": {
+          "name": "evidenceDigest",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:software#recordNote": {
+          "name": "recordNote",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#reviewStatus": {
+          "name": "reviewStatus",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "confirmed",
+            "disputed",
+            "reported"
+          ]
+        }
+      }
+    },
+    "urn:c1:ns:software#DocumentationDraft": {
+      "storage_name": "SwDocumentationDraft",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:software#documentRef": {
+          "name": "documentRef",
+          "ranges": [
+            "urn:c1:ns:core#Document"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#revises": {
+          "name": "revises",
+          "ranges": [
+            "urn:c1:ns:core#Document"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#targetSnapshotRef": {
+          "name": "targetSnapshotRef",
+          "ranges": [
+            "urn:c1:ns:software#SourceSnapshot"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:software#targetContractRef": {
+          "name": "targetContractRef",
+          "ranges": [
+            "urn:c1:ns:core#Document"
+          ],
+          "min_count": 0,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:software#authorRef": {
+          "name": "authorRef",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#draftState": {
+          "name": "draftState",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": [
+            "approved",
+            "draft",
+            "submitted-for-review",
+            "withdrawn"
+          ]
+        },
+        "urn:c1:ns:software#applicabilityCheckRef": {
+          "name": "applicabilityCheckRef",
+          "ranges": [
+            "urn:c1:ns:software#ApplicabilityCheck"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
+    },
+    "urn:c1:ns:software#ExternalPublication": {
+      "storage_name": "SwExternalPublication",
+      "kind": "record",
+      "key_strategy": "Random",
+      "properties": {
+        "urn:c1:ns:software#draftRef": {
+          "name": "draftRef",
+          "ranges": [
+            "urn:c1:ns:software#DocumentationDraft"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#locator": {
+          "name": "locator",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#string"
+          ],
+          "min_count": 1,
+          "max_count": null,
+          "enum": []
+        },
+        "urn:c1:ns:software#publishedAt": {
+          "name": "publishedAt",
+          "ranges": [
+            "http://www.w3.org/2001/XMLSchema#dateTimeStamp"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#publisherRef": {
+          "name": "publisherRef",
+          "ranges": [
+            "@id"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#activityRef": {
+          "name": "activityRef",
+          "ranges": [
+            "http://www.w3.org/ns/prov#Activity"
+          ],
+          "min_count": 1,
+          "max_count": 1,
+          "enum": []
+        },
+        "urn:c1:ns:software#reportRef": {
+          "name": "reportRef",
+          "ranges": [
+            "urn:c1:ns:core#Document"
+          ],
+          "min_count": 0,
+          "max_count": 1,
+          "enum": []
+        }
+      }
     }
   },
   "predicates": {
@@ -1589,6 +1898,15 @@
       "name": "documentSource",
       "ranges": [
         "urn:c1:ns:core#Source"
+      ],
+      "min_count": 0,
+      "max_count": null,
+      "enum": []
+    },
+    "http://www.w3.org/ns/prov#wasDerivedFrom": {
+      "name": "wasDerivedFrom",
+      "ranges": [
+        "urn:c1:ns:core#DocumentPart"
       ],
       "min_count": 0,
       "max_count": null,

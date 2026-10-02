@@ -4,13 +4,15 @@ from __future__ import annotations
 
 import asyncio
 import fcntl
+import hashlib
+import json
 import os
 import re
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 from uuid import uuid4
 
 from c1.authorization.audit import Audit
@@ -24,9 +26,22 @@ from c1.config import Settings
 from c1.interchange import validate_records
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
+from c1.storage.mapping import document_to_record
 from c1.storage.terminus import Terminus
 
 _SCOPE_ROLES = {"reader", "contributor", "creator", "reviewer", "access_admin"}
+_C1 = "urn:c1:ns:core#"
+_SW = "urn:c1:ns:software#"
+_RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+_PROV = "http://www.w3.org/ns/prov#"
+
+
+def _required_scopes(op: Operation) -> list[str]:
+    """Destination plus every scope bound to a lineage source (M11 D7)."""
+    lineage = op.payload.get("lineage") or {}
+    return sorted({str(op.to_scope), *lineage.get("scopes", [])})
+
+
 _INSTANCE_ROLES = {"schema_admin", "access_admin", "operator"}
 
 
@@ -118,7 +133,13 @@ class SecurityOperations:
             raise SecurityError(404, "not_found")
         return scope
 
-    async def create_scope(self, p: Principal, label: str, id: str | None = None) -> dict[str, Any]:
+    async def create_scope(
+        self,
+        p: Principal,
+        label: str,
+        id: str | None = None,
+        kind: Literal["standard", "drafting"] = "standard",
+    ) -> dict[str, Any]:
         async with self.writer.hold():
             self._require(await self.plane.check_instance(p, "access_admin"))
             identifier = id or str(uuid4())
@@ -130,7 +151,7 @@ class SecurityOperations:
                 raise SecurityError(422, "invalid_label")
             if await self.journal.get("Scope", identifier) is not None:
                 raise SecurityError(409, "scope_exists")
-            scope = Scope(id=identifier, label=label, state="provisioning")
+            scope = Scope(id=identifier, label=label, state="provisioning", kind=kind)
             op = self._operation("scope_create", p.id, identifier)
             await self._save(op, ("Scope", identifier, scope.model_dump(mode="json")))
             await self._reconcile(op)
@@ -293,7 +314,11 @@ class SecurityOperations:
                     raise SecurityError(409, "resource_transitioning")
                 self._require(await self.plane.check_scope(p, "access_admin", binding.scope_id))
             self._require(await self.plane.check_scope(p, "access_admin", to_scope))
+            lineage = await self._lineage(p, [b.resource_id for b in targets])
             root = next(b for b in targets if b.resource_id == resource_id)
+            payload: dict[str, Any] = {"bindings": [b.model_dump(mode="json") for b in targets]}
+            if lineage is not None:
+                payload["lineage"] = lineage
             op = self._operation(
                 "rescope",
                 p.id,
@@ -301,7 +326,7 @@ class SecurityOperations:
                 from_scope=root.scope_id,
                 to_scope=to_scope,
                 targets=[b.resource_id for b in targets],
-                payload={"bindings": [b.model_dump(mode="json") for b in targets]},
+                payload=payload,
             )
             op.state = "proposed"
             await self._save(op)
@@ -321,12 +346,22 @@ class SecurityOperations:
             op = await self._load_operation(operation_id)
             if op.kind != "rescope" or op.state not in {"proposed", "approved"}:
                 raise SecurityError(409, "invalid_operation_state")
-            self._require(await self.plane.check_scope(p, "access_admin", str(op.to_scope)))
+            required = _required_scopes(op)
+            administered = [
+                scope
+                for scope in required
+                if (await self.plane.check_scope(p, "access_admin", scope)).allowed
+            ]
+            if not administered:
+                raise SecurityError(403, "authorization_denied")
             if self.settings.independent_review and p.id == op.actor:
                 raise SecurityError(403, "independent_review_required")
             if p.id not in op.approvals:
                 op.approvals.append(p.id)
-            op.state = "approved"
+            # Each approval counts only for scopes its approver administers now
+            # (M11 D7); a lineage-bound re-scope needs every required scope.
+            covered = await self._covered(op)
+            op.state = "approved" if covered >= set(required) else "proposed"
             await self._save(op)
             self.audit.emit(p.id, "approve", op.id, "approved", "authorized")
             return self._public(op)
@@ -340,6 +375,13 @@ class SecurityOperations:
             self._require(await self.plane.check_scope(p, "access_admin", str(op.to_scope)))
             current = await self._cascade(op.target)
             if [b.model_dump(mode="json") for b in current] != op.payload["bindings"]:
+                raise SecurityError(409, "stale_security_operation")
+            try:
+                lineage = await self._lineage(p, [b.resource_id for b in current])
+            except SecurityError:
+                raise SecurityError(409, "stale_security_operation") from None
+            if lineage != op.payload.get("lineage"):
+                # Lineage sources or their bindings changed since the proposal.
                 raise SecurityError(409, "stale_security_operation")
             for b in current:
                 self._require(await self.plane.check_scope(p, "access_admin", b.scope_id))
@@ -381,12 +423,7 @@ class SecurityOperations:
             for b in op.payload["bindings"]:
                 if not await scope_check(op.actor, b["scope_id"], "access_admin"):
                     return False
-            for actor in op.approvals:
-                if (
-                    not self.settings.independent_review or actor != op.actor
-                ) and await scope_check(actor, str(op.to_scope), "access_admin"):
-                    return True
-            return False
+            return await self._covered(op) >= set(_required_scopes(op))
         if op.kind == "probe_revision":
             binding = await self.plane.bindings(op.target)
             if binding is None or binding.state != "active":
@@ -401,6 +438,82 @@ class SecurityOperations:
                 op.actor, binding.scope_id, "contributor"
             ) and await self.fga.check(op.actor, "can_contribute", resource_object(op.target))
         return False
+
+    async def _covered(self, op: Operation) -> set[str]:
+        """Required scopes administered now by an independent approver."""
+        covered: set[str] = set()
+        for scope in _required_scopes(op):
+            value = await self.plane.current.scope(scope)
+            if value is None or value.state != "active":
+                continue
+            for actor in op.approvals:
+                if self.settings.independent_review and actor == op.actor:
+                    continue
+                if await self.fga.check(actor, "access_admin", scope_object(scope)):
+                    covered.add(scope)
+                    break
+        return covered
+
+    async def _lineage(self, p: Principal, resource_ids: list[str]) -> dict[str, Any] | None:
+        """Lineage source parts of draft resources in a cascade and their current scopes.
+
+        ``None`` when the cascade holds no documentation draft resource. Every
+        source must be readable by ``p`` under current bindings and have an active,
+        non-transitioning binding; otherwise the operation fails closed.
+        """
+        draft_class = self.registry.classes.get(_SW + "DocumentationDraft")
+        if draft_class is None:
+            return None
+        head = await self.knowledge.head()
+        ids = set(resource_ids)
+        documents: set[str] = set()
+        for document in await self.knowledge.documents_of_type(
+            draft_class.storage_name, commit=head
+        ):
+            draft = document_to_record(document, self.registry)
+            refs = [v for v in draft.properties.get(_SW + "documentRef", []) if isinstance(v, str)]
+            if draft.id in ids or ids.intersection(refs):
+                documents.update(refs)
+        if not documents:
+            return None
+        assertion_class = self.registry.classes[_C1 + "Assertion"]
+        claims: list[tuple[str, str]] = []
+        for document in await self.knowledge.documents_of_type(
+            assertion_class.storage_name, commit=head
+        ):
+            claim = document_to_record(document, self.registry)
+            props = claim.properties
+            if (
+                props.get(_RDF + "predicate") == [_PROV + "wasDerivedFrom"]
+                and any(value in ids for value in props.get(_RDF + "subject", []))
+                and not any(
+                    getattr(value, "lexical", None) == "retracted"
+                    for value in props.get(_C1 + "lifecycle", [])
+                )
+            ):
+                for source in props.get(_RDF + "object", []):
+                    if isinstance(source, str):
+                        claims.append((claim.id, source))
+        scopes: set[str] = set()
+        for _claim, source in claims:
+            binding = await self.plane.bindings(source)
+            if (
+                binding is None
+                or binding.state != "active"
+                or await self.plane.current.pending(source, binding.scope_id)
+                or not (await self.plane.check_read(p, source)).allowed
+            ):
+                raise SecurityError(409, "lineage_unavailable")
+            scopes.add(binding.scope_id)
+        sources = sorted({source for _claim, source in claims})
+        body = {"claims": sorted({claim for claim, _source in claims}), "sources": sources}
+        return {
+            **body,
+            "scopes": sorted(scopes),
+            "digest": hashlib.sha256(
+                json.dumps({**body, "scopes": sorted(scopes)}, sort_keys=True).encode()
+            ).hexdigest(),
+        }
 
     async def _complete(self, op: Operation, *entries: tuple[str, str, dict[str, Any]]) -> None:
         op.state = "applied"

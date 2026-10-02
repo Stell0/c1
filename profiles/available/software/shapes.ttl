@@ -180,3 +180,44 @@
     sh:property [ sh:path <urn:c1:ns:software#startCharacter> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
     sh:property [ sh:path <urn:c1:ns:software#endLine> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] ;
     sh:property [ sh:path <urn:c1:ns:software#endCharacter> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#integer> ] .
+
+<urn:c1:ns:software#shape-ApplicabilityCheck> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#ApplicabilityCheck> ;
+    sh:property [ sh:path <urn:c1:ns:software#ruleRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#targetSnapshotRef> ; sh:minCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#targetContractRef> ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#checkedAt> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#activityRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <http://www.w3.org/ns/prov#Activity> ] .
+
+<urn:c1:ns:software#shape-ApplicabilityRecord> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#ApplicabilityRecord> ;
+    sh:property [ sh:path <urn:c1:ns:software#subjectRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:or ( [ sh:class <urn:c1:ns:core#Document> ] [ sh:class <urn:c1:ns:core#DocumentPart> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#targetSnapshotRef> ; sh:minCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#applicabilityState> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "applicable"^^<http://www.w3.org/2001/XMLSchema#string> "contradicted"^^<http://www.w3.org/2001/XMLSchema#string> "needs-review"^^<http://www.w3.org/2001/XMLSchema#string> "not-applicable"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#applicabilityBasis> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "declared"^^<http://www.w3.org/2001/XMLSchema#string> "review"^^<http://www.w3.org/2001/XMLSchema#string> "rule"^^<http://www.w3.org/2001/XMLSchema#string> "test"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#ruleRef> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#checkRef> ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#ApplicabilityCheck> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#activityRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <http://www.w3.org/ns/prov#Activity> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#evidencePartRef> ; sh:minCount 1 ; sh:class <urn:c1:ns:core#DocumentPart> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#evidenceDigest> ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#recordNote> ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#reviewStatus> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "confirmed"^^<http://www.w3.org/2001/XMLSchema#string> "disputed"^^<http://www.w3.org/2001/XMLSchema#string> "reported"^^<http://www.w3.org/2001/XMLSchema#string> ) ] .
+
+<urn:c1:ns:software#shape-DocumentationDraft> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#DocumentationDraft> ;
+    sh:property [ sh:path <urn:c1:ns:software#documentRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#revises> ; sh:maxCount 1 ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#targetSnapshotRef> ; sh:minCount 1 ; sh:class <urn:c1:ns:software#SourceSnapshot> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#targetContractRef> ; sh:class <urn:c1:ns:core#Document> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#authorRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:software#draftState> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "approved"^^<http://www.w3.org/2001/XMLSchema#string> "draft"^^<http://www.w3.org/2001/XMLSchema#string> "submitted-for-review"^^<http://www.w3.org/2001/XMLSchema#string> "withdrawn"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:software#applicabilityCheckRef> ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#ApplicabilityCheck> ] .
+
+<urn:c1:ns:software#shape-ExternalPublication> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#ExternalPublication> ;
+    sh:property [ sh:path <urn:c1:ns:software#draftRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#DocumentationDraft> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#locator> ; sh:minCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#publishedAt> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#dateTimeStamp> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#publisherRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:software#activityRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <http://www.w3.org/ns/prov#Activity> ] ;
+    sh:property [ sh:path <urn:c1:ns:software#reportRef> ; sh:maxCount 1 ; sh:class <urn:c1:ns:core#Document> ] .
