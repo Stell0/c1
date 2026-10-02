@@ -1,0 +1,32 @@
+........................................................................ [ 73%]
+........................FFAILED tests/integration/m09a/test_t04_counters.py::test_t04_work_counters_on_the_software_fixture [call]
+E   httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+E   httpx.ReadError
+
+=================================== FAILURES ===================================
+E   httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+E   httpx.ReadError
+/root/c1/.venv/lib/python3.13/site-packages/httpx/_transports/default.py:118: httpx.ReadError
+=============================== warnings summary ===============================
+tests/integration/m01/test_t07_interchange.py: 3 warnings
+tests/integration/m02/test_install_guards.py: 1 warning
+tests/integration/m02/test_t01_roundtrip.py: 2 warnings
+tests/integration/m02/test_t02_conflicts.py: 1 warning
+tests/integration/m02/test_t03_no_partial.py: 1 warning
+tests/integration/m02/test_t04_identity.py: 2 warnings
+tests/integration/m02/test_t07_extension.py: 2 warnings
+tests/integration/m03/test_journal_contract.py: 1 warning
+tests/integration/m05/test_backend_fetch.py: 1 warning
+  /root/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/integration/m09a/test_t04_counters.py::test_t04_work_counters_on_the_software_fixture
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 96 passed, 14 warnings in 11053.27s (3:04:13)
+uv failed with exit status 1.

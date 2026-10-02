@@ -1,7 +1,7 @@
 uv run --locked ruff check .
 All checks passed!
 uv run --locked ruff format --check .
-447 files already formatted
+450 files already formatted
 uv run --locked mypy
 Success: no issues found in 292 source files
 uv run --locked pytest
@@ -11,7 +11,7 @@ rootdir: /root/c1
 configfile: pyproject.toml
 testpaths: tests
 plugins: anyio-4.15.1
-collected 955 items
+collected 956 items
 
 tests/integration/m01/test_t01_inventory.py s                            [  0%]
 tests/integration/m01/test_t02_atomic.py s                               [  0%]
@@ -72,7 +72,7 @@ tests/integration/m08/test_t03_evidence.py s                             [  8%]
 tests/integration/m08/test_t04_partial.py s                              [  8%]
 tests/integration/m08/test_t05_idempotent.py s                           [  8%]
 tests/integration/m08/test_t06_relationships.py s                        [  8%]
-tests/integration/m08/test_t07_protected.py s                            [  9%]
+tests/integration/m08/test_t07_protected.py s                            [  8%]
 tests/integration/m09/test_t01_required.py s                             [  9%]
 tests/integration/m09/test_t02_discrepancy.py s                          [  9%]
 tests/integration/m09/test_t03_runs.py s                                 [  9%]
@@ -113,7 +113,7 @@ tests/unit/m04/test_digest.py ....                                       [ 31%]
 tests/unit/m04/test_history.py ......                                    [ 31%]
 tests/unit/m04/test_idempotency.py ..                                    [ 31%]
 tests/unit/m04/test_models.py ............                               [ 33%]
-tests/unit/m04/test_profiles.py ........                                 [ 34%]
+tests/unit/m04/test_profiles.py ........                                 [ 33%]
 tests/unit/m04/test_routes.py ...                                        [ 34%]
 tests/unit/m04/test_storage.py .....                                     [ 34%]
 tests/unit/m05/test_compile.py .....                                     [ 35%]
@@ -132,7 +132,7 @@ tests/unit/m06/test_history_concurrency.py .....                         [ 46%]
 tests/unit/m06/test_history_fetch.py ........                            [ 47%]
 tests/unit/m06/test_history_manifest.py .................                [ 49%]
 tests/unit/m06/test_history_types.py .....                               [ 50%]
-tests/unit/m06/test_order.py ...................                         [ 52%]
+tests/unit/m06/test_order.py ...................                         [ 51%]
 tests/unit/m06/test_render.py ....                                       [ 52%]
 tests/unit/m06/test_search.py ...                                        [ 52%]
 tests/unit/m06/test_service_limits.py .                                  [ 52%]
@@ -146,11 +146,11 @@ tests/unit/m07/test_fetch_authority.py .....                             [ 58%]
 tests/unit/m07/test_finalize_concurrency.py ..............               [ 59%]
 tests/unit/m07/test_fixture_loader.py ...                                [ 60%]
 tests/unit/m07/test_guarded_finalize.py .........................        [ 62%]
-tests/unit/m07/test_historical_preparation.py .....................      [ 65%]
+tests/unit/m07/test_historical_preparation.py .....................      [ 64%]
 tests/unit/m07/test_historical_projection.py ....                        [ 65%]
 tests/unit/m07/test_history_cohort.py ............                       [ 66%]
 tests/unit/m07/test_history_prefetch.py ................                 [ 68%]
-tests/unit/m07/test_plan_concurrency.py ......                           [ 69%]
+tests/unit/m07/test_plan_concurrency.py ......                           [ 68%]
 tests/unit/m07/test_profile_install_boundary.py ...                      [ 69%]
 tests/unit/m07/test_profile_reads.py ........                            [ 70%]
 tests/unit/m07/test_profiles.py .......................................  [ 74%]
@@ -163,7 +163,8 @@ tests/unit/m07/test_resolution.py .....                                  [ 84%]
 tests/unit/m07/test_selection.py ...........                             [ 85%]
 tests/unit/m07/test_service.py .........                                 [ 86%]
 tests/unit/m07/test_storage_preflight.py ................                [ 88%]
-tests/unit/m07/test_terminus_read_retry.py ............................  [ 91%]
+tests/unit/m07/test_terminus_read_retry.py ............................. [ 91%]
+                                                                         [ 91%]
 tests/unit/m07/test_topic_references.py ......                           [ 92%]
 tests/unit/m07/test_units.py ..............................              [ 95%]
 tests/unit/m08/test_journal_snapshot.py .                                [ 95%]
@@ -263,9 +264,9 @@ SKIPPED [1] tests/integration/m09a/test_t02_fresh.py: M09a real services require
 SKIPPED [1] tests/integration/m09a/test_t03_fail_closed.py: M09a real services require C1_STACK=1
 SKIPPED [1] tests/integration/m09a/test_t04_counters.py: M09a real services require C1_STACK=1
 SKIPPED [1] tests/integration/m09a/test_t05_profiles.py: M09a real services require C1_STACK=1
-=========== 857 passed, 98 skipped, 17 warnings in 74.03s (0:01:14) ============
+=========== 858 passed, 98 skipped, 17 warnings in 87.18s (0:01:27) ============
 uv run --locked python scripts/check_secrets.py
-Secret check passed for 1223 tracked/nonignored files (offline).
+Secret check passed for 1273 tracked/nonignored files (offline).
 uv run --locked python scripts/check_baseline.py
 Baseline checks passed (local integrity and claims; not cloud equivalence).
 uv run --locked python scripts/build_profile.py --check

@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M09 VERIFIED. M10–M18 remain unimplemented.
+**Status:** M00–M09 and M09a VERIFIED. M10–M18 remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -80,7 +80,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M07 | Consumer-ready context and cross-project reuse | M06 | Deterministic context packages for the PaperTrader/Robotelier fixture | VERIFIED |
 | M08 | Software profile and source-version ingestion | M07 | Version-pinned code/documentation records and explicit import coverage | VERIFIED |
 | M09 | Coding-agent test-development context | M08 | Reproducible test-writing context separating contract from implementation | VERIFIED |
-| M09a | Batched current-authorization verification | M09 | Decision-identical authorization with bounded backend work per request and ChangeSet step | PLANNED |
+| M09a | Batched current-authorization verification | M09 | Decision-identical authorization with bounded backend work per request and ChangeSet step | VERIFIED |
 | M10 | Documentation-first support context | M09, M09a | Two-stage support retrieval with a stable software target and controlled fallback | PLANNED |
 | M11 | Cross-software documentation-update context | M10 | Applicable, source-grounded context and reviewable documentation revisions | PLANNED |
 | M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | NOT_PLANNED |
