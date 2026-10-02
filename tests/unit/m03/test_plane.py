@@ -14,6 +14,7 @@ from c1.authorization.journal import Journal
 from c1.authorization.operations import WriterGate
 from c1.authorization.plane import AuthorizationPlane
 from c1.authorization.principal import Principal
+from c1.authorization.view import SecurityView
 from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
 from c1.runtime import Runtime
@@ -44,6 +45,15 @@ class FakeJournal:
 
     async def list(self, kind: str) -> list[dict[str, Any]]:
         return []
+
+    async def view(self) -> SecurityView:
+        """The same binding and scope as `get`, at the current fake revision."""
+        entries = [
+            (kind, key, payload)
+            for kind, key in (("Binding", _RESOURCE), ("Scope", "restricted"))
+            if (payload := await self.get(kind, key)) is not None
+        ]
+        return SecurityView.build(self.revision, entries)
 
 
 class FakeFGA:

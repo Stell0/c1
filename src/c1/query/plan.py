@@ -5,12 +5,13 @@ from __future__ import annotations
 import asyncio
 import time
 from collections.abc import Awaitable, Callable, Mapping
+from contextvars import ContextVar
 from dataclasses import dataclass
 from types import MappingProxyType
 
 from c1.authorization.fga import FGA, FGAError, resource_object, scope_object
 from c1.authorization.journal import Journal
-from c1.authorization.plane import AuthorizationPlane
+from c1.authorization.plane import AuthorizationPlane, bound_to_many
 from c1.authorization.principal import Principal
 from c1.query.index import CurrentBindingIndex, IndexHeadChanged, IndexUnavailable
 
@@ -25,6 +26,11 @@ class QueryPlanError(Exception):
         super().__init__(reason)
 
 
+# Store-wide binding count for the current request's authorization pass; it
+# only sizes the exact `bound_to` source (M09a D4) and never grants anything.
+_BINDING_COUNT: ContextVar[int] = ContextVar("c1_binding_count", default=0)
+
+
 @dataclass(frozen=True, slots=True)
 class AuthorizedPlan:
     """Only these IDs may enter retrieval, matching, joins, or ordering."""
@@ -34,6 +40,9 @@ class AuthorizedPlan:
     authorized_ids: tuple[str, ...]
     scope_by_id: Mapping[str, str]
     history_manifest: bytes | None = None
+    # Current journal bindings when the plan was built; sizes the binding
+    # source for finalize (M09a D4). Zero means one read per resource.
+    binding_count: int = 0
 
     def contains(self, resource_id: str) -> bool:
         return resource_id in self.authorized_ids
@@ -109,6 +118,7 @@ class AuthorizedSelection:
             raise QueryPlanError(503, "C1-QY-053", "time_budget")
         try:
             async with asyncio.timeout_at(effective_deadline):
+                _BINDING_COUNT.set(plan.binding_count)
                 authorization = asyncio.create_task(
                     self._authorize(principal, plan.authorized_ids, plan.scope_by_id)
                 )
@@ -161,6 +171,7 @@ class AuthorizedSelection:
         try:
             async with asyncio.timeout_at(effective_deadline):
                 publication = asyncio.create_task(check_precondition())
+                _BINDING_COUNT.set(plan.binding_count)
                 authorization = asyncio.create_task(
                     self._authorize(principal, plan.authorized_ids, plan.scope_by_id)
                 )
@@ -217,16 +228,21 @@ class AuthorizedSelection:
                 raise IndexUnavailable("incomplete authorization decisions")
             return decisions
 
-        async def binding(identifier: str) -> list[str]:
-            async with semaphore:
-                return await self.fga.bindings(resource_object(identifier))
+        async def live_bindings() -> dict[str, list[str]]:
+            # One exact source for every candidate's live tuples (M09a D4).
+            return await bound_to_many(
+                self.fga,
+                [resource_object(identifier) for identifier in candidate_ids],
+                binding_count=_BINDING_COUNT.get(),
+            )
 
         chunks = [candidate_ids[start : start + 50] for start in range(0, len(candidate_ids), 50)]
         async with asyncio.TaskGroup() as group:
             batch_tasks = [group.create_task(batch(chunk)) for chunk in chunks]
-            binding_tasks = [group.create_task(binding(identifier)) for identifier in candidate_ids]
+            bindings_task = group.create_task(live_bindings())
         batches = [task.result() for task in batch_tasks]
-        bindings = [task.result() for task in binding_tasks]
+        live = bindings_task.result()
+        bindings = [live[resource_object(identifier)] for identifier in candidate_ids]
         allowed = [decision for chunk in batches for decision in chunk]
         result: list[str] = []
         for identifier, is_allowed, live_binding in zip(
@@ -294,6 +310,7 @@ class AuthorizedSelection:
                 for binding in snapshot.bindings
                 if binding.resource_id in provisional_set
             }
+            _BINDING_COUNT.set(len(snapshot.bindings))
             authorized = await self._authorize(principal, provisional, provisional_scopes)
             if await self.journal.head() != head:
                 raise IndexHeadChanged("workflow head changed")
@@ -310,6 +327,7 @@ class AuthorizedSelection:
                 authorized,
                 MappingProxyType(current_scopes),
                 snapshot.history_manifest,
+                len(snapshot.bindings),
             )
         except QueryPlanError:
             raise

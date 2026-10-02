@@ -8,7 +8,7 @@ from collections.abc import Callable, Coroutine
 import httpx
 import pytest
 
-from c1.storage.terminus import BackendError, StorageError, Terminus
+from c1.storage.terminus import BackendError, StorageConfig, StorageError, Terminus
 from tests.unit.m07.test_fetch_authority import storage
 
 
@@ -273,3 +273,12 @@ def test_read_only_graphql_query_retries_once_but_mutations_never(
             assert len(writes) == 1
 
     asyncio.run(run())
+
+
+def test_pooled_connections_expire_before_server_idle_close() -> None:
+    """M09a: idle pooled TerminusDB connections are discarded after one second."""
+    terminus = Terminus(
+        StorageConfig("http://terminus.test", "pw", "admin", "c1_db", "urn:c1:instance:dev:")
+    )
+    pool = terminus._client._transport._pool  # type: ignore[attr-defined]
+    assert pool._keepalive_expiry == 1.0

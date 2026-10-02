@@ -17,6 +17,7 @@ from typing import Any, Self
 
 import httpx
 
+from c1.authorization.view import SecurityView
 from c1.storage.terminus import StorageConfig, StorageError, Terminus
 
 _KINDS = frozenset(
@@ -114,6 +115,7 @@ class Journal:
         # A data version identifies content, so the listing is reused only when
         # a fresh head read returns that same version; any write changes it.
         self._snapshot: tuple[str, list[tuple[str, str, dict[str, Any]]]] | None = None
+        self._view: SecurityView | None = None
 
     async def __aenter__(self) -> Self:
         await self._storage.__aenter__()
@@ -156,14 +158,34 @@ class Journal:
             raise StorageError("C1-JR-001", "workflow address collision")
         return payload
 
-    async def _entries(self) -> builtins.list[tuple[str, str, dict[str, Any]]]:
+    async def _versioned_entries(
+        self,
+    ) -> tuple[str, builtins.list[tuple[str, str, dict[str, Any]]]]:
         snapshot = self._snapshot
         if snapshot is not None and await self.head() == snapshot[0]:
-            return snapshot[1]
+            return snapshot
         version, documents = await self._storage.documents_at_version()
         decoded = [_decode(document) for document in documents]
         self._snapshot = (version, decoded)
-        return decoded
+        self._view = None
+        return version, decoded
+
+    async def _entries(self) -> builtins.list[tuple[str, str, dict[str, Any]]]:
+        return (await self._versioned_entries())[1]
+
+    async def view(self) -> SecurityView:
+        """The security projection at the data version of one listing (M09a D1).
+
+        Built once per data version and shared read-only; callers compare
+        `view.version` with the head they read before deciding.
+        """
+        version, entries = await self._versioned_entries()
+        cached = self._view
+        if cached is not None and cached.version == version:
+            return cached
+        view = SecurityView.build(version, entries)
+        self._view = view
+        return view
 
     async def list(self, kind: str) -> list[dict[str, Any]]:
         if kind not in _KINDS:

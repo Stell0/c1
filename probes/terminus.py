@@ -25,8 +25,13 @@ class Terminus:
     def __init__(self, url: str, password: str, database: str, organization: str = "admin") -> None:
         self.database = database
         self.organization = organization
+        # M09a (owner decision): do not reuse a pooled connection idle for more
+        # than one second, so a request never races the server's idle close.
         self._client = httpx.AsyncClient(
-            base_url=url.rstrip("/"), auth=httpx.BasicAuth("admin", password), timeout=30.0
+            base_url=url.rstrip("/"),
+            auth=httpx.BasicAuth("admin", password),
+            timeout=30.0,
+            limits=httpx.Limits(keepalive_expiry=1.0),
         )
 
     async def __aenter__(self) -> Self:

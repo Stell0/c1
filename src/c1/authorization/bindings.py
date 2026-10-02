@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from c1.authorization.journal import Journal
-from c1.authorization.models import Binding, Operation, Scope
+from c1.authorization.models import Binding, Scope
 
 
 class Bindings:
@@ -11,24 +11,12 @@ class Bindings:
         self.journal = journal
 
     async def get(self, identifier: str) -> Binding | None:
-        value = await self.journal.get("Binding", identifier)
-        return Binding.model_validate(value) if value is not None else None
+        value = (await self.journal.view()).binding(identifier)
+        return value.model_copy(deep=True) if value is not None else None
 
     async def scope(self, identifier: str) -> Scope | None:
-        value = await self.journal.get("Scope", identifier)
-        return Scope.model_validate(value) if value is not None else None
+        value = (await self.journal.view()).scope(identifier)
+        return value.model_copy(deep=True) if value is not None else None
 
     async def pending(self, identifier: str = "", scope: str = "", *, excluding: str = "") -> bool:
-        for value in await self.journal.list("Operation"):
-            operation = Operation.model_validate(value)
-            if operation.state != "pending" or operation.id == excluding:
-                continue
-            if identifier in operation.targets:
-                return True
-            if (
-                scope
-                and operation.kind in {"scope_create", "scope_retire", "membership"}
-                and operation.target == scope
-            ):
-                return True
-        return False
+        return (await self.journal.view()).pending(identifier, scope, excluding=excluding)

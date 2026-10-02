@@ -28,6 +28,10 @@ class StorageError(Exception):
         super().__init__(f"{code}: {message}")
 
 
+# Maximum idle time of a pooled TerminusDB connection before it is discarded.
+KEEPALIVE_EXPIRY_S = 1.0
+
+
 class BackendError(StorageError):
     """Backend failure with status and server error code, never a request body."""
 
@@ -95,6 +99,10 @@ class Terminus:
             auth=httpx.BasicAuth("admin", config.password),
             timeout=30.0,
             trust_env=False,
+            # M09a (owner decision): pooled connections idle for more than one
+            # second are not reused, so a request never races the server's own
+            # idle close. D21 retry semantics are unchanged.
+            limits=httpx.Limits(keepalive_expiry=KEEPALIVE_EXPIRY_S),
         )
 
     async def __aenter__(self) -> Self:

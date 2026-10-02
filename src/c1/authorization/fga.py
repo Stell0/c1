@@ -12,6 +12,8 @@ import httpx
 
 Tuple = tuple[str, str, str]
 _FRESH = "HIGHER_CONSISTENCY"
+# Whole-store binding scans stop here and fail closed (M09a D4).
+SCAN_MAX_PAGES = 2000
 
 
 class FGAError(RuntimeError):
@@ -196,6 +198,38 @@ class FGA:
 
     async def bindings(self, resource: str) -> list[str]:
         return [u for u, _, _ in await self.read(relation="bound_to", object=resource)]
+
+    async def scan_bindings(self, *, max_pages: int = SCAN_MAX_PAGES) -> dict[str, list[str]]:
+        """Every live `bound_to` user per resource object, from one whole-store read.
+
+        The pinned OpenFGA rejects filtered bulk reads, so this reads the store
+        without a tuple key and keeps `bound_to` tuples on `resource` objects,
+        including users from scopes C1 does not know. Any error, a repeated
+        continuation, or more than `max_pages` pages raises; nothing partial
+        is returned (M09a D4).
+        """
+        result: dict[str, list[str]] = {}
+        token = ""
+        seen: set[str] = set()
+        for _ in range(max_pages):
+            body: dict[str, Any] = {"page_size": 100, "consistency": _FRESH}
+            if token:
+                body["continuation_token"] = token
+            payload = await self._request("POST", self._path + "/read", json=body)
+            try:
+                for item in payload.get("tuples", []):
+                    key = item["key"]
+                    if key["relation"] == "bound_to" and str(key["object"]).startswith("resource:"):
+                        result.setdefault(str(key["object"]), []).append(str(key["user"]))
+            except (KeyError, TypeError):
+                raise FGAError("invalid tuple response") from None
+            token = payload.get("continuation_token", "")
+            if not token:
+                return result
+            if token in seen:
+                raise FGAError("authorization pagination did not advance")
+            seen.add(token)
+        raise FGAError("authorization scan page limit exceeded")
 
     async def write(self, tuples: list[Tuple], deletes: list[Tuple] | None = None) -> None:
         if not tuples and not deletes:

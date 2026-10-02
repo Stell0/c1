@@ -25,6 +25,11 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./postgres/init.sh:/docker-entrypoint-initdb.d/10-c1.sh:ro
+    # Fixed address: OpenFGA and Keycloak connect without container DNS, which
+    # failed intermittently on a shared Podman host (M09a report).
+    networks:
+      default:
+        ipv4_address: 10.89.250.10
     mem_limit: 512m
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U c1_dev -d postgres"]
@@ -36,7 +41,7 @@ services:
     command: ["migrate"]
     environment:
       OPENFGA_DATASTORE_ENGINE: postgres
-      OPENFGA_DATASTORE_URI: postgres://openfga:${C1_FGA_DB_PASSWORD:?run make stack-up}@postgres:5432/openfga?sslmode=disable
+      OPENFGA_DATASTORE_URI: postgres://openfga:${C1_FGA_DB_PASSWORD:?run make stack-up}@10.89.250.10:5432/openfga?sslmode=disable
     depends_on:
       postgres: {condition: service_healthy}
     mem_limit: 256m
@@ -45,7 +50,7 @@ services:
     command: ["run"]
     environment:
       OPENFGA_DATASTORE_ENGINE: postgres
-      OPENFGA_DATASTORE_URI: postgres://openfga:${C1_FGA_DB_PASSWORD:?run make stack-up}@postgres:5432/openfga?sslmode=disable
+      OPENFGA_DATASTORE_URI: postgres://openfga:${C1_FGA_DB_PASSWORD:?run make stack-up}@10.89.250.10:5432/openfga?sslmode=disable
       OPENFGA_AUTHN_METHOD: preshared
       OPENFGA_AUTHN_PRESHARED_KEYS: ${C1_FGA_TOKEN:?run make stack-up}
       OPENFGA_PLAYGROUND_ENABLED: "false"
@@ -67,7 +72,7 @@ services:
     command: ["start-dev", "--import-realm"]
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_URL: jdbc:postgresql://10.89.250.10:5432/keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: ${C1_KEYCLOAK_DB_PASSWORD:?run make stack-up}
       KC_BOOTSTRAP_ADMIN_USERNAME: c1-dev-admin
@@ -89,3 +94,9 @@ services:
 volumes:
   terminus-data: {name: c1-dev-terminus-data}
   postgres-data: {name: c1-dev-postgres-data}
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 10.89.250.0/24

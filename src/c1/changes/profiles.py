@@ -6,6 +6,8 @@ may have a different profile name from its catalog alias.
 
 from __future__ import annotations
 
+import copy
+import hashlib
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -52,17 +54,67 @@ def available_profile_names() -> tuple[str, ...]:
     return tuple(_catalog_entries())
 
 
-def load_candidate(alias: str) -> tuple[ProfileRegistry, str]:
-    """Load core and one trusted candidate; return its manifest profile name."""
+# Parsed trusted catalog files, keyed by the exact bytes they were parsed from
+# (M09a D5). Registries returned from here are shared and must not be mutated;
+# the installed schema is still read freshly by every caller that checks it.
+_PARSED: dict[tuple[str, ...], tuple[ProfileRegistry, str]] = {}
+_SELECTIONS: dict[tuple[str, ...], ProfileRegistry] = {}
+
+
+def _files_digest(*directories: Path) -> str:
+    digest = hashlib.sha256()
+    for directory in directories:
+        for name in ("profile.json", "context.jsonld", "shapes.ttl"):
+            path = directory / name
+            digest.update(str(path).encode() + b"\0")
+            digest.update(path.read_bytes() if path.is_file() else b"<absent>")
+            digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def _core_directory() -> Path:
+    return _catalog_root().parent / "core"
+
+
+def _cached_candidate(alias: str) -> tuple[ProfileRegistry, str]:
+    """Shared parsed candidate; callers inside this module only read it."""
     directory = _catalog_entries().get(alias)
     if directory is None:
         raise ValueError("profile is not in the trusted local catalog")
+    key = (alias, _files_digest(_core_directory(), directory))
+    cached = _PARSED.get(key)
+    if cached is not None:
+        return cached
     registry = ProfileRegistry()
     registry.load(directory)
     names = set(registry.profiles) - {"core"}
     if len(names) != 1:
         raise ValueError("bundled candidate must declare exactly one extension profile")
-    return registry, names.pop()
+    result = (registry, names.pop())
+    _PARSED[key] = result
+    return result
+
+
+def load_candidate(alias: str) -> tuple[ProfileRegistry, str]:
+    """Load core and one trusted candidate; return its manifest profile name.
+
+    Returns a private copy: callers may extend the registry they receive.
+    """
+    registry, name = _cached_candidate(alias)
+    return copy.deepcopy(registry), name
+
+
+def _selected_registry(directories: list[Path]) -> ProfileRegistry:
+    """Core plus the selected catalog profiles, parsed once per exact file content."""
+    key = (_files_digest(_core_directory(), *directories), *(str(d) for d in directories))
+    cached = _SELECTIONS.get(key)
+    if cached is not None:
+        return cached
+    registry = ProfileRegistry()
+    for directory in directories:
+        registry.load(directory)
+    _SELECTIONS[key] = registry
+    return registry
 
 
 def compare_candidate(installed: ProfileRegistry, alias: str) -> list[Diagnostic]:
@@ -103,14 +155,14 @@ async def detect_installed_registry(client: Terminus) -> ProfileRegistry:
     A schema commit without its marker, an orphan marker, or an unknown class
     is not accepted as an installed profile at startup.
     """
-    core = ProfileRegistry()
+    core = _selected_registry([])
     await assert_installed_profiles(client, core)
     actual_schema = await client.schema_documents()
     core_schema = generated_core_schema(core)
     entries = _catalog_entries()
     grouped: dict[str, list[tuple[Path, ProfileRegistry]]] = {}
     for alias, directory in entries.items():
-        candidate, name = load_candidate(alias)
+        candidate, name = _cached_candidate(alias)
         grouped.setdefault(name, []).append((directory, candidate))
     selected: list[Path] = []
     for name, alternatives in sorted(grouped.items()):
@@ -126,9 +178,7 @@ async def detect_installed_registry(client: Terminus) -> ProfileRegistry:
         if len(matches) != 1:
             raise StorageError("C1-ST-006", "extension marker is unknown or ambiguous")
         selected.extend(matches)
-    registry = ProfileRegistry()
-    for directory in selected:
-        registry.load(directory)
+    registry = copy.deepcopy(_selected_registry(selected))
     expected = [*core_schema]
     for name in registry.profiles:
         if name != "core":
