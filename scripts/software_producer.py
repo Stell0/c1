@@ -276,6 +276,7 @@ class Inputs:
     files: dict[str, dict[str, bytes]]  # snapshot -> path -> bytes
     scip: dict[str, dict[str, Any]]
     reports: dict[str, bytes]
+    guides: dict[str, bytes] = field(default_factory=dict)
 
 
 def load_inputs(root: Path = FIXTURE) -> Inputs:
@@ -291,7 +292,8 @@ def load_inputs(root: Path = FIXTURE) -> Inputs:
         }
         scip[key] = json.loads((root / "scip" / f"{key}.json").read_text(encoding="utf-8"))
     reports = {run["report"]: (root / run["report"]).read_bytes() for run in fixture["test_runs"]}
-    return Inputs(fixture, files, scip, reports)
+    guides = {path: (root / path).read_bytes() for path in fixture.get("guides", {})}
+    return Inputs(fixture, files, scip, reports, guides)
 
 
 @dataclass
@@ -400,6 +402,18 @@ def capability_id(key: str) -> str:
 
 def test_case_id(key: str) -> str:
     return ident(f"test-case/{key}", "entity")
+
+
+def aspect_id(key: str) -> str:
+    return ident(f"aspect/{key}", "entity")
+
+
+def guide_id(path: str) -> str:
+    return ident(f"guide/{path}", "document")
+
+
+def guide_part_id(path: str, index: int) -> str:
+    return ident(f"guide-part/{path}/{index}", "part")
 
 
 def configuration_id(key: str) -> str:
@@ -568,6 +582,8 @@ class Planner:
         self.principals = principals
         self._symbol_scope: dict[tuple[str, str], str] = {}
         self._parts: dict[tuple[str, str], list[tuple[str, Part]]] = {}
+        # Published guides: path -> (document revision, stored parts).
+        self._guide_parts: dict[str, tuple[str, list[tuple[str, Part]]]] = {}
         self._created_symbols: set[str] = set()
         self._parsed: dict[str, dict[str, bool]] = {}
         self._occurrences: dict[str, dict[tuple[str, int, int, str], str]] = {}
@@ -676,6 +692,15 @@ class Planner:
         for key, test in self.fixture["test_cases"].items():
             scope = self.fixture["repositories"][test["repository"]]["scope"]
             run.add(entity(test_case_id(key), "TestCase", key, scope))
+        for key, label in sorted(self.fixture.get("aspects", {}).items()):
+            run.add(
+                entity(
+                    aspect_id(key),
+                    "Aspect",
+                    label,
+                    "sw-shared",
+                )
+            )
         run.coverage = {}
         return run
 
@@ -1599,18 +1624,24 @@ class Planner:
             implementation = note["implementation"]
             normative = note["normative"]
             parts = {}
+            revisions = {}
             for side in (implementation, normative):
-                found = [
-                    identifier
-                    for identifier, part in self._parts[(snapshot, side["path"])]
-                    if side["quote"] in part.text
-                ]
+                if side["path"] in self._guide_parts:
+                    revisions[side["path"]], stored = self._guide_parts[side["path"]]
+                else:
+                    revisions[side["path"]] = self.commit(snapshot)
+                    stored = self._parts[(snapshot, side["path"])]
+                found = [identifier for identifier, part in stored if side["quote"] in part.text]
                 if len(found) != 1:
                     raise ValueError(f"review quote must occur in exactly one part: {side['path']}")
                 parts[side["path"]] = found[0]
             scope = restrictive(
-                self.file_scope(snapshot, implementation["path"]),
-                self.file_scope(snapshot, normative["path"]),
+                *(
+                    "sw-shared"
+                    if side["path"] in self._guide_parts
+                    else self.file_scope(snapshot, side["path"])
+                    for side in (implementation, normative)
+                )
             )
             key = f"discrepancy/{note['key']}"
             claim = ident(f"assertion/{key}", "assertion")
@@ -1623,7 +1654,7 @@ class Planner:
                     f"{key}/{side['path']}",
                     claim,
                     parts[side["path"]],
-                    self.commit(snapshot),
+                    revisions[side["path"]],
                     scope=scope,
                     activity=run.activity["id"],
                     selector=selector,
@@ -1646,12 +1677,164 @@ class Planner:
             run.touch(scope, normative["path"])
         return run
 
+    # M10 support guides and aspects ------------------------------------------------
+
+    def guides_run(self) -> Run:
+        """Published support guides in sw-shared with declared applicability (M10 D10)."""
+        principal = self.principals["indexer"]
+        run = Run(
+            "guides",
+            "indexer",
+            "docs",
+            "a1",
+            activity_record("guides", principal, "docs", [], "sw-shared"),
+        )
+        run.add(run.activity)
+        for path, spec in sorted(self.fixture.get("guides", {}).items()):
+            data = self.inputs.guides[path]
+            text = data.decode("utf-8")
+            revision = "guide:" + sha256(data)
+            document = guide_id(path)
+            parts = markdown_parts(text)
+            title = parts[0].text.lstrip("#").strip() if parts else path
+            run.add(
+                {
+                    "id": document,
+                    "types": [C1 + "Document"],
+                    "scope": "sw-shared",
+                    "properties": {
+                        DCT + "title": [lit(title)],
+                        C1 + "sourceRevision": [lit(revision)],
+                        C1 + "contentDigest": [lit("sha256:" + sha256(data))],
+                        DCT + "issued": [lit(spec["issued"], "date")],
+                    },
+                }
+            )
+            stored: list[tuple[str, Part]] = []
+            for index, part in enumerate(parts):
+                identifier = guide_part_id(path, index)
+                run.add(
+                    {
+                        "id": identifier,
+                        "types": [C1 + "DocumentPart"],
+                        "scope": "sw-shared",
+                        "properties": {
+                            C1 + "partOfDocument": [document],
+                            C1 + "orderKey": [lit(order_key(index + 1))],
+                            C1 + "text": [lit(part.text)],
+                            C1 + "partKind": [lit(part.kind)],
+                        },
+                    }
+                )
+                stored.append((identifier, part))
+            self._guide_parts[path] = (revision, stored)
+            first = stored[0][0]
+
+            def section(name: str, stored: list[tuple[str, Part]] = stored) -> str:
+                for index, (_identifier, part) in enumerate(stored):
+                    if part.kind.startswith("heading-") and part.text.lstrip("#").strip() == name:
+                        return stored[index + 1][0]
+                raise ValueError(f"guide section not found: {name}")
+
+            def declare(
+                key: str,
+                predicate: str,
+                obj: str,
+                target: str,
+                path: str = path,
+                document: str = document,
+                first: str = first,
+                revision: str = revision,
+            ) -> None:
+                claim_with_evidence(
+                    run,
+                    f"guide/{path}/{key}",
+                    document if not target.startswith("part:") else target[5:],
+                    S + predicate,
+                    obj,
+                    scope="sw-shared",
+                    principal=principal,
+                    target=first if not target.startswith("part:") else target[5:],
+                    revision=revision,
+                )
+
+            for snapshot in spec["describes"]:
+                declare(f"describes/{snapshot}", "describesSnapshot", snapshot_id(snapshot), "")
+            if "capability" in spec["documents"]:
+                declare(
+                    "documents/capability",
+                    "documents",
+                    capability_id(spec["documents"]["capability"]),
+                    "",
+                )
+            for name in spec["documents"].get("operations", []):
+                declare(
+                    f"documents/{name}",
+                    "documents",
+                    operation_id(self.fixture["contracts"]["provider"], name),
+                    "",
+                )
+            for name, aspects in sorted(spec["sections"].items()):
+                for aspect in aspects:
+                    section_part = section(name)
+                    declare(
+                        f"aspect/{name}/{aspect}",
+                        "addressesAspect",
+                        aspect_id(aspect),
+                        "part:" + section_part,
+                    )
+            for snapshot, name in sorted(spec["not_applicable_to"].items()):
+                evidence_part = section(name)
+                claim_with_evidence(
+                    run,
+                    f"guide/{path}/not-applicable/{snapshot}",
+                    document,
+                    S + "notApplicableTo",
+                    snapshot_id(snapshot),
+                    scope="sw-shared",
+                    principal=principal,
+                    target=evidence_part,
+                    revision=revision,
+                )
+        return run
+
+    def aspects_run(self) -> Run:
+        """Attributed aspect interpretations on code (analyzer, M10 D2)."""
+        principal = self.principals["analyzer"]
+        run = Run(
+            "aspects",
+            "analyzer",
+            "review-notes",
+            "a1",
+            activity_record("aspects", principal, "review-notes", [], "sw-shared"),
+        )
+        run.add(run.activity)
+        for item in self.fixture.get("code_aspects", []):
+            repo, snapshot, descriptors = item["repository"], item["snapshot"], item["descriptor"]
+            part = self._definition_part(snapshot, repo, descriptors)
+            if part is None or (repo, descriptors) not in self._symbol_scope:
+                continue
+            claim_with_evidence(
+                run,
+                f"aspect/{repo}/{snapshot}/{descriptors}/{item['aspect']}",
+                symbol_id(repo, descriptors),
+                S + "addressesAspect",
+                aspect_id(item["aspect"]),
+                scope=self._symbol_scope[(repo, descriptors)],
+                principal=principal,
+                target=part,
+                revision=self.commit(snapshot),
+                origin="derived",
+            )
+        return run
+
     def runs(self) -> list[Run]:
         """All runs in dependency order; repeatable (planning state is reset)."""
         self._symbol_scope.clear()
         self._parts.clear()
         self._created_symbols.clear()
         self._occurrences.clear()
+        self._guide_parts.clear()
         result = [self.seed()]
         order = ["a1", "b1", "a2", "b2"]
         # Every snapshot exists before contracts and documentation that may
@@ -1663,6 +1846,7 @@ class Planner:
                 result.append(self.contract_run(key))
         for key in order:
             result.append(self.docs_run(key))
+        result.append(self.guides_run())
         for key in order:
             result.append(self.calls_run(key))
         # The competing analyzer and the declared test context are exercised on
@@ -1675,6 +1859,7 @@ class Planner:
         for key in order:
             if key in first:
                 result.append(self.analyzer_run(key))
+        result.append(self.aspects_run())
         for key in order:
             if key in first:
                 result.append(self.testing_run(key))

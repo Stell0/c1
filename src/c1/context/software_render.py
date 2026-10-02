@@ -228,3 +228,138 @@ def render_software_markdown(package: dict[str, Any]) -> str:
     )
     sections.append("Format parity digest: " + package["format_parity_digest"])
     return "\n\n".join(sections) + "\n"
+
+
+# M10 support packages -----------------------------------------------------------------
+
+SUPPORT_LABELS = {
+    "guidance": "Applicable documentation (official guidance)",
+    "warnings": "Known warnings for the target",
+    "other-target-documentation": "Documentation for other targets (metadata only)",
+    "implementation": "Implementation evidence (not a supported procedure)",
+    "configuration": "Configuration evidence",
+    "interfaces": "Interfaces",
+    "observed-tests": "Observed test runs",
+    "interpretations": "Attributed interpretations",
+}
+
+
+def render_support_structured(
+    base: dict[str, Any], units: list[dict[str, Any]], bounds: dict[str, Any]
+) -> dict[str, Any]:
+    selected = public_value(units)
+    citations: dict[int, dict[str, Any]] = {}
+    for unit in selected:
+        for citation in unit_citations(unit):
+            citations.setdefault(citation["n"], citation)
+    names = [name for name in base["sections"] if name in SUPPORT_LABELS]
+    sections: dict[str, list[dict[str, Any]]] = {name: [] for name in names}
+    for unit in selected:
+        sections[unit["section"]].append(unit)
+    return {
+        "title": base["title"],
+        "interpretation": public_value(base["interpretation"]),
+        "publication": base["publication"],
+        "target": public_value(base["target"]),
+        "section_labels": {name: SUPPORT_LABELS[name] for name in names},
+        "sections": sections,
+        "missing_aspects": public_value(base["missing_aspects"]),
+        "gaps": public_value(base["gaps"]),
+        "sources": [citations[n] for n in sorted(citations)],
+        "bounds": public_value(bounds),
+        "format_parity_digest": hashlib.sha256(
+            canonical_json(parity_identifiers(selected)).encode("utf-8")
+        ).hexdigest(),
+    }
+
+
+def _support_unit_lines(unit: dict[str, Any]) -> list[str]:
+    if "part_id" in unit:
+        lines = _part_lines(unit)
+        lines.insert(1, "Label: " + _safe(unit.get("label", "")))
+        return lines
+    heading = {
+        "applicability-warning": lambda u: (
+            "#### Warning: "
+            + _safe(u["document"]["title"])
+            + " is "
+            + _safe(u["statement"])
+            + " ("
+            + _safe(u["snapshot"].get("label") or u["snapshot"]["id"])
+            + ")"
+        ),
+        "other-target-document": lambda u: (
+            "#### " + _safe(u["document"]["title"]) + ": " + _safe(u["statement"])
+        ),
+        "configuration": lambda u: (
+            "#### Configuration "
+            + _safe(u["configuration"].get("name"))
+            + " ("
+            + _safe(u["label"])
+            + ")"
+        ),
+        "aspect-claim": lambda u: (
+            "#### "
+            + _safe(u["symbol"].get("label"))
+            + " addresses "
+            + _safe(u["aspect"]["label"])
+            + " (attributed interpretation)"
+        ),
+    }.get(unit["kind"])
+    if heading is None:
+        return _unit_lines(unit)
+    lines = [
+        heading(unit) + _refs(unit),
+        "Unit: " + _safe({key: value for key, value in unit.items() if key != "citations"}),
+    ]
+    for citation in unit.get("citations", []):
+        if "quote" in citation:
+            lines.append("Quoted from " + _safe(citation["path"]) + f"[^{citation['n']}]:")
+            lines.append(_quoted(citation["quote"]))
+    return lines
+
+
+def render_support_markdown(package: dict[str, Any]) -> str:
+    sections = ["# " + _safe(package["title"]), "## Interpretation"]
+    sections.extend(
+        "- " + _safe(key) + ": " + _safe(value) for key, value in package["interpretation"].items()
+    )
+    sections.append(_safe(package["publication"]))
+    sections.append("## Target")
+    sections.extend(
+        "- " + _safe(key) + ": " + _safe(value) for key, value in package["target"].items()
+    )
+    for name, label in package["section_labels"].items():
+        sections.append("## " + _safe(label))
+        for unit in package["sections"][name]:
+            sections.extend(_support_unit_lines(unit))
+    sections.append("## Missing aspects")
+    sections.extend(
+        "- "
+        + _safe(item["aspect"]["label"])
+        + " ("
+        + _safe(item["aspect"]["id"])
+        + "): "
+        + _safe(item["status"])
+        for item in package["missing_aspects"]
+    )
+    if package["gaps"]:
+        sections.extend("- " + _safe(gap) for gap in package["gaps"])
+    sections.append("## Sources")
+    sections.extend(
+        f"[^{citation['n']}]: "
+        + _safe(citation.get("path"))
+        + "; "
+        + _safe({key: value for key, value in citation.items() if key not in {"n", "quote"}})
+        for citation in package["sources"]
+    )
+    sections.append("## Bounds")
+    sections.extend(
+        "- "
+        + _safe(key)
+        + ": "
+        + (_cursor(value) if key == "next_cursor" and value is not None else _safe(value))
+        for key, value in package["bounds"].items()
+    )
+    sections.append("Format parity digest: " + package["format_parity_digest"])
+    return "\n\n".join(sections) + "\n"

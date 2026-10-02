@@ -1,0 +1,5 @@
+watch started 2026-10-02T14:22:15Z
+2026-10-02T14:30:16Z dns_errors=0 agent_events=3
+2026-10-02T15:27:37Z dns_errors=0 agent_events=3
+2026-10-02T15:28:37Z dns_errors=0 agent_events=3
+watch ended 2026-10-02T17:39:09Z

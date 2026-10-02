@@ -109,18 +109,27 @@ def state_errors(root: Path) -> list[str]:
     if not section or not section.group(1).strip():
         errors.append("README.md:1: missing What exists today section")
     else:
-        allowed = (
-            "- Harness:",
-            "- Baseline:",
-            "- Checks:",
-            "- CI:",
-            "- Conventions:",
-            "- License:",
-            "- Model:",
-            "- Security:",
-        )
+        # Labels may be plain ("- Model:") or bold ("- **Model:**"). Capabilities
+        # verified by M04–M09 reports are allowed alongside the M00–M03 inventory.
+        allowed = {
+            "Harness",
+            "Baseline",
+            "Checks",
+            "CI",
+            "Conventions",
+            "License",
+            "Model",
+            "Security",
+            "Controlled writes",
+            "Queries",
+            "Documents",
+            "Context",
+            "Software knowledge",
+            "Test-development context",
+        }
         for line in section.group(1).splitlines():
-            if line.strip() and not line.startswith(allowed):
+            label = re.match(r"- (?:\*\*([^*:]+):\*\*|([^*:]+):)", line)
+            if line.strip() and not (label and (label.group(1) or label.group(2)) in allowed):
                 errors.append(
                     "README.md:1: implemented inventory contains an unrecognized capability heading"
                 )

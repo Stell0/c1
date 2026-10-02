@@ -1,0 +1,34 @@
+{
+  "name": "support-documentation",
+  "version": "1",
+  "software": {
+    "task": "support-documentation",
+    "requires_target": true,
+    "requires_goal": false,
+    "requires_aspects": false,
+    "anchor_kinds": [
+      "capability",
+      "operation"
+    ],
+    "dependency_depth": 0,
+    "max_dependencies": 0,
+    "max_tests": 1,
+    "max_runs": 1,
+    "role_map": {
+      "guidance-part": "normative",
+      "applicability-warning": "interpretive",
+      "discrepancy": "interpretive",
+      "other-target-document": "normative"
+    },
+    "sections": [
+      "interpretation",
+      "target",
+      "guidance",
+      "warnings",
+      "other-target-documentation",
+      "missing-aspects",
+      "sources",
+      "bounds"
+    ]
+  }
+}

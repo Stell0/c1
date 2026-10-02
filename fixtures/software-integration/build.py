@@ -127,7 +127,7 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
     }
     return {
         "name": "software-integration",
-        "version": "1.1.0",
+        "version": "1.2.0",
         "profile": "software",
         "scopes": {
             "sw-shared": "Software shared",
@@ -303,6 +303,58 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
                 "test_case": "ledger-create",
             }
         ],
+        # v1.2 (M10 D2, D3, D10): declared support aspects, published support
+        # guides in sw-shared, and attributed aspect claims on code.
+        "aspects": {
+            "configuration": "Configuration",
+            "retry": "Retry",
+            "timeout": "Timeout",
+            "invoice-creation": "Invoice creation procedure",
+        },
+        "guides": {
+            "guides/ledger-ops-1.0.md": {
+                "issued": "2026-01-05",
+                "describes": ["a1", "b1"],
+                "documents": {"capability": "invoice-creation", "operations": ["createInvoice"]},
+                "sections": {
+                    "Configuration": ["configuration"],
+                    "Creating an invoice": ["invoice-creation"],
+                },
+                "not_applicable_to": {},
+            },
+            "guides/ledger-ops-1.1.md": {
+                "issued": "2026-02-05",
+                "describes": ["a2", "b2"],
+                "documents": {"capability": "invoice-creation", "operations": ["createInvoice"]},
+                "sections": {
+                    "Configuration": ["configuration"],
+                    "Creating an invoice": ["invoice-creation"],
+                },
+                "not_applicable_to": {},
+            },
+            "guides/shop-troubleshooting.md": {
+                "issued": "2026-02-20",
+                "describes": [],
+                "documents": {"operations": ["createInvoice"]},
+                "sections": {"Invoice creation fails": ["invoice-creation"]},
+                # The declared section is the evidence for the negative declaration.
+                "not_applicable_to": {"b2": "Applicability"},
+            },
+        },
+        "code_aspects": [
+            {
+                "repository": "ledger",
+                "snapshot": "a2",
+                "descriptor": "`ledger.api`/create_invoice().",
+                "aspect": "retry",
+            },
+            {
+                "repository": "shop",
+                "snapshot": "b2",
+                "descriptor": "`shop.ledger_client`/post_invoice().",
+                "aspect": "retry",
+            },
+        ],
         # A checked-in review note: a1 `validate` accepts zero, which the
         # documentation says is rejected. a2 fixes it.
         "discrepancies": [
@@ -314,7 +366,16 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
                     "path": "docs/invoicing.md",
                     "quote": "The amount must be greater than zero; zero is rejected with 422.",
                 },
-            }
+            },
+            {
+                "key": "a1-zero-amount-guide",
+                "snapshot": "a1",
+                "implementation": {"path": "ledger/api.py", "quote": "return amount >= 0"},
+                "normative": {
+                    "path": "guides/ledger-ops-1.0.md",
+                    "quote": "Zero amounts are rejected.",
+                },
+            },
         ],
     }
 

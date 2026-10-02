@@ -27,7 +27,9 @@ def test_t02_target_pinning_and_explicit_branch_resolution(software: Software) -
             if item["kind"] == "run":
                 assert set(item["target_member"]) <= {snapshot("a1"), snapshot("b1")}
             if item["kind"] == "document":
-                assert item["commit"] in allowed_commits
+                # Repository documents are pinned to target commits; published
+                # guides (fixture v1.2, M10) carry a content revision instead.
+                assert item["commit"] in allowed_commits or item["commit"].startswith("guide:")
                 assert item["target_member"] in {snapshot("a1"), snapshot("b1")}
             if item["kind"] == "relationship" and item["evidence"]["target_member"]:
                 assert item["evidence"]["target_member"] in {snapshot("a1"), snapshot("b1")}
@@ -40,7 +42,7 @@ def test_t02_target_pinning_and_explicit_branch_resolution(software: Software) -
         operations = {item["operation_id"] for item in current if item["kind"] == "operation"}
         assert operations == {"createInvoice", "getInvoice"}
         documents = {item["path"] for item in current if item["kind"] == "document"}
-        assert documents == {"docs/invoicing.md", "CONTRIBUTING.md"}
+        assert documents == {"docs/invoicing.md", "CONTRIBUTING.md", "Ledger operations guide 1.0"}
 
         # Between these two C1 revisions only a2/b2 content was ingested (their
         # snapshots, sources, files, contracts, and docs). A request pinned to

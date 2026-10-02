@@ -94,6 +94,16 @@
     sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
     sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
 
+<urn:c1:ns:software#shape-Aspect> a sh:NodeShape ;
+    sh:targetClass <urn:c1:ns:software#Aspect> ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#prefLabel> ; sh:minCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://www.w3.org/2004/02/skos/core#altLabel> ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <http://purl.org/dc/terms/description> ; sh:maxCount 1 ; sh:or ( [ sh:datatype <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ] [ sh:datatype <http://www.w3.org/2001/XMLSchema#string> ] ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#keyword> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#lifecycle> ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype <http://www.w3.org/2001/XMLSchema#string> ; sh:in ( "active"^^<http://www.w3.org/2001/XMLSchema#string> "retracted"^^<http://www.w3.org/2001/XMLSchema#string> "superseded"^^<http://www.w3.org/2001/XMLSchema#string> ) ] ;
+    sh:property [ sh:path <urn:c1:ns:core#projectReference> ; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path <urn:c1:ns:core#provisionedScopeHint> ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+
 <urn:c1:ns:software#shape-SymbolOccurrence> a sh:NodeShape ;
     sh:targetClass <urn:c1:ns:software#SymbolOccurrence> ;
     sh:property [ sh:path <urn:c1:ns:software#symbolRef> ; sh:minCount 1 ; sh:maxCount 1 ; sh:class <urn:c1:ns:software#CodeSymbol> ] ;

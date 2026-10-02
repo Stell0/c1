@@ -28,7 +28,8 @@ def _request(**changes: Any) -> ContextRequest:
 def test_graph_request_digest_is_the_m07_digest() -> None:
     request = _request(topics=["batteries"])
     value = request.model_dump(
-        mode="json", exclude={"cursor", "budget", "revision", "target", "goal"}
+        mode="json",
+        exclude={"cursor", "budget", "revision", "target", "goal", "aspects", "followup_token"},
     )
     expected = hashlib.sha256(
         json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()

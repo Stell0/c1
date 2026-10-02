@@ -114,9 +114,12 @@ class ContextRequest(BaseModel):
     )
     budget: ContextBudget = Field(default_factory=ContextBudget)
     cursor: str | None = Field(default=None, min_length=1, max_length=16384)
-    # Software-task profiles only (M09 D1); graph profiles reject both.
+    # Software-task profiles only (M09 D1); graph profiles reject them.
     target: TargetSelector | None = None
     goal: Literal["conformance", "characterization"] | None = None
+    # Support profiles only (M10 D2, D6): exact aspects and the follow-up token.
+    aspects: list[str | IDSelector] = Field(default_factory=list, max_length=20)
+    followup_token: str | None = Field(default=None, min_length=1, max_length=16384)
 
     @field_validator("topics", mode="before")
     @classmethod
@@ -165,17 +168,24 @@ class ContextRequest(BaseModel):
             raise ValueError("invalid field name")
         if len(self.fields) != len(set(self.fields)):
             raise ValueError("fields must be unique")
+        if any(isinstance(item, str) and not normalize(item) for item in self.aspects):
+            raise ValueError("aspect labels must not be blank")
+        if len({str(item) for item in self.aspects}) != len(self.aspects):
+            raise ValueError("aspects must be unique")
         return self
 
 
 def request_digest(request: ContextRequest) -> str:
     """Bind continuations to selection and rendering; budget may change per page."""
     value = request.model_dump(
-        mode="json", exclude={"cursor", "budget", "revision", "target", "goal"}
+        mode="json",
+        exclude={"cursor", "budget", "revision", "target", "goal", "aspects", "followup_token"},
     )
     # Absent software fields leave graph-profile digests exactly as in M07.
-    for key in ("target", "goal"):
+    for key in ("target", "goal", "followup_token"):
         if getattr(request, key) is not None:
             value[key] = request.model_dump(mode="json", include={key})[key]
+    if request.aspects:
+        value["aspects"] = request.model_dump(mode="json", include={"aspects"})["aspects"]
     payload = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()

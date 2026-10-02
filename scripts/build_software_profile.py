@@ -27,9 +27,10 @@ RDFS = "http://www.w3.org/2000/01/rdf-schema#"
 PROV = "http://www.w3.org/ns/prov#"
 DCT = "http://purl.org/dc/terms/"
 
-# 1.1.0 adds the M09 test-development predicates. There is no in-place
+# 1.1.0 adds the M09 test-development predicates; 1.2.0 adds M10 support
+# aspects and the minimal negative applicability declaration. There is no in-place
 # upgrade path; development databases are reinstalled (owner, 2026-09-29).
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 
 STRING = XSD + "string"
 INTEGER = XSD + "integer"
@@ -81,6 +82,8 @@ ENTITY_CLASSES: dict[str, dict[str, Any]] = {
         },
     },
     "TestCase": {"storage": "SwTestCase", "extra": {}},
+    # M10 D2: a declared support aspect (retry, timeout, configuration, ...).
+    "Aspect": {"storage": "SwAspect", "extra": {}},
 }
 
 ROLES = [
@@ -228,6 +231,9 @@ RELATIONSHIPS: dict[str, list[str]] = {
     "executionInstructions": [S + "CodeRepository"],
     "fixtureOf": [S + "TestCase"],
     "discrepancy": [C1 + "DocumentPart"],
+    # M10 (ADR-0021): declared support aspects and negative applicability.
+    "addressesAspect": [S + "Aspect"],
+    "notApplicableTo": [S + "SourceSnapshot"],
 }
 
 

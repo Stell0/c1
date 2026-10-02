@@ -74,7 +74,8 @@ def test_t01_required_context_for_create_invoice(software: Software) -> None:
         pinned = {a1, b1}
         for unit in units(value):
             if "commit" in unit:
-                assert unit["commit"] in pinned, unit
+                # Published guides (fixture v1.2) are pinned by content revision.
+                assert unit["commit"] in pinned or unit["commit"].startswith("guide:"), unit
                 assert unit["text"], unit
             assert unit["id"] in markdown
         # Only runs labelled other-target may name another snapshot, as their own target.

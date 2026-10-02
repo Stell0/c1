@@ -36,7 +36,9 @@ def test_t02_discrepancy_is_preserved_not_canonized(software: Software) -> None:
             if unit["text"].startswith("def validate(")
         )
         assert "return amount >= 0" in validate["text"]
-        discrepancy = unit_for(conformance, "discrepancies", kind="discrepancy")
+        discrepancy = unit_for(
+            conformance, "discrepancies", kind="discrepancy", normative_part=rule["part_id"]
+        )
         assert discrepancy["implementation_part"] == validate["part_id"]
         assert discrepancy["normative_part"] == rule["part_id"]
         assert discrepancy["role"] == "interpretive"

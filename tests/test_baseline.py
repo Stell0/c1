@@ -112,3 +112,17 @@ def test_active_roadmap_status_does_not_require_a_report(
     plan.write_text(contents, encoding="utf-8")
 
     assert not any("M00" in error for error in state_errors(fixture))
+
+
+@pytest.mark.parametrize("label", ["- **Explorer:** planned UI.", "- Explorer: planned UI."])
+def test_unlisted_capability_in_readme_inventory_fails(tmp_path: Path, label: str) -> None:
+    fixture = _copy_baseline_tree(tmp_path)
+    readme = fixture / "README.md"
+    original = readme.read_text(encoding="utf-8")
+    heading = "## What exists today\n\n"
+    assert heading in original
+    readme.write_text(original.replace(heading, heading + label + "\n", 1), encoding="utf-8")
+    assert (
+        "README.md:1: implemented inventory contains an unrecognized capability heading"
+        in check(fixture)
+    )

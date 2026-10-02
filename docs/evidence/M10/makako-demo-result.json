@@ -1,0 +1,62 @@
+{
+  "documentation_stage_dave": {
+    "revision": "branch:rutu5kxzlt1sbptdfnwudj2mm3iflsj",
+    "sections": {
+      "guidance": [
+        "Ledger operations guide 1.1",
+        "Ledger operations guide 1.1",
+        "Ledger operations guide 1.1",
+        "Ledger operations guide 1.1",
+        "Ledger operations guide 1.1",
+        "Ledger operations guide 1.1"
+      ],
+      "warnings": [
+        "Shop integration troubleshooting"
+      ],
+      "other-target-documentation": [
+        "docs/invoicing.md",
+        "Ledger operations guide 1.0"
+      ]
+    },
+    "missing_aspects": [
+      "Retry",
+      "Timeout"
+    ],
+    "publication": "Prepared for the requesting principal; read access is not publication permission."
+  },
+  "implementation_stage_dave": {
+    "revision": "branch:rutu5kxzlt1sbptdfnwudj2mm3iflsj",
+    "sections": {
+      "implementation": [
+        "ledger.api.create_invoice",
+        "ledger.models.Invoice",
+        "ledger.api.validate",
+        "ledger.api.InvalidAmount",
+        "ledger.store.save",
+        "shop.ledger_client.post_invoice"
+      ],
+      "configuration": [],
+      "interfaces": [
+        "operation"
+      ],
+      "observed-tests": [
+        "test-run",
+        "test-run",
+        "test-run"
+      ],
+      "interpretations": [
+        "shop.ledger_client.post_invoice",
+        "ledger.api.create_invoice"
+      ]
+    },
+    "missing_aspects": [
+      "Timeout"
+    ],
+    "publication": "Prepared for the requesting principal; read access is not publication permission."
+  },
+  "documentation_stage_alice": {
+    "status": 404,
+    "code": "C1-SW-404"
+  },
+  "markdown_excerpt": "# Support documentation: createInvoice\n\n## Interpretation\n\n- profile: support\\-documentation\n\n- profile\\_version: 1\n\n- profile\\_digest: b876f37422c3a571608f99d1b7b9f9e6f559ac653ba3788b3cab6b821741f472\n\n- revision: branch:rutu5kxzlt1sbptdfnwudj2mm3iflsj\n\n- anchor: \\{\"id\":\"urn:c1:instance:dev:entity/2efa1dc7\\-08e9\\-404a\\-9e07\\-31cfa1b991e4\",\"label\":\"createInvoice\",\"types\":\\[\"urn:c1:ns:software\\#InterfaceOperation\"\\]\\}\n\n- coverage: \\[\\{\"id\":\"urn:c1:instance:dev:coverage/5fabd6ab\\-f0be\\-4639\\-9bd2\\-ccf16efa4394\",\"method\":\"ast\\-calls\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/ac7f4b43\\-c208\\-40d6\\-8e21\\-8e68157fe1c6\",\"method\":\"docs\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/1984acb8\\-4ba3\\-4c23\\-8c70\\-f9264f0821f2\",\"method\":\"junit\\-runs\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/e3ef9dd5\\-09b9\\-4fe2\\-957a\\-fd503eca630a\",\"method\":\"openapi\\-operations\",\"state\":\"complete\",\"target\\_membe"
+}

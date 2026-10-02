@@ -1,0 +1,38 @@
+{
+  "name": "support-implementation",
+  "version": "1",
+  "software": {
+    "task": "support-implementation",
+    "requires_target": true,
+    "requires_goal": false,
+    "requires_aspects": true,
+    "anchor_kinds": [
+      "capability",
+      "operation"
+    ],
+    "dependency_depth": 1,
+    "max_dependencies": 20,
+    "max_tests": 50,
+    "max_runs": 100,
+    "role_map": {
+      "code-unit": "structural",
+      "dependency-unit": "structural",
+      "configuration": "structural",
+      "operation": "structural",
+      "test-run": "observed",
+      "aspect-claim": "interpretive"
+    },
+    "sections": [
+      "interpretation",
+      "target",
+      "implementation",
+      "configuration",
+      "interfaces",
+      "observed-tests",
+      "interpretations",
+      "missing-aspects",
+      "sources",
+      "bounds"
+    ]
+  }
+}

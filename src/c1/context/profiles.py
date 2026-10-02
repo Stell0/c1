@@ -168,6 +168,14 @@ SoftwareSection = Literal[
     "gaps",
     "sources",
     "bounds",
+    # M10 support templates
+    "guidance",
+    "warnings",
+    "other-target-documentation",
+    "missing-aspects",
+    "configuration",
+    "observed-tests",
+    "interpretations",
 ]
 SOFTWARE_SECTIONS: list[SoftwareSection] = [
     "interpretation",
@@ -202,14 +210,62 @@ SOFTWARE_UNIT_KINDS = frozenset(
 )
 
 
+SUPPORT_DOCUMENTATION_SECTIONS: list[SoftwareSection] = [
+    "interpretation",
+    "target",
+    "guidance",
+    "warnings",
+    "other-target-documentation",
+    "missing-aspects",
+    "sources",
+    "bounds",
+]
+SUPPORT_IMPLEMENTATION_SECTIONS: list[SoftwareSection] = [
+    "interpretation",
+    "target",
+    "implementation",
+    "configuration",
+    "interfaces",
+    "observed-tests",
+    "interpretations",
+    "missing-aspects",
+    "sources",
+    "bounds",
+]
+# Fixed template per task: (section order, unit kinds needing a declared role).
+TASK_TEMPLATES: dict[str, tuple[list[SoftwareSection], frozenset[str]]] = {
+    "test-development": (SOFTWARE_SECTIONS, SOFTWARE_UNIT_KINDS),
+    "support-documentation": (
+        SUPPORT_DOCUMENTATION_SECTIONS,
+        frozenset(
+            {"guidance-part", "applicability-warning", "discrepancy", "other-target-document"}
+        ),
+    ),
+    "support-implementation": (
+        SUPPORT_IMPLEMENTATION_SECTIONS,
+        frozenset(
+            {
+                "code-unit",
+                "dependency-unit",
+                "configuration",
+                "operation",
+                "test-run",
+                "aspect-claim",
+            }
+        ),
+    ),
+}
+
+
 class SoftwareTask(BaseModel):
     """Bounded, declarative software-task selection; no templates or code."""
 
     model_config = ConfigDict(frozen=True, extra="forbid", strict=True)
 
-    task: Literal["test-development"]
+    task: Literal["test-development", "support-documentation", "support-implementation"]
     requires_target: Literal[True] = True
-    requires_goal: Literal[True] = True
+    requires_goal: bool = True
+    requires_aspects: bool = False
     anchor_kinds: list[Literal["symbol", "capability", "operation"]] = Field(
         min_length=1, max_length=3
     )
@@ -222,12 +278,17 @@ class SoftwareTask(BaseModel):
 
     @model_validator(mode="after")
     def check_task(self) -> Self:
+        sections, kinds = TASK_TEMPLATES[self.task]
         if len(self.anchor_kinds) != len(set(self.anchor_kinds)):
             raise ValueError("anchor kinds must be unique")
-        if set(self.role_map) != SOFTWARE_UNIT_KINDS:
-            raise ValueError("role_map must declare exactly the software unit kinds")
-        if self.sections != SOFTWARE_SECTIONS:
-            raise ValueError("sections must use the fixed test-development template order")
+        if set(self.role_map) != kinds:
+            raise ValueError("role_map must declare exactly the unit kinds of the task")
+        if self.sections != sections:
+            raise ValueError("sections must use the fixed template order of the task")
+        if self.requires_goal != (self.task == "test-development"):
+            raise ValueError("only test-development requires a goal")
+        if self.task == "support-implementation" and not self.requires_aspects:
+            raise ValueError("support-implementation requires aspects")
         return self
 
 
