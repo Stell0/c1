@@ -442,7 +442,8 @@ async def software(ctx: Ctx) -> Response:
         if _lines(form[key])
     }
     if target:
-        body: dict[str, Any] = {"target": target}
+        # The resolve body is the target itself plus an optional revision (M08 API).
+        body: dict[str, Any] = dict(target)
         if form["revision"]:
             body["revision"] = form["revision"]
         response = await ctx.api("POST", "/v1/software/targets/resolve", json=body)

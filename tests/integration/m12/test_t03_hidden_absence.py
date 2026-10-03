@@ -46,12 +46,19 @@ RELATION_SENTINEL = str(uuid.uuid4())
 RESTRICTED_TEXT = "Restricted pricing rules"
 _VOLATILE = (
     (re.compile(r'name="csrf" value="[^"]+"'), 'name="csrf" value="<csrf>"'),
-    (re.compile(r"(branch|commit):[A-Za-z0-9_-]+"), "<revision>"),
+    (re.compile(r"(branch|commit)(:|%3A)[A-Za-z0-9_-]+"), "<revision>"),
     (re.compile(r"m03_[0-9a-f]{32}"), "<instance>"),
     (re.compile(r"changeset-[0-9a-f]{32}"), "<changeset>"),
     (re.compile(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(\+00:00|Z)"), "<recorded>"),
     (re.compile(r"(cursor|followup_token)=[A-Za-z0-9._~%-]+"), r"\1=<token>"),
 )
+
+
+def _diff(left: str, right: str) -> str:
+    import difflib
+
+    lines = difflib.unified_diff(left.splitlines(), right.splitlines(), "real", "twin", n=1)
+    return "\n".join(list(lines)[:40])
 
 
 def normalized(html: str) -> str:
@@ -175,7 +182,7 @@ def test_t03_hidden_data_never_reaches_the_browser(
             for path, (status, html) in observed["real"][group].items():
                 twin_status, twin_html = observed["twin"][group][path]
                 assert status == twin_status, (path, status, twin_status)
-                assert html == twin_html, path
+                assert html == twin_html, (path, _diff(html, twin_html))
         # The comparison is not vacuous: the pages carry real content.
         assert "Welcome to the Handbook" in observed["real"]["documents"][_document_paths()[0]][1]
         assert all(status == 200 for status, _ in observed["real"]["software"].values())

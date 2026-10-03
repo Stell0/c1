@@ -58,7 +58,12 @@ DOCUMENT = "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"
 
 async def shot(person: Person, name: str) -> str:
     path = OUT / f"{name}.png"
-    await person.page.screenshot(path=str(path), full_page=True)
+    try:
+        await person.page.screenshot(path=str(path), full_page=True)
+    except Exception:
+        # Very tall pages (large context packages) exceed Chromium's capture
+        # limit; the top of the page still shows the summary and target.
+        await person.page.screenshot(path=str(path), full_page=False)
     return path.name
 
 

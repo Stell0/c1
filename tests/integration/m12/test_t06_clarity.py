@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import uuid
 from typing import Any
 from urllib.parse import urlencode
@@ -168,8 +169,18 @@ def test_t06_pages_match_the_api_and_never_imply_verified_truth(
                         "main"
                     )
                 markdown = await dave.page.inner_text('pre[aria-label="Context Markdown"]')
-                assert markdown == page_one["markdown"].rstrip("\n") or (
-                    markdown.rstrip("\n") == page_one["markdown"].rstrip("\n")
+                import difflib
+
+                # Cursor bytes carry an expiry and HMAC; they are volatile (M07 API).
+                cursor = re.compile(r"next\\?_cursor: `[^`]+`")
+                expected_md = cursor.sub("<cursor>", page_one["markdown"].rstrip("\n"))
+                markdown = cursor.sub("<cursor>", markdown)
+                assert markdown.rstrip("\n") == expected_md, "\n".join(
+                    list(
+                        difflib.unified_diff(
+                            markdown.splitlines(), expected_md.splitlines(), "page", "api", n=0
+                        )
+                    )[:30]
                 )
                 href = await dave.page.get_attribute('[data-field="continuation"]', "href")
                 assert href
