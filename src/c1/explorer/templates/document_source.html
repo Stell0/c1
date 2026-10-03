@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Document source{% endblock %}
+{% block main %}
+<h1>{{ "Markdown source" if fmt == "markdown" else "Plain text" }}</h1>
+<p>Of {{ w.iri(identifier) }} at revision <code data-field="revision">{{ result.revision }}</code>. Shown as text; it is not rendered or executed.</p>
+{{ w.text_block(result.content, "Document " ~ fmt) }}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Competing claims{% endblock %}
+{% block main %}
+<h1>Competing claims</h1>
+<p>Subject {{ w.iri(subject) }}, predicate {{ w.iri(predicate) }}. All readable claims are kept; C1 does not pick a winner.</p>
+<p data-field="competing-count">{{ result.count }} readable claims</p>
+{% for a in result["items"] %}
+<section class="claim" data-claim="{{ a.id }}">
+<h2>Claim {{ loop.index }}</h2>
+{{ w.record(a) }}
+</section>
+{% else %}
+<p>No readable claim in the returned material.</p>
+{% endfor %}
+{% endblock %}

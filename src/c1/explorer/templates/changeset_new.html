@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}New ChangeSet{% endblock %}
+{% macro scope_select(label="Access scope for new records") -%}
+<label for="cs-scope">{{ label }}</label>
+<select id="cs-scope" name="scope" required>
+  {% for s in scopes %}<option value="{{ s.id }}">{{ s.label }} ({{ s.id }})</option>{% else %}<option value="">You cannot create records in any scope</option>{% endfor %}
+</select>
+{%- endmacro %}
+{% macro common() -%}
+{{ w.csrf_field(csrf) }}
+<input type="hidden" name="idempotency_key" value="{{ idempotency_key }}">
+<label for="cs-rationale">Rationale (optional)</label>
+<textarea id="cs-rationale" name="rationale" rows="2"></textarea>
+{%- endmacro %}
+{% block main %}
+<h1>New ChangeSet</h1>
+<p>The form prepares a draft ChangeSet. You then submit it for validation, and a reviewer approves and applies it.</p>
+
+{% if kind == "entity" %}
+<h2>New entity</h2>
+{% if not selected_class %}
+<form method="get" action="/explorer/changesets/new">
+  <input type="hidden" name="form" value="entity">
+  <div class="grid">
+    <label for="cs-class">Class</label>
+    <select id="cs-class" name="class" required>
+      {% for c in entity_classes %}<option value="{{ c.iri }}">{{ compact(c.iri) }} ({{ c.profile }})</option>{% endfor %}
+    </select>
+  </div>
+  <button type="submit">Continue</button>
+</form>
+{% else %}
+<form method="post" action="/explorer/changesets/entity">
+  <input type="hidden" name="class" value="{{ selected_class.iri }}">
+  <p>Class: <strong>{{ compact(selected_class.iri) }}</strong> ({{ selected_class.profile }})</p>
+  <div class="grid">
+    <label for="cs-label">Preferred label</label><input id="cs-label" name="label" required>
+    <label for="cs-language">Language tag (optional)</label><input id="cs-language" name="language">
+    <label for="cs-aliases">Aliases (one per line)</label><textarea id="cs-aliases" name="aliases" rows="2"></textarea>
+    <label for="cs-description">Description (optional)</label><textarea id="cs-description" name="description" rows="2"></textarea>
+    {{ scope_select() }}
+  {% for p in selected_class.properties if p.iri not in standard_properties %}
+    {% set fid = "p-" ~ loop.index %}
+    <label for="{{ fid }}">{{ p.name }} ({{ compact(p.iri) }}){% if p.min_count %}, required{% endif %}</label>
+    {% if p.enum %}
+    <select id="{{ fid }}" name="p:{{ p.iri }}"><option value="">none</option>{% for e in p.enum %}<option value="{{ e }}">{{ e }}</option>{% endfor %}</select>
+    {% else %}
+    <input id="{{ fid }}" name="p:{{ p.iri }}"{% if p.min_count %} required{% endif %}>
+    {% endif %}
+    {% if p.ranges | length > 1 %}
+    <label for="{{ fid }}-t">Type of {{ p.name }}</label>
+    <select id="{{ fid }}-t" name="t:{{ p.iri }}">{% for r in p.ranges %}<option value="{{ r }}">{{ compact(r) }}</option>{% endfor %}</select>
+    {% endif %}
+  {% endfor %}
+  </div>
+  {{ common() }}
+  <button type="submit">Create draft ChangeSet</button>
+</form>
+{% endif %}
+
+{% elif kind == "names" %}
+<h2>Aliases and keywords of {{ label_of(record) or compact(record.id) }}</h2>
+<form method="post" action="/explorer/changesets/names">
+  <input type="hidden" name="id" value="{{ record.id }}">
+  <div class="grid">
+    <label for="cs-aliases">Aliases (one per line; replaces the current list)</label>
+    <textarea id="cs-aliases" name="aliases" rows="4">{% for v in record.properties.get("http://www.w3.org/2004/02/skos/core#altLabel", []) %}{{ v.lexical }}
+{% endfor %}</textarea>
+    <label for="cs-language">Language tag for new aliases and keywords (optional)</label><input id="cs-language" name="language">
+  </div>
+  <fieldset><legend>Current keywords (uncheck to remove)</legend>
+  {% for k in record.properties.get("urn:c1:ns:core#keyword", []) %}
+    <div><input type="checkbox" id="kw-{{ loop.index }}" name="keep_keyword" value="{{ k }}" checked><label for="kw-{{ loop.index }}">{{ compact(k) }}</label></div>
+  {% else %}<p>No keywords.</p>{% endfor %}
+  </fieldset>
+  <div class="grid">
+    <label for="cs-new-keywords">New keywords (one per line, original spelling kept)</label><textarea id="cs-new-keywords" name="new_keywords" rows="2"></textarea>
+    {{ scope_select("Access scope for new keyword records") }}
+    <label for="cs-reason">Reason for the edit</label><input id="cs-reason" name="reason" value="Edited names in the Explorer">
+  </div>
+  {{ common() }}
+  <button type="submit">Create draft ChangeSet</button>
+</form>
+
+{% elif kind == "assertion" %}
+<h2>Source-backed assertion</h2>
+<p>Creates a Source, an Evidence item quoting it, and the assertion it supports, in one ChangeSet. Storing evidence does not mean the claim has been checked.</p>
+<form method="post" action="/explorer/changesets/assertion">
+  <fieldset><legend>Claim</legend><div class="grid">
+    <label for="cs-subject">Subject (IRI)</label><input id="cs-subject" name="subject" value="{{ subject }}" required>
+    <label for="cs-predicate">Predicate (IRI)</label><input id="cs-predicate" name="predicate" list="cs-predicates" required>
+    <datalist id="cs-predicates">{% for p in predicates %}<option value="{{ p }}">{% endfor %}</datalist>
+    <label for="cs-object-kind">Object kind</label>
+    <select id="cs-object-kind" name="object_kind"><option value="literal">value</option><option value="iri">resource (IRI)</option></select>
+    <label for="cs-object">Object</label><input id="cs-object" name="object" required>
+    <label for="cs-object-datatype">Value datatype (for a value)</label>
+    <select id="cs-object-datatype" name="object_datatype">{% for d in ["http://www.w3.org/2001/XMLSchema#string", "http://www.w3.org/2001/XMLSchema#integer", "http://www.w3.org/2001/XMLSchema#decimal", "http://www.w3.org/2001/XMLSchema#boolean", "http://www.w3.org/2001/XMLSchema#date", "http://www.w3.org/2001/XMLSchema#dateTime"] %}<option value="{{ d }}">{{ compact(d) }}</option>{% endfor %}</select>
+    <label for="cs-object-language">Value language tag (optional)</label><input id="cs-object-language" name="object_language">
+    <label for="cs-origin">Origin</label>
+    <select id="cs-origin" name="origin"><option value="manual">manual (entered by you from the source)</option><option value="imported">imported</option></select>
+  </div></fieldset>
+  <fieldset><legend>Source and evidence</legend><div class="grid">
+    <label for="cs-source-title">Source title</label><input id="cs-source-title" name="source_title" required>
+    <label for="cs-source-kind">Source kind</label><input id="cs-source-kind" name="source_kind" value="document" required>
+    <label for="cs-source-revision">Source revision or edition</label><input id="cs-source-revision" name="source_revision" required>
+    <label for="cs-locator">Locator (optional; stored as text, never opened)</label><input id="cs-locator" name="locator">
+    <label for="cs-excerpt">Quoted excerpt (optional)</label><textarea id="cs-excerpt" name="excerpt" rows="3"></textarea>
+    {{ scope_select() }}
+  </div></fieldset>
+  {{ common() }}
+  <button type="submit">Create draft ChangeSet</button>
+</form>
+
+{% elif kind == "profile" %}
+<h2>Install a profile</h2>
+<p>Needs schema administration. Content and profile operations cannot be mixed.</p>
+<form method="post" action="/explorer/changesets/profile">
+  <div class="grid">
+    <label for="cs-profile">Profile</label>
+    <select id="cs-profile" name="profile">{% for name in schema.get("available_profiles", []) %}<option value="{{ name }}">{{ name }}</option>{% endfor %}</select>
+  </div>
+  {{ common() }}
+  <button type="submit">Create draft ChangeSet</button>
+</form>
+{% endif %}
+{% endblock %}

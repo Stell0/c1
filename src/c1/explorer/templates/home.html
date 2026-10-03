@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Start{% endblock %}
+{% block main %}
+<h1>C1 Explorer</h1>
+<p>One shared knowledge repository. There is no workspace to choose: you see what your account may read, wherever it was contributed.</p>
+<h2>Your identity</h2>
+{% if whoami %}
+<dl class="facts">
+  <div><dt>Issuer</dt><dd>{{ whoami.issuer_alias }}</dd></div>
+  <div><dt>Subject</dt><dd data-field="subject">{{ whoami.subject }}</dd></div>
+  <div><dt>Principal kind</dt><dd>{{ whoami.kind }}</dd></div>
+</dl>
+{% endif %}
+<p>Service readiness: <strong data-field="ready">{{ "ready" if ready else "not ready" }}</strong></p>
+<h2>Catalog</h2>
+{% if catalog %}
+<dl class="facts">
+  <div><dt>Installed profiles</dt><dd>{% for name, version in catalog.profile_versions.items() %}{{ name }} {{ version }}{% if not loop.last %}, {% endif %}{% endfor %}</dd></div>
+  <div><dt>Context profiles</dt><dd>{% for item in catalog.context_profiles %}{{ item.name }} {{ item.version }}{% if not loop.last %}, {% endif %}{% endfor %}</dd></div>
+</dl>
+<h3>Query limits</h3>
+{{ w.data(catalog.limits) }}
+{% else %}
+<p>The catalog is not available (HTTP {{ catalog_status }}).</p>
+{% endif %}
+{% endblock %}

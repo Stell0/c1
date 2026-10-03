@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}{{ label_of(record) or compact(record.id) }}{% endblock %}
+{% block main %}
+<h1>{{ label_of(record) or compact(record.id) }}</h1>
+<dl class="facts">
+  <div><dt>Showing revision</dt><dd data-field="revision">{% if revision %}<code>{{ revision }}</code>{% else %}head{% endif %}</dd></div>
+</dl>
+<p class="actions">
+  <a href="{{ query('/explorer/history', id=record.id) }}">History</a>
+  {% if is_entity %}
+  · <a href="{{ query('/explorer/neighborhood', id=record.id) }}">Neighborhood</a>
+  · <a href="{{ query('/explorer/changesets/new', form='names', id=record.id) }}">Edit aliases and keywords</a>
+  · <a href="{{ query('/explorer/changesets/new', form='assertion', subject=record.id) }}">Add a source-backed assertion</a>
+  {% endif %}
+</p>
+{{ w.record(record) }}
+{% if is_assertion %}
+{% set subj = record.properties.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject", [""])[0] %}
+{% set pred = record.properties.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate", [""])[0] %}
+<p><a href="{{ query('/explorer/competing', subject=subj, predicate=pred, revision=revision) }}">Competing claims for this subject and predicate</a></p>
+{% endif %}
+{% for heading, block in [("Assertions about this resource", about), ("Assertions that refer to it", mentions)] %}
+{% if block is not none %}
+<section>
+<h2>{{ heading }}</h2>
+{% if block["items"] %}
+<table class="list">
+  <caption>{{ heading }} ({{ block.count }} readable)</caption>
+  <thead><tr><th scope="col">Assertion</th><th scope="col">Subject</th><th scope="col">Predicate</th><th scope="col">Object</th><th scope="col">Review</th><th scope="col">Lifecycle</th><th scope="col">Origin</th></tr></thead>
+  <tbody>
+  {% for a in block["items"] %}
+  {% set p = a.properties %}
+  <tr>
+    <td>{{ w.iri(a.id) }}</td>
+    <td>{% for v in p.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#subject", []) %}{{ w.value(v) }}{% endfor %}</td>
+    <td>{% for v in p.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate", []) %}{{ w.value(v) }}{% endfor %}</td>
+    <td>{% for v in p.get("http://www.w3.org/1999/02/22-rdf-syntax-ns#object", []) %}{{ w.value(v) }}{% endfor %}</td>
+    <td>{% for v in p.get("urn:c1:ns:core#reviewState", []) %}{{ w.value(v, "urn:c1:ns:core#reviewState") }}{% endfor %}</td>
+    <td>{% for v in p.get("urn:c1:ns:core#lifecycle", []) %}{{ w.value(v) }}{% endfor %}</td>
+    <td>{% for v in p.get("urn:c1:ns:core#origin", []) %}{{ w.value(v) }}{% endfor %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>None in the returned material.</p>
+{% endif %}
+</section>
+{% endif %}
+{% endfor %}
+{% endblock %}

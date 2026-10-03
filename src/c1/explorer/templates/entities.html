@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Entities{% endblock %}
+{% block main %}
+<h1>Entities</h1>
+<form method="get" action="/explorer/entities" class="filters" aria-labelledby="filters-heading">
+  <h2 id="filters-heading">Filters</h2>
+  <div class="grid">
+    <label for="f-label">Label</label><input id="f-label" name="label" value="{{ filters.label }}">
+    <label for="f-label-mode">Label match</label>
+    <select id="f-label-mode" name="label_mode">{% for m in ["exact", "prefix"] %}<option value="{{ m }}"{% if filters.label_mode == m %} selected{% endif %}>{{ m }}</option>{% endfor %}</select>
+    <label for="f-alias">Alias</label><input id="f-alias" name="alias" value="{{ filters.alias }}">
+    <label for="f-types">Types (comma-separated IRIs)</label><input id="f-types" name="types" value="{{ filters.types }}">
+    <label for="f-any">Keywords, any of (comma-separated)</label><input id="f-any" name="keywords_any" value="{{ filters.keywords_any }}">
+    <label for="f-all">Keywords, all of (comma-separated)</label><input id="f-all" name="keywords_all" value="{{ filters.keywords_all }}">
+    <label for="f-project">Project filter (optional IRI)</label><input id="f-project" name="project_ref" value="{{ filters.project_ref }}">
+    <label for="f-valid">Valid at (date-time with zone)</label><input id="f-valid" name="valid_at" value="{{ filters.valid_at }}">
+    <label for="f-revision">Knowledge revision (empty: head)</label><input id="f-revision" name="revision" value="{{ filters.revision }}">
+    <label for="f-order">Order</label>
+    <select id="f-order" name="order">{% for m in ["id", "label", "recorded"] %}<option value="{{ m }}"{% if filters.order == m %} selected{% endif %}>{{ m }}</option>{% endfor %}</select>
+  </div>
+  <button type="submit">Search</button>
+</form>
+<section aria-labelledby="results-heading">
+<h2 id="results-heading">Results</h2>
+<dl class="facts" data-region="result-meta">
+  <div><dt>Selected revision</dt><dd data-field="revision"><code>{{ result.revision }}</code></dd></div>
+  <div><dt>Matching readable entities</dt><dd data-field="count">{{ result.count }}</dd></div>
+  <div><dt>Order</dt><dd data-field="order">{{ result.order }}</dd></div>
+  <div><dt>Active filters</dt><dd data-field="filters">{% set active = [] %}{% for k, v in filters.items() if v and k not in ["cursor", "order", "limit", "label_mode", "alias_mode"] %}{{ k }}={{ v }}{% if not loop.last %}; {% endif %}{% else %}none{% endfor %}</dd></div>
+</dl>
+{% if result["items"] %}
+<table class="list">
+  <caption>Entities on this page</caption>
+  <thead><tr><th scope="col">Label</th><th scope="col">Types</th><th scope="col">ID</th><th scope="col">Matched by</th></tr></thead>
+  <tbody>
+  {% for item in result["items"] %}
+  <tr data-entity="{{ item.id }}">
+    <td><a href="{{ query('/explorer/resource', id=item.id, revision=filters.revision) }}">{{ label_of(item) or compact(item.id) }}</a></td>
+    <td>{% for t in item.types %}{{ compact(t) }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+    <td><code>{{ item.id }}</code></td>
+    <td>{{ (result.explain.get(item.id) or []) | join(", ") }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% if result.indeterminate %}<p class="note">Validity unknown at the requested time: {% for i in result.indeterminate %}<code>{{ i.id }}</code>{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+{% else %}
+<p>No readable entity matches these filters in the returned material.</p>
+{% endif %}
+{% if result.get("next_cursor") %}{{ w.pager(query('/explorer/entities', **dict(filters, cursor=result.next_cursor))) }}{% endif %}
+</section>
+{% endblock %}

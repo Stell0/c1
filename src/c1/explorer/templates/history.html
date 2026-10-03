@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}History{% endblock %}
+{% block main %}
+<h1>History of {{ w.iri(identifier) }}</h1>
+<p>Newest first. Every entry is opened under your current access, not the access at that time.</p>
+<table class="list">
+  <caption>Revisions</caption>
+  <thead><tr><th scope="col">Revision</th><th scope="col">Recorded</th><th scope="col">ChangeSet</th><th scope="col">View</th></tr></thead>
+  <tbody>
+  {% for item in result["items"] %}
+  <tr>
+    <td><code>{{ item.revision }}</code></td>
+    <td>{{ item.get("recorded_at") or "" }}</td>
+    <td>{% if item.get("changeset_id") %}<a href="{{ query('/explorer/changeset', id=item.changeset_id) }}">{{ item.changeset_id }}</a>{% endif %}</td>
+    <td><a href="{{ query('/explorer/document' if document is defined else '/explorer/resource', id=identifier, revision=item.revision) }}">At this revision</a></td>
+  </tr>
+  {% else %}
+  <tr><td colspan="4">No readable history entries.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% if result.get("next_cursor") %}{{ w.pager(query('/explorer/document/history' if document is defined else '/explorer/history', id=identifier, cursor=result.next_cursor)) }}{% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}C1 Explorer{% endblock %} · C1 Explorer</title>
+<link rel="stylesheet" href="/explorer/static/explorer.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <p class="brand"><a href="/explorer/">C1 Explorer</a></p>
+  <dl class="banner" aria-label="Connection">
+    {% if banner %}
+    <div><dt>Instance</dt><dd data-field="instance">{{ banner.instance_id }}</dd></div>
+    <div><dt>Knowledge revision (head)</dt><dd data-field="head-revision"><code>{{ banner.knowledge_revision }}</code></dd></div>
+    {% else %}
+    <div><dt>Instance</dt><dd data-field="instance">not ready</dd></div>
+    {% endif %}
+    <div><dt>Signed in as</dt><dd data-field="user">{{ user }}</dd></div>
+  </dl>
+  <form method="post" action="/explorer/logout" class="logout">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <button type="submit">Sign out</button>
+  </form>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="/explorer/entities">Entities</a></li>
+      <li><a href="/explorer/documents">Documents</a></li>
+      <li><a href="/explorer/context">Context preview</a></li>
+      <li><a href="/explorer/software">Software</a></li>
+      <li><a href="/explorer/changesets">ChangeSets</a></li>
+      <li><a href="/explorer/scopes">Access</a></li>
+      <li><a href="/explorer/operations">Security operations</a></li>
+      <li><a href="/explorer/schema">Schema</a></li>
+    </ul>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+{% block main %}{% endblock %}
+</main>
+<footer class="site"><p>Records show what C1 stores and what the sources say. Stored evidence is not proof that a claim is true.</p></footer>
+</body>
+</html>

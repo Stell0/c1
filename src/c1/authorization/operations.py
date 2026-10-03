@@ -657,14 +657,89 @@ class SecurityOperations:
             await self._reconcile(op)
             return {"resource_id": resource_id, "revision": op.payload["revision"]}
 
+    async def _may_read_operation(self, p: Principal, op: Operation) -> bool:
+        """The proposer, or an admin whose approval the operation can count (M12 D7)."""
+        if op.actor == p.id:
+            return True
+        if op.kind == "rescope":
+            # Destination or lineage scope admins may approve (M11 D7), so they
+            # may read the operation they are asked to approve.
+            for scope in _required_scopes(op):
+                decision = await self.plane.check_scope(p, "access_admin", scope)
+                if decision.reason == "security_unavailable":
+                    raise SecurityError(503, "authorization_unavailable")
+                if decision.allowed:
+                    return True
+            return False
+        if op.to_scope:
+            decision = await self.plane.check_scope(p, "access_admin", op.to_scope)
+        else:
+            decision = await self.plane.check_instance(p, "access_admin")
+        if decision.reason == "security_unavailable":
+            raise SecurityError(503, "authorization_unavailable")
+        return decision.allowed
+
     async def get_operation(self, p: Principal, id: str) -> dict[str, Any]:
         op = await self._load_operation(id)
-        if op.actor != p.id:
-            if op.to_scope:
-                self._require(await self.plane.check_scope(p, "access_admin", op.to_scope))
-            else:
-                self._require(await self.plane.check_instance(p, "access_admin"))
+        if not await self._may_read_operation(p, op):
+            raise SecurityError(403, "authorization_denied")
         return self._public(op)
+
+    async def list_operations(self, p: Principal, *, limit: int = 100) -> dict[str, Any]:
+        """Operations the caller proposed, and re-scopes the caller may approve.
+
+        Each entry passes the same check as reading it by ID. Newest first,
+        bounded; ``truncated`` says that older matching operations exist.
+        """
+        entries = sorted(
+            (Operation.model_validate(entry) for entry in await self.journal.list("Operation")),
+            key=lambda op: (op.created, op.id),
+            reverse=True,
+        )
+        visible: list[dict[str, Any]] = []
+        truncated = False
+        for op in entries:
+            if op.kind in {"changeset_apply", "recover", "probe_revision"}:
+                continue
+            if op.actor != p.id and op.kind != "rescope":
+                continue
+            if not await self._may_read_operation(p, op):
+                continue
+            if len(visible) == limit:
+                truncated = True
+                break
+            visible.append(self._public(op))
+        return {"security_operations": visible, "truncated": truncated}
+
+    async def my_scopes(self, p: Principal) -> list[dict[str, Any]]:
+        """Active scopes where the caller holds a role, with only the caller's roles."""
+        roles = ("reader", "contributor", "creator", "reviewer", "access_admin")
+        try:
+            before = await self.journal.head()
+            view = await self.journal.view()
+            if view.version != before:
+                raise SecurityError(503, "authorization_unavailable")
+            scopes = sorted(
+                (s for s in view.scopes.values() if s.state == "active"), key=lambda s: s.id
+            )
+            checks = [(p.id, role, scope_object(s.id)) for s in scopes for role in roles]
+            decisions = await self.fga.batch_check(checks) if checks else []
+            if before != await self.journal.head():
+                raise SecurityError(503, "authorization_unavailable")
+        except SecurityError:
+            raise
+        except Exception:
+            raise SecurityError(503, "authorization_unavailable") from None
+        result: list[dict[str, Any]] = []
+        for index, scope in enumerate(scopes):
+            held = [
+                role for offset, role in enumerate(roles) if decisions[index * len(roles) + offset]
+            ]
+            if held:
+                result.append(
+                    {"id": scope.id, "label": scope.label, "kind": scope.kind, "roles": held}
+                )
+        return result
 
     async def recover(self) -> None:
         async with self.writer.hold():

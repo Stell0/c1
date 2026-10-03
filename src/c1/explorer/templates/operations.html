@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Security operations{% endblock %}
+{% block main %}
+<h1>Security operations</h1>
+<p>Operations you proposed, and re-scopes you may approve.</p>
+<table class="list">
+  <caption>Security operations</caption>
+  <thead><tr><th scope="col">Operation</th><th scope="col">Kind</th><th scope="col">State</th><th scope="col">Target</th><th scope="col">To scope</th><th scope="col">Created</th></tr></thead>
+  <tbody>
+  {% for op in result.security_operations %}
+  <tr data-operation="{{ op.id }}"><td><a href="{{ query('/explorer/operation', id=op.id) }}">{{ op.id }}</a></td><td>{{ op.kind }}</td><td data-field="state">{{ op.state }}</td><td>{{ w.iri(op.target) }}</td><td><code>{{ op.get("to_scope") or "" }}</code></td><td>{{ op.created }}</td></tr>
+  {% else %}<tr><td colspan="6">No security operation for you.</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% if result.truncated %}<p class="note" data-field="truncated">Only the newest operations are listed; older ones exist.</p>{% endif %}
+{% endblock %}

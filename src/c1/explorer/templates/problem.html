@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block main %}
+<h1>{{ title }}</h1>
+<div class="problem" role="alert">
+  <p data-field="problem-detail">{{ detail }}</p>
+  <p class="note">HTTP status <span data-field="problem-status">{{ status_code }}</span>{% if code %}, code <code data-field="problem-code">{{ code }}</code>{% endif %}.</p>
+</div>
+<p><a href="/explorer/">Back to the start</a></p>
+{% endblock %}

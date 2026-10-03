@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Software{% endblock %}
+{% block main %}
+<h1>Software target and lookup</h1>
+<p>A target names exact source snapshots. There is no implicit "latest"; branch names must be resolved through the API first.</p>
+<form method="get" action="/explorer/software">
+  <div class="grid">
+    <label for="s-snapshots">Snapshot IRIs (one per line)</label><textarea id="s-snapshots" name="snapshots" rows="2">{{ form.snapshots }}</textarea>
+    <label for="s-contracts">Contract document IRIs (one per line)</label><textarea id="s-contracts" name="contracts" rows="2">{{ form.contracts }}</textarea>
+    <label for="s-configurations">Configuration IRIs (one per line)</label><textarea id="s-configurations" name="configurations" rows="2">{{ form.configurations }}</textarea>
+    <label for="s-capability">Capability IRI (optional)</label><input id="s-capability" name="capability_id" value="{{ form.capability_id }}">
+    <label for="s-operation">Operation IRI (optional)</label><input id="s-operation" name="operation_id" value="{{ form.operation_id }}">
+    <label for="s-symbol">Symbol IRI (optional)</label><input id="s-symbol" name="symbol_id" value="{{ form.symbol_id }}">
+    <label for="s-path">Path prefix (optional)</label><input id="s-path" name="path_prefix" value="{{ form.path_prefix }}">
+    <label for="s-revision">Knowledge revision (empty: head)</label><input id="s-revision" name="revision" value="{{ form.revision }}">
+  </div>
+  <button type="submit">Resolve and look up</button>
+</form>
+{% if resolved %}
+<section>
+<h2>Resolved target</h2>
+<dl class="facts"><div><dt>Knowledge revision</dt><dd data-field="revision"><code>{{ resolved.revision }}</code></dd></div></dl>
+<div data-region="target">{{ w.data(resolved.target) }}</div>
+{% if resolved.get("unresolved") %}<h3>Unresolved</h3>{{ w.data(resolved.unresolved) }}{% endif %}
+</section>
+{% endif %}
+{% if problem %}<div class="problem" role="alert"><p>Lookup refused: HTTP {{ problem.status }} {{ problem.code }}</p></div>{% endif %}
+{% if lookup %}
+<section>
+<h2>Lookup ({{ lookup.count }} readable items)</h2>
+{% for item in lookup["items"] %}
+<article class="lookup-item" data-kind="{{ item.kind }}">
+  <h3>{{ item.kind }} {{ compact(item.id) }}</h3>
+  <p class="note">Basis: <span data-field="basis">{{ item.basis }}</span> · target member {{ w.iri(item.target_member) }}</p>
+  {% set citation = item.get("citation") %}
+  {% if citation %}
+  <p class="note">{{ citation.get("path", "") }} at commit <code>{{ citation.get("commit", "") }}</code> · <strong data-field="completeness">{{ citation.get("code_completeness", "") }}</strong></p>
+  {{ w.text_block(citation.get("text") or citation.get("excerpt") or "", "Code excerpt") }}
+  {% endif %}
+  {{ w.data(item) }}
+</article>
+{% endfor %}
+{{ w.pager(continuation) }}
+</section>
+{% endif %}
+{% endblock %}

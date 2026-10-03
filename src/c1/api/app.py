@@ -22,6 +22,7 @@ from c1.api.routes import (
     probe,
     query,
     resources,
+    schema,
     security,
     software,
     system,
@@ -461,6 +462,7 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
         return problem(503 if operational else 500)
 
     app.include_router(system.router)
+    app.include_router(schema.router)
     app.include_router(security.router)
     app.include_router(changesets.router)
     app.include_router(resources.router)

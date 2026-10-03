@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}ChangeSets{% endblock %}
+{% block main %}
+<h1>ChangeSets</h1>
+<p>Every knowledge change goes through the same reviewed workflow: draft, submitted, validated, approved, applied.</p>
+<ul class="actions">
+  <li><a href="/explorer/changesets/new?form=entity">New entity</a></li>
+  <li><a href="/explorer/changesets/new?form=assertion">New source-backed assertion</a></li>
+  <li><a href="/explorer/changesets/new?form=profile">Install a profile</a></li>
+</ul>
+<table class="list">
+  <caption>ChangeSets visible to you</caption>
+  <thead><tr><th scope="col">ChangeSet</th><th scope="col">State</th><th scope="col">Operations</th><th scope="col">Created</th><th scope="col">Rationale</th></tr></thead>
+  <tbody>
+  {% for c in result.changesets | reverse %}
+  <tr data-changeset="{{ c.id }}">
+    <td><a href="{{ query('/explorer/changeset', id=c.id) }}">{{ c.id }}</a></td>
+    <td data-field="state">{{ c.state }}</td>
+    <td>{{ c.operations | length }}</td>
+    <td>{{ c.created }}</td>
+    <td>{{ c.rationale or "" }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="5">No ChangeSet is visible to you.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

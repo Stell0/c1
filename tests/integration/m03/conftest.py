@@ -257,6 +257,8 @@ class LiveCase:
     validator: TokenValidator
     tokens: dict[str, str]
     runtime: Any
+    # The case's API app, for the M12 browser harness that serves the Explorer beside it.
+    app: Any = None
 
     async def token(self, name: str) -> str:
         if name not in self.tokens:
@@ -479,6 +481,7 @@ async def live_case(template: CaseTemplate | None = None) -> AsyncIterator[LiveC
                                                 validator,
                                                 tokens,
                                                 runtime,
+                                                app,
                                             )
                                 finally:
                                     await validator.close()

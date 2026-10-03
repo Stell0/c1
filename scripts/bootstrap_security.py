@@ -36,6 +36,7 @@ CLIENT_SECRETS = {
     "c1-svc-indexer": "C1_SVC_INDEXER_SECRET",
     "c1-svc-analyzer": "C1_SVC_ANALYZER_SECRET",
     "c1-svc-ci": "C1_SVC_CI_SECRET",
+    "c1-explorer": "C1_EXPLORER_CLIENT_SECRET",
 }
 BASE_SECRETS = (
     "C1_TERMINUS_PASSWORD",

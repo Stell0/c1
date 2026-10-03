@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Security operation{% endblock %}
+{% block main %}
+<h1>Security operation</h1>
+<dl class="facts" data-region="operation">
+  <div><dt>ID</dt><dd><code>{{ operation.id }}</code></dd></div>
+  <div><dt>Kind</dt><dd>{{ operation.kind }}</dd></div>
+  <div><dt>State</dt><dd data-field="state">{{ operation.state }}</dd></div>
+  <div><dt>Proposer</dt><dd>{{ operation.actor }}</dd></div>
+  <div><dt>Target</dt><dd>{{ w.iri(operation.target) }}</dd></div>
+  <div><dt>From scope</dt><dd><code>{{ operation.get("from_scope") or "" }}</code></dd></div>
+  <div><dt>To scope</dt><dd><code>{{ operation.get("to_scope") or "" }}</code></dd></div>
+  <div><dt>Approvals</dt><dd data-field="approvals">{{ operation.approvals | join(", ") or "none" }}</dd></div>
+  <div><dt>Affected resources</dt><dd>{% for t in operation.targets %}{{ w.iri(t) }}{% if not loop.last %}, {% endif %}{% endfor %}</dd></div>
+</dl>
+{% if operation.kind == "rescope" and operation.state in ["proposed", "approved"] %}
+<div class="action-row">
+  {% for action in (["approve"] if operation.state == "proposed" else ["approve", "apply"]) %}
+  <form method="post" action="/explorer/operation/action">
+    {{ w.csrf_field(csrf) }}
+    <input type="hidden" name="id" value="{{ operation.id }}">
+    <input type="hidden" name="action" value="{{ action }}">
+    <button type="submit" data-action="{{ action }}">{{ action | capitalize }}</button>
+  </form>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

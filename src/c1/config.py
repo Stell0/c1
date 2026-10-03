@@ -163,3 +163,60 @@ class Settings:
             query_time_budget_ms=int(get("C1_QUERY_TIME_BUDGET_MS", "10000")),
             backend_timeout_s=float(get("C1_BACKEND_TIMEOUT_S", "5")),
         )
+
+
+_LOOPBACK_HOSTS = frozenset({"127.0.0.1", "localhost", "::1"})
+
+
+@dataclass(frozen=True)
+class ExplorerSettings:
+    """Browser Explorer startup configuration (M12 D12); never from a request."""
+
+    origin: str
+    client_id: str
+    client_secret: str = field(repr=False)
+    session_idle_s: int = 1800
+    session_max_s: int = 28800
+
+    def __post_init__(self) -> None:
+        _url(self.origin, "C1_EXPLORER_ORIGIN")
+        parsed = urlsplit(self.origin)
+        if parsed.path not in {""} or self.origin.endswith("/"):
+            raise ValueError("C1_EXPLORER_ORIGIN must be an origin without a path")
+        if parsed.scheme != "https" and parsed.hostname not in _LOOPBACK_HOSTS:
+            raise ValueError("C1_EXPLORER_ORIGIN must use HTTPS unless it is a loopback host")
+        if not re.fullmatch(r"[A-Za-z0-9._-]{1,64}", self.client_id):
+            raise ValueError("C1_EXPLORER_CLIENT_ID is invalid")
+        if len(self.client_secret) < 16:
+            raise ValueError("C1_EXPLORER_CLIENT_SECRET is required")
+        if not 60 <= self.session_idle_s <= 86400:
+            raise ValueError("C1_EXPLORER_SESSION_IDLE_S must be between 60 and 86400")
+        if not self.session_idle_s <= self.session_max_s <= 7 * 86400:
+            raise ValueError("C1_EXPLORER_SESSION_MAX_S must be at least the idle timeout")
+
+    @property
+    def secure_transport(self) -> bool:
+        return urlsplit(self.origin).scheme == "https"
+
+    @property
+    def redirect_uri(self) -> str:
+        return self.origin + "/explorer/callback"
+
+    @classmethod
+    def from_env(cls) -> ExplorerSettings | None:
+        """``None`` unless ``C1_EXPLORER_ENABLED`` is true; then all values are required."""
+        get = os.environ.get
+        if not _boolean(get("C1_EXPLORER_ENABLED", "false"), "C1_EXPLORER_ENABLED"):
+            return None
+        missing = [
+            name for name in ("C1_EXPLORER_ORIGIN", "C1_EXPLORER_CLIENT_SECRET") if not get(name)
+        ]
+        if missing:
+            raise ValueError("Missing Explorer configuration: " + ", ".join(missing))
+        return cls(
+            origin=os.environ["C1_EXPLORER_ORIGIN"],
+            client_id=get("C1_EXPLORER_CLIENT_ID", "c1-explorer"),
+            client_secret=os.environ["C1_EXPLORER_CLIENT_SECRET"],
+            session_idle_s=int(get("C1_EXPLORER_SESSION_IDLE_S", "1800")),
+            session_max_s=int(get("C1_EXPLORER_SESSION_MAX_S", "28800")),
+        )

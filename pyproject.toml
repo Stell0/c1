@@ -18,6 +18,8 @@ dependencies = [
   "uvicorn==0.54.0",
   "PyJWT[crypto]==2.15.0",
   "cryptography==50.0.1",
+  "Jinja2==3.1.6",
+  "MarkupSafe==3.0.4",
 ]
 
 [dependency-groups]
@@ -30,6 +32,7 @@ dev = [
   "openfga-sdk==0.10.4",
   "rdflib==7.6.0",
   "pyshacl==0.40.1",
+  "playwright==1.63.0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -77,4 +80,7 @@ files = ["src", "scripts", "probes", "tests"]
 testpaths = ["tests"]
 addopts = "-ra"
 pythonpath = ["."]
-markers = ["integration: requires the isolated real M01 stack (C1_STACK=1)"]
+markers = [
+  "integration: requires the isolated real M01 stack (C1_STACK=1)",
+  "browser: requires a real browser (C1_BROWSER=1) and the real stack",
+]

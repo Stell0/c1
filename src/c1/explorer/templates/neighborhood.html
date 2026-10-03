@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Neighborhood{% endblock %}
+{% block main %}
+<h1>Neighborhood of {{ w.iri(identifier) }}</h1>
+<form method="get" action="/explorer/neighborhood">
+  <input type="hidden" name="id" value="{{ identifier }}">
+  <div class="grid">
+    <label for="n-direction">Direction</label>
+    <select id="n-direction" name="direction">{% for d in ["out", "in", "both"] %}<option value="{{ d }}"{% if form.direction == d %} selected{% endif %}>{{ d }}</option>{% endfor %}</select>
+    <label for="n-predicates">Relationship predicates (comma-separated IRIs, required)</label>
+    <input id="n-predicates" name="predicates" value="{{ form.predicates }}" list="known-predicates">
+    <datalist id="known-predicates">{% for p in predicates %}<option value="{{ p }}">{% endfor %}</datalist>
+    <label for="n-depth">Depth (1 to 3)</label>
+    <select id="n-depth" name="depth">{% for d in ["1", "2", "3"] %}<option value="{{ d }}"{% if form.depth == d %} selected{% endif %}>{{ d }}</option>{% endfor %}</select>
+  </div>
+  <button type="submit">Show neighborhood</button>
+</form>
+{% if result %}
+<p data-field="truncated">Truncated: {{ "yes" if result.truncated else "no" }}</p>
+<h2>Nodes</h2>
+<ul>{% for n in result.nodes %}<li>{{ w.iri(n.id) }} {{ label_of(n) }}</li>{% endfor %}</ul>
+<h2>Edges</h2>
+{{ w.data(result.edges) }}
+{% if result.get("next_cursor") %}{{ w.pager(query('/explorer/neighborhood', id=identifier, **dict(form, cursor=result.next_cursor))) }}{% endif %}
+{% endif %}
+{% endblock %}

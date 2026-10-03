@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Documents{% endblock %}
+{% block main %}
+<h1>Documents</h1>
+<form method="get" action="/explorer/documents">
+  <div class="grid">
+    <label for="d-title">Title contains</label><input id="d-title" name="title" value="{{ form.title }}">
+    <label for="d-text">Text contains</label><input id="d-text" name="text_contains" value="{{ form.text_contains }}">
+    <label for="d-revision">Knowledge revision (empty: head)</label><input id="d-revision" name="revision" value="{{ form.revision }}">
+  </div>
+  <button type="submit">Search</button>
+</form>
+<dl class="facts">
+  <div><dt>Selected revision</dt><dd data-field="revision"><code>{{ result.get("revision", "") }}</code></dd></div>
+  <div><dt>Readable documents</dt><dd data-field="count">{{ result.get("count", "") }}</dd></div>
+</dl>
+<ul class="documents">
+{% for item in result["items"] %}
+  <li><a href="{{ query('/explorer/document', id=item.document.id, revision=form.revision) }}">{{ label_of(item.document) or compact(item.document.id) }}</a></li>
+{% else %}
+  <li>No readable document in the returned material.</li>
+{% endfor %}
+</ul>
+{% if result.get("next_cursor") %}{{ w.pager(query('/explorer/documents', **dict(form, cursor=result.next_cursor))) }}{% endif %}
+{% endblock %}

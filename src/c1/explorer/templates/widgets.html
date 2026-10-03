@@ -1,0 +1,65 @@
+{# The closed widget set (M12 D5). Every macro inserts API data as escaped text only. #}
+
+{% macro iri(value) -%}
+{%- set href = resource_href(value) -%}
+{%- if href -%}<a href="{{ href }}" class="iri" title="{{ value }}">{{ compact(value) }}</a>
+{%- else -%}<span class="iri" title="{{ value }}">{{ compact(value) }}</span>{%- endif -%}
+{%- endmacro %}
+
+{% macro locator(value) -%}
+<span class="locator" data-widget="external-locator">{{ value }}</span> <span class="note">(external address, shown as text; not opened)</span>
+{%- endmacro %}
+
+{% macro literal(value) -%}
+<span class="literal" data-widget="literal">{{ value.lexical }}</span>
+{%- if value.language %} <span class="tag" data-widget="language">@{{ value.language }}</span>
+{%- elif value.datatype and value.datatype != "http://www.w3.org/2001/XMLSchema#string" %} <span class="tag" data-widget="datatype">{{ compact(value.datatype) }}</span>{% endif -%}
+{%- endmacro %}
+
+{% macro value(v, predicate="") -%}
+{%- if is_literal(v) -%}
+  {%- if predicate == "http://purl.org/dc/terms/identifier" -%}{{ locator(v.lexical) }}
+  {%- elif predicate == "urn:c1:ns:core#reviewState" -%}<span class="review" data-widget="review-state">{{ review_label(v.lexical) }}</span>
+  {%- elif predicate == "urn:c1:ns:core#confidence" -%}{{ literal(v) }} <span class="note" data-widget="confidence">(uncalibrated confidence, not a probability)</span>
+  {%- else -%}{{ literal(v) }}{%- endif -%}
+{%- elif v is mapping -%}<code>{{ v }}</code>
+{%- else -%}{{ iri(v) }}{%- endif -%}
+{%- endmacro %}
+
+{% macro record(r) -%}
+<table class="record">
+  <caption>Record {{ compact(r.id) }}</caption>
+  <tbody>
+    <tr><th scope="row">ID</th><td><code data-field="record-id">{{ r.id }}</code></td></tr>
+    <tr><th scope="row">Types</th><td>{% for t in r.types %}{{ iri(t) }}{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+    {% for predicate, values in r.properties | dictsort %}
+    <tr><th scope="row" title="{{ predicate }}">{{ compact(predicate) }}</th>
+      <td><ul class="values">{% for v in values %}<li>{{ value(v, predicate) }}</li>{% endfor %}</ul></td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{%- endmacro %}
+
+{% macro text_block(text, label="Text") -%}
+<pre class="text" aria-label="{{ label }}">{{ text }}</pre>
+{%- endmacro %}
+
+{% macro data(v, depth=0) -%}
+{%- if v is mapping -%}
+<dl class="data depth-{{ depth }}">{% for k, item in v.items() %}<div><dt>{{ k }}</dt><dd>{{ data(item, depth + 1) }}</dd></div>{% endfor %}</dl>
+{%- elif v is string -%}
+  {%- if v.startswith("urn:") -%}{{ iri(v) }}{%- elif "\n" in v -%}<pre class="text">{{ v }}</pre>{%- else -%}<span class="literal">{{ v }}</span>{%- endif -%}
+{%- elif v is iterable -%}
+  {%- if v | length == 0 -%}<span class="note">none</span>{%- else -%}
+<ol class="data depth-{{ depth }}">{% for item in v %}<li>{{ data(item, depth + 1) }}</li>{% endfor %}</ol>
+  {%- endif -%}
+{%- elif v is none -%}<span class="note">none</span>
+{%- else -%}<span class="literal">{{ v }}</span>
+{%- endif -%}
+{%- endmacro %}
+
+{% macro pager(next_href) -%}
+{% if next_href %}<p class="pager"><a href="{{ next_href }}" rel="next">Next page</a></p>{% endif %}
+{%- endmacro %}
+
+{% macro csrf_field(csrf) -%}<input type="hidden" name="csrf" value="{{ csrf }}">{%- endmacro %}

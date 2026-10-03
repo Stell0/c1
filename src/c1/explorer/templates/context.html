@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Context preview{% endblock %}
+{% block main %}
+<h1>Context preview</h1>
+<p>Shows exactly what the C1 context API returns for this request with your access. Nothing here is generated or summarized.</p>
+<form method="get" action="/explorer/context">
+  <div class="grid">
+    <label for="c-profile">Context profile</label>
+    <select id="c-profile" name="profile">
+      <option value="">Choose a profile</option>
+      {% for p in catalog.get("context_profiles", []) %}
+      {% set value = p.name ~ "@" ~ p.version %}
+      <option value="{{ value }}"{% if form.profile == value %} selected{% endif %}>{{ p.name }} {{ p.version }}</option>
+      {% endfor %}
+    </select>
+    <label for="c-anchor-id">Anchor ID (IRI)</label><input id="c-anchor-id" name="anchor_id" value="{{ form.anchor_id }}">
+    <label for="c-anchor-label">or anchor label</label><input id="c-anchor-label" name="anchor_label" value="{{ form.anchor_label }}">
+    <label for="c-anchor-language">Anchor label language (optional)</label><input id="c-anchor-language" name="anchor_language" value="{{ form.anchor_language }}">
+    <label for="c-topics">Topics (one per line)</label><textarea id="c-topics" name="topics" rows="2">{{ form.topics }}</textarea>
+    <label for="c-any">Keywords, any of (one per line)</label><textarea id="c-any" name="keywords_any" rows="2">{{ form.keywords_any }}</textarea>
+    <label for="c-all">Keywords, all of (one per line)</label><textarea id="c-all" name="keywords_all" rows="2">{{ form.keywords_all }}</textarea>
+    <label for="c-fields">Requested fields (one per line)</label><textarea id="c-fields" name="fields" rows="2">{{ form.fields }}</textarea>
+    <label for="c-project">Project filter (optional IRI)</label><input id="c-project" name="project_ref" value="{{ form.project_ref }}">
+    <label for="c-revision">Knowledge revision (empty: head)</label><input id="c-revision" name="revision" value="{{ form.revision }}">
+    <label for="c-budget">Budget in bytes (2048 to 524288; empty: 65536)</label><input id="c-budget" name="budget" inputmode="numeric" value="{{ form.budget }}">
+  </div>
+  <fieldset>
+    <legend>Software target (software-task profiles only)</legend>
+    <div class="grid">
+      <label for="c-snapshots">Snapshot IRIs (one per line)</label><textarea id="c-snapshots" name="snapshots" rows="2">{{ form.snapshots }}</textarea>
+      <label for="c-contracts">Contract document IRIs (one per line)</label><textarea id="c-contracts" name="contracts" rows="2">{{ form.contracts }}</textarea>
+      <label for="c-configurations">Configuration IRIs (one per line)</label><textarea id="c-configurations" name="configurations" rows="2">{{ form.configurations }}</textarea>
+      <label for="c-goal">Goal (test-development)</label>
+      <select id="c-goal" name="goal">{% for g in ["", "conformance", "characterization"] %}<option value="{{ g }}"{% if form.goal == g %} selected{% endif %}>{{ g or "none" }}</option>{% endfor %}</select>
+      <label for="c-aspects">Aspects (support profiles; one per line)</label><textarea id="c-aspects" name="aspects" rows="2">{{ form.aspects }}</textarea>
+      <label for="c-followup">Follow-up token (support-implementation)</label><input id="c-followup" name="followup_token" value="{{ form.followup_token }}">
+    </div>
+  </fieldset>
+  <button type="submit">Preview context</button>
+</form>
+
+{% if problem %}
+<div class="problem" role="alert">
+  <p data-field="problem-detail">{{ problem.detail }}</p>
+  <p class="note">HTTP status <span data-field="problem-status">{{ problem.status }}</span>{% if problem.code %}, code <code data-field="problem-code">{{ problem.code }}</code>{% endif %}.</p>
+</div>
+{% endif %}
+
+{% if result %}
+<section aria-labelledby="ctx-summary">
+<h2 id="ctx-summary">Package</h2>
+<dl class="facts" data-region="context-summary">
+  <div><dt>Outcome</dt><dd data-field="outcome">{{ result.outcome }}</dd></div>
+  <div><dt>Knowledge revision</dt><dd data-field="revision"><code>{{ result.revision }}</code></dd></div>
+  {% if form.project_ref %}<div><dt>Project filter</dt><dd data-field="project_ref">{{ form.project_ref }}</dd></div>{% endif %}
+  {% set bounds = result.get("bounds") or {} %}
+  {% if bounds %}
+  <div><dt>Truncated</dt><dd data-field="truncated">{{ "yes" if bounds.truncated else "no" }}</dd></div>
+  <div><dt>Units included</dt><dd data-field="included_units">{{ bounds.included_units }}</dd></div>
+  <div><dt>Units deferred</dt><dd data-field="deferred_units">{{ bounds.deferred_units }}</dd></div>
+  <div><dt>Rendered bytes / maximum</dt><dd data-field="bytes">{{ bounds.rendered_bytes }} / {{ bounds.maximum }}</dd></div>
+  {% endif %}
+</dl>
+{% if continuation %}<p class="pager"><a href="{{ continuation }}" rel="next" data-field="continuation">Continue with the next page of this package</a></p>
+{% elif bounds and bounds.truncated %}<p class="note">More material exists, but no continuation was returned.</p>{% endif %}
+
+{% set structured = result.get("structured") %}
+{% if structured %}
+{% set target = structured.get("target") %}
+{% if target %}
+<h3>Software target</h3>
+<div data-region="target">{{ w.data(target) }}</div>
+{% endif %}
+<h3>Structured package</h3>
+<div data-region="structured">{{ w.data(structured) }}</div>
+{% endif %}
+{% if result.get("followup") %}
+<h3>Explicit follow-up</h3>
+<p>The documentation stage left aspects unanswered. C1 does not run the code stage by itself. Use the token below with the <code>support-implementation</code> profile and the same target.</p>
+<div data-region="followup">{{ w.data(result.followup) }}</div>
+{% endif %}
+{% if result.get("anchor_resolution") %}<h3>Anchor resolution</h3>{{ w.data(result.anchor_resolution) }}{% endif %}
+{% if result.get("topic_resolution") %}<h3>Topic resolution</h3>{{ w.data(result.topic_resolution) }}{% endif %}
+{% if result.get("markdown") %}
+<h3>Markdown (as returned, not rendered)</h3>
+{{ w.text_block(result.markdown, "Context Markdown") }}
+{% endif %}
+</section>
+<details><summary>Request sent to the API</summary>{{ w.text_block(request_json, "Request JSON") }}</details>
+{% endif %}
+{% endblock %}

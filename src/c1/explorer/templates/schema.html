@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Schema{% endblock %}
+{% block main %}
+<h1>Installed schema</h1>
+<p>Profiles define the record classes and properties that ChangeSets are validated against. A schema says nothing about which records exist.</p>
+{% for profile in schema.profiles %}
+<section>
+<h2>{{ profile.name }} {{ profile.version }}</h2>
+{% for item in profile.classes %}
+<table class="list">
+  <caption>{{ compact(item.iri) }} ({{ item.kind }})</caption>
+  <thead><tr><th scope="col">Property</th><th scope="col">Name</th><th scope="col">Ranges</th><th scope="col">Cardinality</th><th scope="col">Allowed values</th></tr></thead>
+  <tbody>
+  {% for p in item.properties %}
+  <tr><td>{{ compact(p.iri) }}</td><td>{{ p.name }}</td><td>{% for r in p.ranges %}{{ compact(r) }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+  <td>{{ p.min_count }}..{{ p.max_count if p.max_count is not none else "n" }}</td>
+  <td>{% for e in p.enum %}<span class="literal">{{ e }}</span>{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endfor %}
+</section>
+{% endfor %}
+<h2>Installable profiles</h2>
+<ul>{% for name in schema.available_profiles %}<li>{{ name }}</li>{% endfor %}</ul>
+<p><a href="/explorer/changesets/new?form=profile">Propose a profile installation</a> (needs schema administration).</p>
+{% endblock %}

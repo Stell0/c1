@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}Access{% endblock %}
+{% block main %}
+<h1>Access</h1>
+<p>Access scopes are reusable policies. Project membership and domain relationships never grant access.</p>
+<section>
+<h2>Your roles</h2>
+<table class="list">
+  <caption>Scopes where you hold a role</caption>
+  <thead><tr><th scope="col">Scope</th><th scope="col">ID</th><th scope="col">Kind</th><th scope="col">Your roles</th></tr></thead>
+  <tbody>
+  {% for s in mine %}<tr data-scope="{{ s.id }}"><td>{{ s.label }}</td><td><code>{{ s.id }}</code></td><td>{{ s.kind }}</td><td data-field="roles">{{ s.roles | join(", ") }}</td></tr>
+  {% else %}<tr><td colspan="4">You hold no scope role.</td></tr>{% endfor %}
+  </tbody>
+</table>
+</section>
+<section>
+<h2>Scopes you administer</h2>
+{% if administered %}
+<ul>{% for s in administered %}<li><code>{{ s.id }}</code> {{ s.label }}</li>{% endfor %}</ul>
+{% else %}<p>None. The forms below are refused by the API without access administration.</p>{% endif %}
+<h3>Grant or revoke a scope role</h3>
+<form method="post" action="/explorer/scopes/member">
+  {{ w.csrf_field(csrf) }}
+  <div class="grid">
+    <label for="m-scope">Scope ID</label><input id="m-scope" name="scope" required>
+    <label for="m-member">Member (principal ID, for example user:issuer.subject)</label><input id="m-member" name="member" required>
+    <label for="m-role">Role</label><select id="m-role" name="role">{% for r in roles %}<option value="{{ r }}">{{ r }}</option>{% endfor %}</select>
+    <label for="m-grant">Action</label><select id="m-grant" name="grant"><option value="grant">grant</option><option value="revoke">revoke</option></select>
+  </div>
+  <button type="submit">Apply role change</button>
+</form>
+<h3>Propose moving a resource to another scope</h3>
+<p class="note">A re-scope is a separately reviewed security operation; it needs independent approval before it can be applied.</p>
+<form method="post" action="/explorer/scopes/rescope">
+  {{ w.csrf_field(csrf) }}
+  <div class="grid">
+    <label for="r-resource">Resource ID</label><input id="r-resource" name="resource_id" required>
+    <label for="r-scope">Destination scope ID</label><input id="r-scope" name="scope" required>
+  </div>
+  <button type="submit">Propose re-scope</button>
+</form>
+<h3>Create a scope</h3>
+<form method="post" action="/explorer/scopes/create">
+  {{ w.csrf_field(csrf) }}
+  <div class="grid">
+    <label for="c-label">Label</label><input id="c-label" name="label" required>
+    <label for="c-id">ID (optional)</label><input id="c-id" name="id">
+    <label for="c-kind">Kind</label><select id="c-kind" name="kind"><option value="standard">standard</option><option value="drafting">drafting</option></select>
+  </div>
+  <button type="submit">Create scope</button>
+</form>
+<h3>Retire a scope</h3>
+<form method="post" action="/explorer/scopes/retire">
+  {{ w.csrf_field(csrf) }}
+  <div class="grid"><label for="x-scope">Scope ID</label><input id="x-scope" name="scope" required></div>
+  <button type="submit">Retire scope</button>
+</form>
+<h3>Instance role</h3>
+<form method="post" action="/explorer/instance/grant">
+  {{ w.csrf_field(csrf) }}
+  <div class="grid">
+    <label for="i-member">Member</label><input id="i-member" name="member" required>
+    <label for="i-role">Role</label><select id="i-role" name="role">{% for r in instance_roles %}<option value="{{ r }}">{{ r }}</option>{% endfor %}</select>
+  </div>
+  <button type="submit">Grant instance role</button>
+</form>
+</section>
+{% endblock %}

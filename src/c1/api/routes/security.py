@@ -61,6 +61,17 @@ async def list_scopes(
     return {"access_scopes": visible}
 
 
+@router.get("/access-scopes/mine", name="scope_list_mine")
+async def list_my_scopes(
+    request: Request,
+    principal: Annotated[Principal, Depends(get_principal)],
+    runtime: Annotated[Runtime, Depends(get_runtime)],
+) -> dict[str, list[dict[str, Any]]]:
+    scopes = await runtime.operations.my_scopes(principal)
+    audit(request, principal, "scope_list_mine")
+    return {"access_scopes": scopes}
+
+
 @router.post("/access-scopes", status_code=201)
 async def create_scope(
     body: ScopeCreate,
@@ -126,6 +137,17 @@ async def retire_scope(
 ) -> dict[str, Any]:
     result = await runtime.operations.retire_scope(principal, scope_id)
     audit(request, principal, "scope_retire", target=scope_id)
+    return result
+
+
+@router.get("/security-operations", name="security_operation_list")
+async def list_operations(
+    request: Request,
+    principal: Annotated[Principal, Depends(get_principal)],
+    runtime: Annotated[Runtime, Depends(get_runtime)],
+) -> dict[str, Any]:
+    result = await runtime.operations.list_operations(principal)
+    audit(request, principal, "security_operation_list")
     return result
 
 

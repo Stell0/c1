@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% import "widgets.html" as w %}
+{% block title %}ChangeSet{% endblock %}
+{% block main %}
+<h1>ChangeSet</h1>
+<dl class="facts" data-region="changeset">
+  <div><dt>ID</dt><dd><code data-field="changeset-id">{{ changeset.id }}</code></dd></div>
+  <div><dt>State</dt><dd data-field="state">{{ changeset.state }}</dd></div>
+  <div><dt>Author</dt><dd data-field="author">{{ changeset.author }}</dd></div>
+  <div><dt>Base revision</dt><dd><code>{{ changeset.base_revision }}</code></dd></div>
+  <div><dt>Attempt</dt><dd>{{ changeset.attempt }}</dd></div>
+  {% if changeset.rationale %}<div><dt>Rationale</dt><dd>{{ changeset.rationale }}</dd></div>{% endif %}
+  {% if changeset.reason %}<div><dt>Reason</dt><dd>{{ changeset.reason }}</dd></div>{% endif %}
+</dl>
+
+<h2>Preview: operations</h2>
+<ol class="operations">
+{% for op in changeset.operations %}
+  <li>
+    <p><strong>{{ op.kind }}</strong>
+    {% if op.kind == "create" %} {{ w.iri(op.record.id) if op.record.get("id") else "new record (server-minted ID)" }} in scope <code>{{ op.get("scope_id") or "inherited" }}</code>
+    {% elif op.kind == "replace" %} {{ w.iri(op.resource_id) }}, reason: {{ op.reason }}
+    {% elif op.kind == "install_profile" %} profile <code>{{ op.profile }}</code>{% endif %}</p>
+    {% if op.get("record") %}{{ w.record(op.record) }}{% endif %}
+  </li>
+{% endfor %}
+</ol>
+<details><summary>Exact operation payload</summary>{{ w.text_block(operations_json, "Operation JSON") }}</details>
+
+{% if validation %}
+<h2>Validation report</h2>
+<dl class="facts" data-region="validation">
+  <div><dt>Status</dt><dd data-field="validation-status">{{ validation.get("status") }}</dd></div>
+</dl>
+<h3>Diagnostics</h3>
+{% if validation.get("diagnostics") %}
+<table class="list"><caption>Diagnostics</caption>
+<thead><tr><th scope="col">Code</th><th scope="col">Severity</th><th scope="col">Path</th><th scope="col">Message</th></tr></thead>
+<tbody>{% for d in validation.diagnostics %}<tr><td><code>{{ d.get("code") }}</code></td><td>{{ d.get("severity") }}</td><td><code>{{ d.get("path") }}</code></td><td>{{ d.get("message") }}</td></tr>{% endfor %}</tbody></table>
+{% else %}<p>No diagnostics.</p>{% endif %}
+<h3>Permission preview</h3>
+{{ w.data(validation.get("permission_preview", [])) }}
+{% endif %}
+
+<h2>Actions</h2>
+<p class="note">The C1 API decides every action; a button here is not a permission.</p>
+<div class="action-row">
+{% for action in ["submit", "validate", "approve", "apply", "withdraw", "rebase"] %}
+  {% set show = (action == "submit" and changeset.state == "draft") or (action == "validate" and changeset.state == "submitted") or (action == "approve" and changeset.state == "validated") or (action == "apply" and changeset.state == "approved") or (action == "withdraw" and changeset.state in ["draft", "submitted", "validated", "approved"]) or (action == "rebase" and changeset.state in ["stale", "failed"]) %}
+  {% if show %}
+  <form method="post" action="/explorer/changeset/action">
+    {{ w.csrf_field(csrf) }}
+    <input type="hidden" name="id" value="{{ changeset.id }}">
+    <input type="hidden" name="action" value="{{ action }}">
+    {% if action == "apply" %}<input type="hidden" name="idempotency_key" value="apply-{{ changeset.id }}-{{ changeset.attempt }}">{% endif %}
+    <button type="submit" data-action="{{ action }}">{{ action | capitalize }}</button>
+  </form>
+  {% endif %}
+{% endfor %}
+{% if changeset.state == "validated" %}
+  <form method="post" action="/explorer/changeset/action" class="reject">
+    {{ w.csrf_field(csrf) }}
+    <input type="hidden" name="id" value="{{ changeset.id }}">
+    <input type="hidden" name="action" value="reject">
+    <label for="reject-reason">Rejection reason</label>
+    <input id="reject-reason" name="reason" required>
+    <button type="submit" data-action="reject">Reject</button>
+  </form>
+{% endif %}
+</div>
+{% endblock %}
