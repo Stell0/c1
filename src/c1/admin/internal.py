@@ -84,6 +84,10 @@ async def bootstrap(args: argparse.Namespace) -> dict[str, Any]:
         user = {
             "username": args.admin_user,
             "enabled": True,
+            # Keycloak's user profile requires these before the account can sign in.
+            "email": args.admin_email or f"{args.admin_user}@example.invalid",
+            "firstName": "C1",
+            "lastName": "Administrator",
             "emailVerified": True,
             "requiredActions": [] if args.no_temporary_password else ["UPDATE_PASSWORD"],
         }
@@ -231,6 +235,17 @@ async def state(_args: argparse.Namespace) -> dict[str, Any]:
         "fga_store": settings.fga_store,
         "fga_model": settings.fga_model,
         "restore_guarded": restore_guarded(restores),
+        "restore_records": sorted(
+            (
+                {
+                    "type": str(r.get("type")),
+                    "recorded_at": str(r.get("recorded_at")),
+                    "released": r.get("released"),
+                }
+                for r in restores
+            ),
+            key=lambda r: r["recorded_at"],
+        ),
     }
 
 
@@ -365,6 +380,7 @@ def build_parser(parser: argparse.ArgumentParser) -> None:
     boot = sub.add_parser("bootstrap")
     boot.add_argument("--admin-user", default="c1admin")
     boot.add_argument("--no-temporary-password", action="store_true")
+    boot.add_argument("--admin-email")
     sub.add_parser("state")
     sub.add_parser("consistency")
     clone = sub.add_parser("knowledge-clone")

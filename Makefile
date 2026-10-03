@@ -27,7 +27,7 @@ secrets:
 baseline:
 	$(UV) run --locked python scripts/check_baseline.py
 
-check: lint typecheck test secrets baseline profile
+check: lint typecheck test secrets baseline profile release-check
 
 clean-start:
 	bash scripts/clean_start.sh
@@ -60,3 +60,8 @@ api-up:
 	$(UV) run --locked python -m scripts.api up $(if $(C1_CRASH_AFTER),--crash-after $(C1_CRASH_AFTER),)
 api-down:
 	$(UV) run --locked python -m scripts.api down
+
+.PHONY: release-check
+release-check:
+	$(UV) run --locked python scripts/openapi.py --check
+	$(UV) run --locked python scripts/license_inventory.py --check

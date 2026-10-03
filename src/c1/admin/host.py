@@ -212,6 +212,8 @@ def bootstrap(args: argparse.Namespace) -> dict[str, Any]:
     flags = ["bootstrap", "--admin-user", args.admin_user]
     if args.no_temporary_password:
         flags.append("--no-temporary-password")
+    if args.admin_email:
+        flags += ["--admin-email", args.admin_email]
     result = d.internal(*flags)
     (d.dir / "state" / "c1.env").write_text(
         "# Written by c1-admin bootstrap; identifiers only, no secrets.\n"
@@ -314,6 +316,7 @@ def backup(args: argparse.Namespace) -> dict[str, Any]:
     finally:
         if not args.leave_stopped:
             d.compose("start", "c1")
+            d.wait_healthy(("c1",))
     sizes = {name: (target / name).stat().st_size for name in files}
     return {
         "backup": str(target),
@@ -448,6 +451,7 @@ def restore_knowledge(args: argparse.Namespace) -> dict[str, Any]:
         if tag:
             _drop_source(d, tag)
         d.compose("start", "c1")
+        d.wait_healthy(("c1",))
     return {
         "restored_head": manifest["knowledge_head"],
         "previous_head": state["knowledge_head"],
@@ -468,8 +472,9 @@ def restore_full(args: argparse.Namespace) -> dict[str, Any]:
     if target_dir.exists():
         raise HostError("target directory must not exist")
     target_dir.mkdir(parents=True, mode=0o700)
-    for name in ("compose.yaml", "nginx.conf.template", "postgres-init.sh"):
-        shutil.copy2(origin / name, target_dir / name)
+    for name in ("compose.yaml", "nginx.conf.template", "postgres-init.sh", ".env"):
+        if (origin / name).exists():
+            shutil.copy2(origin / name, target_dir / name)
     # Secrets and certificates come from the operator's own secret backup; on
     # one host the source deployment's files are that backup.
     shutil.copytree(origin / "secrets", target_dir / "secrets")
@@ -582,6 +587,11 @@ def dr_release(args: argparse.Namespace) -> dict[str, Any]:
     return result
 
 
+def status(args: argparse.Namespace) -> dict[str, Any]:
+    d = Deployment(Path(args.dir), args.project, {"C1_REF_NET_PREFIX": args.net_prefix})
+    return d.internal("state")
+
+
 def consistency(args: argparse.Namespace) -> dict[str, Any]:
     d = Deployment(Path(args.dir), args.project, {"C1_REF_NET_PREFIX": args.net_prefix})
     return d.internal("consistency")
@@ -602,6 +612,7 @@ def build_parser(sub: Any) -> None:
     common(boot)
     boot.add_argument("--admin-user", default="c1admin")
     boot.add_argument("--no-temporary-password", action="store_true")
+    boot.add_argument("--admin-email")
     back = sub.add_parser("backup", help="quiesced knowledge and security backup")
     common(back)
     back.add_argument("--to", required=True)
@@ -626,6 +637,8 @@ def build_parser(sub: Any) -> None:
     release.add_argument("--port", default="18443")
     release.add_argument("--accept-security-as-of", required=True)
     release.add_argument("--reason", required=True)
+    stat = sub.add_parser("status", help="database heads, profiles and restore records")
+    common(stat)
     check = sub.add_parser("consistency", help="compare journal bindings with OpenFGA")
     common(check)
     dev = sub.add_parser("dev-certs", help="throwaway test CA and server certificate")
@@ -638,6 +651,7 @@ HANDLERS = {
     "restore-knowledge": restore_knowledge,
     "restore-full": restore_full,
     "consistency": consistency,
+    "status": status,
     "dev-certs": certs,
 }
 

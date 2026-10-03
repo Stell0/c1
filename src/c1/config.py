@@ -62,7 +62,7 @@ def secret_value(name: str) -> str | None:
         raise ValueError(f"{name}_FILE is not readable") from None
     if stat.S_ISLNK(info.st_mode) or not stat.S_ISREG(info.st_mode):
         raise ValueError(f"{name}_FILE must be a regular file, not a symlink")
-    if info.st_mode & 0o137:
+    if info.st_mode & 0o337:
         raise ValueError(f"{name}_FILE must have mode 0400 or 0440")
     try:
         value = path.read_text(encoding="utf-8").rstrip("\r\n")
