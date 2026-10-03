@@ -56,10 +56,10 @@ AI_VARIABLES = (
 DOCUMENT = "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"
 
 
-async def shot(person: Person, name: str) -> str:
+async def shot(person: Person, name: str, *, full_page: bool = True) -> str:
     path = OUT / f"{name}.png"
     try:
-        await person.page.screenshot(path=str(path), full_page=True)
+        await person.page.screenshot(path=str(path), full_page=full_page)
     except Exception:
         # Very tall pages (large context packages) exceed Chromium's capture
         # limit; the top of the page still shows the summary and target.
@@ -91,7 +91,8 @@ async def preview(
     expected = api.json().get("outcome")
     if api.status_code != 200 or outcome != expected:
         raise RuntimeError(f"{name}: page outcome {outcome!r}, API {api.status_code} {expected!r}")
-    return {"profile": body["profile"], "outcome": outcome, "screenshot": await shot(person, name)}
+    screenshot = await shot(person, name, full_page=False)
+    return {"profile": body["profile"], "outcome": outcome, "screenshot": screenshot}
 
 
 async def directory_step(summary: dict[str, Any]) -> None:
@@ -164,7 +165,8 @@ async def software_step(summary: dict[str, Any], template: Any) -> None:
         "contracts": [sp.file_id("a2", "openapi.json")],
         "configurations": configuration,
     }
-    budget = {"unit": "bytes", "maximum": 524288}
+    # The API default; larger packages continue on later pages.
+    budget = {"unit": "bytes", "maximum": 65536}
     async with copy_of(template) as case:
         async with explorer_server(case), browser() as instance:
             carol = await sign_in(instance, "carol")
