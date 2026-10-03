@@ -41,7 +41,8 @@ HIDDEN_PARTS = {
     f"urn:c1:instance:dev:document-part/0000007{n}-0000-4000-8000-000000000000"
     for n in (3, 4, 5, 6)
 }
-RELATION_SENTINEL = "m12-hidden-relation-" + uuid.uuid4().hex
+# Canonical IDs end in a UUID; this one is unique, so it doubles as the sentinel.
+RELATION_SENTINEL = str(uuid.uuid4())
 RESTRICTED_TEXT = "Restricted pricing rules"
 _VOLATILE = (
     (re.compile(r'name="csrf" value="[^"]+"'), 'name="csrf" value="<csrf>"'),

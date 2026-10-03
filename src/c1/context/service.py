@@ -86,7 +86,9 @@ def _checkpoint(
         identifier for unit in units[:offset] for identifier in unit.get("_dependencies", [])
     }
     dependencies.add(interpretation["anchor"]["id"])
-    dependencies.update(topic["id"] for topic in interpretation["topics"])
+    # Software-task interpretations have no topics (M12 fix: a truncated
+    # software page needs a continuation checkpoint too).
+    dependencies.update(topic["id"] for topic in interpretation.get("topics", []))
     dependencies.update(common_dependencies)
     # Policy identifiers are hashed, never returned. Project only dependencies
     # of this prefix: an unrelated hidden write must not affect continuation.

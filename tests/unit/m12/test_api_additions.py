@@ -290,3 +290,18 @@ def test_schema_route_describes_installed_profiles_without_instance_data(tmp_pat
         assert "schema_read" in fake.events
 
     asyncio.run(run())
+
+
+def test_checkpoint_accepts_a_software_interpretation_without_topics() -> None:
+    """M12 fix: a truncated software-task page needs a continuation checkpoint."""
+    from c1.context.service import _checkpoint
+    from tests.unit.m07.test_service import entity, plan
+
+    records = {item.id: item for item in [entity("anchor"), entity("carrier")]}
+    units = [{"node_id": "urn:test:anchor", "_dependencies": ["urn:test:carrier"]}, {}]
+    public = [{"node_id": "urn:test:anchor"}, {}]
+    software = {"anchor": {"id": "urn:test:anchor"}, "target": {"snapshots": ["s"]}}
+    first = _checkpoint(units, public, 1, software, records, plan(records))
+    assert first == _checkpoint(units, public, 1, software, records, plan(records))
+    moved = plan(records, **{"urn:test:carrier": "other-scope"})
+    assert _checkpoint(units, public, 1, software, records, moved) != first

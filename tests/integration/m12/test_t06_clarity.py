@@ -47,6 +47,7 @@ def _claim(value: str, attributed: str, *, confidence: str | None = None) -> dic
     }
     if confidence is not None:
         properties[C1 + "confidence"] = [lit(confidence, XSD + "decimal")]
+        properties[C1 + "confidenceMethod"] = [lit("synthetic reviewer estimate")]
     return {
         "id": f"urn:c1:instance:dev:assertion/{uuid.uuid4()}",
         "types": [C1 + "Assertion"],
@@ -59,7 +60,11 @@ async def _apply(case: LiveCase, operations: list[dict[str, Any]], author: str) 
     state = (await action(case, proposal["id"], "submit", actor=author))["state"]
     if state == "submitted":
         state = (await action(case, proposal["id"], "validate", actor=author))["state"]
-    assert state == "validated", state
+    if state != "validated":
+        report = await case.request(
+            "GET", f"/v1/changesets/{proposal['id']}/validation", actor=author
+        )
+        raise AssertionError(report.json().get("diagnostics"))
     assert (await action(case, proposal["id"], "approve", actor="dave"))["state"] == "approved"
     assert (await action(case, proposal["id"], "apply", actor="dave"))["state"] == "applied"
 

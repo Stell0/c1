@@ -61,3 +61,8 @@ def create_web_app(
     if explorer_settings is None:
         return api
     return WebApp(api, create_explorer(settings, explorer_settings, api))
+
+
+def from_env() -> ASGIApp:
+    """Uvicorn factory: ``uvicorn c1.web:from_env --factory`` (trusted process env only)."""
+    return create_web_app(Settings.from_env(), ExplorerSettings.from_env())

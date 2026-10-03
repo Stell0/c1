@@ -12,12 +12,13 @@ from typing import Any
 
 from starlette.responses import RedirectResponse, Response
 
-from c1.explorer.app import Ctx, secured
+from c1.explorer.app import Ctx, problem_text, secured
 from c1.explorer.client import ApiFailure, path_id
 from c1.explorer.render import query
 from c1.explorer.security import FormError
 from c1.model.keywords import NORMALIZATION_VERSION, normalize
 from c1.model.literals import LiteralValue
+from c1.model.nodes import NodeRecord
 from c1.model.records import AssertionRecord, EntityRecord, EvidenceRecord, SourceRecord
 
 C1 = "urn:c1:ns:core#"
@@ -395,10 +396,11 @@ async def context(ctx: Ctx) -> Response:
             result = response.body
         else:
             status = response.status
-            from c1.explorer.app import problem_text
-
-            problem = {"status": response.status, "code": response.code}
-            problem["detail"] = problem_text(response)
+            problem = {
+                "status": response.status,
+                "code": response.code,
+                "detail": problem_text(response),
+            }
     continuation = None
     if isinstance(result, dict):
         next_cursor = (result.get("bounds") or {}).get("next_cursor")
@@ -640,8 +642,6 @@ async def edit_names(ctx: Ctx) -> Response:
     response = await ctx.api("GET", "/v1/resources/" + path_id(identifier))
     if not response.ok or not isinstance(response.body, dict):
         return await ctx.problem(response, title="Edit names and keywords")
-    from c1.model.nodes import NodeRecord
-
     current = EntityRecord.from_node(NodeRecord.model_validate(response.body))
     language = ctx.field("language", required=False)
     aliases = [_literal(alias, language) for alias in _lines(ctx.field("aliases", required=False))]
