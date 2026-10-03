@@ -36,6 +36,7 @@
       "sw-ledger",
       "sw-shop",
       "drafts-bob",
+      "sw-docs",
       "sw-publications"
     ]
   },
@@ -47,7 +48,10 @@
     },
     "sw-docs": {
       "creator": "frank",
-      "producers": []
+      "producers": [],
+      "service_readers": [
+        "ci"
+      ]
     },
     "sw-publications": {
       "producers": [

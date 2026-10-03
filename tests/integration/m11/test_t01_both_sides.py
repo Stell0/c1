@@ -22,7 +22,10 @@ def test_t01_both_sides_of_the_feature(software_template: Template) -> None:
             assert (
                 "implementsOperation" in responsible["ledger.api.create_invoice"]["responsibility"]
             )
-            assert responsible["shop.client.submit_order"]["responsibility"] == ["declaredCall"]
+            assert responsible["shop.client.submit_order"]["responsibility"] == [
+                "declaredCall",
+                "implementsCapability",
+            ]
             assert {unit["repository"] for unit in responsible.values()} == {
                 sp.repository_id("ledger"),
                 sp.repository_id("shop"),
@@ -46,13 +49,21 @@ def test_t01_both_sides_of_the_feature(software_template: Template) -> None:
             # No live run covers a2+b2: compatibility stays unknown.
             [pair] = units(package, "compatibility")
             assert pair["status"] == "unknown" and pair["runs"] == []
-            # Matching names never link: neither shop `validate` appears.
-            labels = {
-                unit.get("symbol", {}).get("label")
-                for name in package["structured"]["sections"]
-                for unit in units(package, name)
+            # Matching names never link: each `validate` appears only as a direct
+            # same-snapshot dependency of its own repository's responsibility.
+            commits = {unit["symbol"]["label"]: unit["commit"] for unit in responsible.values()}
+            dependencies = {
+                unit["symbol"]["label"]: unit["commit"]
+                for unit in units(package, "responsibilities", "dependency-unit")
             }
-            assert "shop.client.validate" not in labels
+            assert dependencies["ledger.api.validate"] == commits["ledger.api.create_invoice"]
+            assert dependencies["shop.client.validate"] == commits["shop.client.submit_order"]
+            assert all(
+                "validate" not in str(item.get("assertion_id"))
+                and "validate" not in repr(item).lower()
+                for unit in units(package, "interface-contract", "operation")
+                for item in unit["basis"]
+            )
             markdown = package["markdown"]
             assert "compatibility is unknown" in markdown
 

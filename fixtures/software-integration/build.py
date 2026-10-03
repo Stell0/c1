@@ -152,13 +152,21 @@ def build_fixture(commits: dict[str, dict[str, str]]) -> dict[str, Any]:
                 "sw-publications",
             ],
             "alice": ["sw-shared", "sw-docs", "sw-publications"],
-            "bob": ["sw-shared", "sw-ledger", "sw-shop", "drafts-bob", "sw-publications"],
+            "bob": [
+                "sw-shared",
+                "sw-ledger",
+                "sw-shop",
+                "drafts-bob",
+                "sw-docs",
+                "sw-publications",
+            ],
         },
         # Who creates each scope (and so administers it), its kind, and which
         # producers hold roles there; unlisted scopes use the defaults.
         "scope_settings": {
             "drafts-bob": {"kind": "drafting", "creator": "admin", "producers": []},
-            "sw-docs": {"creator": "frank", "producers": []},
+            # The publisher reads widened documentation, never the drafting scope.
+            "sw-docs": {"creator": "frank", "producers": [], "service_readers": ["ci"]},
             "sw-publications": {"producers": ["ci"]},
         },
         # Extra scope roles, granted by the scope's creator (M11 §1a item 6).

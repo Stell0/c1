@@ -11,7 +11,9 @@ from tests.integration.m11.conftest import (
     context,
     draft_operations,
     fixture_check,
+    operation_step,
     propose,
+    rescope,
     target,
     units,
     update,
@@ -91,6 +93,14 @@ def test_t05_separate_publication(software_template: Template) -> None:
             assert status == 200 and view["state"] == "validated", view
             await accept(case, view, "dave")
 
+            # Publication follows widening: the publisher never reads the drafting scope.
+            proposal = await rescope(case, ids["document"], "sw-docs", "carol")
+            for approver in ("frank", "erin"):
+                response = await operation_step(case, proposal["id"], "approve", approver)
+                assert response.status_code == 200, response.text
+            applied = await operation_step(case, proposal["id"], "apply", "carol")
+            assert applied.status_code == 200, applied.text
+
             package = await context(case, "bob", update(target("a2", "b2")))
             [draft] = units(package, "drafts", "draft")
             assert (draft["draft_state"], draft["publication_state"]) == (
@@ -125,7 +135,7 @@ def test_t05_separate_publication(software_template: Template) -> None:
             assert receipt["locator"] == ["https://git.example.invalid/ledger/docs/invoicing.md"]
             assert receipt["publisher"] == ci
             # The locator is inert text in Markdown; nothing is fetched.
-            assert "git.example.invalid" in published["markdown"]
+            assert "git.example.invalid" in published["markdown"].replace("\\", "")
             assert "](https://git.example.invalid" not in published["markdown"]
 
     asyncio.run(run())

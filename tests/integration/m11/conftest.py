@@ -90,10 +90,10 @@ async def propose(
     if response.status_code not in (200, 201):
         return response.status_code, response.json()
     encoded = quote(str(response.json()["id"]), safe="")
-    for step in ("submit", "validate"):
-        response = await case.request("POST", f"/v1/changesets/{encoded}/{step}", actor=actor)
-        if response.status_code != 200:
-            return response.status_code, response.json()
+    # Submitting runs validation; the result is `validated` or `rejected`.
+    response = await case.request("POST", f"/v1/changesets/{encoded}/submit", actor=actor)
+    if response.status_code != 200:
+        return response.status_code, response.json()
     view = response.json()
     if view.get("state") != "validated":
         report = await case.request("GET", f"/v1/changesets/{encoded}/validation", actor=actor)

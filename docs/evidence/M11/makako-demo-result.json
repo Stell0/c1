@@ -1,0 +1,162 @@
+{
+  "update_context_bob": {
+    "revision": "branch:85zygu6kl5b1sbs1iu4tas2xp2lgygg",
+    "document_structure": [
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "# Ledger operations guide 1.1",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "Applies to Ledger 1.1 together with Shop",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "## Configuration",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "Set `ledger_url` to the base URL of the ",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "## Creating an invoice",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "The shop submits an order and calls `POS",
+        "a2": "applicable"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "# Shop integration troubleshooting",
+        "a2": "unknown"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "## Invoice creation fails",
+        "a2": "unknown"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "Check that the shop sends the `customer`",
+        "a2": "unknown"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "## Applicability",
+        "a2": "unknown"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "This procedure does not apply to Shop 2.",
+        "a2": "unknown"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "# Invoicing",
+        "a2": "unknown"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "## Creating an invoice",
+        "a2": "needs-review"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "Call `POST /invoices` with a customer an",
+        "a2": "needs-review"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "## Reading an invoice",
+        "a2": "unknown"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "Call `GET /invoices/{invoiceId}` to read",
+        "a2": "unknown"
+      },
+      {
+        "document": "Ledger operations guide 1.0",
+        "part": "",
+        "a2": null
+      }
+    ],
+    "responsibilities": [
+      {
+        "symbol": "ledger.api.create_invoice",
+        "responsibility": [
+          "implementsCapability",
+          "implementsOperation"
+        ]
+      },
+      {
+        "symbol": "shop.client.submit_order",
+        "responsibility": [
+          "declaredCall",
+          "implementsCapability"
+        ]
+      }
+    ],
+    "interface_contract": [
+      "contract-part",
+      "createInvoice"
+    ],
+    "changes": [
+      [
+        "applicability-record",
+        "needs-review",
+        "rule"
+      ],
+      [
+        "applicability-record",
+        "needs-review",
+        "rule"
+      ],
+      [
+        "discrepancy",
+        null,
+        null
+      ]
+    ],
+    "drafts": [],
+    "compatibility": [
+      [
+        [
+          "urn:c1:instance:dev:entity/86f46a16-59ec-49b1-9a0c-120c41a2403d",
+          "urn:c1:instance:dev:entity/8b3620db-4235-4b75-8d74-da4777555ad2"
+        ],
+        "unknown"
+      ]
+    ],
+    "publication_statement": "Prepared for the requesting principal; read access is not publication permission."
+  },
+  "widening_states": [
+    "proposed",
+    "proposed",
+    "approved",
+    "applied"
+  ],
+  "after_approval": [
+    {
+      "title": "Invoicing (1.1)",
+      "state": "approved",
+      "publication": "not-published"
+    }
+  ],
+  "after_receipt": [
+    {
+      "title": "Invoicing (1.1)",
+      "state": "approved",
+      "publication": "published"
+    }
+  ],
+  "alice_reads_widened_draft": 200,
+  "markdown_excerpt": "# Documentation update: Invoice creation\n\n## Interpretation\n\n- profile: documentation\\-update\n\n- profile\\_version: 1\n\n- profile\\_digest: ac635e5ec21f0566319fdbaaf060222e421d1a09a15b9ea9ed781d84682e7212\n\n- revision: branch:85zygu6kl5b1sbs1iu4tas2xp2lgygg\n\n- anchor: \\{\"id\":\"urn:c1:instance:dev:entity/8f2274bd\\-6323\\-4e5d\\-a23a\\-4a058f7b08f9\",\"label\":\"Invoice creation\",\"types\":\\[\"urn:c1:ns:software\\#Capability\"\\]\\}\n\n- coverage: \\[\\{\"id\":\"urn:c1:instance:dev:coverage/5fabd6ab\\-f0be\\-4639\\-9bd2\\-ccf16efa4394\",\"method\":\"ast\\-calls\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/ac7f4b43\\-c208\\-40d6\\-8e21\\-8e68157fe1c6\",\"method\":\"docs\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/1984acb8\\-4ba3\\-4c23\\-8c70\\-f9264f0821f2\",\"method\":\"junit\\-runs\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/e3ef9dd5\\-09b9\\-4fe2\\-957a\\-fd503eca630a\",\"method\":\"openapi\\-operations\",\"state\":\"complete\",\"target\\_member\":\""
+}

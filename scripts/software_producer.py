@@ -2157,6 +2157,8 @@ async def install_and_prepare(loader: Any, fixture: dict[str, Any]) -> dict[str,
         for actor in setting.get("producers", ("indexer", "analyzer", "ci")):
             for role in ("reader", "creator", "contributor"):
                 await loader._membership(key, principals[actor], role, actor=creator)
+        for actor in setting.get("service_readers", ()):
+            await loader._membership(key, principals[actor], "reader", actor=creator)
         await loader._membership(key, principals["reviewer"], "reader", actor=creator)
         await loader._membership(key, principals["reviewer"], "reviewer", actor=creator)
         for name, allowed in fixture["readers"].items():

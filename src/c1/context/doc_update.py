@@ -58,7 +58,9 @@ class DocUpdateSelection(SoftwareSelection):
         if unit["id"] in self._unit_ids:
             return
         self._unit_ids.add(unit["id"])
-        unit["_order"] = (self.sections.index(unit["section"]), *order)
+        # Units of different kinds share sections; ordering is by kind first so
+        # order keys are only compared within one kind.
+        unit["_order"] = (self.sections.index(unit["section"]), unit["kind"], *order)
         self.units.append(unit)
 
     def build(self) -> dict[str, Any]:

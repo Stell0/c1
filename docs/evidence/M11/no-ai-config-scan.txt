@@ -1,0 +1,6 @@
+M11 static no-AI scan (2026-10-03T02:06:49Z)
+$ grep -i -E 'openai|anthropic|gemini|llm|model_name|embedding' pyproject.toml deployment/compose.yaml deployment/.env.example
+matches=0
+$ grep network-client imports in src/c1/context/doc_update.py src/c1/changes/drafts.py scripts/doc_review_rule.py
+matches=0
+result=PASS

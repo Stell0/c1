@@ -1,0 +1,603 @@
+{"correlation_id": "ae8a4466-dabf-4d7a-8537-880622777224", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": ""}
+{"correlation_id": "b9bb4750-b8a5-4df9-b5ef-06c211a70b22", "operation": "instance_grant", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "1da1a539-3714-451e-8951-d6aaf98a80f7", "operation": "instance_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99"}
+{"correlation_id": "6cdd05eb-01a2-47e9-ba86-ba619333c565", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": ""}
+{"correlation_id": "4dd53cf2-5e2a-4908-92fc-35387d4a6d12", "operation": "instance_grant", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "03ee0a2f-8489-4be4-8116-b3e635cef8fb", "operation": "instance_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4"}
+{"correlation_id": "b3cbe105-e029-4f20-8016-c77269ab8ed2", "operation": "query_catalog", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": ""}
+{"correlation_id": "a0d2ab6b-e883-4f79-bf44-1fd6b72b59ea", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "de089d28-536a-47ca-b5e8-2fa12b93b930", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "urn:c1:instance:dev:changeset-6f4424ff3698480cb8299e1cf19b07d5"}
+{"correlation_id": "6a88a4ed-0025-4cb2-82ad-301dd9c1031b", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "urn:c1:instance:dev:changeset-6f4424ff3698480cb8299e1cf19b07d5"}
+{"correlation_id": "1b5170b4-10b4-497b-8d1e-881d4246d09e", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "urn:c1:instance:dev:changeset-6f4424ff3698480cb8299e1cf19b07d5"}
+{"correlation_id": "f9b3f560-6a54-4986-a563-f46bbbfb269b", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-6f4424ff3698480cb8299e1cf19b07d5"}
+{"correlation_id": "834cc326-e40d-4378-8e0c-143c4c9d1c15", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-6f4424ff3698480cb8299e1cf19b07d5"}
+{"correlation_id": "3c33e22e-db84-42c3-b1a7-edc424466cab", "operation": "scope_list", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": ""}
+{"correlation_id": "70603c10-f428-4ff6-b033-6b15910a3c58", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": ""}
+{"correlation_id": "ccad50fb-8d7b-4e52-b858-181b6e066005", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": ""}
+{"correlation_id": "2f21b8ca-6af3-4fb1-9110-946160e7b795", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": ""}
+{"correlation_id": "23764389-2840-4d0c-bb9c-27bc9313b469", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": ""}
+{"correlation_id": "77edfe47-4ee3-478d-9c29-6a99eb94dfe2", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "", "target": ""}
+{"correlation_id": "8a48d614-10bd-49c5-b30e-77c20223bafd", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.f3e9b401-e17b-442b-a7c3-00de007e97b9", "reason": "", "target": ""}
+{"correlation_id": "3e51fa85-dd33-4d20-a55d-1334cb8a1844", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"correlation_id": "1f937715-9843-48e0-93de-05aa3c54e0d1", "operation": "scope_create", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "b6eefb71-3ec0-4e5a-8127-d1b50e329e9b", "operation": "scope_create", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "b01ecc99-4efd-4376-a4d5-45422229a771", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "514aa408-b4ce-4069-9a0d-1afb03118a55", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "64610f1f-253d-4a2f-8744-6d254e7f9c5d", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "5f94bbb7-1c14-4f8b-81ae-62f99ba9a7de", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "fac36bd5-7da0-4335-a45a-9ee7853f45c5", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "7bf83be9-77b9-4fb9-a3a4-eba67e2c1726", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "9009bdb8-fa8b-4a58-beb3-d97aa7127d43", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "970d67b5-59b9-474f-ba6f-73263bf69dc5", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "77cbb9e8-0b58-499a-977c-c81bc41e3035", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "b1b75aad-023f-4239-9c13-69f17a8b1e42", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "a82c9c88-c73e-401d-8c82-c387f8c447ac", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "74f50334-727e-4531-a76f-3f8144a30f84", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "9593a237-b6b6-420c-bd2b-0249bc856ddd", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "646d9a2a-02de-452d-af4a-c99e673524f9", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "146fa339-a4ee-464b-b5cd-ad7645b5de47", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "3538a9bd-11e7-42ee-8998-5b5d500e40e7", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "d2ba0526-1431-48f5-96bc-ea52bd35ea6e", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "6e14f65a-612b-4181-89c7-afa025ebc71e", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "517a49b9-cd5d-4809-afce-8080e3011217", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "179cec16-0cd3-4ea1-871e-a0f1ac58d0d6", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "6c93df42-8b32-4850-b386-09bce3d6e8c3", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "2bbbb3cd-4ce0-4e40-9add-8b5ee9288656", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "7a486200-39fb-4b68-a123-cd706f6fe06a", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "96ccebdb-703d-4146-ad37-cea31608412f", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "0219c77a-96d5-4646-9b57-302a97d26500", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "8c537f2d-92d3-4933-bcf4-7a3d0cfed332", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "06bce981-cc1b-4adb-927c-6cd98718941e", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shared"}
+{"correlation_id": "108d79b1-61f5-4c23-83cb-d29446eacdc6", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shared"}
+{"correlation_id": "30ad3c85-4c0e-4bc8-8808-29010a5d2a3e", "operation": "scope_create", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "e17660dd-fb90-4c08-86ea-4560460ff8d9", "operation": "scope_create", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "23a19a5c-13ba-47a7-8cef-2f7922b3bda4", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "2dc8968e-fa18-465a-9d3a-77bd2efc28d0", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "76693463-e0d5-4525-9934-e3213ec0160b", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "2ea80f93-eaa0-454c-9ee4-5f410ea5f647", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "2a1ba45c-b613-4fab-aa5a-a765bb291db9", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "2f3ee785-26c5-4942-8f7b-161a63e787e6", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "9d38d1d3-6d67-448a-8013-0027d2ebd78f", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "f0776ad2-24cc-4b27-9166-c2acae717b78", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "eea7a2a0-378b-45da-a747-98279a00aab5", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "569dad6c-0180-4d1a-92c3-30fc22a7dbdd", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "bbd9c553-cde9-4077-b373-859dedf9e16c", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "ae11ae60-9dcb-41af-9f18-480d9d1d30e8", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "6799f667-21fa-48e7-a5b4-cfb7b02ac830", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "174a5ecd-962f-4d4a-ad7e-f3db6c387ab0", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "5c9c6c48-ec52-4119-9019-e47efbf186c3", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "363054a4-e3c8-4e59-a491-e95fc09d79e3", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "ddf19b3d-67ec-410b-9da5-a4592f45d6b0", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "43fe50e6-9c8b-49e6-bd6c-298b39e604ce", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "518860dc-cee7-4ab5-a3c9-6f6cb5c4506f", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "b823efba-e1a5-45cb-9344-43789bd2bf7a", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "d470784e-3f9a-4401-a68e-a48fc0df040c", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "581740a7-5ca3-4cd4-a730-ad013ee076b1", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "d2a6680c-24af-4924-89c6-c9357cd206f0", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "d02d55ba-ffa4-4ea3-9a25-58f2ffbee1ae", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "4ef596ee-cc42-4037-86f9-9b8aa3d853f8", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-ledger"}
+{"correlation_id": "908511a5-eaa4-4a58-a562-80c157acab74", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-ledger"}
+{"correlation_id": "e1e7c479-5e38-4b45-9f2a-0e0f2c594c60", "operation": "scope_create", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "0acd3842-07bd-41eb-a41e-3418e8310289", "operation": "scope_create", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "25829720-8294-41c5-a62e-dc95c4147427", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "73220cd6-1baf-4a03-92e0-2c9fbfb054f1", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "586d0c89-6833-470c-afeb-d3a22281ee00", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "a3f844e2-1181-4c57-bb4d-5bd43baeadfa", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "53ada1a0-014d-4153-ac11-a6fe2a839dc5", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "fc8989e9-06eb-45b6-8b35-008215452460", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "e099b8dc-49e3-45cb-8cc0-4906f542fd86", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "a81dfea1-48ed-4786-8463-9a21590ed8b8", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "3e4943b8-7824-44ab-9ac8-76bb057e30aa", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "cb552dd4-6f34-426c-b5a3-ba8c00651f23", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "7bf99588-fe69-490a-8706-4415d17626c3", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "31e0d08b-785f-49c0-8bb1-cc0766614f24", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "6aef5448-1fb3-452d-b293-dd8010607d32", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "b60ad36b-0b7f-4897-b90e-2b65d180a7c1", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "744152cc-3c3e-49d7-a46d-8398335812c2", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "0e1d6783-ffbb-4f67-af1e-f372c129285a", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "2207a138-2639-4071-8d8c-475232addd2e", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "06523a87-8b04-4b7c-a598-b37c0ca193ad", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "5056da95-7c93-4997-a6a0-0d7b3a8bedc4", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "362e56da-5a0a-403c-a7f0-d6940b87712f", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "81270cea-db83-4ef7-8958-4bd8f89d0e8f", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "9eeedc3b-61ff-4873-814a-e7c10bba1939", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "51e9865b-599a-4a3f-9c09-01f25fb27c9e", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "550409dd-d45a-4b1d-a5de-20e64ca330c6", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "0993ebe8-03fd-4720-8d3d-2d7ecb09f985", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-shop"}
+{"correlation_id": "af554539-775d-4cdd-aaa0-9ac75479c6f9", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-shop"}
+{"correlation_id": "9b321b83-c266-4474-bf20-15cc011da242", "operation": "scope_create", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "47d3961e-7bed-4eba-b767-743bd9e6060c", "operation": "scope_create", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "a45d0fcc-c0bb-4d00-a86d-4b7fdf3b2897", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "38d55684-5c36-4063-87db-70195ca439db", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "abcd1bd6-e370-4989-bdc9-4beb8d04d268", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "15f177f5-a0b1-44b9-9e96-2cb796d3a33b", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "620751f4-cafc-4ec0-aeff-858f3095b55b", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "b5bee52d-72c9-4079-94b5-bbc618cb649e", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "82aae75d-5ba7-4bf8-9e1a-c01d24f367f9", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "7abf1cd5-c188-4793-b862-2098bb113861", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "45d5f83f-88f7-4166-9eb1-5cad0193507d", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "8540989b-ea97-4244-b945-cfd72bf7143d", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "5a5c5de0-c77a-4783-9177-60a41c898dd5", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "41fcf87c-a18b-4e0d-8e5a-350440c44fb8", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "dfc72256-2684-4f54-9758-e65ddc34d13a", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "a7fd924c-3400-40e2-9e16-3c1eba91d1b2", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "65125395-1bc7-4613-957f-f5187142c853", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "ccc2c78a-62a2-4c10-9722-f869fcbd743d", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "f11ae954-20cd-4432-971e-9d7c6e185ef7", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "65b6f2a0-91eb-4f08-8538-9598e434802e", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "883b3d2a-8a69-4b48-8de2-212e33129ddb", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "f7d3eb8f-a4ba-42c0-8241-f1c5bcac372d", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "c3d96d2a-849a-493c-ae99-1dd9fa5bfb08", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-restricted"}
+{"correlation_id": "d4f96551-0e87-4d0b-a016-0f6a5e8eebff", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-restricted"}
+{"correlation_id": "6fde3ba1-9626-4070-9101-985bb71b7e5a", "operation": "scope_create", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "450556a2-fb9b-4f3a-934a-43e736c991dc", "operation": "scope_create", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "0dfd599c-8e20-4579-a51a-f777d881ac9d", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "e27e53d9-e2b9-43a3-a9a0-e65c74b925f2", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "dcca23f3-744a-4dd5-877c-8e979727c2b5", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "7a03c27d-f64d-4481-8aba-189fb5cf175f", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "465de23d-e2f9-40e8-977b-87be7ac404d0", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "04964a2a-4e3e-4f4f-947e-b440bcf962f4", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "ce9fd29b-9528-46ec-9a97-3d037ada9581", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "7a16a3ac-3ff3-4de7-a6d5-36069db4a2cd", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "9dd95df5-f0d1-468e-9a39-a025f96cc72c", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "c58bd3e7-a32b-495a-8467-a8919d586af1", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "70205a3c-0d66-4127-ac84-ff2023c146da", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "0e39f2d7-5179-4b02-ab69-43ff8afa5fd1", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "12e35900-8e8e-4113-b852-00aa33673e02", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "c32b20c0-f66d-40dd-bc48-05525d2af029", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "2c969296-8105-4d63-b0ae-5f2137a995c5", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "drafts-bob"}
+{"correlation_id": "49db71b5-9fc8-4b88-94ee-a6db1d2c828f", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "drafts-bob"}
+{"correlation_id": "f8dfe532-5066-4dfd-a905-eca67e1d0fa7", "operation": "scope_create", "outcome": "applied", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "confirmed", "target": "sw-docs"}
+{"correlation_id": "740162af-28da-4642-b152-9313d28f93be", "operation": "scope_create", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "sw-docs"}
+{"correlation_id": "12963d3c-ea6b-47c9-ab3c-f849e4975a86", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "confirmed", "target": "sw-docs"}
+{"correlation_id": "6b051d2f-53ff-4e73-a9e6-0fa0e80282b0", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "sw-docs"}
+{"correlation_id": "df01f30b-8680-4475-b3dc-fa0d8fc0300b", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "confirmed", "target": "sw-docs"}
+{"correlation_id": "8ed90ef3-6f3f-453a-94a5-53a7e7e2de48", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "sw-docs"}
+{"correlation_id": "fbb42f35-4ad9-46a8-aa66-76431371187c", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "confirmed", "target": "sw-docs"}
+{"correlation_id": "67e679df-efa8-428d-8663-37012ee5a7e2", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "sw-docs"}
+{"correlation_id": "31ffbda0-4134-4a40-8363-050a89adf934", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "confirmed", "target": "sw-docs"}
+{"correlation_id": "6cd4582d-0ab2-4d48-9fd4-eecd2d03317c", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "sw-docs"}
+{"correlation_id": "26318fd0-e016-46da-b589-17bb42a6f072", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "confirmed", "target": "sw-docs"}
+{"correlation_id": "7f673b1b-23cd-4682-8d61-f7cd7f2d8539", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "sw-docs"}
+{"correlation_id": "1fddbd22-bd9b-4f0b-aa76-55ea6e694a47", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "confirmed", "target": "sw-docs"}
+{"correlation_id": "ec099b1a-7de6-4c7e-b11d-134d37b31c69", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "sw-docs"}
+{"correlation_id": "3a803263-f313-4375-9ee3-e694756e669e", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "confirmed", "target": "sw-docs"}
+{"correlation_id": "a6295b39-b21b-43f4-be5d-4aa82380af65", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "sw-docs"}
+{"correlation_id": "be47107c-a4d0-4145-b70f-71515f361987", "operation": "scope_create", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "72f0d03b-8501-4e4d-b280-4d6fe3da97a7", "operation": "scope_create", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "7d363853-7240-4d95-85e3-c14c8ecaa18b", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "cb116502-047b-4d69-92bc-d520fa1aa7aa", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "dc80cbbc-5a9f-45eb-a6d1-41cd921ce2d8", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "55069b60-c7b9-428d-9d90-3ea72bc43d1b", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "3251def7-1b46-41b1-8d2a-0ea8a3fc2a48", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "153146c3-135c-44e7-9d88-fabadd9522f0", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "1a9ba4db-6bbf-4751-ac16-5db7fbee1927", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "310eb24e-d5fd-4291-a370-1a53d5220595", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "89bd7ade-294f-4130-b8fd-26461b63d002", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "85e3b3ae-9a0b-40b5-9510-badd8270a1f8", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "0ac59758-b319-4364-849b-4f397bdeeabb", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "2b0955cb-f972-4bdd-852f-5c947c787244", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "5b56000c-eac0-4f8e-b37f-3ff03613a990", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "a94f9714-91ea-4c03-9997-0fe05d002230", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "8706a49c-f455-42da-a271-8fa164becccc", "operation": "membership", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "sw-publications"}
+{"correlation_id": "d527735b-c8b4-4243-a379-4fe5ea95d52c", "operation": "scope_member_grant", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "sw-publications"}
+{"correlation_id": "e76fbe2c-1e0e-420e-9ebc-3eff8fe1c5c8", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "98324bbb-fd70-4efe-ab6a-e241d8dc055d", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "476b6d38-52f6-4d19-a670-b01bd2126171", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-84f81a104f644b4893dfdb517c339292"}
+{"correlation_id": "412c0514-4a18-440e-a6cd-47461b09453e", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-84f81a104f644b4893dfdb517c339292"}
+{"correlation_id": "f1ff0ef2-8792-4a4b-be7d-2b7f35f1f3f5", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-84f81a104f644b4893dfdb517c339292"}
+{"correlation_id": "c277a723-cc3a-409b-b57b-076c6e716e78", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-84f81a104f644b4893dfdb517c339292"}
+{"correlation_id": "c3bf6c40-e980-4ac7-8c4f-da3fa9117999", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-84f81a104f644b4893dfdb517c339292"}
+{"correlation_id": "2b91a37d-cdc1-4f1d-873e-42a776547fa8", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "abd58f4d-06f6-4887-a1b8-d38b1f78e0bf", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "81f061f1-027b-42af-a679-1060ee8b746f", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "e8bc3a31-0762-4c29-aedc-854b59fedc31", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "6cb97fdd-1a30-4f7e-a762-52466b9c5896", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-36144ec988ff4900b77f367ea8d57e82"}
+{"correlation_id": "0d0a014c-be46-4cb1-81fc-94c5f68c9dee", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-36144ec988ff4900b77f367ea8d57e82"}
+{"correlation_id": "6a5c226f-ecca-46fb-8fce-46270d893524", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-36144ec988ff4900b77f367ea8d57e82"}
+{"correlation_id": "54c8f3f5-fd00-4e3e-bedc-07ad35c36cc9", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-36144ec988ff4900b77f367ea8d57e82"}
+{"correlation_id": "b86e74c6-2b06-470b-a20c-281addbd8166", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-36144ec988ff4900b77f367ea8d57e82"}
+{"correlation_id": "185613a9-8a55-4f90-b821-c00b6a23ae6c", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "62383d99-dbb7-49ff-bbf3-05ed19eb5600", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "3ad0c5de-61dc-4c1e-b81f-ee0da558c2ea", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "d6494505-9af2-415d-9e52-8e87bd98efb5", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "d44caf43-5028-46aa-bad0-ca6ef83a932c", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-c57b95ab6f544c4895ccd82c17069f8d"}
+{"correlation_id": "a095fae5-3745-44a9-8a44-c258e07e16ce", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-c57b95ab6f544c4895ccd82c17069f8d"}
+{"correlation_id": "06f1b63a-90a6-4c84-9f91-4099f4dbf1d7", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-c57b95ab6f544c4895ccd82c17069f8d"}
+{"correlation_id": "cab32d31-3eb1-46fa-b2dc-ee453202f6b6", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-c57b95ab6f544c4895ccd82c17069f8d"}
+{"correlation_id": "260f2a39-17aa-4ca9-b89e-eadbd6398032", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-c57b95ab6f544c4895ccd82c17069f8d"}
+{"correlation_id": "45af5750-047b-4d81-bf23-748612512614", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "1a9beb10-33a6-433e-8c47-535e76c08269", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "0688881e-c1e1-493d-9b4a-9b31f177bc6a", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "80cfae64-7187-484a-9b6c-953a0d797ae8", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "47cd6bbb-269e-4848-97ad-637598040d87", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-594aabde814f4ed6855f6792ab85f47e"}
+{"correlation_id": "0a03004c-e3bc-4e7c-a861-7a5025aea3ea", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-594aabde814f4ed6855f6792ab85f47e"}
+{"correlation_id": "3637207c-0d3f-405a-ad73-3651caf541f3", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-594aabde814f4ed6855f6792ab85f47e"}
+{"correlation_id": "9cde8e2d-b80a-4953-9c1a-f526f0d0def8", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-594aabde814f4ed6855f6792ab85f47e"}
+{"correlation_id": "1e29f2e6-d485-40e6-8c53-502eb05eb399", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-594aabde814f4ed6855f6792ab85f47e"}
+{"correlation_id": "2226124c-75ee-4032-9c5b-26d1d3855489", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "8476e8b2-ef01-43d1-90ce-bca1ea68876c", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "72d767e2-fde7-4925-a6f2-6b92abbb2b30", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "1aae4f6d-19d6-4458-bee6-f9084af642a5", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "d4922e30-80ab-4ba1-9626-47df5c3c3502", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-aaac7b4da46747c287e1624e23237bff"}
+{"correlation_id": "0ac7ec45-dffb-4963-9aa3-3b214039a1e6", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-aaac7b4da46747c287e1624e23237bff"}
+{"correlation_id": "a5409d3f-1495-4f1d-88db-bf5f8a8695e4", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-aaac7b4da46747c287e1624e23237bff"}
+{"correlation_id": "470561a0-498c-4bec-ae52-1d27d4ae4a45", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-aaac7b4da46747c287e1624e23237bff"}
+{"correlation_id": "d02a38d5-1ccd-4344-ae33-f9ba419592c2", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-aaac7b4da46747c287e1624e23237bff"}
+{"correlation_id": "9834e3b7-4705-4ede-8796-036014a33825", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "dcd34581-256d-47eb-9c1b-26064910e319", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "3e03afa9-67aa-495f-9a94-5276ac6b4aef", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "a9f89eb8-c288-4981-9d1b-16f097e77aa6", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "f1849138-8604-43bc-bf69-a80f4f69ce88", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-515578447d794e89971b6ed8d8b6a9b1"}
+{"correlation_id": "a5478693-b26e-49ab-89bb-1f2c3c7395de", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-515578447d794e89971b6ed8d8b6a9b1"}
+{"correlation_id": "6ece9179-0cda-4d17-a200-eaa1aefa009b", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-515578447d794e89971b6ed8d8b6a9b1"}
+{"correlation_id": "bd7b913d-f8e0-4081-a36d-f3b6c8efa2bb", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-515578447d794e89971b6ed8d8b6a9b1"}
+{"correlation_id": "b481a94f-6ede-41cb-80d8-ff92aebad759", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-515578447d794e89971b6ed8d8b6a9b1"}
+{"correlation_id": "c994e5bf-a778-4499-80fc-7d269ec58a48", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "3918aa93-6130-4333-8808-94ae8ca244c6", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "5843ce7d-b58c-4154-90c2-8e842cc10acc", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "e48c125e-cb48-450d-a34b-341147fc1137", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "da643345-b61c-44e2-b348-ae0133fe9221", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-471179fd6dae458f9947914556086956"}
+{"correlation_id": "3e0be37c-4e85-4c7c-9f58-9a0a876f216a", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-471179fd6dae458f9947914556086956"}
+{"correlation_id": "988911b6-f2ef-48e3-b2c8-882e72ffdb93", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-471179fd6dae458f9947914556086956"}
+{"correlation_id": "1ab94685-5227-40ef-be44-1111a2f74d14", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-471179fd6dae458f9947914556086956"}
+{"correlation_id": "3242cc40-78b0-4b0e-8033-0f7506945675", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-471179fd6dae458f9947914556086956"}
+{"correlation_id": "0724899a-6a28-4fc1-b5c7-99616525e711", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "5ecde1b1-310f-497f-908c-d0bd98583891", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "6debe7ed-2135-4b70-8c2b-944dc1245874", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "578bfd63-dc56-4216-94bf-8e6851c1c847", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "8bde1c1c-60c5-4398-9ad4-5ca8bfa3f5ee", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-0b9caf3cf4854ea68b710a9193c18c53"}
+{"correlation_id": "3539b26e-ae6a-4c4f-852a-2923812dc1f8", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-0b9caf3cf4854ea68b710a9193c18c53"}
+{"correlation_id": "29bfc4ff-d202-4b4e-95a3-ce301180219a", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-0b9caf3cf4854ea68b710a9193c18c53"}
+{"correlation_id": "b3e563b0-6a43-48c4-9d5f-184bd4683f4a", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-0b9caf3cf4854ea68b710a9193c18c53"}
+{"correlation_id": "04afd482-f72d-4278-950b-6bfe3b7280e9", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-0b9caf3cf4854ea68b710a9193c18c53"}
+{"correlation_id": "bd1faaaa-2545-44f9-afa2-033dc5a91de8", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "09a987a6-5b92-4870-8a2d-3169e1adc64b", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "6f524575-ec8c-4beb-b8ce-4c4e84f1b9cb", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "477f76bb-0a54-4773-b2d0-128914e6f4cf", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "e4a5383b-e57a-4053-af0b-f3994da8624b", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-7794d8ac953140388b320cf99c71fb71"}
+{"correlation_id": "fc11f264-38ee-4043-9879-7e2bcfcf1434", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-7794d8ac953140388b320cf99c71fb71"}
+{"correlation_id": "c3c1abb3-97f6-4a14-ab41-b905ac28717f", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-7794d8ac953140388b320cf99c71fb71"}
+{"correlation_id": "6a7f7d0f-62f9-4119-bb46-2428cc1aa006", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-7794d8ac953140388b320cf99c71fb71"}
+{"correlation_id": "3253dace-8d9b-4b2e-a33a-19dbcd3cdd55", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-7794d8ac953140388b320cf99c71fb71"}
+{"correlation_id": "4583733d-57e7-40ff-99e3-475ea506666f", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "264b8a79-ae5f-4ca4-a495-6366b58a2696", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "9993fc31-d7c1-4d5f-a9be-aef3ebddf2ea", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "e3b12d9c-e25d-4960-a38d-3302eaf2406d", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-146cb02d286e4eb9b262cd45c6d5a2a3"}
+{"correlation_id": "0bd90717-6850-4646-adf3-738202e71d95", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-146cb02d286e4eb9b262cd45c6d5a2a3"}
+{"correlation_id": "224c36b0-2c28-4ad2-8571-5ebaa2b6f3fb", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-146cb02d286e4eb9b262cd45c6d5a2a3"}
+{"correlation_id": "1a9b95f9-cc02-4a08-9627-4d9f16b4e609", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-146cb02d286e4eb9b262cd45c6d5a2a3"}
+{"correlation_id": "9f4fc065-3375-4416-9cad-1ce5768d52c8", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-146cb02d286e4eb9b262cd45c6d5a2a3"}
+{"correlation_id": "0896e80a-0772-4f70-9995-f674764c48c9", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "9e515525-4a65-4fe2-8da6-54aa67047835", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "5f8de263-b91b-48ae-918a-ab8edbc15970", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "faadf13f-f820-4543-bb30-0301612fb271", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "8cec3f29-929d-4d08-974a-5086cc4e901f", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-d9ba64f7e4e649f2baa68b5dbf6af743"}
+{"correlation_id": "dd6ea2b6-a0dc-4ffa-9759-a55da1880afc", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-d9ba64f7e4e649f2baa68b5dbf6af743"}
+{"correlation_id": "371aac7e-d0e7-4bff-a59b-87dd5d32438e", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-d9ba64f7e4e649f2baa68b5dbf6af743"}
+{"correlation_id": "6b5a95be-7982-4158-a1cb-af8b4ff7f714", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-d9ba64f7e4e649f2baa68b5dbf6af743"}
+{"correlation_id": "e417561c-23b2-450c-a2d3-563a4e65c9ac", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-d9ba64f7e4e649f2baa68b5dbf6af743"}
+{"correlation_id": "9e677966-56b1-46b8-b8fd-e16e83bb5383", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "1269369a-61cf-4989-a9e1-34a2ce4ed133", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "4672408e-7452-4c26-a667-08bf94a33b1c", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "46c2b344-e2c5-44c3-8eee-b4378e958c11", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "fa644933-bbaf-4ff7-829e-71da85f591bc", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-644638f83bf94a89a63c42165caea051"}
+{"correlation_id": "12ee6f56-b429-4724-aa30-27b163a244d9", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-644638f83bf94a89a63c42165caea051"}
+{"correlation_id": "adb16467-90f7-4a6a-9d04-49c392ffc8e5", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-644638f83bf94a89a63c42165caea051"}
+{"correlation_id": "fe1270e4-c257-45ab-98e7-3b44bef83786", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-644638f83bf94a89a63c42165caea051"}
+{"correlation_id": "ebff41a0-5e54-455c-a901-78a1c0478840", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-644638f83bf94a89a63c42165caea051"}
+{"correlation_id": "5b500582-a635-4f3c-a616-71c9c0d83990", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "59104469-11a1-4519-b2bf-a21f5a7f8e53", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "f67c4b64-8cd8-417f-8ff2-923acee1a4f1", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "bee90e2e-3dc8-4eab-9735-3b44dae2dc6a", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "f4d0f3e2-0665-4e44-8aa7-a649989a51a2", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-98d76f771c2a461a92855fd5141f552d"}
+{"correlation_id": "9b53d853-00f6-45ff-936f-79a7e5134474", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-98d76f771c2a461a92855fd5141f552d"}
+{"correlation_id": "886892b4-3029-45c6-908c-69937b9f47bf", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-98d76f771c2a461a92855fd5141f552d"}
+{"correlation_id": "88d5926a-372e-461e-b453-1b26d0d8be5c", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-98d76f771c2a461a92855fd5141f552d"}
+{"correlation_id": "94a003ec-5c13-444d-9597-3a7c2b063915", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-98d76f771c2a461a92855fd5141f552d"}
+{"correlation_id": "8018223f-24b8-4597-925e-b05ac193ed97", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "2159858c-8b8c-4921-8b14-e6957923973a", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "7d03b92e-e46a-4c3a-8a52-75cbafdb6cf1", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "98e3190b-f56c-40b5-8490-061ef1a084e5", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "6fe6159d-07f6-4b1a-bc0a-c5bcbca6b23a", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-0b77d5459cfd4f9e97944e9b70f06a25"}
+{"correlation_id": "6b1b3444-86ce-47bd-a28f-5049124aa362", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-0b77d5459cfd4f9e97944e9b70f06a25"}
+{"correlation_id": "af7fd516-42f1-44c2-9136-0e42cd500872", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-0b77d5459cfd4f9e97944e9b70f06a25"}
+{"correlation_id": "3f9e9cb6-4331-47f2-972e-60188b936b98", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-0b77d5459cfd4f9e97944e9b70f06a25"}
+{"correlation_id": "59906257-0034-4919-bd8a-553399be0751", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-0b77d5459cfd4f9e97944e9b70f06a25"}
+{"correlation_id": "58d515b5-52d1-442e-9dbe-09f6d52e4542", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "4b885e42-e77d-400c-be04-b6e6b0dd08ef", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "not_found", "target": ""}
+{"correlation_id": "8298dd1e-c4bc-4ba2-8753-8b9da018b74f", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "not_found", "target": ""}
+{"correlation_id": "a28e4b37-43b8-4794-a469-6730e4bf2500", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "bf227eec-9046-47d8-ba1d-fc88e7f065b5", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-967d9cd775bf4377aabc3e7ee3dcaff5"}
+{"correlation_id": "c68ebd91-1a23-4784-bc89-592ed530a95a", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-967d9cd775bf4377aabc3e7ee3dcaff5"}
+{"correlation_id": "de5168eb-a509-4318-b97f-2273e67eb9df", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-967d9cd775bf4377aabc3e7ee3dcaff5"}
+{"correlation_id": "f53a7607-f4a6-4ccd-8650-b98e49c33d9a", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-967d9cd775bf4377aabc3e7ee3dcaff5"}
+{"correlation_id": "eea99044-972d-4cff-a04d-833f11f0c0eb", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-967d9cd775bf4377aabc3e7ee3dcaff5"}
+{"correlation_id": "0a3bea06-a64f-423a-b68b-0d9dfb653e91", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "f494363b-1ab8-4653-91fb-43d78dd7edb8", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "not_found", "target": ""}
+{"correlation_id": "36713e01-d803-40ef-b014-db6241b96c01", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "not_found", "target": ""}
+{"correlation_id": "b76883e0-d205-4849-8249-c5841a7ecc62", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "d60eb882-e2c9-48d4-b777-1da2e4a5d730", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-817dc3cf41384f5eb8eb1db678b62886"}
+{"correlation_id": "29ee3476-f44c-4fa5-b98e-63092575180f", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-817dc3cf41384f5eb8eb1db678b62886"}
+{"correlation_id": "1dc58dce-8495-41c2-85a5-40ac90e06ecd", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-817dc3cf41384f5eb8eb1db678b62886"}
+{"correlation_id": "6ef5d8a5-23e8-4294-be51-91104bba5215", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-817dc3cf41384f5eb8eb1db678b62886"}
+{"correlation_id": "e24d468c-edbd-4d37-897b-d30e27d541c7", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-817dc3cf41384f5eb8eb1db678b62886"}
+{"correlation_id": "f408db1f-fd94-47db-a9fc-9b27ccc59e47", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "018661bf-4fd8-4bf9-8103-cd290d6b2a98", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "not_found", "target": ""}
+{"correlation_id": "069dc20c-3299-4e19-9659-51eb1af4db17", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "0fea3ccc-518c-4c13-bc37-1ed85135ddbf", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-2c04c75237e046689c6cd35658fa4e9f"}
+{"correlation_id": "d8ce9963-c162-4185-b428-fa21dd91f989", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-2c04c75237e046689c6cd35658fa4e9f"}
+{"correlation_id": "e67783b8-1ff5-438e-9bde-d8d5ea573cb3", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-2c04c75237e046689c6cd35658fa4e9f"}
+{"correlation_id": "07efb4ab-6502-48fc-975d-9b5df9921470", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-2c04c75237e046689c6cd35658fa4e9f"}
+{"correlation_id": "9e13c0f1-79f7-4c91-97aa-d1381e69df37", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-2c04c75237e046689c6cd35658fa4e9f"}
+{"correlation_id": "ccafafb5-aa60-493d-9d09-8354ef237772", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "b6ff64cd-6d6d-436c-9d4e-6ae06a1e8291", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "not_found", "target": ""}
+{"correlation_id": "141bcb74-f772-4ac5-8353-236ffd591531", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "b1b7506a-098e-4c2f-b0bf-26ff00b2a150", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-3fbdcd6e7c5a429599e649f13f61f386"}
+{"correlation_id": "8e8f4959-bdc7-4dad-bc98-d67401acc08a", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-3fbdcd6e7c5a429599e649f13f61f386"}
+{"correlation_id": "d80eb256-807e-419c-8a2b-5b78e26ffb7b", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-3fbdcd6e7c5a429599e649f13f61f386"}
+{"correlation_id": "ed3a6ceb-e5c6-4b82-acae-75d736bf1ab5", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-3fbdcd6e7c5a429599e649f13f61f386"}
+{"correlation_id": "80bae3af-035f-4947-8e52-7156c219d31f", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-3fbdcd6e7c5a429599e649f13f61f386"}
+{"correlation_id": "977d64fb-d088-4fe8-a8f3-9d431e7f9054", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "65d7a082-4e78-40b7-bd08-b38d5bfbf788", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "5ac36780-420b-4344-aff9-b3d6230a34e8", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "not_found", "target": ""}
+{"correlation_id": "b8b31a52-d29b-4114-902f-da6b6ea8dc81", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "47b5cacb-964a-4a2c-b6da-f832309fdf5c", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-40b790d990274623b4329332eed5caad"}
+{"correlation_id": "5d9832ba-f912-49db-9e90-3eee33fe37e5", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-40b790d990274623b4329332eed5caad"}
+{"correlation_id": "29f62ef6-eab7-4843-8839-44bc44ae62b7", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.710d299c-4393-4f32-b84c-e6c81c8382ad", "reason": "", "target": "urn:c1:instance:dev:changeset-40b790d990274623b4329332eed5caad"}
+{"correlation_id": "e335a5f3-3b99-457c-8a49-5083e2867e49", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-40b790d990274623b4329332eed5caad"}
+{"correlation_id": "bb97b4c9-895d-46f1-babb-41c3d2f6e371", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-40b790d990274623b4329332eed5caad"}
+{"correlation_id": "baa448d6-05d5-4b41-95dd-5b580c4b4e4c", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "fd24d8af-2d21-454d-a388-1134283d2231", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "not_found", "target": ""}
+{"correlation_id": "d8f40360-368f-4351-baa0-ccb84197b7be", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "not_found", "target": ""}
+{"correlation_id": "728fab9f-abec-4687-b636-53c1930bef55", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "1030ec19-8b9a-42f3-b038-8fe06ceceeac", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-14769e8a423741eabce5f8ec00ce5a32"}
+{"correlation_id": "249a0098-7162-41e3-8265-26c072534db4", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-14769e8a423741eabce5f8ec00ce5a32"}
+{"correlation_id": "8629422b-4039-4626-b72c-87e65b32557e", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.f801298f-f193-4438-bc87-81ed549308ed", "reason": "", "target": "urn:c1:instance:dev:changeset-14769e8a423741eabce5f8ec00ce5a32"}
+{"correlation_id": "3396b4cc-0197-47c4-abb1-d8af7ffacc24", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-14769e8a423741eabce5f8ec00ce5a32"}
+{"correlation_id": "d3a00134-3d2a-452e-a939-fb5d426e5b9e", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-14769e8a423741eabce5f8ec00ce5a32"}
+{"correlation_id": "198fe1e6-9337-4aab-a977-009cb3dcb4e8", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "51679e09-d142-4962-beca-7e8031cf8519", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "8b9df144-0d40-4964-bb1e-803afe8bdf6b", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "b1b82f4d-e277-4c30-a363-8e7b5f2f610e", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-3cac2019db4142c8a2f08bf38cb236a7"}
+{"correlation_id": "49e10fd6-ec15-4a14-860f-eb2e48961e67", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-3cac2019db4142c8a2f08bf38cb236a7"}
+{"correlation_id": "169a2810-da07-4ef8-a14b-9d46a4b2905f", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-3cac2019db4142c8a2f08bf38cb236a7"}
+{"correlation_id": "96e2ab7e-f3ba-4d9e-918d-2801f0b10493", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-3cac2019db4142c8a2f08bf38cb236a7"}
+{"correlation_id": "b1c93a4f-6c0f-40c1-b991-9c0e97920af7", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-3cac2019db4142c8a2f08bf38cb236a7"}
+{"correlation_id": "d94c4a34-626d-4946-b0a6-377e9382fde9", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "d70e1b1e-cc7e-48d0-9d39-330c33e5ecb3", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "da7b25e6-2ce4-4dcb-b2a0-d624c6e07ad8", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "9870618a-d3fe-45e2-81e2-39929fcbde22", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "b507d894-5c56-4bd3-b98d-2702a4b8a315", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-df5b82293fd14abeb1c26301623fc200"}
+{"correlation_id": "bd73cbff-44be-446d-9105-3abb887d5b00", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-df5b82293fd14abeb1c26301623fc200"}
+{"correlation_id": "5fcf8a89-6e27-4f6e-84a2-a6bea00bc066", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-df5b82293fd14abeb1c26301623fc200"}
+{"correlation_id": "42e9c663-5f60-4da0-9233-4b8dd27275f7", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-df5b82293fd14abeb1c26301623fc200"}
+{"correlation_id": "ff3c2d39-8a46-4025-9a9d-649d16749276", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-df5b82293fd14abeb1c26301623fc200"}
+{"correlation_id": "474103eb-43a8-4ea6-b347-415202b6ba48", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "3bb653cd-4064-4d91-8099-8b2f10c1d891", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "9a644056-32e1-45c2-a76c-1f9338a68ea5", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "3dbff497-aba2-4b56-91c8-70ec0acb12c2", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "3516b957-17a2-4e8f-abbc-4920dab2f0bd", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-7468f13a9c1f47a887979e87afa4be1a"}
+{"correlation_id": "2e18a615-9cf7-4886-a9f5-64784b3fe7dd", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-7468f13a9c1f47a887979e87afa4be1a"}
+{"correlation_id": "7c502e95-264e-42fd-8834-e0fa541daeeb", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-7468f13a9c1f47a887979e87afa4be1a"}
+{"correlation_id": "4085013f-d7a7-4363-b9b1-8af868e3cf7d", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-7468f13a9c1f47a887979e87afa4be1a"}
+{"correlation_id": "54358194-d2a6-4976-a4e6-49ea3ee109cd", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-7468f13a9c1f47a887979e87afa4be1a"}
+{"correlation_id": "0794935d-c24a-49f1-b7d8-c103763db38e", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "62f5a493-9b12-4360-90e9-82c2576c0b5d", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "86d511ff-109c-45b7-a502-6d4f5fb19c99", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "759a30d9-9362-4e0a-9138-69a017381f75", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "afbe70d8-efb7-4f6f-ac7e-05f4bacf97f3", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-b539fe096846481c90b3a84f48f58475"}
+{"correlation_id": "d4ca6ab6-7fb7-415d-a5ca-aed2f21f6bb1", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-b539fe096846481c90b3a84f48f58475"}
+{"correlation_id": "0d73921f-b15e-40d1-b9d8-bf72e232a7b9", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-b539fe096846481c90b3a84f48f58475"}
+{"correlation_id": "ca395663-850f-464f-9513-86a41a9f40db", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-b539fe096846481c90b3a84f48f58475"}
+{"correlation_id": "9ea9ad04-2e40-42e5-93e6-8e727eec741a", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-b539fe096846481c90b3a84f48f58475"}
+{"correlation_id": "aff6090d-bcd8-44d0-b29a-48fe944a223e", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "420ea5c9-bb3b-4849-a23b-d9293236dc3e", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "1df7df2b-dfa4-4ac0-9d7c-b2d5bd40b304", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "772e43e0-3dbb-4214-9239-d619929aa28a", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "4c2cb867-5ae4-41d7-b26b-862f580a7d15", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-0edbd09d06c640448d216500e7b0515b"}
+{"correlation_id": "f066386c-8c60-4d91-9e05-4a2f4edcd069", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-0edbd09d06c640448d216500e7b0515b"}
+{"correlation_id": "9434cfd1-fdf5-41d7-a891-a4d1ad0c9a72", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-0edbd09d06c640448d216500e7b0515b"}
+{"correlation_id": "15fa0251-1b3c-4161-a109-ead382def26b", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-0edbd09d06c640448d216500e7b0515b"}
+{"correlation_id": "78a0461c-8136-40ab-b743-c08862d1dedf", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-0edbd09d06c640448d216500e7b0515b"}
+{"correlation_id": "adf90b71-3297-4815-b5fc-84dcd2cc1cb4", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "eb5c87ff-b854-4bc3-878b-ab9580b6181c", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "0ea3545c-6744-48e3-b07e-d74807d3ae7e", "operation": "resource_read", "outcome": "denied", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "not_found", "target": ""}
+{"correlation_id": "3cdef667-929d-4c74-a31f-4daccc3605fd", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "8db052a9-49da-4cdb-a672-0191f8e9174c", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-0b2c460e20c04170b7d010efee447c61"}
+{"correlation_id": "02037b3f-3e02-4c8d-abc7-8393fda8a71a", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-0b2c460e20c04170b7d010efee447c61"}
+{"correlation_id": "6a4e4550-a571-4a24-82e1-27627fc1494a", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-0b2c460e20c04170b7d010efee447c61"}
+{"correlation_id": "e960db94-99e0-4419-a9d5-96608146ffe9", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-0b2c460e20c04170b7d010efee447c61"}
+{"correlation_id": "49bcf178-793c-461b-8419-b1aafdd82a85", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-0b2c460e20c04170b7d010efee447c61"}
+{"correlation_id": "f5c4f948-d73f-4bad-a38e-c140cb4ddd0d", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "9cfe7362-cf31-4644-8b2c-ca96ec32bf13", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "9c72f10f-8576-45c7-9094-971291cdd7f7", "operation": "context_build", "outcome": "allowed", "principal": "user:c1-dev.f3e9b401-e17b-442b-a7c3-00de007e97b9", "reason": "", "target": ""}
+{"correlation_id": "328be500-0815-426d-ac11-b885697fd316", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "4163db53-5291-45b0-8814-65ff91d4ed90", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.f3e9b401-e17b-442b-a7c3-00de007e97b9", "reason": "", "target": "urn:c1:instance:dev:changeset-abb095f9c1104e7bb78c95f77b697d46"}
+{"correlation_id": "8d7a5d7e-fa5a-4b04-9ed8-fed6fdaee683", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.f3e9b401-e17b-442b-a7c3-00de007e97b9", "reason": "", "target": "urn:c1:instance:dev:changeset-abb095f9c1104e7bb78c95f77b697d46"}
+{"correlation_id": "714135a1-cd59-45fa-9f27-56218b64b197", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": "urn:c1:instance:dev:changeset-abb095f9c1104e7bb78c95f77b697d46"}
+{"correlation_id": "351022b4-2fb0-435c-875f-a52eb654f340", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": "urn:c1:instance:dev:changeset-abb095f9c1104e7bb78c95f77b697d46"}
+{"correlation_id": "0b83c927-5085-4f2a-a1fc-b97a51f30bd8", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "5a8f0a12-4f3e-4f03-96e1-5f325c4f8771", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.f3e9b401-e17b-442b-a7c3-00de007e97b9", "reason": "", "target": "urn:c1:instance:dev:changeset-57e3b74112354318896cba6becb4512d"}
+{"correlation_id": "ff616e2d-2980-4426-aecd-ef14b7dfb79a", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.f3e9b401-e17b-442b-a7c3-00de007e97b9", "reason": "", "target": "urn:c1:instance:dev:changeset-57e3b74112354318896cba6becb4512d"}
+{"correlation_id": "9aa4e43f-5ade-4f6f-a4e4-20dbc7fd1a59", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": "urn:c1:instance:dev:changeset-57e3b74112354318896cba6becb4512d"}
+{"correlation_id": "4fab1e23-52f7-4a8a-8874-ca700dfdb45b", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": "urn:c1:instance:dev:changeset-57e3b74112354318896cba6becb4512d"}
+{"correlation_id": "6fcb858d-fec2-4df9-bcc3-65fb33aa4483", "operation": "rescope", "outcome": "proposed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "declassification_review_required", "target": "urn:c1:instance:dev:document/8789815b-66a2-4f3a-9fef-9666db93b62d"}
+{"correlation_id": "9c6ab143-40e9-4c68-8b0d-0061c4abf59d", "operation": "rescope_propose", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:document/8789815b-66a2-4f3a-9fef-9666db93b62d"}
+{"correlation_id": "926303ff-1c38-4b19-b8ba-511f04d7baa9", "operation": "approve", "outcome": "approved", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "authorized", "target": "e8a8130e-54de-4e65-89cc-8a96e442e3b6"}
+{"correlation_id": "0d97863d-73db-4a7e-9079-c11d481a44e9", "operation": "rescope_approve", "outcome": "allowed", "principal": "user:c1-dev.1a937a7f-9f67-4643-beb3-fbb06c1284f3", "reason": "", "target": "e8a8130e-54de-4e65-89cc-8a96e442e3b6"}
+{"correlation_id": "697567bc-e2d3-455f-aee9-36da5cbab1fe", "operation": "approve", "outcome": "approved", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "authorized", "target": "e8a8130e-54de-4e65-89cc-8a96e442e3b6"}
+{"correlation_id": "cd3df964-33a8-43ed-ab6b-ea5a5340bd4a", "operation": "rescope_approve", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "e8a8130e-54de-4e65-89cc-8a96e442e3b6"}
+{"correlation_id": "af779701-f644-4389-829f-521987de738d", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "confirmed", "target": "urn:c1:instance:dev:document/8789815b-66a2-4f3a-9fef-9666db93b62d"}
+{"correlation_id": "a96697aa-3ca2-4d49-b157-7b5b3a6c61c7", "operation": "security_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "e8a8130e-54de-4e65-89cc-8a96e442e3b6"}
+{"correlation_id": "8bbe5ccc-f826-4afe-bce9-d7c7cf20bcd0", "operation": "context_build", "outcome": "allowed", "principal": "user:c1-dev.f3e9b401-e17b-442b-a7c3-00de007e97b9", "reason": "", "target": ""}
+{"correlation_id": "4a56a5a3-5e37-4872-9d55-4aeeeb66bbd0", "operation": "instance_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "m03_42ccf7ce618f4f449a2940e2d17b2e53"}
+{"correlation_id": "087dad79-7798-4d7f-8506-29490c7fc2ea", "operation": "changeset_create", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-e7f9c5ac5d804ff8bef1b5920af17186"}
+{"correlation_id": "06471c12-c48f-4c24-9aaf-7ad5d2bbffa7", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-e7f9c5ac5d804ff8bef1b5920af17186"}
+{"correlation_id": "a3fa49f2-0cd6-434d-9613-fb5314bf7e24", "operation": "changeset_submit", "outcome": "allowed", "principal": "user:c1-dev.fbcf5049-980c-4ed4-8c8a-4f7137e8a927", "reason": "", "target": "urn:c1:instance:dev:changeset-e7f9c5ac5d804ff8bef1b5920af17186"}
+{"correlation_id": "1e7358c6-5cba-4399-8678-1bd8da99f3e4", "operation": "changeset_approve", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-e7f9c5ac5d804ff8bef1b5920af17186"}
+{"correlation_id": "7d76d3cd-c1b5-46d1-84c8-bce3ad5a7060", "operation": "changeset_apply", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-e7f9c5ac5d804ff8bef1b5920af17186"}
+{"correlation_id": "d762614a-bf51-4893-b9d8-d09d07a8567a", "operation": "context_build", "outcome": "allowed", "principal": "user:c1-dev.f3e9b401-e17b-442b-a7c3-00de007e97b9", "reason": "", "target": ""}
+{"correlation_id": "26645963-b983-49bd-b1de-e170354cd71d", "operation": "document_read", "outcome": "allowed", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "", "target": "urn:c1:instance:dev:document/8789815b-66a2-4f3a-9fef-9666db93b62d"}
+{
+  "update_context_bob": {
+    "revision": "branch:85zygu6kl5b1sbs1iu4tas2xp2lgygg",
+    "document_structure": [
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "# Ledger operations guide 1.1",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "Applies to Ledger 1.1 together with Shop",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "## Configuration",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "Set `ledger_url` to the base URL of the ",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "## Creating an invoice",
+        "a2": "applicable"
+      },
+      {
+        "document": "Ledger operations guide 1.1",
+        "part": "The shop submits an order and calls `POS",
+        "a2": "applicable"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "# Shop integration troubleshooting",
+        "a2": "unknown"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "## Invoice creation fails",
+        "a2": "unknown"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "Check that the shop sends the `customer`",
+        "a2": "unknown"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "## Applicability",
+        "a2": "unknown"
+      },
+      {
+        "document": "Shop integration troubleshooting",
+        "part": "This procedure does not apply to Shop 2.",
+        "a2": "unknown"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "# Invoicing",
+        "a2": "unknown"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "## Creating an invoice",
+        "a2": "needs-review"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "Call `POST /invoices` with a customer an",
+        "a2": "needs-review"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "## Reading an invoice",
+        "a2": "unknown"
+      },
+      {
+        "document": "docs/invoicing.md",
+        "part": "Call `GET /invoices/{invoiceId}` to read",
+        "a2": "unknown"
+      },
+      {
+        "document": "Ledger operations guide 1.0",
+        "part": "",
+        "a2": null
+      }
+    ],
+    "responsibilities": [
+      {
+        "symbol": "ledger.api.create_invoice",
+        "responsibility": [
+          "implementsCapability",
+          "implementsOperation"
+        ]
+      },
+      {
+        "symbol": "shop.client.submit_order",
+        "responsibility": [
+          "declaredCall",
+          "implementsCapability"
+        ]
+      }
+    ],
+    "interface_contract": [
+      "contract-part",
+      "createInvoice"
+    ],
+    "changes": [
+      [
+        "applicability-record",
+        "needs-review",
+        "rule"
+      ],
+      [
+        "applicability-record",
+        "needs-review",
+        "rule"
+      ],
+      [
+        "discrepancy",
+        null,
+        null
+      ]
+    ],
+    "drafts": [],
+    "compatibility": [
+      [
+        [
+          "urn:c1:instance:dev:entity/86f46a16-59ec-49b1-9a0c-120c41a2403d",
+          "urn:c1:instance:dev:entity/8b3620db-4235-4b75-8d74-da4777555ad2"
+        ],
+        "unknown"
+      ]
+    ],
+    "publication_statement": "Prepared for the requesting principal; read access is not publication permission."
+  },
+  "widening_states": [
+    "proposed",
+    "proposed",
+    "approved",
+    "applied"
+  ],
+  "after_approval": [
+    {
+      "title": "Invoicing (1.1)",
+      "state": "approved",
+      "publication": "not-published"
+    }
+  ],
+  "after_receipt": [
+    {
+      "title": "Invoicing (1.1)",
+      "state": "approved",
+      "publication": "published"
+    }
+  ],
+  "alice_reads_widened_draft": 200,
+  "markdown_excerpt": "# Documentation update: Invoice creation\n\n## Interpretation\n\n- profile: documentation\\-update\n\n- profile\\_version: 1\n\n- profile\\_digest: ac635e5ec21f0566319fdbaaf060222e421d1a09a15b9ea9ed781d84682e7212\n\n- revision: branch:85zygu6kl5b1sbs1iu4tas2xp2lgygg\n\n- anchor: \\{\"id\":\"urn:c1:instance:dev:entity/8f2274bd\\-6323\\-4e5d\\-a23a\\-4a058f7b08f9\",\"label\":\"Invoice creation\",\"types\":\\[\"urn:c1:ns:software\\#Capability\"\\]\\}\n\n- coverage: \\[\\{\"id\":\"urn:c1:instance:dev:coverage/5fabd6ab\\-f0be\\-4639\\-9bd2\\-ccf16efa4394\",\"method\":\"ast\\-calls\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/ac7f4b43\\-c208\\-40d6\\-8e21\\-8e68157fe1c6\",\"method\":\"docs\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/1984acb8\\-4ba3\\-4c23\\-8c70\\-f9264f0821f2\",\"method\":\"junit\\-runs\",\"state\":\"complete\",\"target\\_member\":\"urn:c1:instance:dev:entity/86f46a16\\-59ec\\-49b1\\-9a0c\\-120c41a2403d\"\\},\\{\"id\":\"urn:c1:instance:dev:coverage/e3ef9dd5\\-09b9\\-4fe2\\-957a\\-fd503eca630a\",\"method\":\"openapi\\-operations\",\"state\":\"complete\",\"target\\_member\":\""
+}

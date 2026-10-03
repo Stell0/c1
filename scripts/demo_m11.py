@@ -3,8 +3,8 @@
 Loads software-integration 1.3, asks `documentation-update` for capability
 "Invoice creation" at {a2, b2, contract 1.1.0} as Bob, submits Bob's draft
 with lineage into his drafting scope, widens it to `sw-docs` with the
-destination admin (Frank) and the lineage admin (Erin), approves the draft,
-and imports the publisher's report. No AI service or network fetch is
+destination admin (Frank) and the lineage admin (Erin) after the draft is
+approved, and imports the publisher's report. No AI service or network fetch is
 involved; the locator is inert text. Run with C1_STACK=1 from the repository root.
 """
 
@@ -85,13 +85,7 @@ async def main() -> None:
         operations, ids = draft_operations(template, bob, check=check)
         _, view = await propose(case, "bob", operations)
         await accept(case, view, "dave")
-        proposal = await rescope(case, ids["document"], "sw-docs", "carol")
-        states = [proposal["state"]]
-        for approver in ("frank", "erin"):
-            states.append(
-                (await operation_step(case, proposal["id"], "approve", approver)).json()["state"]
-            )
-        applied = await operation_step(case, proposal["id"], "apply", "carol")
+        # Bob approves while the draft is still his to edit; widening follows.
         approved, _ = draft_operations(template, bob, check=check, state="approved")
         record = next(op["record"] for op in approved if op["record"]["id"] == ids["draft"])
         _, view = await propose(
@@ -107,6 +101,13 @@ async def main() -> None:
             ],
         )
         await accept(case, view, "dave")
+        proposal = await rescope(case, ids["document"], "sw-docs", "carol")
+        states = [proposal["state"]]
+        for approver in ("frank", "erin"):
+            states.append(
+                (await operation_step(case, proposal["id"], "approve", approver)).json()["state"]
+            )
+        applied = await operation_step(case, proposal["id"], "apply", "carol")
         before_receipt = await context(case, "bob", update(target("a2", "b2")))
         loader = CaseLoader(case)
         ci = loaded["principals"]["ci"]
