@@ -70,6 +70,9 @@ Current authorization state and historical knowledge are separate. An old knowle
 - **Context:** Deterministic context packages with structured data and Markdown output are implemented and verified.
 - **Software knowledge:** Source snapshots, symbols, occurrences, contracts, tests, runs, configurations, target sets, coverage, and related software records are implemented through the data-only software profile.
 - **Test-development context:** Target-pinned context for coding agents is implemented. It separates normative material, implementation evidence, tests, test runs, instructions, discrepancies, and gaps.
+- **Authorization performance:** Batched current-authorization checks with decision-identical results and bounded backend work are implemented and verified. See the [M09a report](docs/milestones/M09a-report.md).
+- **Support context:** Two-stage, documentation-first support context with an explicit follow-up for focused implementation evidence is implemented and verified. See the [M10 report](docs/milestones/M10-report.md).
+- **Documentation-update context:** Cross-software documentation-update context, applicability records, quarantined drafts with lineage, lineage-aware audience widening, and publication receipts are implemented and verified. See the [M11 report](docs/milestones/M11-report.md).
 - **Baseline:** Repository-local specification and architecture documents with source attribution. The software use-case extension is recorded separately.
 - **Checks:** Local checks for code quality, types, tests, secret hygiene, and baseline consistency.
 - **CI:** The pinned GitHub Actions workflow passed. The M00 tests also verified an intentional canary failure and the restored successful state. See the [M00 report](docs/milestones/M00-report.md).
@@ -647,6 +650,127 @@ See:
 
 for the implemented scope and verification evidence.
 
+## Batched current-authorization verification (M09a)
+
+M09a is **VERIFIED**.
+
+M09a reduces the backend cost of current authorization checks without changing any security decision.
+
+It adds:
+
+- immutable security views built once per security-journal version;
+- one batched decision function used by every single and batched check;
+- an exact `bound_to` source that reads per resource or scans the whole authorization store, whichever needs fewer round trips;
+- a parse cache for trusted catalog profiles, keyed by file digests.
+
+Decision-equivalence tests compare batched and single-resource decisions under every security state used by earlier milestones. Authorization outages, stalled pagination, and page-cap overruns fail closed.
+
+On the verification host, one software lookup made 14 OpenFGA reads instead of 1,224, and took about 28% less time. ChangeSet review and apply still decide one resource at a time; this is recorded as an open item.
+
+M09a does not change the OpenFGA authorization model or the current-binding rules.
+
+See:
+
+- [M09a plan](docs/milestones/M09a.md)
+- [M09a execution report](docs/milestones/M09a-report.md)
+
+## Documentation-first support context (M10)
+
+M10 is **VERIFIED**.
+
+M10 adds two software support context profiles:
+
+- `support-documentation`
+- `support-implementation`
+
+The documentation stage returns applicable support documentation first. A newer guide for another target never replaces guidance that applies to the requested target. A guide declared not applicable to the target appears only as a warning, with its evidence.
+
+Requests name support aspects, such as retry or configuration, by exact declared label or ID. Aspects that no returned material addresses are listed as missing. C1 makes no statement about material outside the response.
+
+The implementation stage is a separate, explicit request. It uses a signed follow-up token that pins the same target and C1 revision. It returns only the code, configuration, interfaces, and test runs declared for the requested aspects.
+
+```mermaid
+flowchart TD
+    Q[Support request] --> D[support-documentation]
+    D --> G[Applicable guidance]
+    D --> W[Warnings]
+    D --> M[Missing aspects + follow-up token]
+
+    M --> C{Caller requests implementation evidence?}
+
+    C -->|No| END[Stop]
+    C -->|Yes| I[support-implementation]
+
+    I --> CODE[Focused code and configuration]
+    I --> IFACE[Relevant interfaces]
+    I --> TEST[Relevant test runs]
+
+    D -. same pinned target and revision .-> I
+```
+
+C1 never runs the second stage automatically and makes no sufficiency judgment.
+
+Every package states that read access is not publication permission.
+
+A reader who cannot read the target snapshots receives the same not-found answer as for a target that does not exist.
+
+See:
+
+- [M10 plan](docs/milestones/M10.md)
+- [M10 execution report](docs/milestones/M10-report.md)
+
+## Cross-software documentation-update context (M11)
+
+M11 is **VERIFIED**.
+
+M11 adds the `documentation-update` context profile. A request names a capability or interface operation and a target that spans at least two repositories.
+
+The package contains:
+
+- the structure of each existing document, with each part's applicability per target snapshot and every record that contributed to it;
+- each repository's responsibilities, linked only by explicit claims;
+- the target interface contract and its explicit links;
+- configuration and labelled test runs;
+- review candidates and recorded discrepancies;
+- readable drafts, their lineage, and their publication state;
+- compatibility per pair of target snapshots, which stays `unknown` without a matching live test run.
+
+Applicability is always relative to a target snapshot. A missing declaration or record means `unknown`. A document is never marked obsolete globally.
+
+An external rule, `doc-dependency-change/1`, marks documentation parts as review candidates when the contract operation or the implementing code they document changed. A review candidate is not proof that the text is wrong. Only an attributed review can record `contradicted`.
+
+```mermaid
+flowchart TD
+    CTX[documentation-update context] --> AUTHOR[External author]
+    AUTHOR --> DRAFT[Draft with lineage in a drafting scope]
+
+    DRAFT --> REVIEW[Reviewed ChangeSet]
+    REVIEW --> APPROVED[Approved C1 draft]
+
+    APPROVED --> RESCOPE{Widen audience?}
+    RESCOPE -->|Yes| ACCESS[Approval by destination admin<br/>and every lineage-scope admin]
+    ACCESS --> SHARED[Widened draft]
+
+    SHARED --> PUB{External publication occurs?}
+    PUB -->|Yes| RECEIPT[Publisher imports a receipt]
+    PUB -->|No| NP[Remains not published]
+```
+
+Draft rules:
+
+- a draft is created only in a drafting scope;
+- approving a draft requires the latest rule check for exactly its target;
+- widening a draft requires independent approval for the destination scope and for every scope its lineage sources come from;
+- lineage stays in the drafting scope, so widening never exposes hidden source identifiers;
+- only an imported publication receipt marks a draft as published.
+
+C1 does not generate documentation text, merge pull requests, or publish anything.
+
+See:
+
+- [M11 plan](docs/milestones/M11.md)
+- [M11 execution report](docs/milestones/M11-report.md)
+
 ## Backlog
 
 The tags in this section have these meanings:
@@ -668,9 +792,9 @@ flowchart LR
     M07 --> M08[M08<br/>VERIFIED]
     M08 --> M09[M09<br/>VERIFIED]
 
-    M09 --> M09A[M09a<br/>PLANNED]
-    M09A --> M10[M10<br/>PLANNED]
-    M10 --> M11[M11<br/>PLANNED]
+    M09 --> M09A[M09a<br/>VERIFIED]
+    M09A --> M10[M10<br/>VERIFIED]
+    M10 --> M11[M11<br/>VERIFIED]
 
     M11 --> M12[M12<br/>FUTURE]
     M12 --> M13[M13<br/>FUTURE]
@@ -683,123 +807,9 @@ flowchart LR
     M16 --> M18
 ```
 
-M00 through M09 have implementation and verification evidence.
-
-M09a through M11 have detailed plans but no verified implementation.
+M00 through M11, including M09a, have implementation and verification evidence.
 
 M12 through M18 remain roadmap work.
-
-### [PLANNED] M09a — Batched current-authorization verification
-
-M09a improves the cost of current authorization checks without changing their security decisions.
-
-The plan includes:
-
-- per-step security views;
-- batched authorization decisions;
-- bounded OpenFGA work;
-- removal of repeated full journal copies;
-- caching of parsed trusted catalog profiles;
-- equivalence tests against the current authorization behavior;
-- performance measurements.
-
-M09a does not change the OpenFGA authorization model or the current-binding security rules.
-
-M09a is not implemented.
-
-See the [M09a plan](docs/milestones/M09a.md).
-
-### [PLANNED] M10 — Documentation-first support context
-
-M10 adds two software support context modes:
-
-- `support-documentation`
-- `support-implementation`
-
-The documentation stage is designed to return applicable support documentation first.
-
-The implementation stage is a separate request. It is designed to return focused implementation evidence only when the caller explicitly requests it.
-
-Both stages use the same pinned software target and C1 content revision.
-
-The planned flow is:
-
-```mermaid
-flowchart TD
-    Q[Support request] --> D[PLANNED: support-documentation]
-    D --> G[Applicable guidance]
-    D --> M[Missing aspects]
-
-    M --> C{Caller requests implementation evidence?}
-
-    C -->|No| END[Stop]
-    C -->|Yes| I[PLANNED: support-implementation]
-
-    I --> CODE[Focused code and configuration]
-    I --> IFACE[Relevant interfaces]
-    I --> TEST[Relevant test evidence]
-
-    D -. same pinned target and revision .-> I
-```
-
-This diagram describes planned M10 behavior. It is not an implemented workflow.
-
-The plan also includes:
-
-- exact support-aspect records;
-- applicable and explicitly non-applicable support documents;
-- missing-aspect reporting;
-- a signed follow-up token;
-- focused code, configuration, interface, and test retrieval;
-- no automatic fallback from documentation to implementation.
-
-M10 is not implemented.
-
-See the [M10 plan](docs/milestones/M10.md).
-
-### [PLANNED] M11 — Cross-software documentation-update context
-
-The M11 plan is complete but provisional until M10 is implemented and verified.
-
-M11 is designed to add:
-
-- explicit applicability states;
-- deterministic documentation review candidates;
-- a `documentation-update` context profile;
-- documentation draft records;
-- source-to-draft lineage;
-- applicability revalidation;
-- controlled widening of a draft's audience;
-- external publication receipts.
-
-The planned workflow is:
-
-```mermaid
-flowchart TD
-    CTX[PLANNED: documentation-update context] --> AUTHOR[External author]
-    AUTHOR --> DRAFT[Draft document in private drafting scope]
-
-    DRAFT --> REVIEW[Reviewed ChangeSet]
-    REVIEW --> APPROVED[Approved C1 draft]
-
-    APPROVED --> RESCOPE{Widen audience?}
-    RESCOPE -->|Yes| ACCESS[Separate access review]
-    ACCESS --> SHARED[Shared draft]
-
-    APPROVED --> PUB{External publication occurs?}
-    SHARED --> PUB
-
-    PUB -->|Yes| RECEIPT[Import publication receipt]
-    PUB -->|No| NP[Remain not published]
-```
-
-This diagram describes planned M11 behavior. It is not an implemented workflow.
-
-C1 will not generate documentation text or publish it automatically.
-
-M11 is not implemented.
-
-See the [M11 plan](docs/milestones/M11.md).
 
 ### [FUTURE] M12 — Human Explorer
 
@@ -870,8 +880,7 @@ M15 through M18 are optional extensions. They are not required for the core C1 r
 
 Current roadmap status:
 
-- **M00–M09:** VERIFIED
-- **M09a–M11:** PLANNED and not implemented
+- **M00–M11 and M09a:** VERIFIED
 - **M12–M18:** FUTURE and not implemented
 
 See [PLAN.md](PLAN.md) for the authoritative scope and status of each milestone.

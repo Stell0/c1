@@ -110,7 +110,7 @@ def state_errors(root: Path) -> list[str]:
         errors.append("README.md:1: missing What exists today section")
     else:
         # Labels may be plain ("- Model:") or bold ("- **Model:**"). Capabilities
-        # verified by M04–M09 reports are allowed alongside the M00–M03 inventory.
+        # verified by M04–M11 reports are allowed alongside the M00–M03 inventory.
         allowed = {
             "Harness",
             "Baseline",
@@ -126,6 +126,9 @@ def state_errors(root: Path) -> list[str]:
             "Context",
             "Software knowledge",
             "Test-development context",
+            "Authorization performance",
+            "Support context",
+            "Documentation-update context",
         }
         for line in section.group(1).splitlines():
             label = re.match(r"- (?:\*\*([^*:]+):\*\*|([^*:]+):)", line)
