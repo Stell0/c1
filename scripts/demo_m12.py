@@ -30,7 +30,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from scripts import software_producer as sp  # noqa: E402
-from tests.browser.harness import Person, browser, explorer_server, sign_in  # noqa: E402
+from tests.browser.harness import Person, browser, explorer_server  # noqa: E402
+from tests.browser.harness import sign_in as _sign_in  # noqa: E402
 from tests.integration.m03.conftest import LiveCase, live_case  # noqa: E402
 from tests.integration.m06.conftest import install_scoped_document  # noqa: E402
 from tests.integration.m07.conftest import install_batteries  # noqa: E402
@@ -54,6 +55,14 @@ AI_VARIABLES = (
     "AZURE_OPENAI_API_KEY",
 )
 DOCUMENT = "urn:c1:instance:dev:document/00000061-0000-4000-8000-000000000000"
+
+
+async def sign_in(instance: Any, name: str, **kwargs: Any) -> Person:
+    """Sign in, then allow slow pages: each makes several 8-15 s API calls on makako."""
+    person = await _sign_in(instance, name, **kwargs)
+    person.context.set_default_timeout(180_000)
+    person.context.set_default_navigation_timeout(180_000)
+    return person
 
 
 async def shot(person: Person, name: str, *, full_page: bool = True) -> str:

@@ -28,7 +28,7 @@ env "${unset_args[@]}" bash -c '
 set +e
 env "${unset_args[@]}" C1_STACK=1 PLAYWRIGHT_BROWSERS_PATH="$PWD/.playwright" UV_OFFLINE=1 UV_CACHE_DIR=.uv-cache \
   systemd-inhibit --what=sleep:idle:handle-lid-switch --who=c1-m12-demo --why="M12 demo" --mode=block \
-  uv run --locked python scripts/demo_m12.py > "$demo_log" 2>/dev/null
+  uv run --locked python scripts/demo_m12.py > "$demo_log" 2> >(grep -v '"correlation_id"' > "$evidence_dir/makako-demo-stderr.log")
 demo_exit=$?
 set -e
 printf 'demo_exit=%s\n' "$demo_exit" > "$exit_path"
