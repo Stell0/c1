@@ -1,0 +1,11 @@
+# Using the API
+
+The machine-readable description is [docs/api/openapi.json](../api/openapi.json) (OpenAPI 3.1, generated from the implemented routes by `scripts/openapi.py`; a unit test keeps it in step). C1 does not serve it.
+
+- **Authentication.** Every route except `GET /v1/readyz` requires `Authorization: Bearer <access token>` from the configured issuer with audience `c1-api`, a `c1_principal_kind` claim (`human` or `service`), and token type `Bearer`. ID tokens are refused. Identity is issuer plus subject; a request cannot select another principal, and `on_behalf_of` fields are ignored and audited.
+- **Requests.** Bodies are limited to 1 MiB (413 above). Unknown or duplicate query parameters, and any parameter or header that tries to select a database, store, issuer or principal, are refused with 400. Request bodies reject unknown fields.
+- **Writes.** Every knowledge change is a ChangeSet: create (`POST /v1/changesets` with an `Idempotency-Key`), submit (validates), approve (a different reviewer when independent review is on), apply (with an `Idempotency-Key`; rechecks the exact payload, base revision and every permission). See the M04 API notes for the operation forms.
+- **Reads.** Entities, assertions, sources, evidence, export, documents, history, context and software lookups are authorized per resource against current grants and bindings, including when an older revision is requested. Hidden and missing resources give the same 404. List cursors are signed, revision-bound and reauthorized on every page.
+- **Errors.** Problem Details (RFC 9457) without backend detail; query and context errors carry a stable `code` (for example `C1-QY-052` for too many candidates, `C1-CX-011` for a continuation that must restart).
+- **Context.** `POST /v1/context` returns Markdown and structured packages for the catalog profiles (`GET /v1/catalog`): `graph-context`, `test-development`, `support-documentation`, `support-implementation`, `documentation-update`.
+- **Administration helpers.** `GET /v1/schema`, `GET /v1/access-scopes/mine` and `GET /v1/security-operations` (M12) describe the installed schema, the caller's own scope roles, and the security operations the caller can act on.

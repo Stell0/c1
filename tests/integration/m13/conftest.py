@@ -10,12 +10,20 @@ from typing import Any
 
 import pytest
 
+from scripts import software_producer as sp
 from tests.integration.m05.test_t01_directory import _setup_directory
 from tests.integration.m06.conftest import install_scoped_document
 from tests.integration.m07.conftest import install_batteries
 from tests.integration.m12.conftest import directory_fixture
 from tests.integration.m13 import reference as ref
-from tests.integration.software import load as load_software
+from tests.integration.software import CaseLoader, fresh_tokens
+
+
+class ReferenceLoader(CaseLoader):
+    """The software loader, with every user token from the reference identity provider."""
+
+    async def user_token(self, username: str) -> str:
+        return str((await self.case.token_source.user(username)).access)
 
 
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
@@ -59,7 +67,10 @@ def reference() -> Iterator[Reference]:
             )
             scoped = {"scopes": scopes, "revision1": revision1, "revision2": revision2}
             batteries = await install_batteries(case)  # type: ignore[arg-type]
-            software = await load_software(case)  # type: ignore[arg-type]
+            fresh_tokens(case)  # type: ignore[arg-type]
+            software = await sp.load_software_integration(
+                ReferenceLoader(case)  # type: ignore[arg-type]
+            )
             return scoped, batteries, software
 
         try:
