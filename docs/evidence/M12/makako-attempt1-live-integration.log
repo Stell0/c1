@@ -1,0 +1,67 @@
+................FFAILED tests/integration/m01/test_t03_stale_and_reconcile.py::test_t03_stale_base_and_lost_response [call]
+tests/integration/m01/test_t03_stale_and_reconcile.py:81: in test_t03_stale_base_and_lost_response
+    asyncio.run(scenario())
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:196: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:119: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/integration/m01/test_t03_stale_and_reconcile.py:20: in scenario
+    async with session() as services:
+               ^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:221: in __aexit__
+    await anext(self.gen)
+probes/session.py:62: in session
+    async with AsyncExitStack() as stack:
+               ^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:768: in __aexit__
+    raise exc
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:751: in __aexit__
+    cb_suppress = await cb(*exc_details)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:651: in _exit_wrapper
+    await callback(*args, **kwds)
+probes/fga.py:149: in delete_store
+    raise FGAError("OpenFGA store deletion failed") from None
+E   probes.fga.FGAError: OpenFGA store deletion failed
+
+=================================== FAILURES ===================================
+____________________ test_t03_stale_base_and_lost_response _____________________
+tests/integration/m01/test_t03_stale_and_reconcile.py:81: in test_t03_stale_base_and_lost_response
+    asyncio.run(scenario())
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:196: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:119: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/integration/m01/test_t03_stale_and_reconcile.py:20: in scenario
+    async with session() as services:
+               ^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:221: in __aexit__
+    await anext(self.gen)
+probes/session.py:62: in session
+    async with AsyncExitStack() as stack:
+               ^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:768: in __aexit__
+    raise exc
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:751: in __aexit__
+    cb_suppress = await cb(*exc_details)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/contextlib.py:651: in _exit_wrapper
+    await callback(*args, **kwds)
+probes/fga.py:149: in delete_store
+    raise FGAError("OpenFGA store deletion failed") from None
+E   probes.fga.FGAError: OpenFGA store deletion failed
+=========================== short test summary info ============================
+FAILED tests/integration/m01/test_t03_stale_and_reconcile.py::test_t03_stale_base_and_lost_response
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 16 passed in 2468.59s (0:41:08)
+uv failed with exit status 1.

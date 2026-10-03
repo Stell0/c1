@@ -1,0 +1,16 @@
+# M12 static no-AI scan (2026-10-03T19:23:26Z), source revision 8d5dacc
+
+## Provider or model names in new runtime code (src/c1/explorer, src/c1/web.py, src/c1/api/routes/schema.py)
+none
+
+## Outbound network clients in the Explorer
+src/c1/explorer/oidc.py:62:        self._http = httpx.AsyncClient(timeout=timeout_s, trust_env=False, follow_redirects=False)
+src/c1/explorer/client.py:36:        self._client = httpx.AsyncClient(
+
+Expected: ApiClient (in-process ASGITransport to the /v1 app) and OIDCClient (the configured issuer only).
+
+## Script elements in templates
+none
+
+## New dependencies
+Runtime: Jinja2 3.1.6, MarkupSafe 3.0.4. Development: playwright 1.63.0 (pyee, greenlet). No model SDK or provider configuration.

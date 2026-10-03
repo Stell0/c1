@@ -1,0 +1,58 @@
+{
+  "a02_reviewed_write": {
+    "author_screen": "a02-carol-person.png",
+    "changeset": "urn:c1:instance:dev:changeset-0483464bc47b42e1b96379bda236d0cf",
+    "entities_listed_without_workspace": 3,
+    "reviewer_screen": "a02-dave-applied.png",
+    "state": "applied"
+  },
+  "a14_scoped_document": {
+    "alice": {
+      "parts": 3,
+      "screenshot": "a14-alice-document.png"
+    },
+    "bob": {
+      "parts": 5,
+      "screenshot": "a14-bob-document.png"
+    }
+  },
+  "a15_cross_project_context": {
+    "outcome": "resolved",
+    "screenshot": "a15-dave-context.png",
+    "truncated": "no"
+  },
+  "a18_a22_software": {
+    "code_labels": [
+      "complete-unit",
+      "excerpt"
+    ],
+    "lookup_screenshot": "a21-bob-lookup.png",
+    "previews": [
+      {
+        "outcome": "resolved",
+        "profile": "test-development",
+        "screenshot": "a18-carol-test-development.png"
+      },
+      {
+        "outcome": "resolved",
+        "profile": "support-documentation",
+        "screenshot": "a19-carol-support-documentation.png"
+      },
+      {
+        "outcome": "resolved",
+        "profile": "documentation-update",
+        "screenshot": "a20-bob-documentation-update.png"
+      }
+    ]
+  },
+  "a22_reviewed_widening": {
+    "screenshot": "a22-carol-applied.png",
+    "states": [
+      "proposed",
+      "proposed",
+      "approved",
+      "applied"
+    ]
+  },
+  "ai_provider_variables_set": []
+}

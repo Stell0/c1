@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M11 and M09a VERIFIED. M12 IN_PROGRESS. M12–M18 remain unimplemented.
+**Status:** M00–M12 and M09a VERIFIED. M13–M18 remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -83,7 +83,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M09a | Batched current-authorization verification | M09 | Decision-identical authorization with bounded backend work per request and ChangeSet step | VERIFIED |
 | M10 | Documentation-first support context | M09, M09a | Two-stage support retrieval with a stable software target and controlled fallback | VERIFIED |
 | M11 | Cross-software documentation-update context | M10 | Applicable, source-grounded context and reviewable documentation revisions | VERIFIED |
-| M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | IN_PROGRESS |
+| M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | VERIFIED |
 | M13 | Release hardening and operational acceptance | M12 | Independently repeatable deployment, recovery, and complete acceptance evidence | NOT_PLANNED |
 | M14 | Retrieval and storage benchmark | M13 | Reproducible quality, security-isolation, fidelity, and performance baselines for C1 retrieval | NOT_PLANNED |
 | M15 | Semantic Seed Index (optional extension) | M14 | Authorization-safe semantic candidate discovery through a rebuildable vector projection | NOT_PLANNED |
