@@ -65,14 +65,11 @@ async def sign_in(instance: Any, name: str, **kwargs: Any) -> Person:
     return person
 
 
-async def shot(person: Person, name: str, *, full_page: bool = True) -> str:
+async def shot(person: Person, name: str, *, full_page: bool = False) -> str:
     path = OUT / f"{name}.png"
-    try:
-        await person.page.screenshot(path=str(path), full_page=full_page)
-    except Exception:
-        # Very tall pages (large context packages) exceed Chromium's capture
-        # limit; the top of the page still shows the summary and target.
-        await person.page.screenshot(path=str(path), full_page=False)
+    # Viewport only: full-page captures of very tall pages (large packages,
+    # long lookups) crash the renderer on the memory-tight gate host.
+    await person.page.screenshot(path=str(path), full_page=full_page)
     return path.name
 
 
