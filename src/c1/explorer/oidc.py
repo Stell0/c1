@@ -11,6 +11,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import hashlib
+import ssl
 import time
 from dataclasses import dataclass
 from typing import Any
@@ -57,9 +58,18 @@ def _same_origin(url: str, issuer: str) -> bool:
 
 
 class OIDCClient:
-    def __init__(self, issuer: str, settings: ExplorerSettings, *, timeout_s: float) -> None:
+    def __init__(
+        self,
+        issuer: str,
+        settings: ExplorerSettings,
+        *,
+        timeout_s: float,
+        verify: ssl.SSLContext | bool = True,
+    ) -> None:
         self.issuer, self.settings = issuer, settings
-        self._http = httpx.AsyncClient(timeout=timeout_s, trust_env=False, follow_redirects=False)
+        self._http = httpx.AsyncClient(
+            timeout=timeout_s, trust_env=False, follow_redirects=False, verify=verify
+        )
         self._endpoints: Endpoints | None = None
         self._jwks: tuple[float, PyJWKSet] | None = None
         self._lock = asyncio.Lock()

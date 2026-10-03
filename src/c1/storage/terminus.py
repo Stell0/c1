@@ -166,6 +166,15 @@ class Terminus:
             "POST", f"/api/db/{self._database_path}", json={"label": self.config.database}
         )
 
+    async def create_for_deployment(self) -> None:
+        """Create a deployment database once (M13 `c1-admin bootstrap` only).
+
+        Unlike test databases, a deployment database is never dropped by C1.
+        """
+        await self._request(
+            "POST", f"/api/db/{self._database_path}", json={"label": self.config.database}
+        )
+
     async def drop(self) -> None:
         """Drop only an isolated M02/M03 test database."""
         self._check_test_database()

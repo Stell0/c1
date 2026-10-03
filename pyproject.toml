@@ -22,6 +22,9 @@ dependencies = [
   "MarkupSafe==3.0.4",
 ]
 
+[project.scripts]
+c1-admin = "c1.admin.cli:main"
+
 [dependency-groups]
 dev = [
   "detect-secrets==1.5.0",

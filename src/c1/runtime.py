@@ -37,6 +37,11 @@ def storage_config(settings: Settings, *, workflow: bool = False) -> StorageConf
     )
 
 
+def restore_guarded(records: list[dict[str, object]]) -> bool:
+    """True while any disaster-recovery guard has not been explicitly released."""
+    return any(r.get("type") == "guard" and r.get("released") is not True for r in records)
+
+
 class Runtime:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
@@ -75,6 +80,9 @@ class Runtime:
         self.context = ContextService(self)
         self.software = SoftwareService(self)
         self._started = False
+        # M13 D8: an unreleased disaster-recovery guard keeps the API unready.
+        # It is read once at startup; releasing it requires a restart.
+        self.guarded = False
 
     def context_catalog(self) -> ContextProfileCatalog:
         """Validate trusted data again; changed definitions require a restart."""
@@ -107,6 +115,7 @@ class Runtime:
             self.operations.registry = self.registry
             self.changes.registry = self.registry
             self.changes.history_service.registry = self.registry
+            self.guarded = restore_guarded(await self.journal.list("Restore"))
         except Exception:
             # Keep the process live and unready so an operator can recover after
             # dependencies return. No credential/backend text is logged.
@@ -123,6 +132,8 @@ class Runtime:
         self._started = False
 
     async def ready(self) -> bool:
+        if self.guarded:
+            return False
         try:
             self.context_catalog()
             if (

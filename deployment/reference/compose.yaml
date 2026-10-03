@@ -1,0 +1,241 @@
+# C1 reference deployment (M13 D2). Start it with `c1-admin bootstrap`.
+#
+# Only the TLS proxy publishes a port. Every other service is on the internal
+# `backend` network, which has no route to the Internet. Secrets are files
+# under ./secrets (created by `c1-admin bootstrap`, never committed). Backend
+# addresses are fixed: container DNS was unreliable on a shared Podman host
+# (M09a). C1_REF_NET_PREFIX selects the /24 so that an isolated restore
+# deployment (`-p c1-dr`) can run beside the primary one.
+name: c1-ref
+
+x-c1-environment: &c1-environment
+  C1_INSTANCE_ID: ${C1_INSTANCE_ID:-c1}
+  C1_INSTANCE_IRI_BASE: ${C1_INSTANCE_IRI_BASE:-urn:c1:instance:ref:}
+  C1_ISSUER: https://auth.c1.test:18443/realms/c1
+  C1_ISSUER_ALIAS: c1
+  C1_AUDIENCE: c1-api
+  C1_ISSUER_CA_FILE: /etc/c1-certs/ca.pem
+  C1_FGA_URL: http://${C1_REF_NET_PREFIX:-10.89.251}.12:8080
+  C1_TERMINUS_URL: http://${C1_REF_NET_PREFIX:-10.89.251}.11:6363
+  C1_ORGANIZATION: admin
+  C1_KNOWLEDGE_DATABASE: c1_knowledge
+  C1_WORKFLOW_DATABASE: c1_workflow
+  C1_LOCK_PATH: /run/c1/writer.lock
+  C1_TERMINUS_PASSWORD_FILE: /run/c1/secrets/terminus_password
+  C1_FGA_TOKEN_FILE: /run/c1/secrets/fga_token
+  C1_CURSOR_SECRET_FILE: /run/c1/secrets/cursor_secret
+  C1_EXPLORER_ENABLED: "true"
+  C1_EXPLORER_ORIGIN: https://c1.test:18443
+  C1_EXPLORER_CLIENT_SECRET_FILE: /run/c1/secrets/explorer_client_secret
+  C1_QUERY_TIME_BUDGET_MS: ${C1_QUERY_TIME_BUDGET_MS:-10000}
+  C1_BACKEND_TIMEOUT_S: ${C1_BACKEND_TIMEOUT_S:-5}
+  FORWARDED_ALLOW_IPS: ${C1_REF_NET_PREFIX:-10.89.251}.2
+
+services:
+  proxy:
+    image: docker.io/library/nginx@sha256:8f84ed99befc3891b8f329c5c202785278a2cfb7c25107d57fb2a134a3117433
+    ports: ["${C1_REF_BIND:-127.0.0.1}:${C1_REF_PORT:-18443}:18443"]
+    volumes:
+      - ./state/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs/server.pem:/etc/c1-certs/server.pem:ro
+      - ./certs/server.key:/etc/c1-certs/server.key:ro
+    networks:
+      backend:
+        ipv4_address: ${C1_REF_NET_PREFIX:-10.89.251}.2
+      edge: {}
+    depends_on:
+      c1: {condition: service_started}
+      keycloak: {condition: service_healthy}
+    read_only: true
+    tmpfs: [/tmp, /var/cache/nginx, /var/run]
+    mem_limit: 128m
+    cpus: 0.5
+
+  c1:
+    image: localhost/c1:${C1_VERSION:-0.1.0rc1}
+    env_file: [./state/c1.env]
+    environment: *c1-environment
+    secrets: [terminus_password, fga_token, cursor_secret, explorer_client_secret]
+    volumes: ["./certs/ca.pem:/etc/c1-certs/ca.pem:ro"]
+    extra_hosts: ["auth.c1.test:${C1_REF_NET_PREFIX:-10.89.251}.2"]
+    read_only: true
+    tmpfs: [/run/c1, /tmp]
+    networks:
+      backend:
+        ipv4_address: ${C1_REF_NET_PREFIX:-10.89.251}.20
+    depends_on:
+      terminusdb: {condition: service_healthy}
+      openfga: {condition: service_healthy}
+      keycloak: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8000), 3).close()"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    mem_limit: 1024m
+    cpus: 2
+
+  # One-shot administration commands (`c1-admin` runs them); never started by `up`.
+  tools:
+    image: localhost/c1:${C1_VERSION:-0.1.0rc1}
+    profiles: [tools]
+    entrypoint: ["/usr/local/bin/c1-entrypoint"]
+    env_file: [./state/c1.env]
+    environment:
+      <<: *c1-environment
+      C1_KEYCLOAK_ADMIN_URL: http://${C1_REF_NET_PREFIX:-10.89.251}.13:8080
+      C1_KEYCLOAK_ADMIN_USER: c1-bootstrap-admin
+      C1_KEYCLOAK_ADMIN_PASSWORD_FILE: /run/c1/secrets/keycloak_admin_password
+      C1_FIRST_ADMIN_PASSWORD_FILE: /run/c1/secrets/admin_password
+    secrets:
+      - terminus_password
+      - fga_token
+      - cursor_secret
+      - explorer_client_secret
+      - keycloak_admin_password
+      - admin_password
+    volumes: ["./certs/ca.pem:/etc/c1-certs/ca.pem:ro"]
+    extra_hosts: ["auth.c1.test:${C1_REF_NET_PREFIX:-10.89.251}.2"]
+    read_only: true
+    tmpfs: [/run/c1, /tmp]
+    networks:
+      backend:
+        ipv4_address: ${C1_REF_NET_PREFIX:-10.89.251}.30
+    mem_limit: 1024m
+    cpus: 1
+
+  terminusdb:
+    image: docker.io/terminusdb/terminusdb-server@sha256:385faf298ad77aaf2d4d6df5e84a4cbe3596d01dab2e3b991af905639ae56388
+    entrypoint: ["/bin/sh", "-c", "TERMINUSDB_ADMIN_PASS=\"$$(cat /run/secrets/terminus_password)\" exec /app/terminusdb/init_docker.sh"]
+    environment:
+      TERMINUSDB_SERVER_PORT: "6363"
+      TERMINUSDB_PLUGINS_PATH: /nonexistent-c1-plugins
+    secrets: [terminus_password]
+    volumes: ["terminus-data:/app/terminusdb/storage"]
+    networks:
+      backend:
+        ipv4_address: ${C1_REF_NET_PREFIX:-10.89.251}.11
+    healthcheck:
+      test: ["CMD", "swipl", "-q", "-g", "use_module(library(http/http_open)),setup_call_cleanup(http_open('http://127.0.0.1:6363/api/ok',S,[timeout(4)]),read_string(S,_,_),close(S)),halt"]
+      interval: 5s
+      timeout: 8s
+      retries: 30
+      start_period: 20s
+    mem_limit: 1536m
+    cpus: 1.5
+
+  postgres:
+    image: docker.io/library/postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: c1
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password, fga_db_password, keycloak_db_password]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-init.sh:/docker-entrypoint-initdb.d/10-c1.sh:ro
+    networks:
+      backend:
+        ipv4_address: ${C1_REF_NET_PREFIX:-10.89.251}.10
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U c1 -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    mem_limit: 512m
+    cpus: 1
+
+  openfga-migrate:
+    image: docker.io/openfga/openfga@sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55
+    command: ["migrate"]
+    # OpenFGA has no shell and no *_FILE settings: its datastore password and
+    # preshared key come from this mode-0600 env file, never from compose text.
+    env_file: [./secrets/openfga.env]
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga@${C1_REF_NET_PREFIX:-10.89.251}.10:5432/openfga?sslmode=disable
+    depends_on:
+      postgres: {condition: service_healthy}
+    networks: [backend]
+    mem_limit: 256m
+    cpus: 0.5
+
+  openfga:
+    image: docker.io/openfga/openfga@sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55
+    command: ["run"]
+    env_file: [./secrets/openfga.env]
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga@${C1_REF_NET_PREFIX:-10.89.251}.10:5432/openfga?sslmode=disable
+      OPENFGA_AUTHN_METHOD: preshared
+      OPENFGA_PLAYGROUND_ENABLED: "false"
+      OPENFGA_LIST_OBJECTS_MAX_RESULTS: "1000"
+      OPENFGA_LIST_OBJECTS_DEADLINE: "${C1_FGA_DEADLINE:-3s}"
+      OPENFGA_REQUEST_TIMEOUT: "${C1_FGA_DEADLINE:-3s}"
+    depends_on:
+      openfga-migrate: {condition: service_completed_successfully}
+    networks:
+      backend:
+        ipv4_address: ${C1_REF_NET_PREFIX:-10.89.251}.12
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/grpc_health_probe", "-addr=:8081"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    mem_limit: 384m
+    cpus: 1
+
+  keycloak:
+    image: quay.io/keycloak/keycloak@sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c
+    # Production mode behind the TLS proxy; passwords are read from secret files.
+    entrypoint:
+      - /bin/bash
+      - -c
+      - >-
+        export KC_DB_PASSWORD="$$(cat /run/secrets/keycloak_db_password)"
+        KC_BOOTSTRAP_ADMIN_PASSWORD="$$(cat /run/secrets/keycloak_admin_password)";
+        exec /opt/keycloak/bin/kc.sh start
+        --hostname=https://auth.c1.test:18443 --proxy-headers=xforwarded
+        --http-enabled=true --hostname-backchannel-dynamic=true
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://${C1_REF_NET_PREFIX:-10.89.251}.10:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_BOOTSTRAP_ADMIN_USERNAME: c1-bootstrap-admin
+      KC_HEALTH_ENABLED: "true"
+    secrets: [keycloak_db_password, keycloak_admin_password]
+    depends_on:
+      postgres: {condition: service_healthy}
+    networks:
+      backend:
+        ipv4_address: ${C1_REF_NET_PREFIX:-10.89.251}.13
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9000; printf 'GET /health/ready HTTP/1.0\r\n\r\n' >&3; read -r line <&3; [[ $$line == *' 200 '* ]]"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 60s
+    mem_limit: 1024m
+    cpus: 1.5
+
+secrets:
+  terminus_password: {file: ./secrets/terminus_password}
+  postgres_password: {file: ./secrets/postgres_password}
+  fga_db_password: {file: ./secrets/fga_db_password}
+  fga_token: {file: ./secrets/fga_token}
+  cursor_secret: {file: ./secrets/cursor_secret}
+  keycloak_db_password: {file: ./secrets/keycloak_db_password}
+  keycloak_admin_password: {file: ./secrets/keycloak_admin_password}
+  explorer_client_secret: {file: ./secrets/explorer_client_secret}
+  admin_password: {file: ./secrets/admin_password}
+
+volumes:
+  terminus-data: {}
+  postgres-data: {}
+
+networks:
+  backend:
+    internal: true
+    ipam:
+      config:
+        - subnet: ${C1_REF_NET_PREFIX:-10.89.251}.0/24
+  edge: {}

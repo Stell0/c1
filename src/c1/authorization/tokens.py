@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import ssl
 from typing import Any
 from urllib.parse import urlsplit
 
@@ -29,8 +30,12 @@ class AuthenticationError(ValueError):
 class _TrustedJWKClient(PyJWKClient):
     """PyJWT key selection with a bounded, no-proxy fetch of the trusted URL."""
 
+    verify: ssl.SSLContext | bool = True
+
     def fetch_data(self) -> dict[str, Any]:
-        with httpx.Client(timeout=self.timeout, trust_env=False, follow_redirects=False) as client:
+        with httpx.Client(
+            timeout=self.timeout, trust_env=False, follow_redirects=False, verify=self.verify
+        ) as client:
             response = client.get(self.uri)
             response.raise_for_status()
             data = response.json()
@@ -53,8 +58,12 @@ class TokenValidator:
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
+        self._verify = settings.issuer_verify()
         self._http = httpx.AsyncClient(
-            timeout=settings.backend_timeout_s, trust_env=False, follow_redirects=False
+            timeout=settings.backend_timeout_s,
+            trust_env=False,
+            follow_redirects=False,
+            verify=self._verify,
         )
         self._client: _TrustedJWKClient | None = None
         self._jwks_uri: str | None = None
@@ -98,6 +107,7 @@ class TokenValidator:
                     timeout=int(self.settings.backend_timeout_s),
                     cooldown_duration=0,
                 )
+                self._client.verify = self._verify
                 self._jwks_uri = uri
         assert self._client is not None
         return self._client
@@ -174,6 +184,7 @@ class TokenValidator:
                         timeout=int(self.settings.backend_timeout_s),
                         cooldown_duration=0,
                     )
+                    self._client.verify = self._verify
                     self._jwks_uri = uri
                 client = self._client
             await asyncio.to_thread(client.get_jwk_set, refresh=True)

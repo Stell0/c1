@@ -1,0 +1,505 @@
+{
+  "images": [
+    {
+      "digest": "sha256:c5c70435f944a0e91b6846fa6a70c8b6956cb36e5712e60789cd7a45a7084f73",
+      "image": "docker.io/terminusdb/terminusdb-server",
+      "key": "terminusdb",
+      "license": "Apache-2.0",
+      "license_files": [
+        {
+          "file": "docs/release/licenses/terminusdb--terminusdb-LICENSE",
+          "sha256": "sha256:d6f15456b303e6be4ac8796b969f3e402f3bddd9699bf302ad08b2a1abc9434f"
+        }
+      ],
+      "role": "service of the reference and development stacks",
+      "tag": "v12.0.7"
+    },
+    {
+      "digest": "sha256:51bece5c31783bfeb150eae0f1c818ae804c50d39e0a311c43ff5357fed6debd",
+      "image": "docker.io/openfga/openfga",
+      "key": "openfga",
+      "license": "Apache-2.0",
+      "license_files": [
+        {
+          "file": "docs/release/licenses/openfga--openfga-LICENSE",
+          "sha256": "sha256:1c46d7b2bed94d457d745f28cabeb31f8d6c81dd9035bc5d24039989ee1e1bff"
+        }
+      ],
+      "role": "service of the reference and development stacks",
+      "tag": "v1.21.0"
+    },
+    {
+      "digest": "sha256:3d911baa186f352563854039b95f21a7e2c01c76b527fdc64f24a0885b927bdf",
+      "image": "quay.io/keycloak/keycloak",
+      "key": "keycloak",
+      "license": "Apache-2.0",
+      "license_files": [
+        {
+          "file": "docs/release/licenses/keycloak--keycloak-LICENSE.txt",
+          "sha256": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ],
+      "role": "service of the reference and development stacks",
+      "tag": "26.7.4"
+    },
+    {
+      "digest": "sha256:aa90e97ee862e558111d34cfb8b2c4bec768c2b039fb791341686928560263b3",
+      "image": "docker.io/library/postgres",
+      "key": "postgres",
+      "license": "PostgreSQL",
+      "license_files": [
+        {
+          "file": "docs/release/licenses/postgres--postgres-COPYRIGHT",
+          "sha256": "sha256:3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd"
+        }
+      ],
+      "role": "service of the reference and development stacks",
+      "tag": "17-alpine"
+    },
+    {
+      "digest": "sha256:b92e6b9bb1ea9d826e9956fd8d30bf18bc384c130231d74fdf0ba3460c290b0b",
+      "image": "docker.io/library/python",
+      "key": "python-runtime",
+      "license": "PSF-2.0 (CPython); Debian packages under their own licenses",
+      "license_files": [
+        {
+          "file": "docs/release/licenses/python-runtime--LICENSE.txt",
+          "sha256": "sha256:78b12c3a81360b357002334f0e70ea0e92eebf7a9b358805c03c48484945f3bb"
+        }
+      ],
+      "role": "base of the C1 runtime image (shipped)",
+      "tag": "3.13-slim"
+    },
+    {
+      "digest": "sha256:596e7ea716217d76ff7ddfb8695833f7cb2a8d6589af32114a1b4a95c081fd4d",
+      "image": "ghcr.io/astral-sh/uv",
+      "key": "uv-builder",
+      "license": "MIT OR Apache-2.0",
+      "license_files": [],
+      "role": "build stage only; not present in the runtime image",
+      "tag": "0.12.2"
+    },
+    {
+      "digest": "sha256:8f84ed99befc3891b8f329c5c202785278a2cfb7c25107d57fb2a134a3117433",
+      "image": "docker.io/library/nginx",
+      "key": "nginx",
+      "license": "BSD-2-Clause (nginx); Alpine packages under their own licenses",
+      "license_files": [
+        {
+          "file": "docs/release/licenses/nginx--COPYRIGHT",
+          "sha256": "sha256:4f72e2bccf0bcd839dd447ab6f359336f428caa1987a9afec2bc9ade5711658a"
+        }
+      ],
+      "role": "TLS reverse proxy of the reference deployment (shipped as a pinned image reference)",
+      "tag": "stable-alpine (1.30.5, Alpine 3.24.2)"
+    }
+  ],
+  "python": [
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "annotated_doc-0.0.5.dist-info/licenses/LICENSE",
+          "sha256": "sha256:fff170779a6acbf65abdb405c087f1cee1786691e4a96a4034517e4a504a0cdf"
+        }
+      ],
+      "name": "annotated-doc",
+      "version": "0.0.5"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "annotated_types-0.8.0.dist-info/licenses/LICENSE",
+          "sha256": "sha256:fe1049884b1a0d9342901e88e07f32925d24b3121d9972b6a6805fb9824b095d"
+        }
+      ],
+      "name": "annotated-types",
+      "version": "0.8.0"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "anyio-4.15.1.dist-info/licenses/LICENSE",
+          "sha256": "sha256:5361ac9dc58f2ef5fd2e9b09c68297c17f04950909bbc8023bdb82eacf22c2b0"
+        }
+      ],
+      "name": "anyio",
+      "version": "4.15.1"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "certifi-2026.7.22.dist-info/licenses/LICENSE",
+          "sha256": "sha256:e93716da6b9c0d5a4a1df60fe695b370f0695603d21f6f83f053e42cfc10caf7"
+        }
+      ],
+      "name": "certifi",
+      "version": "2026.7.22"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT-0",
+      "license_files": [
+        {
+          "path": "cffi-2.1.1.dist-info/licenses/LICENSE",
+          "sha256": "sha256:5ba24ddc57067f9249add644c3afc41a5d6dc37e23433ef759d95df370b0af63"
+        }
+      ],
+      "name": "cffi",
+      "version": "2.1.1"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "click-8.5.0.dist-info/licenses/LICENSE.txt",
+          "sha256": "sha256:9a8ad106a394e853bfe21f42f4e72d592819a22805d991b5f3275029292b658d"
+        }
+      ],
+      "name": "click",
+      "version": "8.5.0"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "Apache-2.0 OR BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "cryptography-50.0.1.dist-info/licenses/LICENSE",
+          "sha256": "sha256:3e0c7c091a948b82533ba98fd7cbb40432d6f1a9acbf85f5922d2f99a93ae6bb"
+        },
+        {
+          "path": "cryptography-50.0.1.dist-info/licenses/LICENSE.APACHE",
+          "sha256": "sha256:aac73b3148f6d1d7111dbca32099f68d26c644c6813ae1e4f05f6579aa2663fe"
+        },
+        {
+          "path": "cryptography-50.0.1.dist-info/licenses/LICENSE.BSD",
+          "sha256": "sha256:602c4c7482de6479dd2e9793cda275e5e63d773dacd1eca689232ab7008fb4fb"
+        }
+      ],
+      "name": "cryptography",
+      "version": "50.0.1"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "fastapi-0.141.1.dist-info/licenses/LICENSE",
+          "sha256": "sha256:4ec89ffc81485b97fec584b2d4a961032eeffe834453894fd9c1274906cc744e"
+        }
+      ],
+      "name": "fastapi",
+      "version": "0.141.1"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "h11-0.16.0.dist-info/licenses/LICENSE.txt",
+          "sha256": "sha256:37db5bb85926db28a427a25867f10b1232003aea1be69ccb851138adb8e6f361"
+        }
+      ],
+      "name": "h11",
+      "version": "0.16.0"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "html5rdf-1.2.1.dist-info/AUTHORS.rst",
+          "sha256": "sha256:c12e916bee25921ddb3ef632ab0574bc0cde055f89b14c82251efad68f1b7b7c"
+        },
+        {
+          "path": "html5rdf-1.2.1.dist-info/LICENSE",
+          "sha256": "sha256:16a39991619e92f18680932da2a9199fdf7d95df3ecaedc52ea06218aabafd6f"
+        }
+      ],
+      "name": "html5rdf",
+      "version": "1.2.1"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "license_expression": "BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "httpcore-1.0.9.dist-info/licenses/LICENSE.md",
+          "sha256": "sha256:fdcb59154c74cbaba16a11242f7740bea9f23d6feb5547917d8c5f94a80392a5"
+        }
+      ],
+      "name": "httpcore",
+      "version": "1.0.9"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "httpx-0.28.1.dist-info/licenses/LICENSE.md",
+          "sha256": "sha256:4ec59d544f12b5f539a3a716fd321ac58ccd8030b465221f2c880200cdf28d8d"
+        }
+      ],
+      "name": "httpx",
+      "version": "0.28.1"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "idna-3.20.dist-info/licenses/LICENSE.md",
+          "sha256": "sha256:1a9a4f0e3d479a27240ddd59a9137a66ab4a0f9dfdc8ca6188cc0bfd85187f04"
+        }
+      ],
+      "name": "idna",
+      "version": "3.20"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "jinja2-3.1.6.dist-info/licenses/LICENSE.txt",
+          "sha256": "sha256:3b49dcee4105eb37bac10faf1be260408fe85d252b8e9df2e0979fc1e094437b"
+        }
+      ],
+      "name": "Jinja2",
+      "version": "3.1.6"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "markupsafe-3.0.4.dist-info/licenses/LICENSE.txt",
+          "sha256": "sha256:489a8e1108509ed98a37bb983e11e0f7e1d31f0bd8f99a79c8448e7ff37d07ea"
+        }
+      ],
+      "name": "MarkupSafe",
+      "version": "3.0.4"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "owlrl-7.6.2.dist-info/LICENSE.txt",
+          "sha256": "sha256:4314f05aad7a217e792d310af1b4381d132e03d2f823c29bb7ab0f87c6849257"
+        }
+      ],
+      "name": "owlrl",
+      "version": "7.6.2"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "Apache-2.0 OR BSD-2-Clause",
+      "license_files": [
+        {
+          "path": "packaging-26.3.dist-info/licenses/LICENSE",
+          "sha256": "sha256:cad1ef5bd340d73e074ba614d26f7deaca5c7940c3d8c34852e65c4909686c48"
+        },
+        {
+          "path": "packaging-26.3.dist-info/licenses/LICENSE.APACHE",
+          "sha256": "sha256:0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+        },
+        {
+          "path": "packaging-26.3.dist-info/licenses/LICENSE.BSD",
+          "sha256": "sha256:b70e7e9b742f1cc6f948b34c16aa39ffece94196364bc88ff0d2180f0028fac5"
+        }
+      ],
+      "name": "packaging",
+      "version": "26.3"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "prettytable-3.18.0.dist-info/licenses/LICENSE",
+          "sha256": "sha256:0c8adcc204c8af6cdfdf7887dfd1f99c29901f6c1d505a78bba96efa4fb2cb05"
+        }
+      ],
+      "name": "prettytable",
+      "version": "3.18.0"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "pycparser-3.0.dist-info/licenses/LICENSE",
+          "sha256": "sha256:0c846399369ea76ddd7b5c44fe6d16497415fcf015f5cbb508c24bf98b81c5b1"
+        }
+      ],
+      "name": "pycparser",
+      "version": "3.0"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "pydantic-2.13.5.dist-info/licenses/LICENSE",
+          "sha256": "sha256:a9e186f3ca16b5eef84318e7a701721351a00cb7b8ae3a4394b67b49e3529ef3"
+        }
+      ],
+      "name": "pydantic",
+      "version": "2.13.5"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "pydantic_core-2.46.5.dist-info/licenses/LICENSE",
+          "sha256": "sha256:2afdd30d54b4d62b6f488a6bcc1546e84ec5061f13f4209c03d012348783795a"
+        }
+      ],
+      "name": "pydantic_core",
+      "version": "2.46.5"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "pyjwt-2.15.0.dist-info/licenses/AUTHORS.rst",
+          "sha256": "sha256:925ce43461029eedbf558ec0b7cf7fc4b045def5120ebb97937c70814071cf07"
+        },
+        {
+          "path": "pyjwt-2.15.0.dist-info/licenses/LICENSE",
+          "sha256": "sha256:797a7a20231d4c433e9f1911db1731d06b5828b98f499819a034f7c0f56f5ce5"
+        }
+      ],
+      "name": "PyJWT",
+      "version": "2.15.0"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "pyparsing-3.3.3.dist-info/licenses/LICENSE",
+          "sha256": "sha256:a5425f9dc14ac74d4c5f0b679e941f2442e32cca7452a4418d5b1a49893ebe4e"
+        }
+      ],
+      "name": "pyparsing",
+      "version": "3.3.3"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "pyshacl-0.40.1.dist-info/licenses/LICENSE.txt",
+          "sha256": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        }
+      ],
+      "name": "pyshacl",
+      "version": "0.40.1"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "rdflib-7.6.0.dist-info/LICENSE",
+          "sha256": "sha256:53a705e51bfd199e8c97d0442376cb4bbd4ffcf13ba4f2c4c2794211400e4012"
+        }
+      ],
+      "name": "rdflib",
+      "version": "7.6.0"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "starlette-1.7.0.dist-info/licenses/LICENSE.md",
+          "sha256": "sha256:dcb95677a02240243187e964f941847d19b17821cf99e5afae684fab328c19bf"
+        }
+      ],
+      "name": "starlette",
+      "version": "1.7.0"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "PSF-2.0",
+      "license_files": [
+        {
+          "path": "typing_extensions-4.16.0.dist-info/licenses/LICENSE",
+          "sha256": "sha256:3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+        }
+      ],
+      "name": "typing_extensions",
+      "version": "4.16.0"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "MIT",
+      "license_files": [
+        {
+          "path": "typing_inspection-0.4.4.dist-info/licenses/LICENSE",
+          "sha256": "sha256:804b59b25f2c31bd278f9202a19ae49a3945aa2664387e2d0a128c7cacc61ec3"
+        }
+      ],
+      "name": "typing-inspection",
+      "version": "0.4.4"
+    },
+    {
+      "license_classifiers": [],
+      "license_expression": "BSD-3-Clause",
+      "license_files": [
+        {
+          "path": "uvicorn-0.54.0.dist-info/licenses/LICENSE.md",
+          "sha256": "sha256:efe1acf3e62fb99c288b0ec73e5a773b7268ef4320fe757ea994214e4b63c371"
+        }
+      ],
+      "name": "uvicorn",
+      "version": "0.54.0"
+    },
+    {
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_expression": "",
+      "license_files": [
+        {
+          "path": "wcwidth-0.9.1.dist-info/licenses/LICENSE",
+          "sha256": "sha256:70b98a95a2144eb70af8017fa8c6d95ce247e40867436e8bc649e137fe13d21a"
+        }
+      ],
+      "name": "wcwidth",
+      "version": "0.9.1"
+    }
+  ]
+}

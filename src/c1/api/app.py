@@ -214,6 +214,18 @@ class BoundaryMiddleware:
             await problem(status)(scope, receive, send)
 
         public = request.method == "GET" and request.url.path == "/v1/readyz"
+        if not public and getattr(self.runtime, "guarded", False):
+            # M13 D8: a restored deployment serves nothing until an operator
+            # verifies security freshness and releases the guard.
+            _emit(
+                self.runtime,
+                request,
+                operation="request_boundary",
+                outcome="unavailable",
+                reason="restore_guard",
+            )
+            await reject(503)
+            return
         if public:
             if _invalid_selectors(request):
                 await reject(400)

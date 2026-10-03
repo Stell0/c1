@@ -21,3 +21,9 @@ fixtures/software-integration/tools/bin/
 
 # M12 browser test runtime (Playwright-managed Chromium); never shipped
 .playwright/
+
+# M13 reference deployment: generated secrets, state, test certificates, backups
+deployment/reference/secrets/
+deployment/reference/state/
+deployment/reference/certs/
+backups/

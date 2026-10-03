@@ -307,7 +307,12 @@ def create_explorer(
         settings=settings,
         explorer=explorer_settings,
         api=ApiClient(api_app),
-        oidc=OIDCClient(settings.issuer, explorer_settings, timeout_s=settings.backend_timeout_s),
+        oidc=OIDCClient(
+            settings.issuer,
+            explorer_settings,
+            timeout_s=settings.backend_timeout_s,
+            verify=settings.issuer_verify(),
+        ),
         sessions=SessionStore(
             idle_s=explorer_settings.session_idle_s, max_s=explorer_settings.session_max_s
         ),

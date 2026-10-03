@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import os
 import re
+import ssl
+import stat
 from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -31,6 +33,44 @@ def _url(value: str, name: str, *, allow_path: bool = False) -> None:
         valid = False
     if not valid:
         raise ValueError(f"{name} must be a trusted HTTP(S) URL without credentials or query")
+
+
+SECRET_NAMES = frozenset(
+    {"C1_TERMINUS_PASSWORD", "C1_FGA_TOKEN", "C1_CURSOR_SECRET", "C1_EXPLORER_CLIENT_SECRET"}
+)
+
+
+def secret_value(name: str) -> str | None:
+    """A secret from ``NAME`` or from the file named by ``NAME_FILE`` (M13 D4).
+
+    Exactly one form may be set. The file must be an absolute, regular,
+    non-symlink file readable only by its owner or group (mode 0400 or 0440).
+    Values are never included in error messages.
+    """
+    direct = os.environ.get(name)
+    path_text = os.environ.get(name + "_FILE")
+    if direct and path_text:
+        raise ValueError(f"Set {name} or {name}_FILE, not both")
+    if not path_text:
+        return direct or None
+    path = Path(path_text)
+    if not path.is_absolute():
+        raise ValueError(f"{name}_FILE must be an absolute path")
+    try:
+        info = path.lstat()
+    except OSError:
+        raise ValueError(f"{name}_FILE is not readable") from None
+    if stat.S_ISLNK(info.st_mode) or not stat.S_ISREG(info.st_mode):
+        raise ValueError(f"{name}_FILE must be a regular file, not a symlink")
+    if info.st_mode & 0o137:
+        raise ValueError(f"{name}_FILE must have mode 0400 or 0440")
+    try:
+        value = path.read_text(encoding="utf-8").rstrip("\r\n")
+    except (OSError, UnicodeError):
+        raise ValueError(f"{name}_FILE is not readable") from None
+    if not value or "\n" in value:
+        raise ValueError(f"{name}_FILE must contain one non-empty line")
+    return value
 
 
 def _boolean(value: str, name: str) -> bool:
@@ -72,6 +112,8 @@ class Settings:
     query_time_budget_ms: int = 10000
     # M09 D13: OpenFGA and OIDC client timeouts; default unchanged (M07 D22).
     backend_timeout_s: float = 5.0
+    # M13: a private CA bundle that identity (issuer, JWKS) requests trust.
+    issuer_ca_file: Path | None = None
 
     def __post_init__(self) -> None:
         if not _NAME.fullmatch(self.instance_id):
@@ -114,6 +156,8 @@ class Settings:
                 raise ValueError(f"{setting_name} must be between 1 and {maximum}")
         if not 1 <= self.backend_timeout_s <= 30:
             raise ValueError("C1_BACKEND_TIMEOUT_S must be between 1 and 30")
+        if self.issuer_ca_file is not None and not self.issuer_ca_file.is_absolute():
+            raise ValueError("C1_ISSUER_CA_FILE must be absolute")
         if self.cursor_secret and len(self.cursor_secret) < 32:
             raise ValueError("C1_CURSOR_SECRET must contain at least 32 characters")
 
@@ -130,7 +174,11 @@ class Settings:
             "C1_KNOWLEDGE_DATABASE",
             "C1_WORKFLOW_DATABASE",
         )
-        missing = [name for name in required if not os.environ.get(name)]
+        missing = [
+            name
+            for name in required
+            if not (secret_value(name) if name in SECRET_NAMES else os.environ.get(name))
+        ]
         if missing:
             raise ValueError("Missing deployment configuration: " + ", ".join(missing))
         get = os.environ.get
@@ -141,11 +189,11 @@ class Settings:
             issuer_alias=get("C1_ISSUER_ALIAS", "c1-dev"),
             audience=get("C1_AUDIENCE", "c1-api"),
             fga_url=get("C1_FGA_URL", "http://127.0.0.1:18080"),
-            fga_token=os.environ["C1_FGA_TOKEN"],
+            fga_token=secret_value("C1_FGA_TOKEN") or "",
             fga_store=os.environ["C1_FGA_STORE"],
             fga_model=os.environ["C1_FGA_MODEL"],
             terminus_url=get("C1_TERMINUS_URL", "http://127.0.0.1:16363"),
-            terminus_password=os.environ["C1_TERMINUS_PASSWORD"],
+            terminus_password=secret_value("C1_TERMINUS_PASSWORD") or "",
             organization=get("C1_ORGANIZATION", "admin"),
             knowledge_database=os.environ["C1_KNOWLEDGE_DATABASE"],
             workflow_database=os.environ["C1_WORKFLOW_DATABASE"],
@@ -157,12 +205,19 @@ class Settings:
                 get("C1_ENABLE_PROBE_ROUTES", "false"), "C1_ENABLE_PROBE_ROUTES"
             ),
             crash_after=get("C1_CRASH_AFTER"),
-            cursor_secret=os.environ["C1_CURSOR_SECRET"],
+            cursor_secret=secret_value("C1_CURSOR_SECRET") or "",
             query_candidate_limit=int(get("C1_QUERY_CANDIDATE_LIMIT", "5000")),
             max_readable_scopes=int(get("C1_MAX_READABLE_SCOPES", "500")),
             query_time_budget_ms=int(get("C1_QUERY_TIME_BUDGET_MS", "10000")),
             backend_timeout_s=float(get("C1_BACKEND_TIMEOUT_S", "5")),
+            issuer_ca_file=Path(get("C1_ISSUER_CA_FILE", "")) if get("C1_ISSUER_CA_FILE") else None,
         )
+
+    def issuer_verify(self) -> ssl.SSLContext | bool:
+        """TLS verification for identity requests: the private CA when configured."""
+        if self.issuer_ca_file is None:
+            return True
+        return ssl.create_default_context(cafile=str(self.issuer_ca_file))
 
 
 _LOOPBACK_HOSTS = frozenset({"127.0.0.1", "localhost", "::1"})
@@ -209,14 +264,16 @@ class ExplorerSettings:
         if not _boolean(get("C1_EXPLORER_ENABLED", "false"), "C1_EXPLORER_ENABLED"):
             return None
         missing = [
-            name for name in ("C1_EXPLORER_ORIGIN", "C1_EXPLORER_CLIENT_SECRET") if not get(name)
+            name
+            for name in ("C1_EXPLORER_ORIGIN", "C1_EXPLORER_CLIENT_SECRET")
+            if not (secret_value(name) if name in SECRET_NAMES else get(name))
         ]
         if missing:
             raise ValueError("Missing Explorer configuration: " + ", ".join(missing))
         return cls(
             origin=os.environ["C1_EXPLORER_ORIGIN"],
             client_id=get("C1_EXPLORER_CLIENT_ID", "c1-explorer"),
-            client_secret=os.environ["C1_EXPLORER_CLIENT_SECRET"],
+            client_secret=secret_value("C1_EXPLORER_CLIENT_SECRET") or "",
             session_idle_s=int(get("C1_EXPLORER_SESSION_IDLE_S", "1800")),
             session_max_s=int(get("C1_EXPLORER_SESSION_MAX_S", "28800")),
         )

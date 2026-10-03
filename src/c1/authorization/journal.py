@@ -31,6 +31,8 @@ _KINDS = frozenset(
         "ApplyReceipt",
         "Idempotency",
         "MigrationProposal",
+        # M13: operational restore records (knowledge restore, disaster-recovery guard).
+        "Restore",
     }
 )
 _ENTRY_CLASS = {
@@ -124,9 +126,16 @@ class Journal:
     async def __aexit__(self, _type: Any, _value: Any, _traceback: Any) -> None:
         await self._storage.__aexit__(_type, _value, _traceback)
 
-    async def initialize(self) -> None:
-        """Create a fresh, isolated test workflow database and typed schema."""
-        await self._storage.create()
+    async def initialize(self, *, deployment: bool = False) -> None:
+        """Create a fresh workflow database and typed schema.
+
+        Tests create isolated databases; `deployment=True` is the one-time
+        M13 bootstrap of a deployment's workflow database.
+        """
+        if deployment:
+            await self._storage.create_for_deployment()
+        else:
+            await self._storage.create()
         base = await self._storage.head()
         await self._storage._insert(
             [_ENTRY_CLASS],

@@ -1,0 +1,33 @@
+{
+  "python-runtime": {
+    "image": "docker.io/library/python",
+    "tag": "3.13-slim",
+    "platform": "linux/amd64",
+    "platform_digest": "sha256:b92e6b9bb1ea9d826e9956fd8d30bf18bc384c130231d74fdf0ba3460c290b0b",
+    "index_digest": "sha256:bb2988715db2cf7ace7b53f38f3cffbef7c7046a656bee66245eb0ed386e2e81",
+    "base": "Debian 13.7",
+    "role": "base of the C1 runtime image (shipped)",
+    "license": "PSF-2.0 (CPython); Debian packages under their own licenses",
+    "license_paths": ["/usr/local/lib/python3.13/LICENSE.txt"]
+  },
+  "uv-builder": {
+    "image": "ghcr.io/astral-sh/uv",
+    "tag": "0.12.2",
+    "platform": "linux/amd64",
+    "platform_digest": "sha256:596e7ea716217d76ff7ddfb8695833f7cb2a8d6589af32114a1b4a95c081fd4d",
+    "index_digest": "sha256:069a51314a7bb6031777a9273205fe1b0b19e914ef418207d1338b268df641dd",
+    "role": "build stage only; not present in the runtime image",
+    "license": "MIT OR Apache-2.0",
+    "license_paths": []
+  },
+  "nginx": {
+    "image": "docker.io/library/nginx",
+    "tag": "stable-alpine (1.30.5, Alpine 3.24.2)",
+    "platform": "linux/amd64",
+    "platform_digest": "sha256:8f84ed99befc3891b8f329c5c202785278a2cfb7c25107d57fb2a134a3117433",
+    "index_digest": "sha256:0985e772fb9f729e6fa0980da05fca5d9c468e870eed43071545afa9d2e27d94",
+    "role": "TLS reverse proxy of the reference deployment (shipped as a pinned image reference)",
+    "license": "BSD-2-Clause (nginx); Alpine packages under their own licenses",
+    "license_paths": ["/usr/share/licenses/nginx/COPYRIGHT"]
+  }
+}
