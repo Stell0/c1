@@ -1,0 +1,27 @@
+{
+  "axe_serious_or_critical": {
+    "/explorer/": [],
+    "/explorer/changesets": [],
+    "/explorer/changesets/new?form=assertion&subject=urn%3Ac1%3Ainstance%3Adev%3Aentity%2F5596175d-fdc2-4ad0-afa1-4a0f94f02fcf": [],
+    "/explorer/context": [],
+    "/explorer/document?id=urn%3Ac1%3Ainstance%3Adev%3Adocument%2Fddf22ac5-be97-42cc-af09-af4e3494bcac": [],
+    "/explorer/documents": [],
+    "/explorer/entities": [],
+    "/explorer/history?id=urn%3Ac1%3Ainstance%3Adev%3Aentity%2F5596175d-fdc2-4ad0-afa1-4a0f94f02fcf": [],
+    "/explorer/operations": [],
+    "/explorer/resource?id=urn%3Ac1%3Ainstance%3Adev%3Aentity%2F5596175d-fdc2-4ad0-afa1-4a0f94f02fcf": [],
+    "/explorer/schema": [],
+    "/explorer/scopes": [],
+    "/explorer/software": []
+  },
+  "keyboard_controls": {
+    "/explorer/": 11,
+    "/explorer/changesets": 17,
+    "/explorer/changesets/new?form=assertion&subject=urn%3Ac1%3Ainstance%3Adev%3Aentity%2F5596175d-fdc2-4ad0-afa1-4a0f94f02fcf": 26,
+    "/explorer/context": 29,
+    "/explorer/document?id=urn%3Ac1%3Ainstance%3Adev%3Adocument%2Fddf22ac5-be97-42cc-af09-af4e3494bcac": 17,
+    "/explorer/entities": 23,
+    "/explorer/resource?id=urn%3Ac1%3Ainstance%3Adev%3Aentity%2F5596175d-fdc2-4ad0-afa1-4a0f94f02fcf": 17,
+    "/explorer/scopes": 28
+  }
+}

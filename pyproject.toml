@@ -42,6 +42,7 @@ packages = ["src/c1"]
 "profiles/core" = "c1/profiles/core"
 "profiles/available/example-vehicle" = "c1/profiles/available/example-vehicle"
 "profiles/available/example-vehicle-v2-incompatible" = "c1/profiles/available/example-vehicle-v2-incompatible"
+"profiles/available/example-hostile-hints" = "c1/profiles/available/example-hostile-hints"
 "profiles/available/identity" = "c1/profiles/available/identity"
 "profiles/available/directory" = "c1/profiles/available/directory"
 "profiles/available/topics" = "c1/profiles/available/topics"

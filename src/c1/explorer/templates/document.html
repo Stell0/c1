@@ -16,9 +16,9 @@
 </p>
 <ol class="parts">
 {% for part in detail.parts %}
-  <li class="part kind-{{ part.kind }}" data-part="{{ part.part_id }}">
+  <li class="part" data-part="{{ part.part_id }}">
     <h2 class="part-title">{{ part.title or ("Part " ~ loop.index) }}</h2>
-    <p class="note">Kind: <span data-field="part-kind">{{ part.kind }}</span>{% if part.kind == "code" %} · <strong data-field="completeness">excerpt, not a complete or executable unit</strong>{% elif part.kind == "code-unit" %} · <span data-field="completeness">complete unit as declared by its producer</span>{% endif %} · {{ part.text_length }} characters · digest <code>{{ part.text_digest }}</code></p>
+    <p class="note">Kind: <span data-field="part-kind">{{ part.kind }}</span>{% if part.kind and (part.kind == "code" or part.kind.startswith("code:")) %} · <strong data-field="completeness">excerpt, not a complete or executable unit</strong>{% elif part.kind and (part.kind == "code-unit" or part.kind.startswith("code-unit:")) %} · <span data-field="completeness">complete unit as declared by its producer</span>{% endif %} · {{ part.text_length }} characters · digest <code>{{ part.text_digest }}</code></p>
     {{ w.text_block(part.text, "Part text") }}
     <p><a href="{{ query('/explorer/resource', id=part.part_id, revision=revision) }}">Part record and history</a></p>
   </li>

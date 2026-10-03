@@ -104,11 +104,11 @@ async def _schema(ctx: Ctx) -> dict[str, Any]:
 
 
 def _entity_classes(schema: dict[str, Any]) -> list[dict[str, Any]]:
+    """Classes the API treats as entities: core Entity or a profile class of kind entity."""
     classes = []
     for profile in schema.get("profiles", []):
         for item in profile.get("classes", []):
-            names = {p["iri"] for p in item.get("properties", [])}
-            if C1 + "keyword" in names and SKOS_PREF in names:
+            if item["iri"] == C1 + "Entity" or item.get("kind") == "entity":
                 classes.append({**item, "profile": profile["name"]})
     return classes
 

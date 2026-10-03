@@ -176,3 +176,83 @@ def evidence_dir() -> Path:
     path = ROOT / "docs/evidence/M12"
     path.mkdir(parents=True, exist_ok=True)
     return path
+
+
+AXE = Path(__file__).resolve().parent / "vendor/axe-core-4.13.0/axe.min.js"
+AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]
+INTERACTIVE = "a[href], button, input:not([type=hidden]), select, textarea, summary"
+
+_FOCUS_STATE = """() => {
+  const el = document.activeElement;
+  if (!el || el === document.body) return null;
+  const style = getComputedStyle(el);
+  const labels = el.labels ? Array.from(el.labels).map(l => l.innerText.trim()) : [];
+  const name = (el.getAttribute('aria-label') || labels.join(' ') || el.innerText
+                || el.value || '').trim();
+  if (!el.dataset.kbd) el.dataset.kbd = String(Math.random()).slice(2);
+  return {key: el.dataset.kbd, tag: el.tagName.toLowerCase(), id: el.id || '',
+          name: name.slice(0, 80), outline: style.outlineStyle, width: style.outlineWidth};
+}"""
+
+
+async def focused(page: Page) -> dict[str, str] | None:
+    return await page.evaluate(_FOCUS_STATE)  # type: ignore[no-any-return]
+
+
+async def tab_to(
+    page: Page, *, name: str | None = None, element_id: str | None = None, limit: int = 300
+) -> dict[str, str]:
+    """Press Tab until the focused control has this accessible name or id."""
+    for _ in range(limit):
+        await page.keyboard.press("Tab")
+        state = await focused(page)
+        if state and (
+            (name is not None and state["name"] == name)
+            or (element_id is not None and state["id"] == element_id)
+        ):
+            return state
+    raise AssertionError(f"keyboard focus never reached {name or element_id}")
+
+
+async def keyboard_sweep(page: Page, *, limit: int = 400) -> list[dict[str, str]]:
+    """Tab through every control once; each must be named and show a visible focus outline."""
+    total = await page.locator(INTERACTIVE).count()
+    seen: dict[str, dict[str, str]] = {}
+    await page.evaluate("() => document.activeElement && document.activeElement.blur()")
+    for _ in range(limit):
+        await page.keyboard.press("Tab")
+        state = await focused(page)
+        if state is None:
+            continue
+        if state["key"] in seen:
+            break
+        seen[state["key"]] = state
+    states = list(seen.values())
+    assert len(states) >= total, (len(states), total)
+    for state in states:
+        assert state["name"], f"control without an accessible name: {state}"
+        assert state["outline"] not in ("none", "") and state["width"] != "0px", state
+    return states
+
+
+async def axe_audit(instance: Browser, person: Person, path: str) -> list[dict[str, Any]]:
+    """Run the vendored axe-core in a separate context that may inject it past the CSP."""
+    context = await instance.new_context(
+        bypass_csp=True, storage_state=await person.context.storage_state()
+    )
+    try:
+        page = await context.new_page()
+        await page.goto(ORIGIN + path)
+        await page.add_script_tag(path=str(AXE))
+        result = await page.evaluate(
+            "(tags) => axe.run(document, {runOnly: {type: 'tag', values: tags}})", AXE_TAGS
+        )
+        # Proof that the audit really evaluated this page, not an empty or failed run.
+        assert len(result["passes"]) >= 10, (path, len(result["passes"]))
+        return [
+            {"id": v["id"], "impact": v["impact"], "nodes": len(v["nodes"]), "help": v["help"]}
+            for v in result["violations"]
+            if v["impact"] in ("serious", "critical")
+        ]
+    finally:
+        await context.close()

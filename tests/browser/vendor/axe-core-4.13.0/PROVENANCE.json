@@ -1,0 +1,13 @@
+{
+  "package": "axe-core",
+  "version": "4.13.0",
+  "license": "MPL-2.0",
+  "purpose": "Test-only accessibility audit for the M12 Explorer (D10). Never shipped in the wheel or served by C1.",
+  "tarball": "https://registry.npmjs.org/axe-core/-/axe-core-4.13.0.tgz",
+  "tarball_integrity": "sha512-UzGt8zg7Ny8djbYMhxl2zuEevVa7r2gJjYY5Lwr1xM7+XU2nd6CkIWFTVcCIbAP63vSz71NaVyyuSk9lHKcy0A==",
+  "files": {
+    "axe.min.js": "sha256:c24f097bd2f451d4f933e8bc7d8d539f8672a2ebcb5cc9f9f3eec8ca9470a0c1",
+    "LICENSE": "copied unchanged from package/LICENSE"
+  },
+  "retrieved": "2026-10-03"
+}

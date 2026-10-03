@@ -12,7 +12,7 @@
 
 {% macro literal(value) -%}
 <span class="literal" data-widget="literal">{{ value.lexical }}</span>
-{%- if value.language %} <span class="tag" data-widget="language">@{{ value.language }}</span>
+{%- if value.get("language") %} <span class="tag" data-widget="language">@{{ value.language }}</span>
 {%- elif value.datatype and value.datatype != "http://www.w3.org/2001/XMLSchema#string" %} <span class="tag" data-widget="datatype">{{ compact(value.datatype) }}</span>{% endif -%}
 {%- endmacro %}
 

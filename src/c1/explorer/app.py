@@ -160,10 +160,10 @@ def view(explorer: Explorer, handler: View, *, post: bool = False) -> Callable[[
                 return secured(HTMLResponse("Forbidden: not signed in", status_code=403))
             try:
                 form = parse_form(await request.body(), request.headers.get("content-type"))
-                token = single(form, "csrf")
             except FormError:
                 return secured(HTMLResponse("Bad request: invalid form", status_code=400))
-            if not csrf_matches(session, token):
+            tokens = form.get("csrf", [])
+            if len(tokens) != 1 or not csrf_matches(session, tokens[0]):
                 return secured(HTMLResponse("Forbidden: invalid form token", status_code=403))
         else:
             form = {}
@@ -349,6 +349,15 @@ def create_explorer(
                 methods=["POST"] if post else ["GET"],
             )
         )
-    app = Starlette(routes=routes, lifespan=lifespan)
+
+    async def not_found(_request: Request, exc: Exception) -> Response:
+        status = getattr(exc, "status_code", 404)
+        return secured(HTMLResponse(_plain_page("Not found."), status_code=status))
+
+    app = Starlette(
+        routes=routes,
+        lifespan=lifespan,
+        exception_handlers={404: not_found, 405: not_found},
+    )
     app.state.explorer = explorer
     return app

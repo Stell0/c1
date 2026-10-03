@@ -1,0 +1,74 @@
+[
+  {
+    "classifiers": [
+      "License :: OSI Approved :: BSD License"
+    ],
+    "license": "",
+    "license_files": {
+      "jinja2-3.1.6.dist-info/licenses/LICENSE.txt": "sha256:3b49dcee4105eb37bac10faf1be260408fe85d252b8e9df2e0979fc1e094437b"
+    },
+    "name": "Jinja2",
+    "use": "runtime",
+    "version": "3.1.6"
+  },
+  {
+    "classifiers": [],
+    "license": "BSD-3-Clause",
+    "license_files": {
+      "markupsafe-3.0.4.dist-info/licenses/LICENSE.txt": "sha256:489a8e1108509ed98a37bb983e11e0f7e1d31f0bd8f99a79c8448e7ff37d07ea"
+    },
+    "name": "MarkupSafe",
+    "use": "runtime",
+    "version": "3.0.4"
+  },
+  {
+    "classifiers": [],
+    "license": "Apache-2.0",
+    "license_files": {
+      "playwright-1.63.0.dist-info/licenses/LICENSE": "sha256:7fab1461b41970ff376f1c9303a637076bfaaeb71cd12dd3a1c44aaf59a1a2b9",
+      "playwright/driver/LICENSE": "sha256:5888dbb9a1d2b18f2c3e6c5f6af1b39de658372b402a0577b002777f14c62ace",
+      "playwright/driver/package/LICENSE": "sha256:45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+      "playwright/driver/package/NOTICE": "sha256:6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+      "playwright/driver/package/ThirdPartyNotices.txt": "sha256:a549d329bad8806fe279f0ecae0fc0270dec7e7c2dc8ec10f90e394f7c32b144",
+      "playwright/driver/package/lib/serverRegistry.js.LICENSE": "sha256:3098a6efcbc11752cbdf6075fa65480f5470f78c8d981fab9c0796dc9a41cefe",
+      "playwright/driver/package/lib/utilsBundle.js.LICENSE": "sha256:2495f30be29620d54b58339821eda0ebabdfb6ee9b09455f7285a06fd46fb9f3",
+      "playwright/driver/package/lib/webp_codec.LICENSE": "sha256:995c7ee35aceb7666829b7a501ca89c0864e12b493c1174b155774ab1e03d831"
+    },
+    "name": "playwright",
+    "use": "development",
+    "version": "1.63.0"
+  },
+  {
+    "classifiers": [
+      "License :: OSI Approved :: MIT License"
+    ],
+    "license": "MIT",
+    "license_files": {
+      "pyee-13.0.1.dist-info/licenses/LICENSE": "sha256:1ff556ca206b107f10e1c562ae454d3292e0296c3510eb90eb7f114caee32a66"
+    },
+    "name": "pyee",
+    "use": "development",
+    "version": "13.0.1"
+  },
+  {
+    "classifiers": [],
+    "license": "MIT AND PSF-2.0",
+    "license_files": {
+      "greenlet-3.5.6.dist-info/licenses/LICENSE": "sha256:769831d6e5dfaf2c20802faccff1fafb4c2025dd8f6253dfa47fcad59d4d0979",
+      "greenlet-3.5.6.dist-info/licenses/LICENSE.PSF": "sha256:e5ff3c23c110e494cd7d736c10fd96d462457bafeca310840db6527298c7d46b"
+    },
+    "name": "greenlet",
+    "use": "development",
+    "version": "3.5.6"
+  },
+  {
+    "classifiers": [],
+    "license": "PSF-2.0",
+    "license_files": {
+      "typing_extensions-4.16.0.dist-info/licenses/LICENSE": "sha256:3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
+    },
+    "name": "typing_extensions",
+    "use": "development",
+    "version": "4.16.0"
+  }
+]
