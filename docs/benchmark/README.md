@@ -79,7 +79,7 @@ Graph needs run three existing deterministic strategies:
 1. **Storage fidelity (T01).** Every record is read back by its ID as carol and compared property by property with the submitted record, as multisets of typed values. Also checked:
    - every declared conflict keeps both claims (`competing_for`);
    - every document returns its parts in order with identical text digests;
-   - the full export, imported page by page with `import_jsonld`, yields identical identities.
+   - the full export (entities, assertions, sources and evidence: the `/v1/export` scope), imported page by page with `import_jsonld`, yields identical identities.
 
    Score = exact records / records. Properties that the server adds are reported, not counted as loss.
 2. **Retrieval quality (T02).** Per need, then macro-averaged per family and strategy:

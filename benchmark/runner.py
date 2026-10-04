@@ -43,7 +43,10 @@ def _ids(items: list[Any]) -> list[str]:
     for item in items:
         if isinstance(item, dict) and isinstance(item.get("document"), dict):
             item = item["document"]
-        result.append(str(item["id"]) if isinstance(item, dict) else str(item))
+        if isinstance(item, dict):
+            result.append(str(item.get("id") or item["part_id"]))
+        else:
+            result.append(str(item))
     return result
 
 
@@ -245,8 +248,23 @@ class Runner:
             cursor = page.get("next_cursor")
             if not cursor:
                 break
-        expected = {r["id"] for r in self.corpus.records}
+        # /v1/export covers entities, assertions, sources and evidence (the M05
+        # snapshot scope); document parts are checked through the parts API.
+        exportable = {
+            "Entity",
+            "Product",
+            "Battery",
+            "BatteryVersion",
+            "Measurement",
+            "Assertion",
+            "Source",
+            "Evidence",
+        }
+        expected = {
+            r["id"] for r in self.corpus.records if r["types"][0].rsplit("#", 1)[-1] in exportable
+        }
         return {
+            "expected": len(expected),
             "pages": pages,
             "exported": len(exported),
             "corpus_records_exported": len(expected & exported),

@@ -60,10 +60,16 @@ async def _run_scale(name: str, out: Path, log: Any) -> dict[str, Any]:
     (out / f"gold-{name}.json").write_text(json.dumps(plain.queries, indent=1) + "\n")
     log(f"[{name}] corpus {manifest['records']} records, {len(plain.queries)} needs")
 
+    # Development only: reuse a loaded deployment kept by --keep. Gates never set it.
+    reuse = os.environ.get("C1_BENCH_REUSE") == "1"
     started = time.perf_counter()
-    bootstrap = ref.fresh_deployment()
-    identities = ref.provision_identities()
-    log(f"[{name}] fresh deployment in {time.perf_counter() - started:.0f}s")
+    if reuse:
+        bootstrap = json.loads((ref.DIR / "state/bootstrap.json").read_text())
+        identities = json.loads((ref.DIR / "state/test-identities.json").read_text())
+    else:
+        bootstrap = ref.fresh_deployment()
+        identities = ref.provision_identities()
+    log(f"[{name}] deployment ready in {time.perf_counter() - started:.0f}s (reuse={reuse})")
     case = ref.ReferenceCase(identities)
     result: dict[str, Any] = {
         "corpus": manifest,
@@ -75,13 +81,17 @@ async def _run_scale(name: str, out: Path, log: Any) -> dict[str, Any]:
     }
     try:
         bench = Bench(case)
-        await bench.setup(corpus_module.SCOPES, corpus_module.VISIBLE)
+        if reuse:
+            listing = await bench.json("GET", "/v1/access-scopes", actor="erin")
+            bench.scopes = {s["label"]: s["id"] for s in listing["access_scopes"]}
+        else:
+            await bench.setup(corpus_module.SCOPES, corpus_module.VISIBLE)
         attributed = await bench.principal("erin")
         loaded = corpus_module.generate(scale, attributed=attributed)
         assert loaded.queries == plain.queries, "gold must not depend on the deployment"
         runner = Runner(bench, loaded)
-        result["load"] = await runner.load()
-        log(f"[{name}] loaded in {result['load']['seconds']}s")
+        result["load"] = {"reused": True} if reuse else await runner.load()
+        log(f"[{name}] loaded in {result['load'].get('seconds', 'n/a (reused)')}s")
         result["fidelity"] = await runner.fidelity()
         log(
             f"[{name}] fidelity {result['fidelity']['score']} passed={result['fidelity']['passed']}"

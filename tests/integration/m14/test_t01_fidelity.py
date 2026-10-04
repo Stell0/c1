@@ -13,5 +13,5 @@ def test_t01_storage_fidelity_is_exact(results: dict[str, dict[str, Any]]) -> No
         assert fidelity["documents_exact"] == fidelity["documents_checked"] > 0, name
         roundtrip = fidelity["export_roundtrip"]
         assert roundtrip["identities_identical"], name
-        assert roundtrip["corpus_records_exported"] == result["corpus"]["records"], name
+        assert roundtrip["corpus_records_exported"] == roundtrip["expected"] > 0, name
         assert fidelity["passed"], name
