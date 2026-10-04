@@ -198,7 +198,22 @@ def prepare(d: Deployment, prefix: str) -> dict[str, str]:
     c1_env = state / "c1.env"
     if not c1_env.exists():
         c1_env.write_text("# Written by c1-admin bootstrap\nC1_FGA_STORE=\nC1_FGA_MODEL=\n")
+    _selinux_label(d.dir)
     return info
+
+
+def _selinux_label(directory: Path) -> None:
+    """Label bind-mounted files for containers on an SELinux-enforcing host.
+
+    Compose file secrets and configuration files are bind mounts; without the
+    shared `container_file_t` type, SELinux denies the containers reading them.
+    """
+    enabled = shutil.which("selinuxenabled")
+    if enabled is None or subprocess.run([enabled], check=False).returncode != 0:
+        return
+    names = ("secrets", "certs", "state", "postgres-init.sh", "nginx.conf.template")
+    paths = [str(directory / name) for name in names if (directory / name).exists()]
+    subprocess.run(["chcon", "-R", "-t", "container_file_t", *paths], check=True)
 
 
 def bootstrap(args: argparse.Namespace) -> dict[str, Any]:

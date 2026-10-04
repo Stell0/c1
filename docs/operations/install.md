@@ -5,6 +5,7 @@
 - A Linux host with Podman 5 and `podman-compose` (tested: Podman 5.8.2, podman-compose 1.x), or a compatible Docker Compose setup with `C1_ENGINE=docker` and `C1_COMPOSE="docker compose"`.
 - At least 4 vCPU and 4 GiB of memory free for the stack (memory limits total about 4.8 GiB; measured use is lower, see [limits.md](limits.md)).
 - `uv` to build and run `c1-admin` from a checkout, or the `c1` wheel installed in a Python 3.13 environment.
+- On an SELinux-enforcing host, `c1-admin` labels the generated secret, certificate and configuration files `container_file_t` (`chcon -R`), so the containers can read the bind mounts. Rootful Podman on Rocky Linux 9 (makako) and rootless Podman without SELinux (laptop) have both been run.
 
 The deployment pulls these images by digest; nothing else is fetched at runtime: TerminusDB 12.0.7, PostgreSQL 17, OpenFGA 1.21.0, Keycloak 26.7.4, nginx 1.30.5 (stable-alpine), and the locally built `localhost/c1` image. The digests are in `deployment/images.json` and `deployment/reference/images.json`.
 
