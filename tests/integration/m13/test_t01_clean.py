@@ -3,13 +3,15 @@
 from __future__ import annotations
 
 import json
+import re
 import uuid
 from typing import Any
 from urllib.parse import quote, urlencode
 
 from scripts import software_producer as sp
+from scripts.demo_m07 import expected_actors
 from tests.integration.m04.conftest import action, new_changeset
-from tests.integration.m07.conftest import assert_golden, package
+from tests.integration.m07.conftest import EXPECTED, canonical, package
 from tests.integration.m10.conftest import documentation, implementation
 from tests.integration.m10.conftest import target as support_target
 from tests.integration.m11.conftest import target as update_target
@@ -53,6 +55,10 @@ async def _all(case: ref.ReferenceCase, path: str, actor: str, key: str) -> list
             return items
         params = {"limit": "200", "cursor": body["next_cursor"]}
     raise AssertionError("pagination did not finish")
+
+
+def _mask_bytes(markdown: str) -> str:
+    return re.sub(r"(?m)^- rendered\\_bytes: \d+$", "- rendered\\_bytes: <n>", markdown)
 
 
 def test_t01_isolation_no_ai_and_published_ports(reference: Reference) -> None:
@@ -162,9 +168,19 @@ def test_t01_api_workflows_documents_and_every_context_profile(reference: Refere
         loaded = reference.batteries
         result = await package(case, loaded)
         assert result["outcome"] == "resolved"
-        assert_golden(
-            "context-dave.md", result["markdown"], loaded["revision"], loaded["principals"]
+        # The reviewed M07 golden, with deployment identities substituted. Only the
+        # self-referential byte count is masked: it depends on the length of this
+        # deployment's escaped principal IDs and revision, so it is checked as the
+        # exact UTF-8 length of the package instead.
+        markdown = result["markdown"]
+        assert result["bounds"]["rendered_bytes"] == len(markdown.encode("utf-8"))
+        golden = expected_actors(
+            (EXPECTED / "context-dave.md").read_text(encoding="utf-8"),
+            loaded["principals"],
+            encode=False,
+            markdown=True,
         )
+        assert _mask_bytes(canonical(markdown, loaded["revision"])) == _mask_bytes(golden)
         test_dev = {
             "profile": "test-development",
             "profile_version": "1",
