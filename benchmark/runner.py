@@ -433,13 +433,18 @@ class Runner:
                     row.update(self._coverage(query, result))
                 if result["status"] != 200:
                     row["error"] = 1.0
+                    error = result["pages"][0].get("error", {}) if result["pages"] else {}
+                    if isinstance(error.get("minimum_required"), int):
+                        row["minimum_required_bytes"] = float(error["minimum_required"])
                 per_query[key] = {
                     "status": result["status"],
                     "gold": len(query["gold"]),
                     "returned": len(ranked),
                     **row,
                 }
-                rows.setdefault(f"{query['family']}/{strategy}", []).append(row)
+                rows.setdefault(f"{query['family']}/{strategy}", []).append(
+                    {k: v for k, v in row.items() if k != "minimum_required_bytes"}
+                )
                 if query["family"] in {"keyword", "alias", "valid-at", "document"} and (
                     set(ranked) != set(query["gold"])
                 ):
