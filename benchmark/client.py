@@ -84,13 +84,41 @@ class Bench:
                 for d in report.get("diagnostics", [])
             ][:10]
             raise RuntimeError(f"benchmark ChangeSet not validated ({state}): {codes}")
+        validated = time.perf_counter()
         await self.json("POST", path + "/approve", actor=reviewer)
-        applied = await self.json(
-            "POST", path + "/apply", actor=reviewer, headers={"Idempotency-Key": uuid.uuid4().hex}
+        approved = time.perf_counter()
+        key = uuid.uuid4().hex
+        response = await self.request(
+            "POST", path + "/apply", actor=reviewer, headers={"Idempotency-Key": key}
         )
-        if applied.get("state") != "applied":
-            raise RuntimeError(f"benchmark ChangeSet not applied: {applied.get('state')}")
-        return {"seconds": round(time.perf_counter() - started, 3), "operations": len(operations)}
+        gateway_timeout = response.status_code in (502, 504)
+        if gateway_timeout:
+            # The proxy gave up while C1 kept applying. Reconcile by reading the
+            # ChangeSet; never issue a second apply while the first may run.
+            state = "applying"
+            deadline = time.monotonic() + 3600
+            while state not in {"applied", "failed", "stale", "rejected"}:
+                if time.monotonic() > deadline:
+                    raise RuntimeError("benchmark ChangeSet apply did not settle")
+                await asyncio.sleep(15)
+                # While the apply holds its pending operation, the ChangeSet is
+                # unavailable (404/503); keep reading until it settles.
+                current = await self.request("GET", path, actor=reviewer)
+                if current.status_code == 200:
+                    state = current.json().get("state", "")
+        elif response.status_code != 200:
+            raise RuntimeError(f"apply: {response.status_code} {response.text[:300]}")
+        else:
+            state = response.json().get("state", "")
+        if state != "applied":
+            raise RuntimeError(f"benchmark ChangeSet not applied: {state}")
+        return {
+            "seconds": round(time.perf_counter() - started, 3),
+            "validate_seconds": round(validated - started, 3),
+            "apply_seconds": round(time.perf_counter() - approved, 3),
+            "operations": len(operations),
+            "gateway_timeout": gateway_timeout,
+        }
 
     async def principal(self, name: str) -> str:
         if name not in self.principals:

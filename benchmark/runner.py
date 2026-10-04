@@ -489,11 +489,11 @@ class Runner:
         hidden_scope = "bench-hidden"
         attributed = await self.bench.principal("erin")
         records = corpus_module.twin(self.corpus, attributed)
-        await self.bench.apply(self.operations(records, hidden_scope))
+        added = await self.bench.apply(self.operations(records, hidden_scope))
         after_add = self.fingerprints(await self.observe_all())
         revised = corpus_module.twin(self.corpus, attributed, generation=2)
         changed = [r for r, old in zip(revised, records, strict=True) if r != old]
-        await self.bench.apply(
+        modified = await self.bench.apply(
             [
                 {
                     "kind": "replace",
@@ -518,6 +518,8 @@ class Runner:
         return {
             "hidden_records_added": len(records),
             "hidden_records_modified": len(changed),
+            "hidden_add_changeset": added,
+            "hidden_modify_changeset": modified,
             "observations": total,
             "identical": identical,
             "score": round(identical / total, 6),

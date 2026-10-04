@@ -92,7 +92,14 @@ async def _run_scale(name: str, out: Path, log: Any) -> dict[str, Any]:
         runner = Runner(bench, loaded)
         result["load"] = {"reused": True} if reuse else await runner.load()
         log(f"[{name}] loaded in {result['load'].get('seconds', 'n/a (reused)')}s")
-        result["fidelity"] = await runner.fidelity()
+        # Development only: C1_BENCH_SKIP=fidelity,performance skips slow families.
+        skip = set(filter(None, os.environ.get("C1_BENCH_SKIP", "").split(",")))
+        result["skipped_families"] = sorted(skip)
+        result["fidelity"] = (
+            {"score": None, "passed": False, "skipped": True}
+            if "fidelity" in skip
+            else await runner.fidelity()
+        )
         log(
             f"[{name}] fidelity {result['fidelity']['score']} passed={result['fidelity']['passed']}"
         )
@@ -104,7 +111,9 @@ async def _run_scale(name: str, out: Path, log: Any) -> dict[str, Any]:
             f"[{name}] quality: {len(result['quality']['per_query'])} observations, "
             f"exact-semantics failures {result['quality']['exact_semantics_failures']}"
         )
-        result["performance"] = await runner.performance()
+        result["performance"] = (
+            {"skipped": True} if "performance" in skip else await runner.performance()
+        )
         log(f"[{name}] performance done")
         result["security"] = await runner.security(baseline)
         log(f"[{name}] security {result['security']['score']}")
