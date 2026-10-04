@@ -55,6 +55,27 @@ def reference() -> Iterator[Reference]:
     for name in ref.AI_VARIABLES:
         assert name not in os.environ, "M13 acceptance requires AI provider variables unset"
     with asyncio.Runner() as runner:
+        saved = ref.DIR / "state/loaded.json"
+        if os.environ.get("C1_REFERENCE_REUSE") == "1" and saved.is_file():
+            # Development convenience only: reuse the loaded deployment. Gates never set it.
+            import json
+
+            state = json.loads(saved.read_text())
+            identities = json.loads((ref.DIR / "state/test-identities.json").read_text())
+            case = ref.ReferenceCase(identities)
+            try:
+                yield Reference(
+                    runner,
+                    case,
+                    state["bootstrap"],
+                    identities,
+                    state["scoped"],
+                    state["batteries"],
+                    {},
+                )
+            finally:
+                runner.run(case.close())
+            return
         bootstrap = ref.fresh_deployment()
         identities = ref.provision_identities()
         case = ref.ReferenceCase(identities)
@@ -75,6 +96,21 @@ def reference() -> Iterator[Reference]:
 
         try:
             scoped, batteries, software = runner.run(load())
+            import json
+
+            saved.write_text(
+                json.dumps(
+                    {
+                        "bootstrap": bootstrap,
+                        "scoped": scoped,
+                        "batteries": {
+                            k: v for k, v in batteries.items() if k in {"revision", "principals"}
+                        },
+                    },
+                    default=str,
+                )
+            )
+            saved.chmod(0o600)
             yield Reference(runner, case, bootstrap, identities, scoped, batteries, software)
         finally:
             runner.run(case.close())

@@ -207,7 +207,7 @@ def test_independent_part_create_requires_contribute_on_target_document() -> Non
         denied = await service._permission(P, operation, review=False)
         assert not denied.allowed
         cast(Any, service.plane).check_operation.assert_awaited_with(
-            P, "contribute", "urn:c1:document"
+            P, "contribute", "urn:c1:document", excluding=""
         )
 
     asyncio.run(case())
@@ -220,7 +220,9 @@ def test_part_create_review_requires_target_document_review() -> None:
         operation = CreateOperation(record=_part("urn:c1:document"), scope_id="independent")
         denied = await service._permission(P, operation, review=True)
         assert not denied.allowed
-        cast(Any, service.plane).check_operation.assert_awaited_with(P, "review", "urn:c1:document")
+        cast(Any, service.plane).check_operation.assert_awaited_with(
+            P, "review", "urn:c1:document", excluding=""
+        )
 
     asyncio.run(case())
 
@@ -269,7 +271,9 @@ def test_part_reorder_requires_document_review() -> None:
         )
         denied = await service._permission(P, operation, review=True)
         assert not denied.allowed
-        cast(Any, service.plane).check_operation.assert_any_await(P, "review", "urn:c1:document")
+        cast(Any, service.plane).check_operation.assert_any_await(
+            P, "review", "urn:c1:document", excluding=""
+        )
 
     asyncio.run(case())
 
@@ -298,5 +302,19 @@ def test_part_retyping_cannot_bypass_document_structure(review: bool) -> None:
         denied = await service._permission(P, operation, review=review)
         assert not denied.allowed
         cast(Any, service.knowledge).get_record.assert_awaited_once()
+
+    asyncio.run(case())
+
+
+def test_reconciliation_recheck_excludes_its_own_pending_operation_for_documents() -> None:
+    """M13: replacing a document and its part together must not block its own apply."""
+
+    async def case() -> None:
+        service = _service()
+        operation = CreateOperation(record=_part("urn:c1:document"), scope_id="team")
+        await service._permission(P, operation, review=True, excluding="op-1")
+        plane = cast(Any, service.plane)
+        plane.check_read.assert_any_await(P, "urn:c1:document", excluding="op-1")
+        plane.check_operation.assert_any_await(P, "review", "urn:c1:document", excluding="op-1")
 
     asyncio.run(case())

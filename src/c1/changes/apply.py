@@ -147,9 +147,10 @@ class _DecisionMemo:
             ("scope", p.id, op, scope_id), lambda: self.plane.check_scope(p, op, scope_id)
         )
 
-    async def check_read(self, p: Principal, resource_id: str) -> Decision:
+    async def check_read(self, p: Principal, resource_id: str, *, excluding: str = "") -> Decision:
         return await self._once(
-            ("read", p.id, resource_id), lambda: self.plane.check_read(p, resource_id)
+            ("read", p.id, resource_id, excluding),
+            lambda: self.plane.check_read(p, resource_id, excluding=excluding),
         )
 
     async def check_operation(
@@ -285,17 +286,19 @@ class ChangeService:
         target = _part_document(operation.record)
         if target is None:
             return Decision(False, "permission_denied")
+        # M13: during reconciliation the document may itself be a target of this
+        # apply's pending operation, which must not block its own recheck.
         if target in staged_documents:
             readable = await checks.check_scope(p, "read", staged_documents[target])
         else:
-            readable = await checks.check_read(p, target)
+            readable = await checks.check_read(p, target, excluding=excluding)
         if not readable.allowed:
             return readable
         document_permission = "review" if review else "contribute"
         if isinstance(operation, CreateOperation):
             if target in staged_documents:
                 return await checks.check_scope(p, document_permission, staged_documents[target])
-            return await checks.check_operation(p, document_permission, target)
+            return await checks.check_operation(p, document_permission, target, excluding=excluding)
         assert isinstance(operation, ReplaceOperation)
         old_document = _part_document(old) if old is not None else None
         if old_document is None:
@@ -316,7 +319,9 @@ class ChangeService:
                     p, document_permission, staged_documents[document]
                 )
             else:
-                allowed = await checks.check_operation(p, document_permission, document)
+                allowed = await checks.check_operation(
+                    p, document_permission, document, excluding=excluding
+                )
             if not allowed.allowed:
                 return allowed
         return decision

@@ -89,9 +89,11 @@ def test_t03_knowledge_only_restore_keeps_current_security(reference: Reference)
         await case.grant(company_a, "erin", "creator")
         await apply([{"kind": "create", "record": later, "scope_id": company_a}])
         # A draft prepared on the post-backup head becomes stale after the restore.
+        stale_record = _entity("Stale draft")
+        stale_record_id = stale_record["id"]
         stale = await new_changeset(
             case,
-            [{"kind": "create", "record": _entity("Stale draft"), "scope_id": company_a}],
+            [{"kind": "create", "record": stale_record, "scope_id": company_a}],
             actor="erin",
         )
         alice_note_before = await case.request(
@@ -133,11 +135,29 @@ def test_t03_knowledge_only_restore_keeps_current_security(reference: Reference)
         assert missing.status_code == 404
         state = ref.admin_internal_state()
         assert any(r["type"] == "knowledge" for r in state["restore_records"])
-        # The pre-restore draft is on a head that no longer exists: refused, not applied.
+        # The pre-restore draft is on a head that no longer exists: C1 checks the
+        # base at apply (M04), so it may validate and be approved, but never applies.
         submitted = await case.request("POST", changeset_path(stale["id"], "submit"), actor="erin")
         assert submitted.status_code in (200, 409), submitted.text
-        if submitted.status_code == 200:
-            assert submitted.json()["state"] in {"stale", "rejected"}, submitted.json()["state"]
+        state_now = submitted.json().get("state")
+        if state_now == "submitted":
+            state_now = (await action(case, stale["id"], "validate", actor="erin"))["state"]
+        if state_now == "validated":
+            await action(case, stale["id"], "approve", actor="carol")
+            refused = await case.request(
+                "POST",
+                changeset_path(stale["id"], "apply"),
+                actor="carol",
+                headers={"Idempotency-Key": uuid.uuid4().hex},
+            )
+            assert refused.status_code == 409, refused.text
+        current = await case.request("GET", changeset_path(stale["id"]), actor="erin")
+        assert current.json()["state"] in {"stale", "rejected"}, current.json()["state"]
+        assert (
+            await case.request(
+                "GET", "/v1/resources/" + quote(str(stale_record_id), safe=""), actor="erin"
+            )
+        ).status_code == 404
         # A new ChangeSet on the restored head applies.
         await apply([{"kind": "create", "record": _entity("After restore"), "scope_id": company_a}])
 

@@ -104,3 +104,27 @@ def test_default_and_typed_metadata_match_guarded_list_results() -> None:
             assert knowledge.history_calls == len(service._document_ids(_RESOURCE, types))
 
     asyncio.run(run())
+
+
+def test_history_probes_only_storage_documents_present_at_head() -> None:
+    async def run() -> None:
+        service, knowledge, _plane, _journal = _service()
+        ids = service._document_ids(_RESOURCE)
+        # No document is ever deleted, so absent classes have no history to probe.
+        knowledge.absent = set(ids[1:])
+        probed: list[str] = []
+
+        async def class_history(document_id: str) -> list[dict[str, Any]]:
+            probed.append(document_id)
+            return [{"identifier": "only", "timestamp": 1, "message": "legacy"}]
+
+        knowledge.history = class_history  # type: ignore[assignment]
+        result = await service.list(_PRINCIPAL, _RESOURCE)
+        assert result is not None and [e["revision"] for e in result["items"]] == ["branch:only"]
+        assert probed == ids[:1]
+        knowledge.absent = set(ids)
+        probed.clear()
+        result = await service.list(_PRINCIPAL, _RESOURCE)
+        assert result is not None and result["items"] == [] and probed == []
+
+    asyncio.run(run())

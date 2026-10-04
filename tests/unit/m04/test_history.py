@@ -52,6 +52,7 @@ class FakeKnowledge:
         )
         self.revision = "branch:knowledge2"
         self.history_calls = 0
+        self.absent: set[str] = set()
         self.rows: list[dict[str, Any]] = [
             {
                 "identifier": "knowledge2",
@@ -63,6 +64,9 @@ class FakeKnowledge:
 
     async def head(self) -> str:
         return self.revision
+
+    async def get(self, document_id: str, commit: str | None = None) -> dict[str, Any] | None:
+        return None if document_id in self.absent else {"@id": document_id}
 
     async def history(self, _document_id: str) -> list[dict[str, Any]]:
         self.history_calls += 1

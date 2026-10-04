@@ -293,6 +293,27 @@ class HistoryService:
                     raise
                 return []
 
+        async def exists(document_id: str) -> bool:
+            try:
+                if backend_gate is None:
+                    return await self.knowledge.get(document_id) is not None
+                async with backend_gate:
+                    return await self.knowledge.get(document_id) is not None
+            except BackendError as exc:
+                if exc.status_code != 404:
+                    raise
+                return False
+
+        # M13: instance documents are only inserted or replaced, never deleted,
+        # so every storage document a resource ever occupied exists at head.
+        # Cheap existence reads select the classes whose backend history is
+        # probed; a history probe costs time proportional to the commit count.
+        present: list[str] = []
+        for batch_start in range(0, len(document_ids), _HISTORY_CONCURRENCY):
+            batch = document_ids[batch_start : batch_start + _HISTORY_CONCURRENCY]
+            found = await asyncio.gather(*(exists(item) for item in batch))
+            present.extend(item for item, ok in zip(batch, found, strict=True) if ok)
+        document_ids = present
         # A stable resource can have occupied more than one storage class.
         # Preserve that coverage without serializing every independent probe.
         for batch_start in range(0, len(document_ids), _HISTORY_CONCURRENCY):

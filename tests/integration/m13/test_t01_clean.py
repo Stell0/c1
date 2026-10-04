@@ -113,6 +113,7 @@ def test_t01_api_workflows_documents_and_every_context_profile(reference: Refere
         await case.grant(company_a, "carol", "creator")
         await case.grant(company_a, "carol", "contributor")
         await case.grant(company_a, "dave", "reviewer")
+        await case.grant(company_a, "dave", "reader")
         carol = (await case.principal("carol")).id
         record = {
             "id": f"urn:c1:instance:dev:assertion/{uuid.uuid4()}",

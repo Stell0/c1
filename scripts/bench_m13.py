@@ -157,7 +157,8 @@ async def bench(out: Path) -> dict[str, Any]:
         await case.grant(scope, "frank", "reader")
         # Write-cost measurements use a scope the benchmark reader cannot read.
         writes = await case.scope("M13 benchmark writes")
-        await case.grant(writes, "carol", "reviewer")
+        for role in ("reviewer", "reader"):
+            await case.grant(writes, "carol", role)
         erin = (await case.principal("erin")).id
 
         # Context, document and fixture-level measurements on the loaded fixtures.
@@ -357,10 +358,6 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
-    raise SystemExit(main())
-
-
 def render_limits(result: dict[str, Any]) -> str:
     """docs/operations/limits.md: configured limits plus the measured numbers."""
     host = result["host_before"]
@@ -476,3 +473,7 @@ def render_limits(result: dict[str, Any]) -> str:
         "",
     ]
     return "\n".join(lines)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -173,8 +173,8 @@ class AuthorizationPlane:
         )
         return decisions[identifier]
 
-    async def check_read(self, p: Principal, resource_id: str) -> Decision:
-        return await self._resource(p, resource_id, "can_read")
+    async def check_read(self, p: Principal, resource_id: str, *, excluding: str = "") -> Decision:
+        return await self._resource(p, resource_id, "can_read", excluding=excluding)
 
     async def check_operation(
         self, p: Principal, op: str, resource_id: str, *, excluding: str = ""

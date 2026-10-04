@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "c1"
-version = "0.0.0.dev0"
+version = "0.1.0rc1"
 description = "C1 canonical knowledge model and development harness"
 requires-python = ">=3.13,<3.14"
 license = "Apache-2.0"
@@ -78,7 +78,7 @@ python_version = "3.13"
 strict = true
 explicit_package_bases = true
 mypy_path = ["src", "."]
-files = ["src", "scripts", "probes", "tests"]
+files = ["src", "scripts", "probes", "tests", "benchmark"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

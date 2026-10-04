@@ -60,7 +60,10 @@ def test_t05_service_faults_fail_closed(reference: Reference) -> None:
             await _ready(case, expected=503)
             denied = await case.request("GET", person, actor="carol")
             results["openfga_paused"] = denied.status_code
-            assert denied.status_code == 503
+            # Fail closed without content: a direct read answers the non-disclosing
+            # 404 that M03-T06 verified for an authorization outage.
+            assert denied.status_code in (404, 503), denied.text
+            assert PERSON not in denied.text and "properties" not in denied.json()
         finally:
             ref.engine("unpause", openfga)
         await _ready(case, expected=200)

@@ -58,6 +58,14 @@ The journal and OpenFGA are untouched, so current bindings keep governing.
 - `scripts/release_audit.py` checks the image, the compose file, the source and the running deployment.
 - `make release-check` runs the OpenAPI and license checks.
 
+**Scale fixes found by the reference run.** The first full reference run loaded every fixture into one repository (about 850 documents) and found two defects that the per-test development databases had hidden.
+- **`/v1/history` exceeded the 30 s backend timeout.** A TerminusDB 12.0.7 `/api/history` probe costs time in proportion to the commits and the data size, even for a document that does not exist: about 5 s at 41 commits. C1 probed every declared storage class (dozens once the software profile is installed). C1 never deletes instance documents; it only inserts or replaces them (`full_replace` is reserved for schema). So every storage document a resource ever occupied still exists at head. `HistoryService` now probes history only for storage IDs that exist at head, found through cheap document reads. Coverage is unchanged: a resource that changed class is still found under both classes. Measured: 8 s instead of a timeout.
+- **Context and queries at an older revision exceeded the 30 s budget.** A revision older than a later profile installation does not declare the newer classes. TerminusDB's GraphQL answers `Unknown field "<Class>" on type "Query"`, which C1 treated as a shape error. It then fell back to one document read per requested ID per class: 4,104 reads for one context request. That exact error now means "no documents of this class at this commit". Every other error keeps the exact per-document fallback. Measured: 3.3 s instead of a timeout.
+
+- **A ChangeSet that replaced a document and one of its parts could never apply.** (Found by the M14 benchmark on the reference deployment.) Apply writes its pending operation to the journal before reconciliation. Reconciliation rechecks every permission with `excluding=<operation>`, but the structural checks on the part's document (read, then contribute or review) did not pass `excluding`. The operation therefore blocked itself on a document it targets: 403 after the journal write, and C1 stayed unready because each recovery repeated the same denial. The document checks now honor `excluding`, exactly as the target checks already did. After the fix, startup recovery completed the stuck apply on the laptop deployment.
+
+These fixes are covered by unit tests (`tests/unit/m06/test_history_types.py`, `tests/unit/m06/test_changes_wiring.py`, `tests/unit/m13/test_history_scale.py`) and by the M13 reference tests.
+
 ## Evidence
 
 - W1 probes (2026-10-04, laptop):

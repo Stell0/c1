@@ -27,6 +27,10 @@ _BACKEND_ID_BASE = "terminusdb:///data/"
 _LITERAL_SELECTION = "{ lexical datatype language }"
 
 
+class _GraphQLUndeclaredClass(Exception):
+    """The queried storage class is not declared by the selected commit's schema."""
+
+
 class _GraphQLShapeError(Exception):
     """The server's GraphQL representation cannot preserve a NodeRecord."""
 
@@ -178,6 +182,13 @@ async def _graphql_chunk(
         payload = response.json()
     except (BackendError, ValueError) as exc:
         raise _GraphQLShapeError from exc
+    if isinstance(payload, dict) and payload.get("errors") == [
+        {
+            "message": f'Unknown field "{definition.storage_name}" on type "Query"',
+            "locations": [{"line": 1, "column": 9}],
+        }
+    ]:
+        raise _GraphQLUndeclaredClass
     if (
         not isinstance(payload, dict)
         or payload.get("errors")
@@ -315,6 +326,12 @@ async def _fetch_records_content(
                     "C1-ST-005", "duplicate canonical identity in fallback"
                 ) from None
             return {**fallback.decoded, **found}
+        except _GraphQLUndeclaredClass:
+            # M13: the class is absent from this commit's schema, so it has no
+            # documents there. A revision older than a later profile installation
+            # would otherwise send every ID of every newer class through
+            # per-document reads.
+            return {}
         except _GraphQLShapeError:
             return await _get_chunk(storage, registry, definition, chunk, commit_id, semaphore)
 

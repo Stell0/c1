@@ -9,6 +9,7 @@ fixture loaders use, so the M05–M11 fixtures load through the public API.
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import json
 import os
@@ -204,7 +205,7 @@ def provision_identities() -> dict[str, Any]:
     _kcadm("create", "clients", "-r", "c1", "-f", "-", input=json.dumps(tester).encode())
     identities: dict[str, Any] = {"users": {}, "services": {}}
     for user in USERS:
-        value = secrets.token_urlsafe(18)
+        value = "p" + secrets.token_urlsafe(18)  # never starts with "-" (kcadm option parsing)
         _kcadm(
             "create",
             "users",
@@ -266,8 +267,15 @@ class ReferenceTokens:
     identities: dict[str, Any]
     auth: str = AUTH
     _cache: dict[str, tuple[float, str]] = field(default_factory=dict)
+    _locks: dict[str, asyncio.Lock] = field(default_factory=dict)
 
     async def _issue(self, key: str, form: dict[str, str]) -> Token:
+        # One grant per identity at a time: concurrent password grants trip
+        # Keycloak's brute-force quick-login check and lock the test user.
+        async with self._locks.setdefault(key, asyncio.Lock()):
+            return await self._issue_locked(key, form)
+
+    async def _issue_locked(self, key: str, form: dict[str, str]) -> Token:
         cached = self._cache.get(key)
         if cached and cached[0] > time.monotonic():
             return Token(cached[1])
