@@ -41,7 +41,13 @@ def test_t04_work_counters_on_the_software_fixture(
             pages = math.ceil(tuples / 100) + 1
             # Plan build and finalize each make one exact binding pass.
             assert calls["read"] <= 2 * pages, (calls, tuples)
-            assert calls["list-objects"] <= 1
+            if fga.read_model_verified:
+                # M14a (ADR-0025): build and finalize each read the principal's
+                # scopes freshly and derive decisions; no per-resource Check.
+                assert calls["list-objects"] <= 2, calls
+                assert calls["check"] + calls["batch-check"] == 0, calls
+            else:
+                assert calls["list-objects"] <= 1
 
             # One producer ChangeSet: journal listings are per data version,
             # never per decision, and decisions are read from security views.
