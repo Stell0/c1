@@ -1,0 +1,6 @@
+started_utc=2026-10-05T11:10:04Z
+--> 9571ffd07ce0
+Successfully tagged localhost/c1:0.1.0rc1
+9571ffd07ce056abc6b5b384921f3719ea460fadd4bc148dd503196b6d8f81ec
+image_id=9571ffd07ce056abc6b5b384921f3719ea460fadd4bc148dd503196b6d8f81ec
+source_revision=804804915bea273b16f45769a4006f616f9f26f1
