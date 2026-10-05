@@ -86,6 +86,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | VERIFIED |
 | M13 | Release hardening and operational acceptance | M12 | Independently repeatable deployment, recovery, and complete acceptance evidence | VERIFIED |
 | M14 | Retrieval and storage benchmark | M13 | Reproducible quality, security-isolation, fidelity, and performance baselines for C1 retrieval | IN_PROGRESS |
+| M14a | Performance hardening (owner-approved insertion, 2026-10-05) | M14 | Fewer backend round trips on reads, contexts and writes with unchanged security, fidelity and outputs | IN_PROGRESS |
 | M15 | Semantic Seed Index (optional extension) | M14 | Authorization-safe semantic candidate discovery through a rebuildable vector projection | NOT_PLANNED |
 | M16 | Decision Gate (optional extension) | M14 | Generic bounded decision interface with optional Jev/Kev providers and calibrated evaluation | NOT_PLANNED |
 | M17 | Non-generative enrichment (optional extension) | M16 | Reviewed entity/type/keyword/resolution proposals from deterministic candidates plus optional bounded decisions | NOT_PLANNED |
@@ -523,6 +524,27 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 **Plan separately:** benchmark corpora, gold-label process, metrics, hardware declaration, statistical repeat count, regression thresholds, and retained evidence format.
 
 **Exit gate:** C1 has a reproducible deterministic baseline against which later retrieval/enrichment changes can demonstrate improvement or regression.
+
+## M14a — Performance hardening (owner-approved insertion)
+
+**Goal:** cut the backend round trips that make every read, context and write slow on the declared measurement host, without changing security semantics, outputs or retrieval quality. The owner approved this insertion on 2026-10-05, before M15, from the analysis of the M13 and M14 measurements.
+
+**Verifiable outputs**
+
+- Per-request round-trip counts (TerminusDB, OpenFGA) in the audit line, and unit round-trip budget tests.
+- Read, context and write paths that no longer scale with the number of declared classes, and authorization checks that are batched rather than issued per resource. Current-binding authorization stays fresh on every request.
+- An operator command for backend storage maintenance (TerminusDB optimize).
+
+**Specific tests**
+
+- **M14a-T01 — Equivalence:** the full M01–M13 regression passes with the M07 goldens unchanged, and the M14 benchmark reports fidelity, security invariance and revocation at 1.0 with no quality change against the M14 baseline.
+- **M14a-T02 — Round-trip budgets:** unit tests bound backend calls for an entity list, a context build, and a 1- and 36-replace apply.
+- **M14a-T03 — Measured improvement:** the M13 bench and the M14 performance family on the same host meet the targets declared in the milestone plan, or report the measured gap.
+- **M14a-T04 — No authorization cache:** caches hold only immutable content keyed by commit and schema authority keyed by knowledge head. Revocation and re-scope take effect on the next request (the M03, M06 and M14 revocation checks).
+
+**Plan separately:** cache bounds and keys, the binding-source model, the batching boundaries, and the targets.
+
+**Exit gate:** measured speedups on the declared host with every security, fidelity and output check unchanged.
 
 ## M15 — Semantic Seed Index (optional extension)
 
