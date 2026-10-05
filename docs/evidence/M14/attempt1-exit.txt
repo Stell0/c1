@@ -1,0 +1,2 @@
+pytest_exit=1
+finished_utc=2026-10-05T10:29:48Z

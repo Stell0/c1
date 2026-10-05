@@ -1,0 +1,23 @@
+.F..F.                                                                   [100%]
+=================================== FAILURES ===================================
+______________ test_t02_retrieval_quality_is_reported_per_family _______________
+tests/integration/m14/test_t02_quality.py:39: in test_t02_retrieval_quality_is_reported_per_family
+    assert quality["families"][family]["recall@50"] == 1.0, (name, family)
+E   AssertionError: ('M', 'keyword/exact')
+E   assert 0.949263 == 1.0
+__________________ test_t05_performance_envelope_is_measured ___________________
+tests/integration/m14/test_t05_performance.py:10: in test_t05_performance_envelope_is_measured
+    assert load["storage_bytes_before"] and load["storage_bytes_after"], name
+E   AssertionError: S
+E   assert (None)
+=============================== warnings summary ===============================
+tests/integration/m14/test_t01_fidelity.py: 14 warnings
+  /root/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/integration/m14/test_t02_quality.py::test_t02_retrieval_quality_is_reported_per_family
+FAILED tests/integration/m14/test_t05_performance.py::test_t05_performance_envelope_is_measured
+2 failed, 4 passed, 14 warnings in 35033.93s (9:43:53)
+uv failed with exit status 1.

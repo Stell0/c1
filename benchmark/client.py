@@ -7,7 +7,6 @@ reference identity provider. No backend, journal or authorization-store access.
 from __future__ import annotations
 
 import asyncio
-import json
 import subprocess
 import time
 import uuid
@@ -166,13 +165,14 @@ def podman(*argv: str) -> str:
 
 
 def storage_bytes() -> int | None:
-    """Size of the TerminusDB storage volume (knowledge and workflow databases)."""
-    volume = f"{ref.PROJECT}_terminus-data"
-    try:
-        mountpoint = json.loads(podman("volume", "inspect", volume))[0]["Mountpoint"]
-    except (ValueError, IndexError, KeyError):
-        return None
-    out = podman("unshare", "du", "-sb", mountpoint).split()
+    """Size of the TerminusDB storage (knowledge and workflow databases).
+
+    Measured inside the container, so it works for rootful and rootless Podman
+    whatever the volume is named.
+    """
+    out = podman(
+        "exec", ref.container("terminusdb"), "du", "-sb", "/app/terminusdb/storage"
+    ).split()
     return int(out[0]) if out and out[0].isdigit() else None
 
 

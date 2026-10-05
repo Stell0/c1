@@ -35,5 +35,10 @@ def test_t02_retrieval_quality_is_reported_per_family(results: dict[str, dict[st
         assert budgets == {"8192", "32768", "65536"}, name
         # Exact keyword, alias, valid-time and document semantics are correctness checks.
         assert not quality["exact_semantics_failures"], (name, quality["exact_semantics_failures"])
-        for family in ("keyword/exact", "alias/exact", "valid-at/exact", "document/exact"):
-            assert quality["families"][family]["recall@50"] == 1.0, (name, family)
+        # Recall@K cannot reach 1 when a need has more than K relevant items; the
+        # set equality above is the exact check, and here every need whose gold
+        # set fits in K must be complete at K.
+        for key, row in quality["per_query"].items():
+            family = key.split("/")[0]
+            if family in {"kw-any", "kw-all", "alias", "valid-at", "doc"} and row["gold"] <= 50:
+                assert row["recall@50"] == 1.0, (name, key)
