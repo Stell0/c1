@@ -8,7 +8,9 @@ from typing import TYPE_CHECKING, Any, Self
 
 import httpx
 
+from c1 import roundtrips
 from c1.model.ids import validate_iri
+from c1.storage.cache import RecordCache
 
 if TYPE_CHECKING:
     from c1.model.nodes import NodeRecord, ValidatedBatch
@@ -94,6 +96,8 @@ class Terminus:
         if not isinstance(config, StorageConfig):
             raise TypeError("Terminus accepts only StorageConfig")
         self.config = config
+        # M14a B1: decoded records at immutable commits; never authorization.
+        self.record_cache = RecordCache()
         self._client = httpx.AsyncClient(
             base_url=config.url.rstrip("/"),
             auth=httpx.BasicAuth("admin", config.password),
@@ -120,6 +124,7 @@ class Terminus:
         return f"/api/document/{self._database_path}"
 
     async def _request(self, method: str, path: str, **kwargs: Any) -> httpx.Response:
+        roundtrips.count("terminus")
         client = self._client
         try:
             response = await client.request(method, path, **kwargs)

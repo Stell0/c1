@@ -10,6 +10,8 @@ from typing import Any, Self
 
 import httpx
 
+from c1 import roundtrips
+
 Tuple = tuple[str, str, str]
 _FRESH = "HIGHER_CONSISTENCY"
 # Whole-store binding scans stop here and fail closed (M09a D4).
@@ -69,6 +71,7 @@ class FGA:
         await self._client.aclose()
 
     async def _request(self, method: str, path: str, **kwargs: Any) -> dict[str, Any]:
+        roundtrips.count("openfga")
         try:
             response = await self._client.request(method, path, **kwargs)
             if response.is_error:

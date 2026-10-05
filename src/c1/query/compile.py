@@ -11,11 +11,12 @@ import asyncio
 import json
 import re
 from collections.abc import Iterable, Mapping
-from typing import Any
+from typing import Any, cast
 
 from c1.model.ids import validate_iri
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ClassDefinition, ProfileRegistry, PropertyDefinition
+from c1.storage.cache import MISSING, registry_key
 from c1.storage.mapping import _value_kind, document_to_record, storage_id
 from c1.storage.schema import assert_installed_profiles
 from c1.storage.terminus import BackendError, StorageError, Terminus
@@ -291,7 +292,51 @@ async def _fetch_records_content(
     backend_gate: asyncio.Semaphore,
     storage_types: Mapping[str, frozenset[str]] | None,
 ) -> dict[str, NodeRecord]:
-    """Collect pinned content; only authority-gated wrappers may expose it."""
+    """Collect pinned content; only authority-gated wrappers may expose it.
+
+    M14a B1: a commit's content never changes, so decoded results (including
+    absence) are cached per commit, installed profiles, ID and class hint.
+    """
+    cache = storage.record_cache
+    profiles = registry_key(registry)
+
+    def key(canonical_id: str) -> tuple[object, ...]:
+        hint = storage_types.get(canonical_id) if storage_types is not None else None
+        return (commit_id, profiles, canonical_id, hint)
+
+    result: dict[str, NodeRecord] = {}
+    missing: list[str] = []
+    for canonical_id in requested_ids:
+        cached = cache.get(key(canonical_id))
+        if cached is MISSING:
+            missing.append(canonical_id)
+        elif cached is not None:
+            result[canonical_id] = cast(NodeRecord, cached)
+    if not missing:
+        return result
+    fetched = await _fetch_records_uncached(
+        storage,
+        registry,
+        missing,
+        commit_id,
+        backend_gate=backend_gate,
+        storage_types=storage_types,
+    )
+    for canonical_id in missing:
+        cache.put(key(canonical_id), fetched.get(canonical_id))
+    result.update(fetched)
+    return result
+
+
+async def _fetch_records_uncached(
+    storage: Terminus,
+    registry: ProfileRegistry,
+    requested_ids: list[str],
+    commit_id: str,
+    *,
+    backend_gate: asyncio.Semaphore,
+    storage_types: Mapping[str, frozenset[str]] | None,
+) -> dict[str, NodeRecord]:
     result: dict[str, NodeRecord] = {}
     semaphore = backend_gate
     chunks: list[tuple[ClassDefinition, dict[str, set[str]]]] = []

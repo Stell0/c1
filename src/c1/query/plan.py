@@ -6,7 +6,7 @@ import asyncio
 import time
 from collections.abc import Awaitable, Callable, Mapping
 from contextvars import ContextVar
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from types import MappingProxyType
 
 from c1.authorization.fga import FGA, FGAError, resource_object, scope_object
@@ -43,6 +43,8 @@ class AuthorizedPlan:
     # Current journal bindings when the plan was built; sizes the binding
     # source for finalize (M09a D4). Zero means one read per resource.
     binding_count: int = 0
+    # M14a B1: complete storage-class hints for journaled resources (index).
+    class_hints: Mapping[str, frozenset[str]] = field(default_factory=dict)
 
     def contains(self, resource_id: str) -> bool:
         return resource_id in self.authorized_ids
@@ -328,6 +330,7 @@ class AuthorizedSelection:
                 MappingProxyType(current_scopes),
                 snapshot.history_manifest,
                 len(snapshot.bindings),
+                snapshot.class_hints,
             )
         except QueryPlanError:
             raise

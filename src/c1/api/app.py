@@ -1,6 +1,9 @@
 """Single-process authenticated HTTP boundary for current security state."""
 
 import json
+import logging
+import sys
+import time
 import uuid
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
@@ -13,6 +16,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.requests import ClientDisconnect
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
+from c1 import roundtrips
 from c1.api.problems import http_problem, problem, profile_problem, validation_problem
 from c1.api.routes import (
     changesets,
@@ -198,6 +202,15 @@ async def _bounded_body(request: Request) -> bytes | None:
     return bytes(body)
 
 
+_METRICS = logging.getLogger("c1.metrics")
+if not _METRICS.handlers:
+    _metrics_handler = logging.StreamHandler(sys.stdout)
+    _metrics_handler.setFormatter(logging.Formatter("%(message)s"))
+    _METRICS.addHandler(_metrics_handler)
+    _METRICS.setLevel(logging.INFO)
+    _METRICS.propagate = False
+
+
 class BoundaryMiddleware:
     def __init__(self, app: ASGIApp, runtime: Runtime) -> None:
         self.app = app
@@ -207,6 +220,33 @@ class BoundaryMiddleware:
         if scope["type"] != "http":
             await self.app(scope, receive, send)
             return
+        # M14a A1: per-request backend round trips, logged separately from audit.
+        counts = roundtrips.begin()
+        started = time.perf_counter()
+        status = {"code": 0}
+
+        async def counted_send(message: Message) -> None:
+            if message["type"] == "http.response.start":
+                status["code"] = int(message["status"])
+            await send(message)
+
+        try:
+            await self._dispatch(scope, receive, counted_send)
+        finally:
+            _METRICS.info(
+                json.dumps(
+                    {
+                        "method": scope.get("method", ""),
+                        "path": scope.get("path", ""),
+                        "status": status["code"],
+                        "ms": round((time.perf_counter() - started) * 1000, 1),
+                        "roundtrips": counts,
+                    },
+                    sort_keys=True,
+                )
+            )
+
+    async def _dispatch(self, scope: Scope, receive: Receive, send: Send) -> None:
         request = Request(scope, receive)
         request.state.correlation_id = str(uuid.uuid4())
 

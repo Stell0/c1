@@ -222,6 +222,14 @@ class QueryService:
         storage_types: Mapping[str, frozenset[str]] | None = None,
     ) -> AuthorizedRecords:
         registry = self.runtime.registry
+        if storage_types is None and plan.class_hints:
+            # M14a B1: probe only the classes each journaled resource was ever
+            # written with; untracked resources keep all-class probes.
+            storage_types = {
+                identifier: plan.class_hints[identifier]
+                for identifier in plan.authorized_ids
+                if identifier in plan.class_hints
+            }
         try:
             async with asyncio.timeout_at(deadline):
                 if backend_gate is None and storage_types is None:

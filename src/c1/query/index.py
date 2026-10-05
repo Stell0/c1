@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import asyncio
 import json
-from dataclasses import dataclass
+from collections.abc import Mapping
+from dataclasses import dataclass, field
+from types import MappingProxyType
 
 from c1.authorization.journal import Journal
 from c1.authorization.models import Binding, Operation, Scope
@@ -31,6 +33,10 @@ class BindingSnapshot:
     pending_scopes: frozenset[str]
     global_publication_pending: bool
     history_manifest: bytes | None = None
+    # M14a B1: every storage class each journaled resource was ever written
+    # with. Complete for tracked IDs, so class probes stay exact; untracked IDs
+    # are absent and keep all-class probes.
+    class_hints: Mapping[str, frozenset[str]] = field(default_factory=dict)
 
     def candidates(
         self,
@@ -149,6 +155,7 @@ class CurrentBindingIndex:
                 for operation in pending
             ),
             history_manifest=history_manifest,
+            class_hints=MappingProxyType(_class_hints(operations)),
         )
 
     async def _read_snapshot(
@@ -177,3 +184,28 @@ class CurrentBindingIndex:
                     self._snapshot = None
                     self._cache_token = object()
                 raise IndexUnavailable("current binding index unavailable") from exc
+
+
+def _class_hints(operations: list[Operation]) -> dict[str, frozenset[str]]:
+    """Storage classes written for each resource by journaled knowledge writes.
+
+    Instance documents are written only by applied ChangeSets and the
+    provisioning operations, and each operation keeps its full records.
+    """
+    seen: dict[str, set[str]] = {}
+    for operation in operations:
+        if operation.state != "applied":
+            continue
+        if operation.kind == "changeset_apply":
+            raw_records = operation.payload.get("records", ())
+        elif operation.kind in {"provision", "probe_revision"}:
+            raw_records = [operation.payload.get("record")]
+        else:
+            continue
+        for raw in raw_records:
+            if not isinstance(raw, dict) or not isinstance(raw.get("id"), str):
+                continue
+            types = raw.get("types")
+            if isinstance(types, list) and all(isinstance(item, str) for item in types):
+                seen.setdefault(raw["id"], set()).update(types)
+    return {identifier: frozenset(types) for identifier, types in seen.items()}
