@@ -1,0 +1,9 @@
+........                                                                 [100%]
+=============================== warnings summary ===============================
+tests/integration/m13/test_t06_portability.py::test_t06_export_roundtrip_refusals_and_repeatable_schema
+tests/integration/m13/test_t06_portability.py::test_t06_export_roundtrip_refusals_and_repeatable_schema
+  /root/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+8 passed, 2 warnings in 5567.04s (1:32:47)

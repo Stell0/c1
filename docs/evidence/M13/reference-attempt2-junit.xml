@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="3700.915" timestamp="2026-10-04T04:41:28.179171+00:00" hostname="makako"><testcase classname="tests.integration.m13.test_t01_clean" name="test_t01_isolation_no_ai_and_published_ports" time="3393.639" /><testcase classname="tests.integration.m13.test_t01_clean" name="test_t01_api_workflows_documents_and_every_context_profile" time="306.099"><failure message="AssertionError: assert '# Context: T...b9466b86522\n' == '# Context: T...b9466b86522\n'&#10;  &#10;  Skipping 29326 identical leading characters in diff, use -v to show&#10;  Skipping 116 identical trailing characters in diff, use -v to show&#10;  - _bytes: 29739&#10;  ?           ^^&#10;  + _bytes: 29519&#10;  ?           ^^&#10;    &#10;    - offs">tests/integration/m13/test_t01_clean.py:203: in test_t01_api_workflows_documents_and_every_context_profile
+    reference.run(run())
+tests/integration/m13/conftest.py:50: in run
+    return self.runner.run(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:119: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/integration/m13/test_t01_clean.py:165: in run
+    assert_golden(
+tests/integration/m07/conftest.py:138: in assert_golden
+    assert normalized == expected
+E   AssertionError: assert '# Context: T...b9466b86522\n' == '# Context: T...b9466b86522\n'
+E     
+E     Skipping 29326 identical leading characters in diff, use -v to show
+E     Skipping 116 identical trailing characters in diff, use -v to show
+E     - _bytes: 29739
+E     ?           ^^
+E     + _bytes: 29519
+E     ?           ^^
+E       
+E       - offs</failure></testcase></testsuite></testsuites>

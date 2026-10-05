@@ -1,0 +1,6 @@
+started_utc=2026-10-04T04:40:55Z
+--> 0974cf9ee27a
+Successfully tagged localhost/c1:0.1.0rc1
+0974cf9ee27a01a8d1c3fe386ba0865834611ad3a7972bb1d0e1b875d944c0c7
+image_id=0974cf9ee27a01a8d1c3fe386ba0865834611ad3a7972bb1d0e1b875d944c0c7
+source_revision=ffa2a3b023a6a78b1589642909e44ddeeda6ab66

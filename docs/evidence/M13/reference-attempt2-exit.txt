@@ -1,0 +1,3 @@
+pytest_exit=1
+bench_exit=NOT_RUN
+finished_utc=2026-10-04T05:43:27Z

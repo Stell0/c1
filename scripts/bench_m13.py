@@ -361,9 +361,15 @@ def main() -> int:
 def render_limits(result: dict[str, Any]) -> str:
     """docs/operations/limits.md: configured limits plus the measured numbers."""
     host = result["host_before"]
+    budget_ms = 30_000  # the reference deployment's C1_QUERY_TIME_BUDGET_MS
 
     def ms(entry: dict[str, Any]) -> str:
-        return f"{entry['median_ms']:.0f} ms (max {entry['max_ms']:.0f})"
+        text = f"{entry['median_ms']:.0f} ms (max {entry['max_ms']:.0f})"
+        statuses = entry.get("statuses", [200])
+        if statuses != [200]:
+            # A refused request is a measured limit behavior, not a latency.
+            text += " — HTTP " + ", ".join(str(s) for s in statuses)
+        return text
 
     lines = [
         "# Limits and measured behavior",
@@ -465,13 +471,48 @@ def render_limits(result: dict[str, Any]) -> str:
         f"{sum(backup['backup_bytes'].values()) / 1048576:.1f} MiB",
         f"- Knowledge-only restore: {backup['restore_seconds']} s",
         "",
+    ]
+    refused = [
+        name
+        for name, data in result["datasets"].items()
+        if any(
+            data[key]["statuses"] != [200]
+            for key in ("entity_list", "entity_label_search", "assertion_query")
+        )
+    ]
+    beyond = result["limits"]["candidates_over_5000"]
+    if refused:
+        served = [n for n in result["datasets"] if n not in refused]
+        lines += [
+            "## Time budget on this host",
+            "",
+            f"- Reads at {', '.join(refused)} exceeded the {budget_ms:,} ms query time budget and "
+            "returned 503 `C1-QY-053` with no partial page"
+            + (f"; {', '.join(served)} completed within it." if served else "."),
+            f"- With {beyond['resources_in_scope']} readable resources the response was "
+            f"{beyond['status']} `{beyond['code']}`."
+            + (
+                " The candidate limit (422 `C1-QY-052`) is evaluated after the provisional "
+                "candidate snapshot, which already exhausted the time budget here, so this run "
+                "did not reach it."
+                if beyond["code"] != "C1-QY-052"
+                else ""
+            ),
+            "- Per-request cost grows with the number of readable resources: C1 reads candidate "
+            "content in per-class chunks and checks each candidate with OpenFGA (column above).",
+            "",
+        ]
+    lines += [
         "## Not measured",
         "",
         "- Throughput under sustained load, multi-process deployments and high availability.",
-        "- The query time-budget limit was not triggered by these datasets; its 503 behavior is "
-        "covered by M05-T06 with an injected slow backend.",
-        "",
     ]
+    if not refused:
+        lines.append(
+            "- The query time-budget limit was not triggered by these datasets; its 503 behavior "
+            "is covered by M05-T06 with an injected slow backend."
+        )
+    lines.append("")
     return "\n".join(lines)
 
 

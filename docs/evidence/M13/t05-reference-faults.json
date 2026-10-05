@@ -1,0 +1,11 @@
+{
+  "openfga_paused": 404,
+  "keycloak_stopped_existing_token": 200,
+  "terminus_stopped": 503,
+  "kill_during_apply": {
+    "first_status": 502,
+    "state_after_restart": "approved",
+    "retry_status": 200
+  },
+  "consistency_after_faults": true
+}

@@ -1,0 +1,18 @@
+   Building c1 @ file:///root/c1
+      Built c1 @ file:///root/c1
+Uninstalled 1 package in 13ms
+Installed 1 package in 43ms
+E
+==================================== ERRORS ====================================
+________ ERROR at setup of test_t01_isolation_no_ai_and_published_ports ________
+tests/integration/m13/conftest.py:79: in reference
+    bootstrap = ref.fresh_deployment()
+                ^^^^^^^^^^^^^^^^^^^^^^
+tests/integration/m13/reference.py:136: in fresh_deployment
+    raise RuntimeError("bootstrap failed: " + result.stderr.decode()[-2000:])
+E   RuntimeError: bootstrap failed:
+=========================== short test summary info ============================
+ERROR tests/integration/m13/test_t01_clean.py::test_t01_isolation_no_ai_and_published_ports
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 error in 1320.10s (0:22:00)
+uv failed with exit status 1.

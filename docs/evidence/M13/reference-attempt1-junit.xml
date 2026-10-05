@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="1320.103" timestamp="2026-10-04T04:15:52.067121+00:00" hostname="makako"><testcase classname="tests.integration.m13.test_t01_clean" name="test_t01_isolation_no_ai_and_published_ports" time="1318.544"><error message="failed on setup with &quot;RuntimeError: bootstrap failed:&quot;">tests/integration/m13/conftest.py:79: in reference
+    bootstrap = ref.fresh_deployment()
+                ^^^^^^^^^^^^^^^^^^^^^^
+tests/integration/m13/reference.py:136: in fresh_deployment
+    raise RuntimeError("bootstrap failed: " + result.stderr.decode()[-2000:])
+E   RuntimeError: bootstrap failed:</error></testcase></testsuite></testsuites>
