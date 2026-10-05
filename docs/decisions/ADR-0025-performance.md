@@ -36,9 +36,19 @@ AGENTS.md §5.2–5.3, ADR-0013 and ADR-0020 forbid positive authorization cache
    - **Guard.** `read_relation_is_derivable` checks the deployed model's shape when C1 starts and in readiness. It accepts the snake_case of the packaged file and the camelCase that the API serves. Readiness fails closed on any other shape, and the planner then falls back to one Check per resource.
    - **Tests.** A test pins the packaged model. Another proves equality with per-resource Checks over randomized worlds, including missing, diverged and extra bindings, group membership and mid-request revocation.
 
-7. **Storage maintenance.** `c1-admin maintenance optimize` runs TerminusDB optimize on the knowledge and workflow databases. It is safe while C1 serves; heads and content are unchanged.
+7. **Batched write-path decisions** (M09a D3, which was recorded but never wired). Each permission pass pre-decides its replace targets, part documents and references with one fresh `check_many(..., batch=True)` per principal and relation. The results seed the step's `_DecisionMemo` under the single-check keys. `check_many` gives every resource the same decision as its single check (M09a T01). The external-reference check in planning is one batched pass.
 
-8. **Measured and dropped.** Memoizing the profile-authority check would save about 3 ms per call (measured), so M07's fresh-read guarantee is kept.
+8. **Batched publication.** `_reconcile` reads live `bound_to` tuples for all new bindings from one exact source (`bound_to_many`), writes the missing tuples in atomic batches of at most 100, and confirms with a second exact read. It used to make four sequential calls per binding. Recovery reruns the same code: correct tuples are skipped, conflicts still raise 503.
+
+9. **Receipt scan skip.** A fresh apply skips the full commit-log scan while the knowledge head still equals the base revision. The branch history is linear and a receipt can only descend from the base, so none can be reachable.
+
+10. **Concurrent marker reads** in `detect_installed_registry` (readiness and startup), bounded at 8.
+
+11. **Storage maintenance.** `c1-admin maintenance optimize` runs TerminusDB optimize on the knowledge and workflow databases. It is safe while C1 serves; heads and content are unchanged.
+
+12. **Measured and dropped.**
+   - Memoizing the profile-authority check would save about 3 ms per call (measured), so M07's fresh-read guarantee is kept.
+   - Updating the journal snapshot in place after a write was not done. TerminusDB lists documents in layer order, not ID order, so a patched snapshot could not reproduce a fresh listing exactly, and a full listing costs about 0.2 s at 1,160 workflow documents.
 
 ## Evidence (laptop, M14 corpus S, 854 readable resources)
 
@@ -46,7 +56,9 @@ AGENTS.md §5.2–5.3, ADR-0013 and ADR-0020 forbid positive authorization cache
 |---|---|---|
 | Simple read | 2.4 s; 57 OpenFGA, 100 TerminusDB calls | 0.23 s; 24 OpenFGA, 10 TerminusDB calls |
 | `graph-context` 64 KiB | 2.6 s | 0.4 s |
-| 36-replace ChangeSet | 552 s | 123 s (before the write-path batching) |
+| 36-replace ChangeSet | 552 s | 12 s |
+| 97-create ChangeSet | 61 s | 24 s |
+| `/v1/instance` | 1.5 s | 0.9 s |
 
 Makako numbers are in the M14a report.
 
