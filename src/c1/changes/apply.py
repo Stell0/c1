@@ -120,6 +120,37 @@ def _part_document(record: dict[str, Any] | NodeRecord) -> str | None:
     return None
 
 
+def _decision_targets(
+    changeset: ChangeSet, registry: ProfileRegistry
+) -> tuple[list[str], list[str], list[str]]:
+    """Replace targets, part documents and referenced IDs of one ChangeSet."""
+    staged = {
+        str(operation.record.get("id"))
+        for operation in changeset.operations
+        if isinstance(operation, CreateOperation)
+    }
+    replaces: list[str] = []
+    documents: list[str] = []
+    references: list[str] = []
+    for operation in changeset.operations:
+        if not isinstance(operation, (CreateOperation, ReplaceOperation)):
+            continue
+        if isinstance(operation, ReplaceOperation):
+            replaces.append(operation.resource_id)
+        if _DOCUMENT_PART in operation.record.get("types", []):
+            document = _part_document(operation.record)
+            if document is not None and document not in staged:
+                documents.append(document)
+        properties = operation.record.get("properties", {})
+        if not isinstance(properties, dict):
+            continue
+        for predicate, values in properties.items():
+            if reference_classes(predicate, registry) is None or not isinstance(values, list):
+                continue
+            references.extend(v for v in values if isinstance(v, str) and v not in staged)
+    return replaces, documents, references
+
+
 def _replace_targets(changeset: ChangeSet) -> list[str]:
     return [
         operation.resource_id
@@ -155,6 +186,37 @@ class _DecisionMemo:
         found = await fetch_records(knowledge, registry, wanted)
         for identifier in wanted:
             self._records[identifier] = found.get(identifier)
+
+    async def prefetch(
+        self, p: Principal, op: str, identifiers: list[str], *, excluding: str = ""
+    ) -> None:
+        """M14a D3: decide many resources in one fresh batched pass (M09a D3).
+
+        `check_many` gives every resource the same decision as its single
+        check; the results seed this step's memo under the single-check keys.
+        """
+        relation = {
+            "read": "can_read",
+            "contribute": "can_contribute",
+            "edit": "can_contribute",
+            "review": "can_review",
+        }[op]
+
+        def key(identifier: str) -> tuple[str, ...]:
+            if op == "read":
+                return ("read", p.id, identifier, excluding)
+            return ("operation", p.id, op, identifier, excluding)
+
+        wanted = [i for i in dict.fromkeys(identifiers) if key(i) not in self._decisions]
+        if not wanted:
+            return
+        if self._head is None:
+            self._head = await self.journal.head()
+        decisions = await self.plane.check_many(
+            p, wanted, relation, excluding=excluding, batch=True
+        )
+        for identifier in wanted:
+            self._decisions[key(identifier)] = decisions[identifier]
 
     def record(self, identifier: str) -> tuple[bool, NodeRecord | None]:
         if identifier in self._records:
@@ -401,6 +463,10 @@ class ChangeService:
         owned = memo is None
         checks = memo if memo is not None else _DecisionMemo(self.plane)
         await checks.load_records(self.knowledge, self.registry, _replace_targets(changeset))
+        replaces, documents, _references = _decision_targets(changeset, self.registry)
+        operation_kind = "review" if review else "contribute"
+        await checks.prefetch(p, operation_kind, [*replaces, *documents], excluding=excluding)
+        await checks.prefetch(p, "read", documents, excluding=excluding)
         staged_documents = {
             str(operation.record["id"]): operation.scope_id
             for operation in changeset.operations
@@ -439,6 +505,9 @@ class ChangeService:
         self, p: Principal, changeset: ChangeSet, checks: _DecisionMemo
     ) -> bool:
         await checks.load_records(self.knowledge, self.registry, _replace_targets(changeset))
+        replaces, documents, references = _decision_targets(changeset, self.registry)
+        await checks.prefetch(p, "review", [*replaces, *documents])
+        await checks.prefetch(p, "read", [*replaces, *documents, *references])
         staged_documents = {
             str(operation.record["id"]): operation.scope_id
             for operation in changeset.operations
@@ -1259,8 +1328,14 @@ class ChangeService:
                             raise SecurityError(422, "reference_class_mismatch")
                         continue
                     external[value] = external.get(value, frozenset()) | required_classes
+        # M14a D3: one fresh batched decision pass instead of one check per ID.
+        external_decisions = (
+            await self.plane.check_many(actor, sorted(external), "can_read", batch=True)
+            if external
+            else {}
+        )
         for value in sorted(external):
-            self._require(await self.plane.check_read(actor, value))
+            self._require(external_decisions[value])
         targets = (
             await fetch_records(
                 self.knowledge, self.registry, sorted(external), revision=changeset.base_revision
