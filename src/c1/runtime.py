@@ -116,6 +116,8 @@ class Runtime:
             self.changes.registry = self.registry
             self.changes.history_service.registry = self.registry
             self.guarded = restore_guarded(await self.journal.list("Restore"))
+            # M14a: verify the authorization model's read shape once at startup.
+            await self.fga.ready()
         except Exception:
             # Keep the process live and unready so an operator can recover after
             # dependencies return. No credential/backend text is logged.

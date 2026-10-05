@@ -32,6 +32,47 @@ def scope_object(identifier: str) -> str:
     return "scope:" + identifier
 
 
+def read_relation_is_derivable(model: Any) -> bool:
+    """True when `resource#can_read` is exactly `reader from bound_to` (M14a).
+
+    Then `can_read(user, r)` holds if and only if some live `bound_to` scope of
+    `r` has `user` as a `reader`; `scope#reader` must be directly assigned
+    (users or group members) so that ListObjects over it is the same relation.
+    Any other model shape disables derived read decisions.
+    """
+    if not isinstance(model, dict) or not isinstance(model.get("type_definitions"), list):
+        return False
+    types = {item.get("type"): item for item in model["type_definitions"] if isinstance(item, dict)}
+    resource = (types.get("resource") or {}).get("relations") or {}
+    scope = (types.get("scope") or {}).get("relations") or {}
+    # The API serves camelCase keys; the packaged model file uses snake_case.
+    can_read = _snake_keys(resource.get("can_read"))
+    if not isinstance(can_read, dict) or set(can_read) != {"tuple_to_userset"}:
+        return False
+    tts = can_read["tuple_to_userset"]
+    if not isinstance(tts, dict) or set(tts) != {"tupleset", "computed_userset"}:
+        return False
+    tupleset, computed = tts["tupleset"], tts["computed_userset"]
+    if not isinstance(tupleset, dict) or not isinstance(computed, dict):
+        return False
+    if tupleset.get("relation") != "bound_to" or computed.get("relation") != "reader":
+        return False
+    if tupleset.get("object") or computed.get("object"):
+        return False
+    return bool(_snake_keys(scope.get("reader")) == {"this": {}})
+
+
+def _snake_keys(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {
+            re.sub(r"(?<!^)(?=[A-Z])", "_", str(key)).lower(): _snake_keys(item)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [_snake_keys(item) for item in value]
+    return value
+
+
 def model_definition() -> dict[str, Any]:
     packaged = Path(__file__).parent / "c1-v1.json"
     path = (
@@ -54,6 +95,8 @@ class FGA:
     ) -> None:
         self.store_id = store_id
         self.model_id = model_id
+        # Set by `ready()`; derived read decisions require a verified model.
+        self.read_model_verified = False
         self._client = httpx.AsyncClient(
             base_url=url.rstrip("/"),
             timeout=timeout,
@@ -104,10 +147,17 @@ class FGA:
 
     async def ready(self) -> bool:
         try:
-            await self._request("GET", self._path + "/authorization-models/" + self.model_id)
-            return True
+            response = await self._request(
+                "GET", self._path + "/authorization-models/" + self.model_id
+            )
         except FGAError:
             return False
+        # M14a (ADR-0025): readiness fails closed unless the deployed model has
+        # the read shape that derived read decisions rely on.
+        self.read_model_verified = read_relation_is_derivable(
+            response.get("authorization_model", {})
+        )
+        return self.read_model_verified
 
     async def check(self, user: str, relation: str, object: str) -> bool:
         result = await self._request(

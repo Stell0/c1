@@ -208,15 +208,79 @@ class AuthorizedSelection:
                 raise
             raise QueryPlanError(503, "C1-QY-053", "time_budget") from exc
 
+    def _readable_scopes(self, objects: list[str]) -> frozenset[str]:
+        if len(objects) >= self.max_readable_scopes:
+            raise QueryPlanError(422, "C1-QY-050", "authorization_set_unbounded")
+        readable: set[str] = set()
+        for obj in objects:
+            if not obj.startswith("scope:") or scope_object(obj[6:]) != obj:
+                raise ValueError("invalid scope object")
+            if obj in readable:
+                raise ValueError("duplicate scope object")
+            readable.add(obj)
+        return frozenset(obj[6:] for obj in readable)
+
     async def _authorize(
         self,
         principal: Principal,
         candidate_ids: tuple[str, ...],
         scope_by_id: Mapping[str, str],
+        readable_scopes: frozenset[str] | None = None,
     ) -> tuple[str, ...]:
-        """Bulk equivalent of M03 current bound_to plus can_read checks."""
+        """Bulk equivalent of M03 current bound_to plus can_read checks.
+
+        M14a (ADR-0025): the pinned model defines `resource#can_read` as exactly
+        `reader from bound_to` (`READ_MODEL_SHAPE`, verified at startup and by
+        tests). A candidate whose live `bound_to` tuples are exactly its journal
+        scope is readable if and only if that scope is among the principal's
+        live readable scopes. Both inputs are read freshly, with higher
+        consistency, on every call; the decision is derived locally instead of
+        one Check per resource. `finalize` passes no scopes and reads them again.
+        """
         if not candidate_ids:
             return ()
+        if not getattr(self.fga, "read_model_verified", False):
+            return await self._authorize_by_checks(principal, candidate_ids, scope_by_id)
+
+        async def live_scopes() -> frozenset[str]:
+            if readable_scopes is not None:
+                return readable_scopes
+            return self._readable_scopes(
+                await self.fga.list_objects(principal.id, "reader", "scope")
+            )
+
+        async def live_bindings() -> dict[str, list[str]]:
+            # One exact source for every candidate's live tuples (M09a D4).
+            return await bound_to_many(
+                self.fga,
+                [resource_object(identifier) for identifier in candidate_ids],
+                binding_count=_BINDING_COUNT.get(),
+            )
+
+        async with asyncio.TaskGroup() as group:
+            scopes_task = group.create_task(live_scopes())
+            bindings_task = group.create_task(live_bindings())
+        readable = scopes_task.result()
+        live = bindings_task.result()
+        result: list[str] = []
+        for identifier in candidate_ids:
+            scope = scope_by_id[identifier]
+            if live[resource_object(identifier)] != [scope_object(scope)]:
+                self.plane.audit.emit(
+                    principal.id, "check", identifier, reason="inconsistent_binding"
+                )
+                continue
+            if scope in readable:
+                result.append(identifier)
+        return tuple(result)
+
+    async def _authorize_by_checks(
+        self,
+        principal: Principal,
+        candidate_ids: tuple[str, ...],
+        scope_by_id: Mapping[str, str],
+    ) -> tuple[str, ...]:
+        """M09a: one fresh `can_read` Check per candidate (unverified model shape)."""
         semaphore = asyncio.Semaphore(_FGA_CONCURRENCY)
 
         async def batch(chunk: tuple[str, ...]) -> list[bool]:
@@ -231,7 +295,6 @@ class AuthorizedSelection:
             return decisions
 
         async def live_bindings() -> dict[str, list[str]]:
-            # One exact source for every candidate's live tuples (M09a D4).
             return await bound_to_many(
                 self.fga,
                 [resource_object(identifier) for identifier in candidate_ids],
@@ -242,16 +305,11 @@ class AuthorizedSelection:
         async with asyncio.TaskGroup() as group:
             batch_tasks = [group.create_task(batch(chunk)) for chunk in chunks]
             bindings_task = group.create_task(live_bindings())
-        batches = [task.result() for task in batch_tasks]
+        allowed = [decision for task in batch_tasks for decision in task.result()]
         live = bindings_task.result()
-        bindings = [live[resource_object(identifier)] for identifier in candidate_ids]
-        allowed = [decision for chunk in batches for decision in chunk]
         result: list[str] = []
-        for identifier, is_allowed, live_binding in zip(
-            candidate_ids, allowed, bindings, strict=True
-        ):
-            expected = [scope_object(scope_by_id[identifier])]
-            if live_binding != expected:
+        for identifier, is_allowed in zip(candidate_ids, allowed, strict=True):
+            if live[resource_object(identifier)] != [scope_object(scope_by_id[identifier])]:
                 self.plane.audit.emit(
                     principal.id, "check", identifier, reason="inconsistent_binding"
                 )
@@ -285,16 +343,7 @@ class AuthorizedSelection:
             prepared = snapshot_task.result()
             snapshot = prepared.snapshot
             try:
-                if len(objects) >= self.max_readable_scopes:
-                    raise QueryPlanError(422, "C1-QY-050", "authorization_set_unbounded")
-                readable: set[str] = set()
-                for obj in objects:
-                    if not obj.startswith("scope:") or scope_object(obj[6:]) != obj:
-                        raise ValueError("invalid scope object")
-                    if obj in readable:
-                        raise ValueError("duplicate scope object")
-                    readable.add(obj)
-                readable_scopes = frozenset(obj[6:] for obj in readable)
+                readable_scopes = self._readable_scopes(objects)
                 provisional = snapshot.candidates(
                     readable_scopes, scope_ids=scope_ids, candidate_ids=candidate_ids
                 )
@@ -313,7 +362,9 @@ class AuthorizedSelection:
                 if binding.resource_id in provisional_set
             }
             _BINDING_COUNT.set(len(snapshot.bindings))
-            authorized = await self._authorize(principal, provisional, provisional_scopes)
+            authorized = await self._authorize(
+                principal, provisional, provisional_scopes, readable_scopes
+            )
             if await self.journal.head() != head:
                 raise IndexHeadChanged("workflow head changed")
             self.index._publish_verified(prepared)
