@@ -150,11 +150,6 @@ def build_page(
             smallest_count, smallest_cursor = count, cursor
         if size <= maximum:
             selected = candidate
-        else:
-            # M14a C1: a longer prefix renders strictly more bytes, so no later
-            # prefix fits and the first is the smallest. Same result, without
-            # rendering every remaining prefix.
-            break
     if selected is None:
         minimum_required = _minimum_required(
             base,

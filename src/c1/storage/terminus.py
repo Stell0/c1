@@ -297,33 +297,23 @@ class Terminus:
         Authorization is performed by the caller against current bindings before
         this internal storage method. This method never grants access by itself.
         """
-        from c1.model.nodes import NodeRecord as NodeType
-        from c1.storage.mapping import document_to_record, storage_id
-        from c1.storage.schema import assert_installed_profiles
+        # M14a D2: the same fresh profile authority, exact class probes and
+        # duplicate-identity check as batch reads, with concurrent per-class
+        # queries and the commit-keyed content cache instead of one sequential
+        # GET per declared class.
+        from c1.query.compile import fetch_records
 
         validate_iri(canonical_iri)
-        await assert_installed_profiles(self, registry)
-        found: NodeRecord | None = None
-        for definition in registry.classes.values():
-            candidate = NodeType(id=canonical_iri, types=[definition.iri], properties={})
-            try:
-                document_id = storage_id(candidate, definition, self.config.instance_base)
-            except StorageError as exc:
-                if exc.code == "C1-ST-004":
-                    continue
-                raise
-            document = await self.get(document_id, commit=commit)
-            if document is None:
-                continue
-            record = document_to_record(document, registry)
-            if record.id != canonical_iri:
-                raise StorageError(
-                    "C1-ST-005", "stored document ID collides with canonical identity"
-                )
-            if found is not None:
-                raise StorageError("C1-ST-005", "canonical identity resolves to multiple documents")
-            found = record
-        return found
+        found = await fetch_records(self, registry, [canonical_iri], revision=commit)
+        return found.get(canonical_iri)
+
+    async def optimize(self) -> None:
+        """Squash the main branch's delta layers (TerminusDB optimize; M14a E1).
+
+        Content, commit IDs and history are unchanged; reads over a long
+        commit history get cheaper. Safe while C1 is serving.
+        """
+        await self._request("POST", f"/api/optimize/{self._database_path}/local/branch/main")
 
     async def log(
         self, *, start: int | None = None, count: int | None = None

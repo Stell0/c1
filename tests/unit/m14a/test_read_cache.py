@@ -108,3 +108,19 @@ def test_class_hints_cover_every_class_written_by_applied_operations() -> None:
         ]
     )
     assert hints == {ENTITY: frozenset({C1 + "Entity", "urn:c1:ns:batteries#Product"})}
+
+
+def test_optimize_targets_the_main_branch() -> None:
+    seen: list[tuple[str, str]] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append((request.method, request.url.path))
+        return httpx.Response(200, json={"@type": "api:OptimizeResponse"})
+
+    async def run() -> None:
+        storage = _storage(httpx.MockTransport(handler))
+        async with storage:
+            await storage.optimize()
+
+    asyncio.run(run())
+    assert seen == [("POST", "/api/optimize/admin/c1_m14a_synthetic/local/branch/main")]

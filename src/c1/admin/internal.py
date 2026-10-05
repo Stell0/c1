@@ -216,6 +216,24 @@ async def _runtime(*, recover: bool) -> Runtime:
     return runtime
 
 
+async def optimize(_args: argparse.Namespace) -> dict[str, Any]:
+    """Optimize the knowledge and workflow databases (M14a E1)."""
+    import time
+
+    settings = Settings.from_env()
+    result: dict[str, Any] = {}
+    for name, workflow in (("knowledge", False), ("workflow", True)):
+        async with Terminus(storage_config(settings, workflow=workflow)) as storage:
+            started = time.perf_counter()
+            before = await storage.head()
+            await storage.optimize()
+            result[name] = {
+                "seconds": round(time.perf_counter() - started, 2),
+                "head_unchanged": await storage.head() == before,
+            }
+    return result
+
+
 async def state(_args: argparse.Namespace) -> dict[str, Any]:
     settings = Settings.from_env()
     async with Terminus(storage_config(settings)) as knowledge:
@@ -383,6 +401,7 @@ def build_parser(parser: argparse.ArgumentParser) -> None:
     boot.add_argument("--admin-email")
     sub.add_parser("state")
     sub.add_parser("consistency")
+    sub.add_parser("optimize")
     clone = sub.add_parser("knowledge-clone")
     clone.add_argument("--source-url", required=True)
     rec = sub.add_parser("record-restore")
@@ -402,6 +421,7 @@ COMMANDS = {
     "bootstrap": bootstrap,
     "state": state,
     "consistency": consistency,
+    "optimize": optimize,
     "knowledge-clone": knowledge_clone,
     "record-restore": record_restore,
     "guard-set": guard_set,

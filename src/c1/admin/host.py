@@ -612,6 +612,12 @@ def consistency(args: argparse.Namespace) -> dict[str, Any]:
     return d.internal("consistency")
 
 
+def maintenance(args: argparse.Namespace) -> dict[str, Any]:
+    """Backend storage maintenance; `optimize` is safe while C1 serves (M14a E1)."""
+    d = Deployment(Path(args.dir), args.project, {"C1_REF_NET_PREFIX": args.net_prefix})
+    return d.internal("optimize")
+
+
 def certs(args: argparse.Namespace) -> dict[str, Any]:
     return dev_certs(Path(args.out))
 
@@ -656,6 +662,9 @@ def build_parser(sub: Any) -> None:
     common(stat)
     check = sub.add_parser("consistency", help="compare journal bindings with OpenFGA")
     common(check)
+    maint = sub.add_parser("maintenance", help="backend storage maintenance")
+    maints = maint.add_subparsers(dest="maintenance_command", required=True)
+    common(maints.add_parser("optimize", help="squash TerminusDB delta layers"))
     dev = sub.add_parser("dev-certs", help="throwaway test CA and server certificate")
     dev.add_argument("--out", required=True)
 
@@ -667,6 +676,7 @@ HANDLERS = {
     "restore-full": restore_full,
     "consistency": consistency,
     "status": status,
+    "maintenance": maintenance,
     "dev-certs": certs,
 }
 

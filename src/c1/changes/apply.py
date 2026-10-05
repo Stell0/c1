@@ -120,6 +120,14 @@ def _part_document(record: dict[str, Any] | NodeRecord) -> str | None:
     return None
 
 
+def _replace_targets(changeset: ChangeSet) -> list[str]:
+    return [
+        operation.resource_id
+        for operation in changeset.operations
+        if isinstance(operation, ReplaceOperation)
+    ]
+
+
 class _DecisionMemo:
     """Deduplicate identical authorization decisions within one request step.
 
@@ -134,6 +142,24 @@ class _DecisionMemo:
         self.journal = plane.journal
         self._decisions: dict[tuple[str, ...], Decision] = {}
         self._head: str | None = None
+        # M14a D1: current records of this step's replace targets, read once.
+        self._records: dict[str, NodeRecord | None] = {}
+
+    async def load_records(
+        self, knowledge: Terminus, registry: ProfileRegistry, identifiers: list[str]
+    ) -> None:
+        """Read every not-yet-loaded replace target at the current head in one batch."""
+        wanted = [i for i in dict.fromkeys(identifiers) if i not in self._records]
+        if not wanted:
+            return
+        found = await fetch_records(knowledge, registry, wanted)
+        for identifier in wanted:
+            self._records[identifier] = found.get(identifier)
+
+    def record(self, identifier: str) -> tuple[bool, NodeRecord | None]:
+        if identifier in self._records:
+            return True, self._records[identifier]
+        return False, None
 
     async def _once(self, key: tuple[str, ...], compute: Any) -> Decision:
         if key not in self._decisions:
@@ -272,11 +298,15 @@ class ChangeService:
             return await checks.check_instance(p, "schema_admin")
         if not decision.allowed:
             return decision
-        old = (
-            await self.knowledge.get_record(operation.resource_id, self.registry)
-            if isinstance(operation, ReplaceOperation)
-            else None
-        )
+        old: NodeRecord | None = None
+        if isinstance(operation, ReplaceOperation):
+            loaded, old = (
+                checks.record(operation.resource_id)
+                if isinstance(checks, _DecisionMemo)
+                else (False, None)
+            )
+            if not loaded:
+                old = await self.knowledge.get_record(operation.resource_id, self.registry)
         if _DOCUMENT_PART not in operation.record.get("types", []):
             # Retyping a part would bypass its document's structural controls.
             # Class migration/removal is not an ordinary M06 replacement.
@@ -370,6 +400,7 @@ class ChangeService:
     ) -> None:
         owned = memo is None
         checks = memo if memo is not None else _DecisionMemo(self.plane)
+        await checks.load_records(self.knowledge, self.registry, _replace_targets(changeset))
         staged_documents = {
             str(operation.record["id"]): operation.scope_id
             for operation in changeset.operations
@@ -407,6 +438,7 @@ class ChangeService:
     async def _visible_with(
         self, p: Principal, changeset: ChangeSet, checks: _DecisionMemo
     ) -> bool:
+        await checks.load_records(self.knowledge, self.registry, _replace_targets(changeset))
         staged_documents = {
             str(operation.record["id"]): operation.scope_id
             for operation in changeset.operations
