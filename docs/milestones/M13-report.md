@@ -5,7 +5,7 @@
 Approved plan: [M13](M13.md), plan revision `ec4a6d0`. On 2026-10-04 the owner authorized implementation ("Proceed as you suggest. Implement M13, Plan M14, implement and run M14"), which adopted the plan's recommendations for all five open decisions:
 - **OD1:** an nginx TLS proxy.
 - **OD2:** quiesced backups.
-- **OD3:** version `0.1.0rc1` with a local annotated tag only.
+- **OD3:** version `0.1.0rc1` with a local annotated tag only. The tag was later pushed by accident; the owner kept it published (see Limitations).
 - **OD4:** makako as the measurement host.
 - **OD5:** the development stack is stopped during reference phases.
 
@@ -82,7 +82,7 @@ Design choices are recorded in [ADR-0024](../decisions/ADR-0024-deployment-backu
 - **History cost** still grows with commits and data (about 5 s per TerminusDB history probe at 850 documents). The workflow journal accumulates commits, and TerminusDB `optimize` is not scheduled.
 - **Backups are quiesced:** C1 serves nothing for about 1.5 minutes per backup on makako. There is no online backup.
 - **Deployment specifics:** the reference host names (`c1.test`, `auth.c1.test`, port 18443) are hard-coded. Docker Compose is untested.
-- **Release identity:** version `0.1.0rc1`. The annotated tag `v0.1.0rc1` is local only. Pushing the tag or publishing an image needs separate owner authorization.
+- **Release identity:** version `0.1.0rc1`, annotated tag `v0.1.0rc1` on `6a0ca7c`. The tag was meant to stay local (OD3). The repository's `push.followTags=true` pushed it to GitHub with the report commit on 2026-10-05, and the owner then decided to keep it published. No image was published.
 - **Review:** one agent implemented and reviewed this milestone; there was no independent human review.
 
 ## Next bounded action
