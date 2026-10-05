@@ -18,6 +18,7 @@ from uuid import uuid4
 from c1.authorization.errors import SecurityError
 from c1.authorization.fga import resource_object, scope_object
 from c1.authorization.models import Binding, Decision, Operation
+from c1.authorization.plane import bound_to_many
 from c1.authorization.principal import Principal
 from c1.changes.digest import receipt_message, request_digest
 from c1.changes.drafts import draft_diagnostics
@@ -747,6 +748,11 @@ class ChangeService:
         prefetched = await self._prefetch_references(changeset)
 
         checks = _DecisionMemo(self.plane)
+        # M14a D1/D3: replace targets read once; decisions batched per relation.
+        await checks.load_records(self.knowledge, self.registry, _replace_targets(changeset))
+        replaces, documents, references = _decision_targets(changeset, self.registry)
+        await checks.prefetch(p, "contribute", [*replaces, *documents])
+        await checks.prefetch(p, "read", [*documents, *references])
 
         async def reference(identifier: str, revision: str) -> NodeRecord | None:
             if not (await checks.check_read(p, identifier)).allowed:
@@ -1671,9 +1677,15 @@ class ChangeService:
         if op.payload.get("profile_alias"):
             await self._reconcile_profile(op, changeset)
             return
-        found = await self._receipt(changeset, op.actor)
+        # M14a D5: a receipt commit can only descend from the base revision, so
+        # while the head still equals the base no receipt can exist and the full
+        # log scan is skipped.
+        head = await self.knowledge.head()
+        found = (
+            None if head == changeset.base_revision else await self._receipt(changeset, op.actor)
+        )
         if found is None:
-            if await self.knowledge.head() != changeset.base_revision:
+            if head != changeset.base_revision:
                 raise SecurityError(503, "unreconciled_knowledge_head")
             records = [NodeRecord.model_validate(value) for value in op.payload["records"]]
             message = receipt_message(
@@ -1696,16 +1708,29 @@ class ChangeService:
         op.updated = _now()
         await self.journal.save_many([("Operation", op.id, op.model_dump(mode="json"))])
         bindings: dict[str, str] = op.payload["bindings"]
+        # M14a D5: one exact binding source and batched writes (at most 100
+        # tuples per atomic OpenFGA write) instead of four calls per binding.
+        # Recovery reruns this code; correct tuples are skipped, so a crash
+        # between batches converges.
+        objects = {identifier: resource_object(identifier) for identifier in bindings}
+        binding_count = len((await self.journal.view()).bindings)
+        current = await bound_to_many(self.fga, list(objects.values()), binding_count=binding_count)
+        writes: builtins.list[tuple[str, str, str]] = []
         for identifier, scope in bindings.items():
-            current = await self.fga.bindings(resource_object(identifier))
+            live = current[objects[identifier]]
             expected = [scope_object(scope)]
-            if current and current != expected:
+            if live and live != expected:
                 raise SecurityError(503, "publication_binding_conflict")
-            if not current:
-                await self.fga.bind(resource_object(identifier), expected[0])
+            if not live:
+                writes.append((expected[0], "bound_to", objects[identifier]))
+        for start in range(0, len(writes), 100):
+            await self.fga.write(writes[start : start + 100])
         self._crash("tuple")
+        confirmed = await bound_to_many(
+            self.fga, list(objects.values()), binding_count=binding_count
+        )
         for identifier, scope in bindings.items():
-            if await self.fga.bindings(resource_object(identifier)) != [scope_object(scope)]:
+            if confirmed[objects[identifier]] != [scope_object(scope)]:
                 raise SecurityError(503, "publication_not_confirmed")
         expected_records = [NodeRecord.model_validate(raw) for raw in op.payload["records"]]
         committed = await fetch_records(
