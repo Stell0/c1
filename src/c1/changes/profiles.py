@@ -6,10 +6,11 @@ may have a different profile name from its catalog alias.
 
 from __future__ import annotations
 
+import asyncio
 import copy
 import hashlib
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from c1.model.diagnostics import Diagnostic
 from c1.model.nodes import NodeRecord
@@ -165,9 +166,17 @@ async def detect_installed_registry(client: Terminus) -> ProfileRegistry:
         candidate, name = _cached_candidate(alias)
         grouped.setdefault(name, []).append((directory, candidate))
     selected: list[Path] = []
-    for name, alternatives in sorted(grouped.items()):
-        marker_id = _marker_id(alternatives[0][1], client, name)
-        stored = await client.get(marker_id)
+    names = sorted(grouped)
+    # M14a: read every catalog marker concurrently (bounded); same decisions.
+    gate = asyncio.Semaphore(8)
+
+    async def read_marker(name: str) -> dict[str, Any] | None:
+        async with gate:
+            return await client.get(_marker_id(grouped[name][0][1], client, name))
+
+    markers = await asyncio.gather(*(read_marker(name) for name in names))
+    for name, stored in zip(names, markers, strict=True):
+        alternatives = grouped[name]
         if stored is None:
             continue
         matches = [
