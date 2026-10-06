@@ -168,6 +168,8 @@ services:
       OPENFGA_DATASTORE_URI: postgres://openfga@${C1_REF_NET_PREFIX:-10.89.251}.10:5432/openfga?sslmode=disable
       OPENFGA_AUTHN_METHOD: preshared
       OPENFGA_PLAYGROUND_ENABLED: "false"
+      # M14b D3 (ADR-0026): every change is visible to ReadChanges immediately.
+      OPENFGA_CHANGELOG_HORIZON_OFFSET: "0"
       OPENFGA_LIST_OBJECTS_MAX_RESULTS: "1000"
       OPENFGA_LIST_OBJECTS_DEADLINE: "${C1_FGA_DEADLINE:-3s}"
       OPENFGA_REQUEST_TIMEOUT: "${C1_FGA_DEADLINE:-3s}"

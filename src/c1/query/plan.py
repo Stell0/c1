@@ -46,6 +46,9 @@ class AuthorizedPlan:
     binding_count: int = 0
     # M14a B1: complete storage-class hints for journaled resources (index).
     class_hints: Mapping[str, frozenset[str]] = field(default_factory=dict)
+    # M14b D3: OpenFGA change-log position read before this plan's scope and
+    # binding reads; None disables the unchanged-store shortcut in finalize.
+    change_token: str | None = None
 
     def contains(self, resource_id: str) -> bool:
         return resource_id in self.authorized_ids
@@ -76,6 +79,9 @@ class AuthorizedSelection:
         self.candidate_limit = candidate_limit
         self.max_readable_scopes = max_readable_scopes
         self.time_budget_ms = time_budget_ms
+        # M14b D3: process-wide change-log position (a position, not a decision).
+        self._change_token = ""
+        self._change_lock = asyncio.Lock()
 
     async def build(
         self,
@@ -123,9 +129,7 @@ class AuthorizedSelection:
         try:
             async with asyncio.timeout_at(effective_deadline):
                 _BINDING_COUNT.set(plan.binding_count)
-                authorization = asyncio.create_task(
-                    self._authorize(principal, plan.authorized_ids, plan.scope_by_id)
-                )
+                authorization = asyncio.create_task(self._current_authorized(principal, plan))
                 try:
                     if await self.journal.head() != plan.workflow_head:
                         raise QueryPlanError(409, "C1-QY-051", "restart_required")
@@ -176,9 +180,7 @@ class AuthorizedSelection:
             async with asyncio.timeout_at(effective_deadline):
                 publication = asyncio.create_task(check_precondition())
                 _BINDING_COUNT.set(plan.binding_count)
-                authorization = asyncio.create_task(
-                    self._authorize(principal, plan.authorized_ids, plan.scope_by_id)
-                )
+                authorization = asyncio.create_task(self._current_authorized(principal, plan))
                 initial_head = asyncio.create_task(self.journal.head())
                 try:
                     # Historical head mismatch/errors precede security errors,
@@ -209,6 +211,39 @@ class AuthorizedSelection:
             if not precondition_done:
                 raise
             raise QueryPlanError(503, "C1-QY-053", "time_budget") from exc
+
+    async def _change_position(self) -> str | None:
+        """Advance the change-log position before a plan reads OpenFGA (M14b D3)."""
+        if not getattr(self.fga, "read_model_verified", False):
+            return None
+        try:
+            async with self._change_lock:
+                token, _changed = await self.fga.read_changes(self._change_token)
+                self._change_token = token
+                return token
+        except Exception:
+            return None
+
+    async def _current_authorized(
+        self, principal: Principal, plan: AuthorizedPlan
+    ) -> tuple[str, ...]:
+        """The plan's authorized IDs under current authority (ADR-0026).
+
+        A plan's decisions are a function of the OpenFGA tuples and the journal
+        state at its workflow head. If the store's change log records no change
+        at all since the position read before the plan's OpenFGA reads, fresh
+        reads would return the same inputs, so the plan's own result stands;
+        callers still verify the workflow head. Any change, or any error reading
+        the log, repeats the full fresh authorization.
+        """
+        if plan.change_token is not None and getattr(self.fga, "read_model_verified", False):
+            try:
+                _token, changed = await self.fga.read_changes(plan.change_token)
+            except Exception:
+                changed = True
+            if not changed:
+                return plan.authorized_ids
+        return await self._authorize(principal, plan.authorized_ids, plan.scope_by_id)
 
     def _readable_scopes(self, objects: list[str]) -> frozenset[str]:
         if len(objects) >= self.max_readable_scopes:
@@ -331,6 +366,7 @@ class AuthorizedSelection:
     ) -> AuthorizedPlan:
         try:
             head = await self.journal.head()
+            change_token = await self._change_position()
             try:
                 async with asyncio.TaskGroup() as group:
                     objects_task = group.create_task(
@@ -386,6 +422,7 @@ class AuthorizedSelection:
                 snapshot.history_manifest,
                 len(snapshot.bindings),
                 snapshot.class_hints,
+                change_token,
             )
         except QueryPlanError:
             raise

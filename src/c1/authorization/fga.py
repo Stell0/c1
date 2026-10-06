@@ -255,6 +255,36 @@ class FGA:
     async def bindings(self, resource: str) -> list[str]:
         return [u for u, _, _ in await self.read(relation="bound_to", object=resource)]
 
+    async def read_changes(
+        self, token: str, *, max_pages: int = SCAN_MAX_PAGES
+    ) -> tuple[str, bool]:
+        """Advance through the store's change log from `token` (M14b D3).
+
+        Returns the tail continuation token and whether any tuple change exists
+        after `token`. An empty `token` walks the whole log. Errors, a repeated
+        continuation or too many pages raise; callers treat that as "changed".
+        """
+        changed = False
+        seen: set[str] = set()
+        for _ in range(max_pages):
+            params: dict[str, Any] = {"page_size": 100}
+            if token:
+                params["continuation_token"] = token
+            payload = await self._request("GET", self._path + "/changes", params=params)
+            changes = payload.get("changes", [])
+            following = payload.get("continuation_token", "")
+            if not isinstance(changes, list) or not isinstance(following, str):
+                raise FGAError("invalid change log response")
+            if changes:
+                changed = True
+            if not changes:
+                return following or token, changed
+            if not following or following == token or following in seen:
+                raise FGAError("change log pagination did not advance")
+            seen.add(following)
+            token = following
+        raise FGAError("change log page limit exceeded")
+
     async def scan_bindings(self, *, max_pages: int = SCAN_MAX_PAGES) -> dict[str, list[str]]:
         """Every live `bound_to` user per resource object, from one whole-store read.
 
