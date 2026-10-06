@@ -74,7 +74,7 @@ services:
       timeout: 5s
       retries: 30
     mem_limit: 1024m
-    cpus: 2
+    cpus: ${C1_REF_C1_CPUS:-2}
 
   # One-shot administration commands (`c1-admin` runs them); never started by `up`.
   tools:
@@ -123,7 +123,7 @@ services:
       retries: 30
       start_period: 20s
     mem_limit: 1536m
-    cpus: 1.5
+    cpus: ${C1_REF_TERMINUSDB_CPUS:-1.5}
 
   postgres:
     image: docker.io/library/postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
@@ -143,7 +143,7 @@ services:
       timeout: 5s
       retries: 30
     mem_limit: 512m
-    cpus: 1
+    cpus: ${C1_REF_POSTGRES_CPUS:-1}
 
   openfga-migrate:
     image: docker.io/openfga/openfga@sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55
@@ -185,7 +185,7 @@ services:
       timeout: 5s
       retries: 30
     mem_limit: 384m
-    cpus: 1
+    cpus: ${C1_REF_OPENFGA_CPUS:-1}
 
   keycloak:
     image: quay.io/keycloak/keycloak@sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c
