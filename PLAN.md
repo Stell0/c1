@@ -87,6 +87,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M13 | Release hardening and operational acceptance | M12 | Independently repeatable deployment, recovery, and complete acceptance evidence | VERIFIED |
 | M14 | Retrieval and storage benchmark | M13 | Reproducible quality, security-isolation, fidelity, and performance baselines for C1 retrieval | VERIFIED |
 | M14a | Performance hardening (owner-approved insertion, 2026-10-05) | M14 | Fewer backend round trips on reads, contexts and writes with unchanged security, fidelity and outputs | IN_PROGRESS |
+| M14b | Performance hardening, part 2 (owner-approved insertion, 2026-10-06) | M14a | Explained per-phase latency; fresh-but-cheaper finalize, lean journal listing, history index; M14a targets met on the measurement host | IN_PROGRESS |
 | M15 | Semantic Seed Index (optional extension) | M14 | Authorization-safe semantic candidate discovery through a rebuildable vector projection | NOT_PLANNED |
 | M16 | Decision Gate (optional extension) | M14 | Generic bounded decision interface with optional Jev/Kev providers and calibrated evaluation | NOT_PLANNED |
 | M17 | Non-generative enrichment (optional extension) | M16 | Reviewed entity/type/keyword/resolution proposals from deterministic candidates plus optional bounded decisions | NOT_PLANNED |
@@ -545,6 +546,26 @@ Once the secured API exists, routine fixture ingestion uses it. Direct backend a
 **Plan separately:** cache bounds and keys, the binding-source model, the batching boundaries, and the targets.
 
 **Exit gate:** measured speedups on the declared host with every security, fidelity and output check unchanged.
+
+## M14b — Performance hardening, part 2 (owner-approved insertion)
+
+**Goal:** explain where the measurement host's remaining per-request time goes, and remove the remaining fixed costs:
+- finalize freshness through the OpenFGA change log;
+- a lean journal security listing;
+- journal-derived history;
+- measured resource sizing.
+
+Security semantics, outputs and quality are unchanged. The owner approved the plan and OD1–OD4 on 2026-10-06.
+
+**Specific tests**
+
+- **M14b-T01 — Equivalence:** the full regression and the M14 benchmark compare report no hard failures, no quality changes and no golden changes.
+- **M14b-T02 — Freshness:** a revocation, re-scope or membership change between build and finalize forces the full fresh path and is enforced.
+- **M14b-T03 — Journal migration:** existing journals migrate idempotently, and the backup and restore tests still pass.
+- **M14b-T04 — History equivalence:** indexed history equals TerminusDB history for tracked resources; untracked resources use the fallback.
+- **M14b-T05 — Measured improvement:** the M14a targets on the measurement host, or the measured gap per phase.
+
+**Plan separately:** [docs/milestones/M14b.md](docs/milestones/M14b.md).
 
 ## M15 — Semantic Seed Index (optional extension)
 
