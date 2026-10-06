@@ -123,6 +123,60 @@ class HistoryService:
         self.journal = journal
         self.registry = registry
 
+    async def _indexed_history(self, resource_id: str) -> list[dict[str, Any]] | None:
+        """Commits that wrote `resource_id`, newest first, or None to probe the backend.
+
+        Every applied `changeset_apply` operation records its full records and
+        the commit that carries its receipt. A resource is indexed only if all
+        of its journaled writes are such operations; the commits are matched in
+        the knowledge log (only reachable commits, so restores are honoured)
+        and must carry that ChangeSet's receipt.
+        """
+        commits: dict[str, str] = {}
+        for operation in await self.journal.list("Operation"):
+            if operation.get("state") != "applied":
+                continue
+            payload = operation.get("payload", {})
+            if not isinstance(payload, dict):
+                return None
+            kind = operation.get("kind")
+            if kind in {"provision", "probe_revision"}:
+                record = payload.get("record")
+                if isinstance(record, dict) and record.get("id") == resource_id:
+                    return None
+                continue
+            if kind != "changeset_apply" or payload.get("profile_alias"):
+                continue
+            records = payload.get("records", ())
+            if not any(isinstance(r, dict) and r.get("id") == resource_id for r in records):
+                continue
+            revision = payload.get("revision")
+            if not isinstance(revision, str) or not _REVISION.fullmatch(revision):
+                return None
+            commits[revision.removeprefix("branch:").removeprefix("commit:")] = str(
+                operation.get("target")
+            )
+        if not commits:
+            return None
+        found: list[dict[str, Any]] = []
+        start = 0
+        while True:
+            page = await self.knowledge.log(start=start, count=100)
+            for item in page:
+                changeset = commits.get(str(item.get("identifier")))
+                if changeset is None:
+                    continue
+                try:
+                    receipt = json.loads(str(item.get("message")))
+                except ValueError:
+                    return None
+                if not isinstance(receipt, dict) or receipt.get("changeset") != changeset:
+                    return None
+                found.append(item)
+            if len(page) < 100 or len(found) == len(commits):
+                return found
+            start += len(page)
+
     def _document_ids(
         self, resource_id: str, storage_types: frozenset[str] | None = None
     ) -> list[str]:
@@ -281,6 +335,13 @@ class HistoryService:
         raw_entries: list[dict[str, Any]] = []
         document_ids = self._document_ids(resource_id, storage_types)
         nonempty_histories = 0
+        # M14b D7 (ADR-0026): resources written only by applied ChangeSets take
+        # their history from the journal and the commit log; others keep the
+        # backend history probes below.
+        indexed = await self._indexed_history(resource_id)
+        if indexed is not None:
+            raw_entries = indexed
+            document_ids = []
 
         async def fetch_history(document_id: str) -> list[dict[str, Any]]:
             try:

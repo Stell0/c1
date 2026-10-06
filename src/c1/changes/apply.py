@@ -1240,6 +1240,9 @@ class ChangeService:
         self, changeset: ChangeSet, actor: Principal
     ) -> tuple[builtins.list[NodeRecord], dict[str, str], dict[str, str]]:
         """Revalidate the approved records and map each new target to one scope."""
+        # M14b: one security view for the binding lookups below (no write
+        # happens in between); it used to be one journal read per record.
+        view = await self.journal.view()
         raw: builtins.list[NodeRecord] = []
         bindings: dict[str, str] = {}
         scope_by_record: dict[str, str] = {}
@@ -1296,7 +1299,7 @@ class ChangeService:
                             or parent.scope_id != operation.scope_id
                         ):
                             raise SecurityError(422, "inheritance_scope_conflict")
-                if await self.journal.get("Binding", record.id) is not None:
+                if view.binding(record.id) is not None:
                     raise SecurityError(404, "not_found")
                 if record.id in already_stored:
                     raise SecurityError(404, "not_found")
@@ -1305,7 +1308,7 @@ class ChangeService:
             else:
                 if record.id != operation.resource_id:
                     raise SecurityError(422, "resource_id_mismatch")
-                binding = await self.plane.bindings(record.id)
+                binding = view.binding(record.id)
                 if binding is None or binding.state != "active":
                     raise SecurityError(404, "not_found")
                 if (
@@ -1927,8 +1930,12 @@ class ChangeService:
                 _public(applied),
             ),
         ]
+        # M14b: one security view for every binding of this apply (no write
+        # happens between the lookups); it used to be one head read each.
+        view = await self.journal.view()
         for identifier in bindings:
-            binding = await self.plane.bindings(identifier)
+            current = view.binding(identifier)
+            binding = current.model_copy(deep=True) if current is not None else None
             if binding is None or binding.state != "provisioning" or binding.operation_id != op.id:
                 raise SecurityError(503, "publication_binding_missing")
             binding.state = "active"

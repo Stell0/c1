@@ -34,6 +34,9 @@ class FakeJournal:
     async def head(self) -> str:
         return self.revision
 
+    async def list(self, kind: str) -> list[dict[str, Any]]:
+        return []  # no journaled writes: history comes from backend probes
+
 
 class FakePlane:
     def __init__(self) -> None:
