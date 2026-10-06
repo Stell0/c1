@@ -101,6 +101,8 @@ class Runtime:
             return
         self._started = True
         try:
+            # M14b D4: move ID-only journal kinds before anything reads them.
+            await self.journal.migrate_records()
             await self.operations.recover()
             try:
                 self.registry = await detect_installed_registry(self.knowledge)

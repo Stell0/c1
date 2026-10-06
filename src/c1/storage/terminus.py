@@ -210,14 +210,17 @@ class Terminus:
         return payload
 
     async def documents_at_version(
-        self, *, graph_type: str = "instance"
+        self, *, graph_type: str = "instance", type: str | None = None
     ) -> tuple[str, list[dict[str, Any]]]:
         """List documents with the data version the backend served them at."""
         if graph_type not in ("instance", "schema"):
             raise ValueError("graph_type must be instance or schema")
-        response = await self._request(
-            "GET", self._document_path, params={"as_list": "true", "graph_type": graph_type}
-        )
+        params: dict[str, str] = {"as_list": "true", "graph_type": graph_type}
+        if type is not None:
+            if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", type):
+                raise ValueError("type must be a storage class name")
+            params["type"] = type
+        response = await self._request("GET", self._document_path, params=params)
         payload = response.json()
         if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
             raise StorageError("C1-ST-003", "backend returned an invalid document list")
@@ -371,6 +374,17 @@ class Terminus:
             },
             headers=self._expected_headers(expected_head),
             json=documents,
+        )
+        return self._head_from(response)
+
+    async def _delete(self, ids: list[str], *, expected_head: str, message: str) -> str:
+        """Delete instance documents by ID in one head-checked commit."""
+        response = await self._request(
+            "DELETE",
+            self._document_path,
+            params={"graph_type": "instance", "author": _AUTHOR, "message": message},
+            headers=self._expected_headers(expected_head),
+            json=ids,
         )
         return self._head_from(response)
 

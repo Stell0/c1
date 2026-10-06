@@ -44,6 +44,12 @@ _ENTRY_CLASS = {
     "key": "xsd:string",
     "payload_json": "xsd:string",
 }
+# M14b D4 (ADR-0026): kinds that are only ever read by ID live in their own
+# class, so the listing every step reloads holds only listed kinds.
+_RECORD_KINDS = frozenset(
+    {"ValidationReport", "ReviewDecision", "ApplyReceipt", "Idempotency", "MigrationProposal"}
+)
+_RECORD_CLASS = {**_ENTRY_CLASS, "@id": "WorkflowRecord"}
 _DEFAULT_CONTEXT = {
     "@type": "@context",
     "@base": "terminusdb:///data/",
@@ -59,7 +65,18 @@ def _validate_address(kind: str, key: str) -> None:
         raise ValueError("journal key must be nonempty, bounded text without controls")
 
 
+def _class_of(kind: str) -> str:
+    return "WorkflowRecord" if kind in _RECORD_KINDS else "WorkflowEntry"
+
+
 def _document_id(kind: str, key: str) -> str:
+    _validate_address(kind, key)
+    digest = hashlib.sha256(f"{kind}\0{key}".encode()).hexdigest()
+    return f"{_class_of(kind)}/{digest}"
+
+
+def _legacy_id(kind: str, key: str) -> str:
+    """The pre-M14b address of every kind (one class)."""
     _validate_address(kind, key)
     digest = hashlib.sha256(f"{kind}\0{key}".encode()).hexdigest()
     return f"WorkflowEntry/{digest}"
@@ -76,7 +93,7 @@ def _encode(kind: str, key: str, payload: dict[str, Any]) -> dict[str, str]:
     except (TypeError, ValueError) as exc:
         raise ValueError("journal payload must be JSON-compatible") from exc
     return {
-        "@type": "WorkflowEntry",
+        "@type": _class_of(kind),
         "@id": document_id,
         "kind": kind,
         "key": key,
@@ -85,7 +102,7 @@ def _encode(kind: str, key: str, payload: dict[str, Any]) -> dict[str, str]:
 
 
 def _decode(document: dict[str, Any]) -> tuple[str, str, dict[str, Any]]:
-    if document.get("@type") != "WorkflowEntry":
+    if document.get("@type") not in ("WorkflowEntry", "WorkflowRecord"):
         raise StorageError("C1-JR-001", "workflow document has an unknown type")
     kind = document.get("kind")
     key = document.get("key")
@@ -96,7 +113,7 @@ def _decode(document: dict[str, Any]) -> tuple[str, str, dict[str, Any]]:
         expected_id = _document_id(kind, key)
     except ValueError as exc:
         raise StorageError("C1-JR-001", "workflow envelope has an invalid address") from exc
-    if document.get("@id") != expected_id:
+    if document.get("@id") != expected_id or document.get("@type") != _class_of(kind):
         raise StorageError("C1-JR-001", "workflow envelope ID does not match its address")
     try:
         payload = json.loads(text)
@@ -139,11 +156,56 @@ class Journal:
             await self._storage.create()
         base = await self._storage.head()
         await self._storage._insert(
-            [_ENTRY_CLASS],
+            [_ENTRY_CLASS, _RECORD_CLASS],
             expected_head=base,
             message="Install C1 workflow journal schema",
             graph_type="schema",
         )
+
+    async def migrate_records(self) -> int:
+        """Move ID-only kinds into their own class (M14b D4); idempotent.
+
+        Runs at startup before C1 serves. Two commits: copy to the new class,
+        then remove the old copies. A crash in between leaves both copies, and
+        the next run finishes; readers use the new address.
+        """
+        schema = await self._storage.schema_documents()
+        if _RECORD_CLASS not in schema:
+            await self._storage._insert(
+                [_RECORD_CLASS],
+                expected_head=await self.head(),
+                message="M14b: add the workflow record class",
+                graph_type="schema",
+            )
+        _version, documents = await self._storage.documents_at_version(type="WorkflowEntry")
+        legacy: list[tuple[str, str, dict[str, Any]]] = []
+        for document in documents:
+            kind, key = document.get("kind"), document.get("key")
+            if kind in _RECORD_KINDS and isinstance(key, str):
+                if document.get("@id") != _legacy_id(kind, key):
+                    raise StorageError(
+                        "C1-JR-001", "workflow envelope ID does not match its address"
+                    )
+                payload = json.loads(str(document.get("payload_json")))
+                legacy.append((kind, key, payload))
+        if not legacy:
+            return 0
+        for start in range(0, len(legacy), 500):
+            await self._storage._put(
+                [_encode(*entry) for entry in legacy[start : start + 500]],
+                expected_head=await self.head(),
+                message="M14b: copy workflow records to their class",
+                create=True,
+            )
+        for start in range(0, len(legacy), 500):
+            await self._storage._delete(
+                [_legacy_id(kind, key) for kind, key, _ in legacy[start : start + 500]],
+                expected_head=await self.head(),
+                message="M14b: remove copied workflow records",
+            )
+        self._snapshot = None
+        self._view = None
+        return len(legacy)
 
     async def drop_test_database(self) -> None:
         await self._storage.drop()
@@ -157,7 +219,12 @@ class Journal:
             schema = await self._storage.schema_documents()
         except (StorageError, httpx.HTTPError, OSError):
             return False
-        return len(schema) == 2 and _DEFAULT_CONTEXT in schema and _ENTRY_CLASS in schema
+        return (
+            len(schema) == 3
+            and _DEFAULT_CONTEXT in schema
+            and _ENTRY_CLASS in schema
+            and _RECORD_CLASS in schema
+        )
 
     async def get(self, kind: str, id: str) -> dict[str, Any] | None:
         document = await self._storage.get(_document_id(kind, id))
@@ -175,7 +242,7 @@ class Journal:
         snapshot = self._snapshot
         if snapshot is not None and await self.head() == snapshot[0]:
             return snapshot
-        version, documents = await self._storage.documents_at_version()
+        version, documents = await self._storage.documents_at_version(type="WorkflowEntry")
         decoded = [_decode(document) for document in documents]
         self._snapshot = (version, decoded)
         self._view = None

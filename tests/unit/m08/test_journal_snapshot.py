@@ -29,7 +29,9 @@ class FakeStorage:
     async def head(self) -> str:
         return self.version
 
-    async def documents_at_version(self) -> tuple[str, list[dict[str, Any]]]:
+    async def documents_at_version(
+        self, *, type: str | None = None
+    ) -> tuple[str, list[dict[str, Any]]]:
         self.listings += 1
         return self.version, list(self.documents)
 
