@@ -17,6 +17,7 @@ class LoggedFGA(ModelFGA):
 
     def __init__(self) -> None:
         super().__init__(verified=True)
+        self.change_log_verified = True
         self.log: list[str] = []
         self.reads = 0
         self.fail_log = False
@@ -121,5 +122,19 @@ def test_unverified_model_never_uses_the_shortcut() -> None:
         fga.read_model_verified = False
         plan = await _planner(journal, fga).build(_PRINCIPAL)
         assert plan.change_token is None
+
+    asyncio.run(run())
+
+
+def test_unverified_change_log_never_uses_the_shortcut() -> None:
+    async def run() -> None:
+        journal, fga = _world()
+        fga.change_log_verified = False  # e.g. OpenFGA with a change-log horizon
+        planner = _planner(journal, fga)
+        plan = await planner.build(_PRINCIPAL)
+        assert plan.change_token is None
+        reads = fga.reads
+        await planner.finalize(_PRINCIPAL, plan)
+        assert fga.reads > reads
 
     asyncio.run(run())

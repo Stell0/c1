@@ -121,6 +121,8 @@ class Runtime:
             self.guarded = restore_guarded(await self.journal.list("Restore"))
             # M14a: verify the authorization model's read shape once at startup.
             await self.fga.ready()
+            # M14b D3: the finalize shortcut only with an immediate change log.
+            await self.fga.verify_change_log()
         except Exception:
             # Keep the process live and unready so an operator can recover after
             # dependencies return. No credential/backend text is logged.

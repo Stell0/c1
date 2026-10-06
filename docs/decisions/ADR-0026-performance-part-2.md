@@ -34,7 +34,12 @@ After M14a (ADR-0025), a simple read on makako took about 2.4 s; the same reques
 
    **Assumptions, part of this decision:**
    - Every tuple write C1 makes goes through its single writer (`WriterGate`: security operations and ChangeSet publication). Writes are therefore sequential, and a committed change can never appear in the log *behind* a position that was already read. `c1-admin` writes tuples only at bootstrap, and in disaster recovery while C1 is guarded (503).
-   - The deployments pin `OPENFGA_CHANGELOG_HORIZON_OFFSET=0`, so every committed change is visible immediately.
+   - The deployments pin `OPENFGA_CHANGELOG_HORIZON_OFFSET=0`, so every committed change is visible immediately. **C1 does not rely on configuration alone.** At startup, `FGA.verify_change_log()` does three things:
+     1. writes one probe tuple that grants nothing (`user:c1-change-log-probe` as a member of an unreferenced group);
+     2. reads the log from the position before the write;
+     3. removes the tuple.
+
+     The shortcut is enabled only if the log shows the write. Measured on the pinned OpenFGA image with an in-memory store: horizon 1 minute → not verified; horizon 0 → verified. The makako development stack's OpenFGA had been created before the setting was added; there the probe keeps the shortcut off.
    - OpenFGA writes a tuple and its change-log entry in the same datastore transaction.
 
    **Tests:** `tests/unit/m14b/test_finalize_changes.py` covers:
@@ -42,7 +47,7 @@ After M14a (ADR-0025), a simple read on makako took about 2.4 s; the same reques
    - a membership revocation, a re-scope or a reader removal between build and finalize forces fresh reads and is enforced;
    - an unrelated change still forces fresh reads;
    - change-log errors fall back to the full path;
-   - an unverified model never uses the shortcut.
+   - an unverified model, or an unverified change log, never uses the shortcut.
 
    M14b-T02 adds integration checks against real services.
 

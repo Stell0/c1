@@ -214,7 +214,10 @@ class AuthorizedSelection:
 
     async def _change_position(self) -> str | None:
         """Advance the change-log position before a plan reads OpenFGA (M14b D3)."""
-        if not getattr(self.fga, "read_model_verified", False):
+        if not (
+            getattr(self.fga, "read_model_verified", False)
+            and getattr(self.fga, "change_log_verified", False)
+        ):
             return None
         try:
             async with self._change_lock:
@@ -236,7 +239,11 @@ class AuthorizedSelection:
         callers still verify the workflow head. Any change, or any error reading
         the log, repeats the full fresh authorization.
         """
-        if plan.change_token is not None and getattr(self.fga, "read_model_verified", False):
+        if (
+            plan.change_token is not None
+            and getattr(self.fga, "read_model_verified", False)
+            and getattr(self.fga, "change_log_verified", False)
+        ):
             try:
                 _token, changed = await self.fga.read_changes(plan.change_token)
             except Exception:

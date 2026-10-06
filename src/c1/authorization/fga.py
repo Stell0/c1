@@ -97,6 +97,8 @@ class FGA:
         self.model_id = model_id
         # Set by `ready()`; derived read decisions require a verified model.
         self.read_model_verified = False
+        # M14b D3: set by `verify_change_log()`; the finalize shortcut needs it.
+        self.change_log_verified = False
         # M14b D2: binding-source inputs (performance only, never decisions).
         self.read_concurrency = 16
         self.last_scan_pages: int | None = None
@@ -287,6 +289,29 @@ class FGA:
             seen.add(following)
             token = following
         raise FGAError("change log page limit exceeded")
+
+    async def verify_change_log(self) -> bool:
+        """Show that a committed write is in the change log at once (M14b D3).
+
+        OpenFGA hides changes newer than its configured horizon from the log;
+        the finalize shortcut is sound only with no horizon. Startup writes one
+        probe tuple that grants nothing (a group no relation references), reads
+        the log from the position before it, and removes it. Any error, or a
+        log that does not show the write, leaves the shortcut disabled.
+        """
+        self.change_log_verified = False
+        probe = ("user:c1-change-log-probe", "member", "group:c1-change-log-probe")
+        try:
+            token, _changed = await self.read_changes("")
+            await self.write([probe])
+            try:
+                _tail, changed = await self.read_changes(token)
+            finally:
+                await self.write([], [probe])
+        except Exception:
+            return False
+        self.change_log_verified = changed
+        return changed
 
     async def scan_bindings(self, *, max_pages: int = SCAN_MAX_PAGES) -> dict[str, list[str]]:
         """Every live `bound_to` user per resource object, from one whole-store read.

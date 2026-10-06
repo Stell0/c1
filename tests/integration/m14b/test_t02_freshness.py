@@ -37,6 +37,7 @@ def test_t02_change_log_shortcut_and_every_change_forces_fresh_reads() -> None:
             shared, other, ids = await provision_matrix(case, 12)
             fga = case.runtime.fga
             assert fga.read_model_verified
+            assert fga.change_log_verified  # startup probe: no change-log horizon
             alice = await case.principal("alice")
             reader = (alice.id, "reader", scope_object(shared))
             assert reader in await fga.read(relation="reader", object=scope_object(shared))
