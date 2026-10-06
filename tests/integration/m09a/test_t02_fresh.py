@@ -19,7 +19,7 @@ from tests.integration.m09a.conftest import provision_matrix
 def test_t02_revocation_and_changes_take_effect_without_reuse(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    monkeypatch.setattr(plane_module, "use_scan", lambda _count, _n: True)
+    monkeypatch.setattr(plane_module, "use_scan", lambda _count, _n, **_kw: True)
 
     async def run() -> None:
         async with live_case() as case:

@@ -17,15 +17,24 @@ from c1.authorization.principal import Principal
 _READ_CONCURRENCY = 16
 
 
-def use_scan(binding_count: int, requested: int) -> bool:
+def use_scan(
+    binding_count: int,
+    requested: int,
+    *,
+    concurrency: int = _READ_CONCURRENCY,
+    measured_pages: int | None = None,
+) -> bool:
     """Scan the store only when it takes fewer sequential round trips (M09a D4).
 
-    Per-object reads run `_READ_CONCURRENCY` at a time; scan pages are
-    sequential. The journal's binding count estimates the store's `bound_to`
-    tuples; the 10% margin and one extra page cover other tuple kinds.
+    Per-object reads run `concurrency` at a time; scan pages are sequential.
+    The journal's binding count estimates the store's `bound_to` tuples; the
+    10% margin and one extra page cover other tuple kinds. M14b D2: the page
+    count of the last completed scan (all tuple kinds) raises the estimate.
     """
     pages = math.ceil(binding_count * 1.1 / 100) + 1
-    return pages < math.ceil(requested / _READ_CONCURRENCY)
+    if measured_pages is not None:
+        pages = max(pages, measured_pages)
+    return pages < math.ceil(requested / concurrency)
 
 
 @roundtrips.phased("fga.binding_source")
@@ -39,10 +48,12 @@ async def bound_to_many(
     """
     if not objects:
         return {}
-    if use_scan(binding_count, len(objects)):
+    concurrency = getattr(fga, "read_concurrency", _READ_CONCURRENCY)
+    measured = getattr(fga, "last_scan_pages", None)
+    if use_scan(binding_count, len(objects), concurrency=concurrency, measured_pages=measured):
         scanned = await fga.scan_bindings()
         return {obj: scanned.get(obj, []) for obj in objects}
-    semaphore = asyncio.Semaphore(_READ_CONCURRENCY)
+    semaphore = asyncio.Semaphore(concurrency)
 
     async def one(obj: str) -> list[str]:
         async with semaphore:

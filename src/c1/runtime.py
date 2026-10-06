@@ -57,6 +57,7 @@ class Runtime:
             settings.fga_model,
             timeout=settings.backend_timeout_s,
         )
+        self.fga.read_concurrency = settings.fga_read_concurrency
         self.plane = AuthorizationPlane(self.journal, self.fga, settings.instance_id, self.audit)
         self.operations = SecurityOperations(
             settings, self.journal, self.fga, self.plane, self.knowledge, self.registry, self.audit

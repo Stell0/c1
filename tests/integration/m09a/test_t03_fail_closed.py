@@ -16,7 +16,7 @@ from tests.integration.m09a.conftest import provision_matrix
 
 
 def test_t03_scan_outage_and_page_cap_fail_closed(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(plane_module, "use_scan", lambda _count, _n: True)
+    monkeypatch.setattr(plane_module, "use_scan", lambda _count, _n, **_kw: True)
 
     async def run() -> None:
         async with live_case() as case:
@@ -34,7 +34,7 @@ def test_t03_scan_outage_and_page_cap_fail_closed(monkeypatch: pytest.MonkeyPatc
                 await case.runtime.query.selection(alice, deadline=time.monotonic() + 30)
             assert raised.value.status == 503
             monkeypatch.undo()
-            monkeypatch.setattr(plane_module, "use_scan", lambda _count, _n: True)
+            monkeypatch.setattr(plane_module, "use_scan", lambda _count, _n, **_kw: True)
 
             # OpenFGA paused during the scan: deny, then recover after unpause.
             await asyncio.to_thread(compose, ["pause", "openfga"])

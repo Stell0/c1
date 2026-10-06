@@ -15,7 +15,7 @@ from tests.integration.m09a.conftest import legacy_decision, provision_matrix
 
 @pytest.mark.parametrize("strategy", ["scan", "per-resource"])
 def test_t01_batched_decisions_equal_legacy(strategy: str, monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setattr(plane_module, "use_scan", lambda _count, _n: strategy == "scan")
+    monkeypatch.setattr(plane_module, "use_scan", lambda _count, _n, **_kw: strategy == "scan")
 
     async def run() -> None:
         async with live_case() as case:

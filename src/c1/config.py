@@ -112,6 +112,8 @@ class Settings:
     query_time_budget_ms: int = 10000
     # M09 D13: OpenFGA and OIDC client timeouts; default unchanged (M07 D22).
     backend_timeout_s: float = 5.0
+    # M14b D2: concurrent per-object OpenFGA reads when not scanning.
+    fga_read_concurrency: int = 16
     # M13: a private CA bundle that identity (issuer, JWKS) requests trust.
     issuer_ca_file: Path | None = None
 
@@ -151,6 +153,7 @@ class Settings:
             ("C1_QUERY_CANDIDATE_LIMIT", self.query_candidate_limit, 5000),
             ("C1_MAX_READABLE_SCOPES", self.max_readable_scopes, 500),
             ("C1_QUERY_TIME_BUDGET_MS", self.query_time_budget_ms, 30000),
+            ("C1_FGA_READ_CONCURRENCY", self.fga_read_concurrency, 64),
         ):
             if setting_value < 1 or setting_value > maximum:
                 raise ValueError(f"{setting_name} must be between 1 and {maximum}")
@@ -210,6 +213,7 @@ class Settings:
             max_readable_scopes=int(get("C1_MAX_READABLE_SCOPES", "500")),
             query_time_budget_ms=int(get("C1_QUERY_TIME_BUDGET_MS", "10000")),
             backend_timeout_s=float(get("C1_BACKEND_TIMEOUT_S", "5")),
+            fga_read_concurrency=int(get("C1_FGA_READ_CONCURRENCY", "16")),
             issuer_ca_file=Path(get("C1_ISSUER_CA_FILE", "")) if get("C1_ISSUER_CA_FILE") else None,
         )
 

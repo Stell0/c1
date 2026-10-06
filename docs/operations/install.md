@@ -27,6 +27,7 @@ Non-secret settings live in `deployment/reference/.env` (read by Compose; not co
 | `C1_INSTANCE_IRI_BASE` | `urn:c1:instance:ref:` | Namespace of minted canonical IDs; choose once, never change |
 | `C1_QUERY_TIME_BUDGET_MS` | `10000` | Per-request query budget (max 30000) |
 | `C1_BACKEND_TIMEOUT_S` | `5` | OpenFGA and identity client timeout (1–30) |
+| `C1_FGA_READ_CONCURRENCY` | `32` (C1 default 16) | Concurrent per-resource OpenFGA reads when the whole-store scan is not cheaper (1–64) |
 | `C1_FGA_DEADLINE` | `3s` | OpenFGA server deadline; raise together with the client timeout on slow hosts |
 | `C1_REF_BIND`, `C1_REF_PORT` | `127.0.0.1`, `18443` | Where the TLS proxy listens |
 | `C1_REF_NET_PREFIX` | `10.89.251` | The backend network's /24 |

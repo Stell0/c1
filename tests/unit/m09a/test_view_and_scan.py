@@ -331,3 +331,11 @@ def test_catalog_cache_reparses_only_changed_files(
     manifest.write_text(manifest.read_text().replace('"version": "1.0.0"', '"version": "1.0.1"'))
     _, _ = catalog.load_candidate("topics")
     assert len(catalog._PARSED) == 2
+
+
+def test_binding_source_uses_measured_scan_size_and_configured_concurrency() -> None:
+    # M14b D2: 1,300 bindings estimate 15 pages; a measured 60-page store
+    # (other tuple kinds) makes per-object reads cheaper at 630 objects.
+    assert use_scan(1300, 630)
+    assert not use_scan(1300, 630, measured_pages=60)
+    assert not use_scan(1300, 630, concurrency=64)  # 15 pages vs 10 rounds

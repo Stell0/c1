@@ -97,6 +97,9 @@ class FGA:
         self.model_id = model_id
         # Set by `ready()`; derived read decisions require a verified model.
         self.read_model_verified = False
+        # M14b D2: binding-source inputs (performance only, never decisions).
+        self.read_concurrency = 16
+        self.last_scan_pages: int | None = None
         self._client = httpx.AsyncClient(
             base_url=url.rstrip("/"),
             timeout=timeout,
@@ -297,7 +300,7 @@ class FGA:
         result: dict[str, list[str]] = {}
         token = ""
         seen: set[str] = set()
-        for _ in range(max_pages):
+        for page in range(1, max_pages + 1):
             body: dict[str, Any] = {"page_size": 100, "consistency": _FRESH}
             if token:
                 body["continuation_token"] = token
@@ -311,6 +314,9 @@ class FGA:
                 raise FGAError("invalid tuple response") from None
             token = payload.get("continuation_token", "")
             if not token:
+                # M14b D2: the measured store size (all tuple kinds) steers the
+                # next binding-source choice; it never affects a decision.
+                self.last_scan_pages = page
                 return result
             if token in seen:
                 raise FGAError("authorization pagination did not advance")
