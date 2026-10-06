@@ -8,6 +8,7 @@ import json
 from dataclasses import asdict
 from typing import TYPE_CHECKING, Any
 
+from c1 import roundtrips
 from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ClassDefinition, ProfileDefinition, ProfileRegistry
@@ -175,6 +176,7 @@ def _assert_authority(schema: list[dict[str, Any]], registry: ProfileRegistry) -
                 raise StorageError("C1-ST-006", "installed profile class differs from manifest")
 
 
+@roundtrips.phased("schema.authority")
 async def assert_installed_profiles(
     client: Terminus,
     registry: ProfileRegistry,

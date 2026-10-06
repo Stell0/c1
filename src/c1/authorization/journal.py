@@ -17,6 +17,7 @@ from typing import Any, Self
 
 import httpx
 
+from c1 import roundtrips
 from c1.authorization.view import SecurityView
 from c1.storage.terminus import StorageConfig, StorageError, Terminus
 
@@ -167,6 +168,7 @@ class Journal:
             raise StorageError("C1-JR-001", "workflow address collision")
         return payload
 
+    @roundtrips.phased("journal.view")
     async def _versioned_entries(
         self,
     ) -> tuple[str, builtins.list[tuple[str, str, dict[str, Any]]]]:
@@ -215,6 +217,7 @@ class Journal:
                 result[kind].append(copy.deepcopy(payload))
         return result
 
+    @roundtrips.phased("journal.save")
     async def save_many(
         self,
         entries: Sequence[tuple[str, str, dict[str, Any]]],

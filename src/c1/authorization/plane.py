@@ -6,6 +6,7 @@ import asyncio
 import math
 from collections.abc import Mapping, Sequence
 
+from c1 import roundtrips
 from c1.authorization.audit import Audit
 from c1.authorization.bindings import Bindings
 from c1.authorization.fga import FGA, FGAError, resource_object, scope_object
@@ -27,6 +28,7 @@ def use_scan(binding_count: int, requested: int) -> bool:
     return pages < math.ceil(requested / _READ_CONCURRENCY)
 
 
+@roundtrips.phased("fga.binding_source")
 async def bound_to_many(
     fga: FGA, objects: Sequence[str], *, binding_count: int
 ) -> dict[str, list[str]]:
@@ -66,6 +68,7 @@ class AuthorizationPlane:
     ) -> dict[str, list[str]]:
         return await bound_to_many(self.fga, objects, binding_count=binding_count)
 
+    @roundtrips.phased("plane.check_many")
     async def check_many(
         self,
         p: Principal,

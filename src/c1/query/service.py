@@ -12,6 +12,7 @@ from collections.abc import Iterable, Mapping
 from dataclasses import asdict
 from typing import TYPE_CHECKING, Any, Literal, cast
 
+from c1 import roundtrips
 from c1.authorization.principal import Principal
 from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
@@ -212,6 +213,7 @@ class QueryService:
         )
         return plan, {}
 
+    @roundtrips.phased("query.fetch")
     async def records(
         self,
         plan: AuthorizedPlan,

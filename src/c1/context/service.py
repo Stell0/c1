@@ -9,6 +9,7 @@ import re
 import time
 from typing import TYPE_CHECKING, Any
 
+from c1 import roundtrips
 from c1.authorization.principal import Principal
 from c1.context.budget import build_page, prepare_units
 from c1.context.errors import ContextError
@@ -206,16 +207,20 @@ class ContextService:
                     key: value for key, value in topics.items() if not key.startswith("_")
                 },
             }
-        selection = select_context(
-            records,
-            anchor["anchor"]["id"],
-            topics["topics"],
-            profile,
-            request,
-            deadline=deadline,
-            registry=self.runtime.registry,
-        )
-        units = build_units(records, selection, profile, self.runtime.registry, deadline=deadline)
+        with roundtrips.phase("context.select"):
+            selection = select_context(
+                records,
+                anchor["anchor"]["id"],
+                topics["topics"],
+                profile,
+                request,
+                deadline=deadline,
+                registry=self.runtime.registry,
+            )
+        with roundtrips.phase("context.units"):
+            units = build_units(
+                records, selection, profile, self.runtime.registry, deadline=deadline
+            )
         common_dependencies = frozenset(
             anchor.get("_dependencies", [])
             + topics.get("_dependencies", [])
@@ -280,14 +285,15 @@ class ContextService:
             "anchor_label": anchor["anchor"]["label"],
             "revision": revision,
         }
-        page = build_page(
-            base,
-            public_units,
-            offset=offset,
-            maximum=request.budget.maximum,
-            cursor_for_offset=cursor_for_offset,
-            deadline=deadline,
-        )
+        with roundtrips.phase("context.render"):
+            page = build_page(
+                base,
+                public_units,
+                offset=offset,
+                maximum=request.budget.maximum,
+                cursor_for_offset=cursor_for_offset,
+                deadline=deadline,
+            )
         if time.monotonic() >= deadline:
             raise ContextError(503, "C1-CX-014", "time_budget")
         await self.runtime.query.planner.finalize(principal, plan, deadline=deadline)

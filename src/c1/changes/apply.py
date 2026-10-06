@@ -15,6 +15,7 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING, Any
 from uuid import uuid4
 
+from c1 import roundtrips
 from c1.authorization.errors import SecurityError
 from c1.authorization.fga import resource_object, scope_object
 from c1.authorization.models import Binding, Decision, Operation
@@ -452,6 +453,7 @@ class ChangeService:
             )
         return normalized
 
+    @roundtrips.phased("apply.require_all")
     async def _require_all(
         self,
         p: Principal,
@@ -502,6 +504,7 @@ class ChangeService:
             await checks.require_unchanged()
         return visible
 
+    @roundtrips.phased("apply.visible")
     async def _visible_with(
         self, p: Principal, changeset: ChangeSet, checks: _DecisionMemo
     ) -> bool:
@@ -741,6 +744,7 @@ class ChangeService:
             checks_for=checks_for,
         )
 
+    @roundtrips.phased("apply.validate")
     async def _validate_locked(self, p: Principal, changeset: ChangeSet) -> dict[str, Any]:
         if changeset.state != "submitted":
             raise SecurityError(409, "invalid_changeset_state")
@@ -1092,6 +1096,7 @@ class ChangeService:
             raise SecurityError(503, "validation_report_missing")
         return report
 
+    @roundtrips.phased("apply.approve")
     async def approve(self, p: Principal, identifier: str) -> dict[str, Any]:
         async with self.writer.hold():
             changeset = await self._load(identifier)
@@ -1189,6 +1194,7 @@ class ChangeService:
             raise SecurityError(404, "not_found")
         return result
 
+    @roundtrips.phased("apply.receipt")
     async def _receipt(self, changeset: ChangeSet, actor: str) -> tuple[str, dict[str, Any]] | None:
         """Search every reachable log page before deciding a write is absent."""
         page_size = 20
@@ -1229,6 +1235,7 @@ class ChangeService:
         if self.settings.enable_probe_routes and self.settings.crash_after == point:
             os._exit(86)
 
+    @roundtrips.phased("apply.plan_records")
     async def _planned_records(
         self, changeset: ChangeSet, actor: Principal
     ) -> tuple[builtins.list[NodeRecord], dict[str, str], dict[str, str]]:
@@ -1642,6 +1649,7 @@ class ChangeService:
             raise SecurityError(503, "recovery_operation_missing")
         await self._reconcile(matching[0], changeset)
 
+    @roundtrips.phased("apply.reconcile")
     async def _reconcile(self, op: Operation, changeset: ChangeSet) -> None:
         if op.state != "pending" or changeset.state != "applying":
             raise SecurityError(503, "recovery_state_mismatch")
@@ -1889,6 +1897,7 @@ class ChangeService:
         self._crash("confirm")
         await self._finish(op, changeset, revision, {})
 
+    @roundtrips.phased("apply.finish")
     async def _finish(
         self, op: Operation, changeset: ChangeSet, revision: str, bindings: dict[str, str]
     ) -> None:

@@ -114,7 +114,10 @@ class FGA:
         await self._client.aclose()
 
     async def _request(self, method: str, path: str, **kwargs: Any) -> dict[str, Any]:
-        roundtrips.count("openfga")
+        with roundtrips.timed("openfga"):
+            return await self._request_untimed(method, path, **kwargs)
+
+    async def _request_untimed(self, method: str, path: str, **kwargs: Any) -> dict[str, Any]:
         try:
             response = await self._client.request(method, path, **kwargs)
             if response.is_error:

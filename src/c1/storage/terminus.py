@@ -124,7 +124,10 @@ class Terminus:
         return f"/api/document/{self._database_path}"
 
     async def _request(self, method: str, path: str, **kwargs: Any) -> httpx.Response:
-        roundtrips.count("terminus")
+        with roundtrips.timed("terminus"):
+            return await self._request_untimed(method, path, **kwargs)
+
+    async def _request_untimed(self, method: str, path: str, **kwargs: Any) -> httpx.Response:
         client = self._client
         try:
             response = await client.request(method, path, **kwargs)

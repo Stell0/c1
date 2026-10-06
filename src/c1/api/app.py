@@ -241,6 +241,7 @@ class BoundaryMiddleware:
                         "status": status["code"],
                         "ms": round((time.perf_counter() - started) * 1000, 1),
                         "roundtrips": counts,
+                        **roundtrips.timings(),
                     },
                     sort_keys=True,
                 )

@@ -151,6 +151,7 @@ async def measure(out: Path, writes: bool) -> None:
                 response.status_code,
                 elapsed,
                 metrics[-1]["roundtrips"] if metrics else None,
+                metrics[-1].get("phases_ms") if metrics else None,
                 flush=True,
             )
     if writes:

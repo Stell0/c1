@@ -11,6 +11,7 @@ import httpx
 import jwt
 from jwt import PyJWKClient
 
+from c1 import roundtrips
 from c1.authorization.principal import Principal
 from c1.config import Settings
 
@@ -112,6 +113,7 @@ class TokenValidator:
         assert self._client is not None
         return self._client
 
+    @roundtrips.phased("auth.token")
     async def authenticate(self, token: str) -> Principal:
         if (
             not isinstance(token, str)

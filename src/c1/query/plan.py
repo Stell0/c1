@@ -9,6 +9,7 @@ from contextvars import ContextVar
 from dataclasses import dataclass, field
 from types import MappingProxyType
 
+from c1 import roundtrips
 from c1.authorization.fga import FGA, FGAError, resource_object, scope_object
 from c1.authorization.journal import Journal
 from c1.authorization.plane import AuthorizationPlane, bound_to_many
@@ -104,6 +105,7 @@ class AuthorizedSelection:
         except TimeoutError as exc:
             raise QueryPlanError(503, "C1-QY-053", "time_budget") from exc
 
+    @roundtrips.phased("plan.finalize")
     async def finalize(
         self,
         principal: Principal,
@@ -220,6 +222,7 @@ class AuthorizedSelection:
             readable.add(obj)
         return frozenset(obj[6:] for obj in readable)
 
+    @roundtrips.phased("plan.authorize")
     async def _authorize(
         self,
         principal: Principal,
@@ -318,6 +321,7 @@ class AuthorizedSelection:
                 result.append(identifier)
         return tuple(result)
 
+    @roundtrips.phased("plan.build")
     async def _build(
         self,
         principal: Principal,
