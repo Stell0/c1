@@ -170,6 +170,9 @@ class Journal:
         the next run finishes; readers use the new address.
         """
         schema = await self._storage.schema_documents()
+        legacy_schema = len(schema) == 2 and _DEFAULT_CONTEXT in schema and _ENTRY_CLASS in schema
+        if not legacy_schema and not await self.ready():
+            raise StorageError("C1-JR-001", "workflow database schema is not a C1 journal schema")
         if _RECORD_CLASS not in schema:
             await self._storage._insert(
                 [_RECORD_CLASS],

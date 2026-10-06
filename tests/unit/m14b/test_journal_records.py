@@ -9,6 +9,7 @@ from typing import Any
 import pytest
 
 from c1.authorization.journal import (
+    _DEFAULT_CONTEXT,
     _ENTRY_CLASS,
     _RECORD_CLASS,
     Journal,
@@ -91,7 +92,7 @@ def test_record_kinds_have_their_own_class_and_entries_keep_theirs() -> None:
 def test_migration_moves_records_is_idempotent_and_resumes_after_a_crash() -> None:
     async def run() -> None:
         storage = FakeStorage(
-            [_ENTRY_CLASS],
+            [_DEFAULT_CONTEXT, _ENTRY_CLASS],
             [
                 _legacy("Idempotency", "k1", {"a": 1}),
                 _legacy("ValidationReport", "v1", {"ok": True}),
@@ -122,3 +123,9 @@ def test_migration_moves_records_is_idempotent_and_resumes_after_a_crash() -> No
         }
 
     asyncio.run(run())
+
+
+def test_migration_refuses_a_foreign_schema() -> None:
+    storage = FakeStorage([_DEFAULT_CONTEXT, {"@type": "Class", "@id": "Other"}], [])
+    with pytest.raises(StorageError):
+        asyncio.run(_journal(storage).migrate_records())

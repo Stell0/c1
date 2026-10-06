@@ -354,6 +354,8 @@ async def _bootstrap_databases(values: dict[str, str]) -> None:
             if exc.status_code != 404:
                 raise
             await journal.initialize()
+        else:
+            await journal.migrate_records()  # M14b D4: pre-M14b journals
         if not await journal.ready():
             raise RuntimeError("Existing workflow database schema is not the C1 journal schema")
 
