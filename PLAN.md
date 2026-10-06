@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M14 and M09a VERIFIED. M14a IN_PROGRESS. M15–M18 remain unimplemented.
+**Status:** M00–M14, M09a and M14a VERIFIED. M14b IN_PROGRESS. M15–M18 remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -86,7 +86,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M12 | Human Explorer | M11 | Browser workflows using the same secured API and context packages | VERIFIED |
 | M13 | Release hardening and operational acceptance | M12 | Independently repeatable deployment, recovery, and complete acceptance evidence | VERIFIED |
 | M14 | Retrieval and storage benchmark | M13 | Reproducible quality, security-isolation, fidelity, and performance baselines for C1 retrieval | VERIFIED |
-| M14a | Performance hardening (owner-approved insertion, 2026-10-05) | M14 | Fewer backend round trips on reads, contexts and writes with unchanged security, fidelity and outputs | IN_PROGRESS |
+| M14a | Performance hardening (owner-approved insertion, 2026-10-05) | M14 | Fewer backend round trips on reads, contexts and writes with unchanged security, fidelity and outputs | VERIFIED |
 | M14b | Performance hardening, part 2 (owner-approved insertion, 2026-10-06) | M14a | Explained per-phase latency; fresh-but-cheaper finalize, lean journal listing, history index; M14a targets met on the measurement host | IN_PROGRESS |
 | M15 | Semantic Seed Index (optional extension) | M14 | Authorization-safe semantic candidate discovery through a rebuildable vector projection | NOT_PLANNED |
 | M16 | Decision Gate (optional extension) | M14 | Generic bounded decision interface with optional Jev/Kev providers and calibrated evaluation | NOT_PLANNED |

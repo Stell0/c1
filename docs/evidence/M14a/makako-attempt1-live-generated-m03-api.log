@@ -1,0 +1,537 @@
+INFO:     Started server process [2688390]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2688462]
+INFO:     Waiting for application startup.
+{"correlation_id": "b753cea7-8475-42e9-83b5-7c4ba6c6a6a9", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Shutting down
+INFO:     Waiting for background tasks to complete. (CTRL+C to force quit)
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2688462]
+INFO:     Started server process [2689862]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2689915]
+INFO:     Waiting for application startup.
+{"correlation_id": "64955c72-2926-4671-8cca-d3de492a7978", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Shutting down
+INFO:     Waiting for background tasks to complete. (CTRL+C to force quit)
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2689915]
+INFO:     Started server process [2691068]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2691235]
+INFO:     Waiting for application startup.
+{"correlation_id": "db5c2343-ee4e-4b3c-bdb6-fd157e4fcd53", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Shutting down
+INFO:     Waiting for background tasks to complete. (CTRL+C to force quit)
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2691235]
+INFO:     Started server process [2694705]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2694835]
+INFO:     Waiting for application startup.
+{"correlation_id": "a08dde23-e75e-44cf-8304-72709eea9a84", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "74749f49-67b6-4678-a239-d82ab530a87f", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-fc5c7ba3298f40c8a75a1e8c6b6ef349"}
+{"correlation_id": "ad282623-f13c-476c-8da9-cdfbcb0d88d7", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-fc5c7ba3298f40c8a75a1e8c6b6ef349"}
+{"correlation_id": "c574902d-4759-49d6-ad49-a0d339d4b03b", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2694835]
+INFO:     Started server process [2697400]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2697537]
+INFO:     Waiting for application startup.
+{"correlation_id": "25a7a04e-77d9-4b4d-9ff2-24d7ac20f7c1", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "81978446-81bd-47ab-8c32-6987b1ca6070", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-736c1ceaf9ea463493bce67ca436bccb"}
+{"correlation_id": "196755f2-a8ef-453f-b73a-5d65ff2250a5", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-736c1ceaf9ea463493bce67ca436bccb"}
+{"correlation_id": "a67aabc4-607d-4fdb-88f6-0f44eb35ceff", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "5ce8885e-ad7a-42f7-abe9-ce80f03a477e", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "5af2c390-832e-42e3-95e3-9921ad9890f6"}
+{"correlation_id": "96bcf8e7-6db6-4265-89e7-171dfef5ad79", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-736c1ceaf9ea463493bce67ca436bccb"}
+{"correlation_id": "72788dcd-8fec-4969-87ef-f5b58588dabe", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-736c1ceaf9ea463493bce67ca436bccb"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2697537]
+INFO:     Started server process [2698395]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2698494]
+INFO:     Waiting for application startup.
+{"correlation_id": "7360c2c2-8173-411d-9bf0-8f1e1ffedb0a", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "8046a077-c9d4-4e2f-b34a-1b0db36002e5", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-0cea615f235040598b603ca5d3d8e673"}
+{"correlation_id": "52ebd87d-85d6-4ab1-a1e6-90344a62f987", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-0cea615f235040598b603ca5d3d8e673"}
+{"correlation_id": "922ffc7a-c1f5-4221-ac32-6936d91893fc", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "2671dbce-0854-428f-a209-e0cbcb9afd0a", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "269a844e-bd21-40e2-94b4-25b89e5fb63c"}
+{"correlation_id": "ad264e00-67d8-4159-9702-181f7de9162a", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-0cea615f235040598b603ca5d3d8e673"}
+{"correlation_id": "1b325a03-473d-4db2-9e96-a4c56b4b06e5", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-0cea615f235040598b603ca5d3d8e673"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2698494]
+INFO:     Started server process [2699577]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2699667]
+INFO:     Waiting for application startup.
+{"correlation_id": "a651623e-8b0e-4f7d-96f1-78057662f581", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "83892e49-1f3f-45f6-ad5e-e7c207afae8b", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-bd31fa51ad8b469f8d8b95d53e514ecb"}
+{"correlation_id": "9e311ba4-6e20-4cd7-87a8-612b34c21c46", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-bd31fa51ad8b469f8d8b95d53e514ecb"}
+{"correlation_id": "1a2f1525-2704-4212-a4f1-85536813ac22", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "af1a730a-4d1f-4c88-8594-e72eb3e839e0", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "b8adb5bd-188a-4435-8f67-1a95d7977598"}
+{"correlation_id": "c6005ba2-c6b7-4db1-b8a7-0eedc014123c", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-bd31fa51ad8b469f8d8b95d53e514ecb"}
+{"correlation_id": "24f4e241-ca39-4ca9-963c-fe9a049b9c04", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-bd31fa51ad8b469f8d8b95d53e514ecb"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2699667]
+INFO:     Started server process [2711506]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2711643]
+INFO:     Waiting for application startup.
+{"correlation_id": "78e85fb0-1ec0-49f9-90f2-5828c592bf91", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "00629a72-488f-4a6f-8fa7-b557b34389e5", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-6b037403b0a44797bc3132c32c8f436f"}
+{"correlation_id": "66a4808d-6fa1-42da-9819-de894a8d3d28", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-6b037403b0a44797bc3132c32c8f436f"}
+{"correlation_id": "7b64f855-7bb2-467f-be35-2fc596cf3dd0", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "6453d6b8-fb60-4816-88c3-18310f8d0c64", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "cc4fd958-e0c5-422c-91cd-a1da4d005425"}
+{"correlation_id": "8e62b3d8-fdf3-42b1-87fe-7b17f3c1e0c9", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-6b037403b0a44797bc3132c32c8f436f"}
+{"correlation_id": "8273436b-3526-4cc2-9b5e-dced5a671d3e", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-6b037403b0a44797bc3132c32c8f436f"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2711643]
+INFO:     Started server process [2712274]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2712407]
+INFO:     Waiting for application startup.
+{"correlation_id": "2228e9af-ba94-484d-baad-d8ed5d2172bb", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "8d5d72d9-755d-426c-907d-aa49203cd62e", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-19a23f829b41426c86bd4b907911e9c2"}
+{"correlation_id": "29c1b9d9-7e25-4ed6-9364-13cd0246b265", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-19a23f829b41426c86bd4b907911e9c2"}
+{"correlation_id": "d19ece63-d0c0-4160-adf4-6fa0a9d5ab2d", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "0ad1b1da-d374-42e5-a339-97b3b24a4aa8", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "3aaa86f3-0e40-401d-8d7c-8cb4aa1cdf0c"}
+{"correlation_id": "8cea6ef6-4b98-4ff4-a1af-a020a85a29ef", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-19a23f829b41426c86bd4b907911e9c2"}
+{"correlation_id": "512ece21-6b8f-4585-be68-cda13bc670ca", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-19a23f829b41426c86bd4b907911e9c2"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2712407]
+INFO:     Started server process [2713049]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2713155]
+INFO:     Waiting for application startup.
+{"correlation_id": "07e65f8e-ab4b-4698-9845-5b7253b14b1d", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "6c5cb9ce-7588-4080-827a-8354e5ce4da1", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-18ec2cc48b7c4c10bb4a5a69638e9b66"}
+{"correlation_id": "96f8ed12-1024-4a6c-b683-7212398a6630", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-18ec2cc48b7c4c10bb4a5a69638e9b66"}
+{"correlation_id": "bf9a1ff9-2c02-4965-a019-b5c7abe3f952", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "3d77d56a-919b-4a5b-b30e-9f18fd3350b7", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "a1b2136c-b5dc-4327-b576-12c88611e596"}
+{"correlation_id": "f645ef76-4a4c-4788-b4dc-d3a6ba54821d", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-18ec2cc48b7c4c10bb4a5a69638e9b66"}
+{"correlation_id": "8eaf9461-a76d-4fb5-8135-c5034e1df34f", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-18ec2cc48b7c4c10bb4a5a69638e9b66"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2713155]
+INFO:     Started server process [2720083]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "36666c8e-8da4-4b86-a462-5848837a5f83", "operation": "whoami", "outcome": "allowed", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "", "target": ""}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2720083]
+INFO:     Started server process [2729807]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2730045]
+INFO:     Waiting for application startup.
+{"correlation_id": "f446ba78-dedf-49f3-acd5-ff14c5df8c76", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "b78199ca-4aa3-4aab-a103-c9f33c097abd", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-21f8d4c8ffcc43c7aaf787763bc9c775"}
+{"correlation_id": "5e849c06-ea79-4dcd-a890-2a5494941778", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-21f8d4c8ffcc43c7aaf787763bc9c775"}
+{"correlation_id": "e7b68780-c709-4fda-b1fd-7d780a9b7e7a", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "f9979163-0a1a-4e59-a9fd-6059f36e6145", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "107b84b7-07e2-460c-8578-9a5cea482622"}
+{"correlation_id": "e4c733d1-97cd-415d-a54b-905ecb492558", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-21f8d4c8ffcc43c7aaf787763bc9c775"}
+{"correlation_id": "19812aff-895b-413e-9c3e-cebd0e56929b", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-21f8d4c8ffcc43c7aaf787763bc9c775"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2730045]
+INFO:     Started server process [2730798]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2730888]
+INFO:     Waiting for application startup.
+{"correlation_id": "cf2d17d2-8d7c-42cc-a90c-e558f56717e6", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "1f09f405-c9a0-4af9-9fc9-e327e1687b97", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-4d47860431604f59a999ce8c4d8dcc87"}
+{"correlation_id": "f6d1f769-cce1-4247-9e89-1f15a40ea49e", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-4d47860431604f59a999ce8c4d8dcc87"}
+{"correlation_id": "a7d2f537-3206-41fa-a503-8cc283c0f980", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "a97c4bef-95a5-49c7-b519-bb33c1a8623a", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "38449e0a-29f1-4ae5-b725-78cc1668a084"}
+{"correlation_id": "e5d588b9-9c9c-44c4-bcc5-571472249e79", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-4d47860431604f59a999ce8c4d8dcc87"}
+{"correlation_id": "58bafa2b-6bdf-4f5c-8c31-243ed728fffa", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-4d47860431604f59a999ce8c4d8dcc87"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2730888]
+INFO:     Started server process [2731632]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2731802]
+INFO:     Waiting for application startup.
+{"correlation_id": "869c094f-1aea-4d3b-9f0f-5273cc2e1009", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "105b9045-53fb-42ef-a391-1f94dc8b7645", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-8853be31caca4a9488293aa8b13d3ff9"}
+{"correlation_id": "ede2c177-60f0-44c7-9c74-8f9d4e4a8bd3", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-8853be31caca4a9488293aa8b13d3ff9"}
+{"correlation_id": "37fffa3e-0672-402b-8b3d-087a60d9aeba", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "9901e0f6-8a60-4cfc-b146-207070aa5e4d", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "373e6900-5c96-4f78-82d0-a9d5c5c65548"}
+{"correlation_id": "b71b319e-5448-481d-afc8-1d3220686890", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-8853be31caca4a9488293aa8b13d3ff9"}
+{"correlation_id": "6774518d-0cc8-491c-b0b0-edb5674b37ef", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-8853be31caca4a9488293aa8b13d3ff9"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2731802]
+INFO:     Started server process [2749142]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2749248]
+INFO:     Waiting for application startup.
+{"correlation_id": "50e44f27-01e5-4df9-889d-ac5a3234cf4b", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "16255e18-6aee-44bd-a356-48fa825b0ec6", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-b70cdfde20a440be95ab5b78fd605d51"}
+{"correlation_id": "2f14e69a-46e6-45af-9567-0ff9a10cb0bb", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-b70cdfde20a440be95ab5b78fd605d51"}
+{"correlation_id": "5d36ecb6-c9bb-49fe-8dbf-2baab2244a39", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "488e9b3f-01b9-4864-a92f-f7a701f2849e", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "45efdd40-2b40-47c1-915a-90f89428856a"}
+{"correlation_id": "5bf4c0ae-b344-454a-addb-95911accb1c0", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-b70cdfde20a440be95ab5b78fd605d51"}
+{"correlation_id": "ebf2692c-d264-4756-bf93-763771fcdcff", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-b70cdfde20a440be95ab5b78fd605d51"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2749248]
+INFO:     Started server process [2749928]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2750039]
+INFO:     Waiting for application startup.
+{"correlation_id": "4d3f82fa-9a8a-4133-a9e3-24593aa62e05", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "46e8c763-17ca-45ec-9e6f-635fc8812ce4", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-b466e3512bf04d71b2e644426451f754"}
+{"correlation_id": "4a7602e7-6af0-4ee9-84ee-c12dc9909549", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-b466e3512bf04d71b2e644426451f754"}
+{"correlation_id": "81b10e0b-ed46-4498-b8c1-93976eeadb13", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "ca69a8d9-db88-4465-aebd-b94b2bdcd540", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "2b4e1c06-3e4e-43f7-9aac-f06ba6472d99"}
+{"correlation_id": "b6a74562-c93a-4ce9-aea4-432df7eaf5eb", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-b466e3512bf04d71b2e644426451f754"}
+{"correlation_id": "ffb62199-010d-42b6-ab04-9722782380be", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-b466e3512bf04d71b2e644426451f754"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2750039]
+INFO:     Started server process [2750706]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2750841]
+INFO:     Waiting for application startup.
+{"correlation_id": "ef99dd3c-13b8-4980-a828-53b00e5977a8", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "18e7617b-2b7d-4b68-8ee7-fec13bc9a67a", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-a4bcb968702945e1a5b2a50c57495696"}
+{"correlation_id": "33bfc4e5-206a-4237-a516-fe1395c51d81", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-a4bcb968702945e1a5b2a50c57495696"}
+{"correlation_id": "bcbed646-2fdc-4bc3-8d6d-34f739a51eb5", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "c65c77a4-0498-498a-9b92-6a00262977e9", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "d0e5700d-7d96-4928-915a-a5c3cba82423"}
+{"correlation_id": "55e5b259-aa32-475d-8f9e-765412742035", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-a4bcb968702945e1a5b2a50c57495696"}
+{"correlation_id": "5e752c28-d1c2-4d2b-aa9e-8145dfa45112", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-a4bcb968702945e1a5b2a50c57495696"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2750841]
+INFO:     Started server process [2769182]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2769255]
+INFO:     Waiting for application startup.
+{"correlation_id": "6794513f-c699-44d5-921f-60113f2efb7a", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "22cbf9b0-c87c-47b1-bd65-47d0dd51c041", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-ca17bdbded9d4d169f383cb2640084c5"}
+{"correlation_id": "6aa7e6f8-5213-4ddc-af1f-b9d9ec052c90", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-ca17bdbded9d4d169f383cb2640084c5"}
+{"correlation_id": "8a339879-e844-4aa7-ba52-e312cfb25e9d", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "e177235d-2d7c-4a4a-ac07-2228743a7fd7", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "8708a91b-9c25-4125-8f65-c09bc0756b6d"}
+{"correlation_id": "955624f5-ac00-446f-8191-002a55ca00ee", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-ca17bdbded9d4d169f383cb2640084c5"}
+{"correlation_id": "6de56ef9-94f6-49fb-8109-7f7412e2826b", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-ca17bdbded9d4d169f383cb2640084c5"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2769255]
+INFO:     Started server process [2770334]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2770442]
+INFO:     Waiting for application startup.
+{"correlation_id": "7168a665-c83d-48d6-82cb-34ba304de37f", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "a2dc12aa-5368-4375-88a5-e145736202b7", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-8ebe31fea41d443e860d1134274e051e"}
+{"correlation_id": "c3cfbe0c-f230-4952-af07-a409b7554c43", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-8ebe31fea41d443e860d1134274e051e"}
+{"correlation_id": "61bdfa1c-88eb-44f7-93ef-1e4a7d09d2b4", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "c72eb3c3-b5b8-45ee-90a5-8febb1827397", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "3a50a64f-0eec-4026-94dd-7188168314e2"}
+{"correlation_id": "553b98e0-e234-4d1e-9841-80a4815f6fe1", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-8ebe31fea41d443e860d1134274e051e"}
+{"correlation_id": "5a07b5e2-887d-4cfb-96e9-387844a8e24b", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-8ebe31fea41d443e860d1134274e051e"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2770442]
+INFO:     Started server process [2771308]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+INFO:     Started server process [2771482]
+INFO:     Waiting for application startup.
+{"correlation_id": "0ae15291-9479-4da3-955d-6b104172e0bf", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"correlation_id": "6b4f5ff8-fbeb-40d5-96e1-c110030e40aa", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-8163c9f70ea74c3ea9d3161a7ae612fe"}
+{"correlation_id": "b6653c7a-ab2c-4a71-b393-dc6bf0aabd17", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "confirmed", "target": "urn:c1:probe:entity-8163c9f70ea74c3ea9d3161a7ae612fe"}
+{"correlation_id": "4b520650-1fc1-4b4d-9fcf-a6cdcf7cd668", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.097323d6-bb6e-4ccf-978a-6b466ca215cd", "reason": "", "target": ""}
+{"correlation_id": "6e592691-5e40-4ce9-a235-676767ccc6e9", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "6358814f-b8b9-43cb-8718-42f186ebc6a0"}
+{"correlation_id": "8934151a-ea1d-4b91-8fd4-2d762333f7f1", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.5f190ba0-9fcd-4fc3-affd-8d6191c05c1c", "reason": "not_found", "target": "urn:c1:probe:entity-8163c9f70ea74c3ea9d3161a7ae612fe"}
+{"correlation_id": "64ca370d-351e-42a2-b108-bb0079c563f7", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.810ccc6a-6084-4c5c-80a3-1cd63e5db6d5", "reason": "", "target": "urn:c1:probe:entity-8163c9f70ea74c3ea9d3161a7ae612fe"}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2771482]
+INFO:     Started server process [2142335]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 4646.9, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+INFO:     Started server process [2142536]
+INFO:     Waiting for application startup.
+{"correlation_id": "78910bf6-cc22-4a9a-b333-8005c2bb3bf1", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 30051.7, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 0}, "status": 503}
+{"method": "GET", "ms": 30035.2, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 0}, "status": 503}
+{"correlation_id": "63e5b12c-b412-480c-b6aa-ae4ce771562d", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "not_found", "target": "urn:c1:probe:entity-d8745dc0b5cd4fc592cb2df51ba3d397"}
+{"method": "GET", "ms": 375.1, "path": "/v1/probe/resources/urn:c1:probe:entity-d8745dc0b5cd4fc592cb2df51ba3d397", "roundtrips": {"openfga": 0, "terminus": 5}, "status": 404}
+{"correlation_id": "9d99c189-135e-426c-8b83-a58bd359d2f5", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "urn:c1:probe:entity-d8745dc0b5cd4fc592cb2df51ba3d397"}
+{"correlation_id": "1379e1d5-387c-4b83-b1dd-e479945aca58", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"method": "POST", "ms": 5390.9, "path": "/v1/security-operations/recover", "roundtrips": {"openfga": 7, "terminus": 33}, "status": 200}
+{"method": "GET", "ms": 3988.4, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+{"correlation_id": "294b218c-5ce7-464c-b3a9-bbd301a56a3d", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "04caec5d-8642-4fc9-935a-ff4ce601d071"}
+{"method": "GET", "ms": 93.8, "path": "/v1/security-operations/04caec5d-8642-4fc9-935a-ff4ce601d071", "roundtrips": {"openfga": 0, "terminus": 1}, "status": 200}
+{"correlation_id": "7ed75da7-0a4b-4a46-945f-38c03c4ed21e", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "not_found", "target": "urn:c1:probe:entity-d8745dc0b5cd4fc592cb2df51ba3d397"}
+{"method": "GET", "ms": 293.8, "path": "/v1/probe/resources/urn:c1:probe:entity-d8745dc0b5cd4fc592cb2df51ba3d397", "roundtrips": {"openfga": 2, "terminus": 5}, "status": 404}
+{"correlation_id": "569230b3-dc59-4239-a9a7-c4bfa5f3fde7", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "urn:c1:probe:entity-d8745dc0b5cd4fc592cb2df51ba3d397"}
+{"method": "GET", "ms": 635.8, "path": "/v1/probe/resources/urn:c1:probe:entity-d8745dc0b5cd4fc592cb2df51ba3d397", "roundtrips": {"openfga": 4, "terminus": 12}, "status": 200}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2142536]
+INFO:     Started server process [2144481]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 4516.3, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+INFO:     Started server process [2144861]
+INFO:     Waiting for application startup.
+{"correlation_id": "868aa09b-1650-4514-b707-4ce763c088b5", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 30047.0, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 0}, "status": 503}
+{"method": "GET", "ms": 30042.2, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 0}, "status": 503}
+{"correlation_id": "61c796be-94dc-4339-9288-d15961ad6f6b", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "not_found", "target": "urn:c1:probe:entity-5dc9d9d94e7245a2b4bc52a598528ab0"}
+{"method": "GET", "ms": 366.9, "path": "/v1/probe/resources/urn:c1:probe:entity-5dc9d9d94e7245a2b4bc52a598528ab0", "roundtrips": {"openfga": 0, "terminus": 5}, "status": 404}
+{"correlation_id": "68a74fad-4715-484e-91a1-6e64edb025c2", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "urn:c1:probe:entity-5dc9d9d94e7245a2b4bc52a598528ab0"}
+{"correlation_id": "f32cc9ed-b6ae-4545-af8c-a2f84f6154f6", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"method": "POST", "ms": 5073.5, "path": "/v1/security-operations/recover", "roundtrips": {"openfga": 6, "terminus": 33}, "status": 200}
+{"method": "GET", "ms": 3563.4, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+{"correlation_id": "45cf803c-0236-4fd5-9620-e7542dc9b438", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "761ead11-943c-496a-adfe-9eec9c167338"}
+{"method": "GET", "ms": 67.0, "path": "/v1/security-operations/761ead11-943c-496a-adfe-9eec9c167338", "roundtrips": {"openfga": 0, "terminus": 1}, "status": 200}
+{"correlation_id": "4f106137-c83d-4a20-b6b1-cf49a9c92e83", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "not_found", "target": "urn:c1:probe:entity-5dc9d9d94e7245a2b4bc52a598528ab0"}
+{"method": "GET", "ms": 332.6, "path": "/v1/probe/resources/urn:c1:probe:entity-5dc9d9d94e7245a2b4bc52a598528ab0", "roundtrips": {"openfga": 2, "terminus": 5}, "status": 404}
+{"correlation_id": "658134d2-40dc-4cd8-9ff5-41110873f71d", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "urn:c1:probe:entity-5dc9d9d94e7245a2b4bc52a598528ab0"}
+{"method": "GET", "ms": 667.2, "path": "/v1/probe/resources/urn:c1:probe:entity-5dc9d9d94e7245a2b4bc52a598528ab0", "roundtrips": {"openfga": 4, "terminus": 12}, "status": 200}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2144861]
+INFO:     Started server process [2146843]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 4614.0, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+INFO:     Started server process [2147049]
+INFO:     Waiting for application startup.
+{"correlation_id": "15056f16-7314-4f16-a7a1-1f53c29c9a4a", "operation": "startup_recovery", "outcome": "unavailable", "principal": "system", "reason": "recovery_pending", "target": ""}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 30052.2, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 0}, "status": 503}
+{"method": "GET", "ms": 30038.2, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 0}, "status": 503}
+{"correlation_id": "0d768a99-6144-4b40-88ce-6c16d161766b", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "not_found", "target": "urn:c1:probe:entity-41e8fd79a2ac406ab86e621bb854fc98"}
+{"method": "GET", "ms": 466.3, "path": "/v1/probe/resources/urn:c1:probe:entity-41e8fd79a2ac406ab86e621bb854fc98", "roundtrips": {"openfga": 0, "terminus": 5}, "status": 404}
+{"correlation_id": "f8d207d0-c865-4b12-a424-df88313c07b9", "operation": "rescope", "outcome": "applied", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "confirmed", "target": "urn:c1:probe:entity-41e8fd79a2ac406ab86e621bb854fc98"}
+{"correlation_id": "3d5340d1-4146-42b9-99e0-6ed445305466", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"method": "POST", "ms": 5203.3, "path": "/v1/security-operations/recover", "roundtrips": {"openfga": 6, "terminus": 33}, "status": 200}
+{"method": "GET", "ms": 3870.5, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+{"correlation_id": "2e06b5fa-21ae-4395-8778-2f5f65a0ae65", "operation": "security_operation_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "8f76d65f-9268-4a5e-bca8-366465bfb1d7"}
+{"method": "GET", "ms": 72.3, "path": "/v1/security-operations/8f76d65f-9268-4a5e-bca8-366465bfb1d7", "roundtrips": {"openfga": 0, "terminus": 1}, "status": 200}
+{"correlation_id": "c9c236c1-6091-4b0f-bcaf-0b68131540ab", "operation": "probe_read", "outcome": "denied", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "not_found", "target": "urn:c1:probe:entity-41e8fd79a2ac406ab86e621bb854fc98"}
+{"method": "GET", "ms": 351.5, "path": "/v1/probe/resources/urn:c1:probe:entity-41e8fd79a2ac406ab86e621bb854fc98", "roundtrips": {"openfga": 2, "terminus": 5}, "status": 404}
+{"correlation_id": "7c12687e-1eab-4e54-ba12-1c7cfacdf4e7", "operation": "probe_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "urn:c1:probe:entity-41e8fd79a2ac406ab86e621bb854fc98"}
+{"method": "GET", "ms": 760.8, "path": "/v1/probe/resources/urn:c1:probe:entity-41e8fd79a2ac406ab86e621bb854fc98", "roundtrips": {"openfga": 4, "terminus": 12}, "status": 200}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2147049]
+INFO:     Started server process [2154639]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 4701.6, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+INFO:     Started server process [2154919]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 2871.0, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+{"correlation_id": "a8dd8916-826c-46ce-9291-81dbaa1f50fc", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"method": "POST", "ms": 398.0, "path": "/v1/security-operations/recover", "roundtrips": {"openfga": 1, "terminus": 5}, "status": 200}
+{"correlation_id": "c536ee05-73a4-479c-864d-2f47a01430ed", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-5200eb55bca346a28d4bda06d543b240"}
+{"method": "GET", "ms": 627.1, "path": "/v1/changesets/urn:c1:instance:dev:changeset-5200eb55bca346a28d4bda06d543b240", "roundtrips": {"openfga": 2, "terminus": 9}, "status": 200}
+{"correlation_id": "111383fa-29a6-4477-b0f3-b786ad588cdb", "operation": "resource_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:entity/b0f2abb3-55d7-4775-939d-76d8fb392b17"}
+{"method": "GET", "ms": 716.1, "path": "/v1/resources/urn:c1:instance:dev:entity/b0f2abb3-55d7-4775-939d-76d8fb392b17", "roundtrips": {"openfga": 4, "terminus": 12}, "status": 200}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2154919]
+INFO:     Started server process [2155607]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 4479.6, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+INFO:     Started server process [2155997]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 2873.5, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+{"correlation_id": "2d50d855-1ad9-4685-b818-e9fec55dc219", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"method": "POST", "ms": 363.8, "path": "/v1/security-operations/recover", "roundtrips": {"openfga": 1, "terminus": 5}, "status": 200}
+{"correlation_id": "9aeb6f59-993b-4b32-9ede-213c1c0da7eb", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-c33688aaf5ce4024b724c5c9a018f912"}
+{"method": "GET", "ms": 592.3, "path": "/v1/changesets/urn:c1:instance:dev:changeset-c33688aaf5ce4024b724c5c9a018f912", "roundtrips": {"openfga": 2, "terminus": 9}, "status": 200}
+{"correlation_id": "88a7d7b8-07f6-48d5-8cbe-002b5ae76fd3", "operation": "resource_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:entity/c9aa491b-8189-4394-b16e-6e7fa831a788"}
+{"method": "GET", "ms": 4707.2, "path": "/v1/resources/urn:c1:instance:dev:entity/c9aa491b-8189-4394-b16e-6e7fa831a788", "roundtrips": {"openfga": 4, "terminus": 22}, "status": 200}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2155997]
+INFO:     Started server process [2156759]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 4631.3, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+INFO:     Started server process [2157044]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 2783.7, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+{"correlation_id": "9bb43ea1-c414-4ffa-ad66-e5b3cf8d3f82", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"method": "POST", "ms": 360.8, "path": "/v1/security-operations/recover", "roundtrips": {"openfga": 1, "terminus": 5}, "status": 200}
+{"correlation_id": "302de8d6-c5fd-43a3-af95-69a12efe719e", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-7cf7db33358f4e70a3950a052cd45cbd"}
+{"method": "GET", "ms": 567.5, "path": "/v1/changesets/urn:c1:instance:dev:changeset-7cf7db33358f4e70a3950a052cd45cbd", "roundtrips": {"openfga": 2, "terminus": 9}, "status": 200}
+{"correlation_id": "88965b33-42f9-4ea7-8bed-6aeaa90210ba", "operation": "resource_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:entity/b549cc4b-c21d-4203-bb34-4fcfd11b0b80"}
+{"method": "GET", "ms": 712.1, "path": "/v1/resources/urn:c1:instance:dev:entity/b549cc4b-c21d-4203-bb34-4fcfd11b0b80", "roundtrips": {"openfga": 4, "terminus": 12}, "status": 200}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2157044]
+INFO:     Started server process [2157707]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 4496.8, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+INFO:     Started server process [2157950]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 2802.9, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+{"correlation_id": "aa4cfca1-824d-480f-b0af-e8ce9c3e0451", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"method": "POST", "ms": 556.1, "path": "/v1/security-operations/recover", "roundtrips": {"openfga": 1, "terminus": 5}, "status": 200}
+{"correlation_id": "af6479ca-9f70-4056-a9f7-9290528ae528", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:changeset-47eb2de16d574492a4111f702b3aca47"}
+{"method": "GET", "ms": 773.9, "path": "/v1/changesets/urn:c1:instance:dev:changeset-47eb2de16d574492a4111f702b3aca47", "roundtrips": {"openfga": 2, "terminus": 9}, "status": 200}
+{"correlation_id": "e74d3428-c250-462b-8e7c-dcd974b0a27a", "operation": "resource_read", "outcome": "allowed", "principal": "user:c1-dev.2c8d560f-a67a-4801-8621-e597415decd4", "reason": "", "target": "urn:c1:instance:dev:entity/fafa56fc-a3d8-419e-90df-b64e32424326"}
+{"method": "GET", "ms": 775.9, "path": "/v1/resources/urn:c1:instance:dev:entity/fafa56fc-a3d8-419e-90df-b64e32424326", "roundtrips": {"openfga": 4, "terminus": 12}, "status": 200}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2157950]
+INFO:     Started server process [2164001]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 4559.7, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 17}, "status": 200}
+INFO:     Started server process [2164230]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
+{"method": "GET", "ms": 3015.0, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 19}, "status": 200}
+{"correlation_id": "ce241f71-a9a7-4e86-ae84-30c98cf474fc", "operation": "security_recover", "outcome": "allowed", "principal": "user:c1-dev.37324743-8d1d-4e8f-a42a-8d9f0cb5753c", "reason": "", "target": ""}
+{"method": "POST", "ms": 435.8, "path": "/v1/security-operations/recover", "roundtrips": {"openfga": 1, "terminus": 5}, "status": 200}
+{"method": "GET", "ms": 2758.7, "path": "/v1/readyz", "roundtrips": {"openfga": 1, "terminus": 19}, "status": 200}
+{"correlation_id": "2eabe452-2af6-47e6-88c0-0e7fa841ac11", "operation": "resource_read", "outcome": "allowed", "principal": "user:c1-dev.7d89fb29-3c08-437e-9f68-5bea90fb3373", "reason": "", "target": "urn:c1:probe:entity-3f6ee8675dfd4f068768dda157dca362"}
+{"method": "GET", "ms": 5017.1, "path": "/v1/resources/urn:c1:probe:entity-3f6ee8675dfd4f068768dda157dca362", "roundtrips": {"openfga": 4, "terminus": 32}, "status": 200}
+{"correlation_id": "0194d4f5-1b44-46da-bdc9-fa7d801cfbfb", "operation": "changeset_read", "outcome": "allowed", "principal": "user:c1-dev.52ee7bde-2918-4348-97e9-33ed361e2c99", "reason": "", "target": "urn:c1:instance:dev:changeset-b9e6e1dc52784bd98f482a8e8df56d8d"}
+{"method": "GET", "ms": 74.8, "path": "/v1/changesets/urn:c1:instance:dev:changeset-b9e6e1dc52784bd98f482a8e8df56d8d", "roundtrips": {"openfga": 0, "terminus": 1}, "status": 200}
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2164230]

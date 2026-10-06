@@ -1,0 +1,25 @@
+{
+  "corpus": "bench-v1",
+  "seed": 14,
+  "scale": 3,
+  "records": 2792,
+  "counts": {
+    "Activity": 168,
+    "Assertion": 1104,
+    "Battery": 96,
+    "BatteryVersion": 288,
+    "Document": 18,
+    "DocumentPart": 108,
+    "Entity": 84,
+    "Evidence": 168,
+    "Keyword": 240,
+    "Measurement": 132,
+    "Product": 96,
+    "Source": 2,
+    "TimeBoundary": 192,
+    "TimeInterval": 96
+  },
+  "visible_to_tested_principal": 2558,
+  "records_sha256": "024ba96c13b18cd087883300354825c6f6d41eb411c7a07cd4bcd56a13ffd837",
+  "gold_sha256": "00bfdb58efc9387b0343a156986a23589974d4e78dbcc535b39f78020e81aac2"
+}

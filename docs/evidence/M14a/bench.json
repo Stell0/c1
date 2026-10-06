@@ -1,0 +1,305 @@
+{
+  "host_before": {
+    "hostname": "makako",
+    "kernel": "5.14.0-687.17.1.el9_8.x86_64",
+    "cpu": [
+      "CPU(s):                                  4",
+      "Model name:                              DO-Regular"
+    ],
+    "memory": "Mem:            7680        5573         895         316        1812        2107",
+    "load": "2.66 2.38 2.16 2/1308 2407219",
+    "podman": "podman version 5.8.2",
+    "recorded_at": "2026-10-05T21:52:15.436279+00:00"
+  },
+  "datasets": {
+    "B1": {
+      "entities_in_scope": 300,
+      "assertions_in_scope": 600,
+      "readable_entities_reported": 300,
+      "load_seconds_cumulative_step": 766.5,
+      "entity_list": {
+        "median_ms": 3927.5,
+        "max_ms": 13279.9,
+        "samples_ms": [
+          13279.9,
+          3927.5,
+          3919.1,
+          4752.0,
+          3740.9
+        ],
+        "statuses": [
+          200
+        ],
+        "response_bytes": 23945
+      },
+      "entity_label_search": {
+        "median_ms": 3221.9,
+        "max_ms": 3895.9,
+        "samples_ms": [
+          3895.9,
+          3216.7,
+          3100.9,
+          3895.3,
+          3221.9
+        ],
+        "statuses": [
+          200
+        ],
+        "response_bytes": 770
+      },
+      "assertion_query": {
+        "median_ms": 3257.3,
+        "max_ms": 3900.7,
+        "samples_ms": [
+          3257.3,
+          3592.8,
+          3198.4,
+          3900.7,
+          3124.7
+        ],
+        "statuses": [
+          200
+        ],
+        "response_bytes": 2517
+      },
+      "openfga_requests_per_list_request": 48.0,
+      "c1_memory_peak_bytes": 236478464
+    },
+    "B2": {
+      "entities_in_scope": 1000,
+      "assertions_in_scope": 2000,
+      "readable_entities_reported": 1000,
+      "load_seconds_cumulative_step": 2230.4,
+      "entity_list": {
+        "median_ms": 9403.2,
+        "max_ms": 27495.1,
+        "samples_ms": [
+          27495.1,
+          9403.2,
+          9123.3,
+          8994.4,
+          11890.3
+        ],
+        "statuses": [
+          200
+        ],
+        "response_bytes": 23946
+      },
+      "entity_label_search": {
+        "median_ms": 4190.3,
+        "max_ms": 4790.0,
+        "samples_ms": [
+          4636.0,
+          4093.8,
+          4117.5,
+          4790.0,
+          4190.3
+        ],
+        "statuses": [
+          200
+        ],
+        "response_bytes": 770
+      },
+      "assertion_query": {
+        "median_ms": 4002.8,
+        "max_ms": 5316.3,
+        "samples_ms": [
+          4002.8,
+          4502.0,
+          3931.4,
+          3842.4,
+          5316.3
+        ],
+        "statuses": [
+          200
+        ],
+        "response_bytes": 2517
+      },
+      "openfga_requests_per_list_request": 90.0,
+      "c1_memory_peak_bytes": 358547456
+    },
+    "B3": {
+      "entities_in_scope": 1500,
+      "assertions_in_scope": 3000,
+      "readable_entities_reported": 1500,
+      "load_seconds_cumulative_step": 1984.1,
+      "entity_list": {
+        "median_ms": 21277.4,
+        "max_ms": 39866.6,
+        "samples_ms": [
+          39866.6,
+          19648.2,
+          21277.4,
+          20079.2,
+          21349.5
+        ],
+        "statuses": [
+          200,
+          503
+        ],
+        "response_bytes": 23946
+      },
+      "entity_label_search": {
+        "median_ms": 5332.9,
+        "max_ms": 6737.3,
+        "samples_ms": [
+          4966.3,
+          6737.3,
+          5304.2,
+          5477.2,
+          5332.9
+        ],
+        "statuses": [
+          200
+        ],
+        "response_bytes": 770
+      },
+      "assertion_query": {
+        "median_ms": 4874.7,
+        "max_ms": 5278.5,
+        "samples_ms": [
+          4874.7,
+          4717.3,
+          5070.5,
+          5278.5,
+          4810.5
+        ],
+        "statuses": [
+          200
+        ],
+        "response_bytes": 2517
+      },
+      "openfga_requests_per_list_request": 108.0,
+      "c1_memory_peak_bytes": 467316736
+    }
+  },
+  "limits": {
+    "context_below_one_unit": {
+      "status": 422,
+      "code": "C1-CX-010",
+      "minimum_required": 16842
+    },
+    "body_over_1_mib": {
+      "status": 413
+    },
+    "candidates_over_5000": {
+      "resources_in_scope": 5490,
+      "status": 422,
+      "code": "C1-QY-052"
+    }
+  },
+  "context_graph": {
+    "median_ms": 3190.9,
+    "max_ms": 6368.7,
+    "samples_ms": [
+      6368.7,
+      2899.1,
+      3190.9,
+      3319.2,
+      3071.1
+    ],
+    "statuses": [
+      200
+    ],
+    "response_bytes": 75400
+  },
+  "context_documentation_update": {
+    "median_ms": 3342.7,
+    "max_ms": 3344.7,
+    "samples_ms": [
+      3342.7,
+      3344.1,
+      3025.8,
+      3344.7,
+      2999.4
+    ],
+    "statuses": [
+      200
+    ],
+    "response_bytes": 142966
+  },
+  "document_render": {
+    "median_ms": 3002.2,
+    "max_ms": 8744.9,
+    "samples_ms": [
+      3407.7,
+      2861.6,
+      2866.7,
+      8744.9,
+      3002.2
+    ],
+    "statuses": [
+      200
+    ],
+    "response_bytes": 231
+  },
+  "changeset": {
+    "1": {
+      "create_ms": 10648.6,
+      "validate_ms": 4348.3,
+      "approve_ms": 4830.4,
+      "apply_ms": 30550.4
+    },
+    "50": {
+      "create_ms": 12286.1,
+      "validate_ms": 7539.3,
+      "approve_ms": 4853.6,
+      "apply_ms": 49710.3
+    },
+    "200": {
+      "create_ms": 11752.5,
+      "validate_ms": 15776.0,
+      "approve_ms": 4524.4,
+      "apply_ms": 105557.9
+    }
+  },
+  "concurrency": {
+    "2": {
+      "statuses": [
+        200,
+        409
+      ],
+      "states": [
+        "applied",
+        "stale"
+      ],
+      "applied": 1,
+      "wall_ms": 54650.8
+    },
+    "4": {
+      "statuses": [
+        200,
+        409,
+        409,
+        409
+      ],
+      "states": [
+        "applied",
+        "stale",
+        "stale",
+        "stale"
+      ],
+      "applied": 1,
+      "wall_ms": 67322.0
+    }
+  },
+  "backup_restore": {
+    "backup_seconds": 76.4,
+    "backup_bytes": {
+      "terminusdb-storage.tar": 78694400
+    },
+    "restore_seconds": 89.5
+  },
+  "host_after": {
+    "hostname": "makako",
+    "kernel": "5.14.0-687.17.1.el9_8.x86_64",
+    "cpu": [
+      "CPU(s):                                  4",
+      "Model name:                              DO-Regular"
+    ],
+    "memory": "Mem:            7680        5987         245         323        2054        1693",
+    "load": "1.43 1.79 1.92 1/1322 2553239",
+    "podman": "podman version 5.8.2",
+    "recorded_at": "2026-10-05T23:57:18.448750+00:00"
+  }
+}
