@@ -84,17 +84,17 @@ def build_page(
         raise ValueError("maximum must be positive")
     _check_deadline(deadline)
     remaining = len(units) - offset
-    fixed = _render_page(
-        base,
-        units,
-        offset=offset,
-        count=0,
-        maximum=maximum,
-        cursor=None,
-        deadline=deadline,
-        renderers=renderers,
-    )
     if not remaining:
+        fixed = _render_page(
+            base,
+            units,
+            offset=offset,
+            count=0,
+            maximum=maximum,
+            cursor=None,
+            deadline=deadline,
+            renderers=renderers,
+        )
         if fixed["bounds"]["rendered_bytes"] > maximum:
             minimum = _minimum_required(
                 base,
@@ -127,34 +127,43 @@ def build_page(
     )
     if complete["bounds"]["rendered_bytes"] <= maximum:
         return complete
-    selected = None
     minimum_required: int = complete["bounds"]["rendered_bytes"]
-    smallest_count = remaining
-    smallest_cursor = None
-    for count in range(1, remaining):
-        _check_deadline(deadline)
-        cursor = cursor_for_offset(offset + count) if count < remaining else None
-        candidate = _render_page(
-            base,
-            units,
-            offset=offset,
-            count=count,
-            maximum=maximum,
-            cursor=cursor,
-            deadline=deadline,
-            renderers=renderers,
-        )
-        size = candidate["bounds"]["rendered_bytes"]
-        if size < minimum_required:
-            minimum_required = size
-            smallest_count, smallest_cursor = count, cursor
-        if size <= maximum:
-            selected = candidate
-        else:
-            # M14a C1: a longer prefix renders strictly more bytes, so no later
-            # prefix fits and the first is the smallest. Same result, without
-            # rendering every remaining prefix.
-            break
+    rendered: dict[int, dict[str, Any]] = {}
+
+    def page(count: int) -> dict[str, Any]:
+        if count not in rendered:
+            _check_deadline(deadline)
+            rendered[count] = _render_page(
+                base,
+                units,
+                offset=offset,
+                count=count,
+                maximum=maximum,
+                cursor=cursor_for_offset(offset + count),
+                deadline=deadline,
+                renderers=renderers,
+            )
+        return rendered[count]
+
+    # M14a C1 / M14b D8: a longer prefix renders strictly more bytes
+    # (tests/unit/m14a), so the longest fitting prefix is found by binary
+    # search, and when none fits the one-unit prefix is the smallest. The
+    # result equals the exhaustive prefix loop.
+    selected = None
+    smallest_count, smallest_cursor = remaining, None
+    first = page(1) if remaining > 1 else None
+    if first is not None and first["bounds"]["rendered_bytes"] < minimum_required:
+        minimum_required = first["bounds"]["rendered_bytes"]
+        smallest_count, smallest_cursor = 1, first["bounds"]["next_cursor"]
+    if first is not None and first["bounds"]["rendered_bytes"] <= maximum:
+        low, high = 1, remaining - 1  # page(low) fits; the answer is in [low, high]
+        while low < high:
+            middle = (low + high + 1) // 2
+            if page(middle)["bounds"]["rendered_bytes"] <= maximum:
+                low = middle
+            else:
+                high = middle - 1
+        selected = page(low)
     if selected is None:
         minimum_required = _minimum_required(
             base,

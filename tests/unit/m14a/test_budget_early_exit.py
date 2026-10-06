@@ -60,7 +60,7 @@ def _outcome(build: Any, units: list[dict[str, Any]], maximum: int) -> Any:
 
 
 @pytest.mark.parametrize("maximum", [2048, 3000, 4096, 9000, 20000, 65536])
-@pytest.mark.parametrize("size", [1, 3, 8])
+@pytest.mark.parametrize("size", [1, 2, 3, 8, 40])
 def test_outputs_equal_the_m13_exhaustive_loop(maximum: int, size: int) -> None:
     units = [unit(i, excerpt="text " * (20 * (i % 3 + 1))) for i in range(size)]
     old = _m13_budget().build_page

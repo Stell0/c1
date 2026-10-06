@@ -339,12 +339,13 @@ class QueryService:
             raise QueryPlanError(503, "C1-QY-054", "unexpected_backend_selection")
         visible_ids = set(fetched)
         while True:
+            visible = frozenset(visible_ids)  # M14b D8: once per pass, not per record
             denied = {
                 identifier
                 for identifier in visible_ids
                 if not _record_references_visible(
                     fetched[identifier],
-                    frozenset(visible_ids),
+                    visible,
                     self.runtime.settings.instance_base,
                     registry,
                 )
