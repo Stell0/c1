@@ -217,7 +217,7 @@ async def _runtime(*, recover: bool) -> Runtime:
 
 
 async def optimize(_args: argparse.Namespace) -> dict[str, Any]:
-    """Optimize the knowledge and workflow databases (M14a E1)."""
+    """Optimize the knowledge, workflow and `_system` databases (M14a E1, M14b D5)."""
     import time
 
     settings = Settings.from_env()
@@ -231,6 +231,10 @@ async def optimize(_args: argparse.Namespace) -> dict[str, Any]:
                 "seconds": round(time.perf_counter() - started, 2),
                 "head_unchanged": await storage.head() == before,
             }
+            if workflow:
+                started = time.perf_counter()
+                await storage.optimize_system()
+                result["system"] = {"seconds": round(time.perf_counter() - started, 2)}
     return result
 
 

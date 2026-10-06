@@ -12,5 +12,6 @@ These documents describe how to run release candidate `0.1.0rc1` with the refere
 | [schema-migration.md](schema-migration.md) | Installing profiles, incompatible changes, restores and schema |
 | [import-export.md](import-export.md) | Snapshot export versus backup, JSON-LD import rules |
 | [limits.md](limits.md) | Configured limits and the measured behavior on the declared machine |
+| [maintenance.md](maintenance.md) | Scheduled storage maintenance (TerminusDB optimize) |
 
 C1 needs no AI provider, model or key. It does need its identity provider (Keycloak), authorization service (OpenFGA), knowledge store (TerminusDB) and their database (PostgreSQL).

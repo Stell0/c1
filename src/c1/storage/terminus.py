@@ -321,6 +321,10 @@ class Terminus:
         """
         await self._request("POST", f"/api/optimize/{self._database_path}/local/branch/main")
 
+    async def optimize_system(self) -> None:
+        """Squash the `_system` database's layers (M14b D5); every database operation reads it."""
+        await self._request("POST", "/api/optimize/_system")
+
     async def log(
         self, *, start: int | None = None, count: int | None = None
     ) -> list[dict[str, Any]]:
