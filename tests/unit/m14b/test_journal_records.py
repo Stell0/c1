@@ -129,3 +129,34 @@ def test_migration_refuses_a_foreign_schema() -> None:
     storage = FakeStorage([_DEFAULT_CONTEXT, {"@type": "Class", "@id": "Other"}], [])
     with pytest.raises(StorageError):
         asyncio.run(_journal(storage).migrate_records())
+
+
+def test_listing_a_record_kind_reads_the_record_class_consistently() -> None:
+    async def run() -> None:
+        storage = FakeStorage(
+            [_DEFAULT_CONTEXT, _ENTRY_CLASS, _RECORD_CLASS],
+            [_encode("Binding", "r1", {"b": 2}), _encode("ApplyReceipt", "a1", {"c": 1})],
+        )
+        journal = _journal(storage)
+        assert await journal.list("ApplyReceipt") == [{"c": 1}]
+        assert await journal.list_many({"Binding", "ApplyReceipt"}) == {
+            "Binding": [{"b": 2}],
+            "ApplyReceipt": [{"c": 1}],
+        }
+        # A write between the two listings is retried, never mixed.
+        original = storage.documents_at_version
+        writes = iter([True, False])
+
+        async def racing(*, type: str | None = None) -> tuple[str, list[Any]]:
+            if type == "WorkflowRecord" and next(writes):
+                storage.documents[_document_id("ApplyReceipt", "a2")] = _encode(
+                    "ApplyReceipt", "a2", {"c": 2}
+                )
+                storage.version += 1
+            return await original(type=type)
+
+        storage.documents_at_version = racing  # type: ignore[method-assign]
+        receipts = await journal.list("ApplyReceipt")
+        assert sorted(r["c"] for r in receipts) == [1, 2]
+
+    asyncio.run(run())

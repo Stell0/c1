@@ -271,21 +271,36 @@ class Journal:
     async def list(self, kind: str) -> list[dict[str, Any]]:
         if kind not in _KINDS:
             raise ValueError("unsupported journal kind")
-        return [
-            copy.deepcopy(payload)
-            for actual_kind, _key, payload in await self._entries()
-            if actual_kind == kind
-        ]
+        return (await self.list_many({kind}))[kind]
 
     async def list_many(self, kinds: set[str]) -> dict[str, builtins.list[dict[str, Any]]]:
-        """Read one consistent workflow document enumeration for several kinds."""
+        """Read one consistent workflow document enumeration for several kinds.
+
+        M14b D4: ID-only kinds live in the record class, which the per-step
+        listing does not hold; asking for one also lists that class, at the
+        same data version as the entries (retried if a write lands between).
+        """
         if not kinds or not kinds.issubset(_KINDS):
             raise ValueError("unsupported journal kind")
         result: dict[str, builtins.list[dict[str, Any]]] = {kind: [] for kind in kinds}
-        for kind, _key, payload in await self._entries():
+        if kinds & _RECORD_KINDS:
+            entries = await self._entries_with_records()
+        else:
+            entries = await self._entries()
+        for kind, _key, payload in entries:
             if kind in result:
                 result[kind].append(copy.deepcopy(payload))
         return result
+
+    async def _entries_with_records(self) -> builtins.list[tuple[str, str, dict[str, Any]]]:
+        for _attempt in range(5):
+            version, entries = await self._versioned_entries()
+            record_version, documents = await self._storage.documents_at_version(
+                type="WorkflowRecord"
+            )
+            if record_version == version:
+                return [*entries, *(_decode(document) for document in documents)]
+        raise StorageError("C1-JR-002", "workflow journal changed during enumeration")
 
     @roundtrips.phased("journal.save")
     async def save_many(
