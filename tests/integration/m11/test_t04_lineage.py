@@ -27,7 +27,9 @@ def test_t04_draft_lineage(software_template: Template) -> None:
         async with copy_of(software_template) as case:
             bob = (await case.principal("bob")).id
             history_path = "/v1/documents/" + quote(invoicing, safe="") + "/history"
-            history = (await case.request("GET", history_path, actor="dave")).json()
+            first = await case.request("GET", history_path, actor="dave")
+            assert first.status_code == 200, first.text
+            history = first.json()
             before = await context(case, "dave", update(target("a2", "b2")))
 
             operations, ids = draft_operations(
@@ -52,7 +54,13 @@ def test_t04_draft_lineage(software_template: Template) -> None:
             assert [part["part_id"] for part in draft["parts"]] == ids["parts"]
 
             # Old document, its history, review candidates and discrepancies are unchanged.
-            assert (await case.request("GET", history_path, actor="dave")).json() == history
+            # The response's `revision` is the knowledge head it was served at,
+            # which the accepted draft advances; every history entry is unchanged.
+            later = await case.request("GET", history_path, actor="dave")
+            assert later.status_code == 200, later.text
+            assert later.json()["revision"] != history["revision"]
+            unchanged = {k: v for k, v in later.json().items() if k != "revision"}
+            assert unchanged == {k: v for k, v in history.items() if k != "revision"}
             for name in ("document-structure", "changes"):
                 assert units(after, name) == units(before, name)
 
