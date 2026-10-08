@@ -179,17 +179,20 @@ def test_bad_signed_claims_rejected(change: dict[str, Any]) -> None:
 
 def test_time_claims_use_thirty_second_leeway_and_optional_nbf() -> None:
     with oidc_server() as (settings, keys, _state):
-        now = int(time.time())
 
         async def run() -> None:
             validator = TokenValidator(settings)
             try:
+                now = int(time.time())
                 accepted = claims(settings.issuer, iat=now - 60, exp=now - 15)
                 assert (await validator.authenticate(sign(accepted, keys["rsa"]))).kind == "human"
+                # 35 s, not 31 s: outside the 30 s leeway even if the host stalls
+                # for a few seconds between building and validating the token.
+                now = int(time.time())
                 for payload in (
-                    claims(settings.issuer, iat=now - 70, exp=now - 31),
-                    claims(settings.issuer, nbf=now + 31),
-                    claims(settings.issuer, iat=now + 31),
+                    claims(settings.issuer, iat=now - 70, exp=now - 35),
+                    claims(settings.issuer, nbf=now + 35),
+                    claims(settings.issuer, iat=now + 35),
                 ):
                     with pytest.raises(AuthenticationError):
                         await validator.authenticate(sign(payload, keys["rsa"]))
