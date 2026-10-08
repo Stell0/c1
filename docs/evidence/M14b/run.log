@@ -1,0 +1,18 @@
+2026-10-06T17:05:55 [S] corpus 932 records, 53 needs
+2026-10-06T17:10:13 [S] deployment ready in 258s (reuse=False)
+2026-10-06T17:15:30 [S] loaded in 240.0s
+2026-10-06T17:57:01 [S] fidelity 1.0 passed=True
+2026-10-06T17:59:58 [S] quality: 61 observations, exact-semantics failures []
+2026-10-06T18:15:36 [S] performance done
+2026-10-06T18:23:13 [S] security 1.0
+2026-10-06T18:31:35 [S] revocation passed=True
+2026-10-06T18:31:42 [S] results written
+2026-10-06T18:31:42 [M] corpus 2792 records, 57 needs
+2026-10-06T18:35:59 [M] deployment ready in 256s (reuse=False)
+2026-10-06T18:50:33 [M] loaded in 794.4s
+2026-10-06T21:12:28 [M] fidelity 1.0 passed=True
+2026-10-06T21:16:17 [M] quality: 65 observations, exact-semantics failures []
+2026-10-06T21:34:05 [M] performance done
+2026-10-06T21:43:02 [M] security 1.0
+2026-10-06T21:53:01 [M] revocation passed=True
+2026-10-06T21:53:09 [M] results written

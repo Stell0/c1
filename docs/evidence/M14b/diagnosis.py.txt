@@ -1,0 +1,27 @@
+import asyncio, time, statistics
+from c1.config import Settings
+from c1.runtime import storage_config
+from c1.storage.terminus import Terminus
+from c1.authorization.fga import FGA
+
+async def t(name, f, n=7):
+    xs = []
+    for _ in range(n):
+        s = time.perf_counter(); await f(); xs.append((time.perf_counter() - s) * 1000)
+    print(f"{name:34s} median {statistics.median(xs):8.1f} ms  min {min(xs):8.1f}  max {max(xs):8.1f}")
+
+async def main():
+    s = Settings.from_env()
+    async with Terminus(storage_config(s)) as k, Terminus(storage_config(s, workflow=True)) as w:
+        f = FGA(s.fga_url, s.fga_token, s.fga_store, s.fga_model)
+        tok, _ = await f.read_changes("")
+        await t("workflow head (count=0)", w.head)
+        await t("knowledge head (count=0)", k.head)
+        await t("workflow log count=1", lambda: w.log(start=0, count=1))
+        await t("workflow listing WorkflowEntry", lambda: w.documents_at_version(type="WorkflowEntry"), 3)
+        await t("openfga read_changes(tail)", lambda: f.read_changes(tok))
+        async def both():
+            await asyncio.gather(w.head(), f.read_changes(tok))
+        await t("head || read_changes", both)
+        await f.close()
+asyncio.run(main())

@@ -1,0 +1,6 @@
+started_utc=2026-10-06T14:16:57Z
+--> 49fde87fe846
+Successfully tagged localhost/c1:0.1.0rc1
+49fde87fe846fb878af8a8e0a19d63ea3704290f1bccba011c779635d471513f
+image_id=49fde87fe846fb878af8a8e0a19d63ea3704290f1bccba011c779635d471513f
+source_revision=36b2f9297e1699d10a466c61d8c44d0ee4856bd7

@@ -1,0 +1,518 @@
+{
+ "alias-exact/cold": {
+  "client_ms": 2349.1,
+  "server": {
+   "backend_ms": {
+    "openfga": 110.5,
+    "terminus": 2360.8
+   },
+   "method": "GET",
+   "ms": 2342.9,
+   "path": "/v1/entities",
+   "phases_ms": {
+    "auth.token": 3.0,
+    "fga.binding_source": 94.1,
+    "plan.authorize": 102.0,
+    "plan.build": 186.3,
+    "plan.finalize": 1973.4,
+    "query.fetch": 161.7,
+    "schema.authority": 122.1
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "alias-exact/warm": {
+  "client_ms": 2347.5,
+  "server": {
+   "backend_ms": {
+    "openfga": 114.5,
+    "terminus": 2379.0
+   },
+   "method": "GET",
+   "ms": 2344.7,
+   "path": "/v1/entities",
+   "phases_ms": {
+    "auth.token": 2.2,
+    "fga.binding_source": 98.4,
+    "plan.authorize": 107.8,
+    "plan.build": 185.1,
+    "plan.finalize": 1965.8,
+    "query.fetch": 172.8,
+    "schema.authority": 134.7
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "context-64k/cold": {
+  "client_ms": 2417.0,
+  "server": {
+   "backend_ms": {
+    "openfga": 142.5,
+    "terminus": 2031.3
+   },
+   "method": "POST",
+   "ms": 2410.3,
+   "path": "/v1/context",
+   "phases_ms": {
+    "auth.token": 2.6,
+    "context.render": 402.0,
+    "context.select": 17.4,
+    "context.units": 14.0,
+    "fga.binding_source": 115.2,
+    "plan.authorize": 128.4,
+    "plan.build": 227.8,
+    "plan.finalize": 1546.4,
+    "query.fetch": 174.4,
+    "schema.authority": 135.5
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "context-64k/warm": {
+  "client_ms": 2460.8,
+  "server": {
+   "backend_ms": {
+    "openfga": 158.1,
+    "terminus": 1930.8
+   },
+   "method": "POST",
+   "ms": 2451.4,
+   "path": "/v1/context",
+   "phases_ms": {
+    "auth.token": 2.2,
+    "context.render": 482.5,
+    "context.select": 21.9,
+    "context.units": 14.6,
+    "fga.binding_source": 137.7,
+    "plan.authorize": 148.4,
+    "plan.build": 260.5,
+    "plan.finalize": 1465.8,
+    "query.fetch": 178.5,
+    "schema.authority": 134.9
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "context-8k-refused/cold": {
+  "client_ms": 707.5,
+  "server": {
+   "backend_ms": {
+    "openfga": 102.4,
+    "terminus": 401.9
+   },
+   "method": "POST",
+   "ms": 707.4,
+   "path": "/v1/context",
+   "phases_ms": {
+    "auth.token": 2.3,
+    "context.render": 303.9,
+    "context.select": 19.2,
+    "context.units": 12.8,
+    "fga.binding_source": 93.1,
+    "plan.authorize": 103.5,
+    "plan.build": 184.4,
+    "query.fetch": 161.2,
+    "schema.authority": 122.9
+   },
+   "roundtrips": {
+    "openfga": 12,
+    "terminus": 8
+   },
+   "status": 422
+  },
+  "status": 422
+ },
+ "context-8k-refused/warm": {
+  "client_ms": 747.0,
+  "server": {
+   "backend_ms": {
+    "openfga": 124.3,
+    "terminus": 406.7
+   },
+   "method": "POST",
+   "ms": 745.8,
+   "path": "/v1/context",
+   "phases_ms": {
+    "auth.token": 2.5,
+    "context.render": 306.5,
+    "context.select": 26.7,
+    "context.units": 14.6,
+    "fga.binding_source": 110.1,
+    "plan.authorize": 118.9,
+    "plan.build": 207.0,
+    "query.fetch": 165.5,
+    "schema.authority": 122.0
+   },
+   "roundtrips": {
+    "openfga": 12,
+    "terminus": 8
+   },
+   "status": 422
+  },
+  "status": 422
+ },
+ "documents-text/cold": {
+  "client_ms": 2427.4,
+  "server": {
+   "backend_ms": {
+    "openfga": 115.2,
+    "terminus": 2489.5
+   },
+   "method": "GET",
+   "ms": 2424.3,
+   "path": "/v1/documents",
+   "phases_ms": {
+    "auth.token": 1.1,
+    "fga.binding_source": 101.9,
+    "plan.authorize": 111.7,
+    "plan.build": 225.3,
+    "plan.finalize": 1995.1,
+    "query.fetch": 177.5,
+    "schema.authority": 135.0
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "documents-text/warm": {
+  "client_ms": 2416.5,
+  "server": {
+   "backend_ms": {
+    "openfga": 131.1,
+    "terminus": 2510.0
+   },
+   "method": "GET",
+   "ms": 2412.4,
+   "path": "/v1/documents",
+   "phases_ms": {
+    "auth.token": 2.2,
+    "fga.binding_source": 116.1,
+    "plan.authorize": 128.1,
+    "plan.build": 212.6,
+    "plan.finalize": 1988.2,
+    "query.fetch": 198.3,
+    "schema.authority": 152.4
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "entity-list-50/cold": {
+  "client_ms": 3002.3,
+  "server": {
+   "backend_ms": {
+    "openfga": 239.8,
+    "terminus": 5420.5
+   },
+   "method": "GET",
+   "ms": 2997.4,
+   "path": "/v1/entities",
+   "phases_ms": {
+    "auth.token": 2.6,
+    "fga.binding_source": 104.5,
+    "journal.view": 40.4,
+    "plan.authorize": 110.0,
+    "plan.build": 563.6,
+    "plan.finalize": 159.0,
+    "query.fetch": 2107.9,
+    "schema.authority": 176.7
+   },
+   "roundtrips": {
+    "openfga": 23,
+    "terminus": 26
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "entity-list-50/warm": {
+  "client_ms": 2328.6,
+  "server": {
+   "backend_ms": {
+    "openfga": 106.0,
+    "terminus": 2245.0
+   },
+   "method": "GET",
+   "ms": 2322.9,
+   "path": "/v1/entities",
+   "phases_ms": {
+    "auth.token": 2.1,
+    "fga.binding_source": 91.2,
+    "plan.authorize": 98.4,
+    "plan.build": 170.9,
+    "plan.finalize": 1886.9,
+    "query.fetch": 155.2,
+    "schema.authority": 114.8
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "history/cold": {
+  "client_ms": 4234.7,
+  "server": {
+   "backend_ms": {
+    "openfga": 29.4,
+    "terminus": 5020.0
+   },
+   "method": "GET",
+   "ms": 4230.6,
+   "path": "/v1/history",
+   "phases_ms": {
+    "auth.token": 2.2,
+    "fga.binding_source": 16.2,
+    "journal.view": 359.6,
+    "plane.check_many": 2406.1,
+    "schema.authority": 528.0
+   },
+   "roundtrips": {
+    "openfga": 4,
+    "terminus": 44
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "history/warm": {
+  "client_ms": 13859.5,
+  "server": {
+   "backend_ms": {
+    "openfga": 30.0,
+    "terminus": 54234.9
+   },
+   "method": "GET",
+   "ms": 13854.8,
+   "path": "/v1/history",
+   "phases_ms": {
+    "auth.token": 1.7,
+    "fga.binding_source": 15.3,
+    "journal.view": 2125.9,
+    "plane.check_many": 415.0,
+    "schema.authority": 471.0
+   },
+   "roundtrips": {
+    "openfga": 4,
+    "terminus": 44
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "instance/cold": {
+  "client_ms": 5767.7,
+  "server": {
+   "backend_ms": {
+    "openfga": 12.9,
+    "terminus": 7493.0
+   },
+   "method": "GET",
+   "ms": 5762.5,
+   "path": "/v1/instance",
+   "phases_ms": {
+    "auth.token": 1.8,
+    "journal.view": 201.6,
+    "schema.authority": 995.2
+   },
+   "roundtrips": {
+    "openfga": 2,
+    "terminus": 47
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "instance/warm": {
+  "client_ms": 4163.3,
+  "server": {
+   "backend_ms": {
+    "openfga": 11.1,
+    "terminus": 5426.5
+   },
+   "method": "GET",
+   "ms": 4158.3,
+   "path": "/v1/instance",
+   "phases_ms": {
+    "auth.token": 2.4,
+    "journal.view": 126.8,
+    "schema.authority": 960.5
+   },
+   "roundtrips": {
+    "openfga": 2,
+    "terminus": 47
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "keyword-any/cold": {
+  "client_ms": 2357.4,
+  "server": {
+   "backend_ms": {
+    "openfga": 110.1,
+    "terminus": 2388.3
+   },
+   "method": "GET",
+   "ms": 2352.8,
+   "path": "/v1/entities",
+   "phases_ms": {
+    "auth.token": 2.5,
+    "fga.binding_source": 96.9,
+    "plan.authorize": 103.7,
+    "plan.build": 177.3,
+    "plan.finalize": 1963.2,
+    "query.fetch": 178.6,
+    "schema.authority": 134.3
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "keyword-any/warm": {
+  "client_ms": 2362.9,
+  "server": {
+   "backend_ms": {
+    "openfga": 112.9,
+    "terminus": 2387.0
+   },
+   "method": "GET",
+   "ms": 2358.0,
+   "path": "/v1/entities",
+   "phases_ms": {
+    "auth.token": 2.3,
+    "fga.binding_source": 96.9,
+    "plan.authorize": 108.6,
+    "plan.build": 181.4,
+    "plan.finalize": 1975.3,
+    "query.fetch": 168.2,
+    "schema.authority": 127.8
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "neighborhood/cold": {
+  "client_ms": 2400.9,
+  "server": null,
+  "status": 200
+ },
+ "neighborhood/warm": {
+  "client_ms": 2389.4,
+  "server": null,
+  "status": 200
+ },
+ "valid-at/cold": {
+  "client_ms": 2381.8,
+  "server": {
+   "backend_ms": {
+    "openfga": 118.7,
+    "terminus": 2379.4
+   },
+   "method": "GET",
+   "ms": 2376.6,
+   "path": "/v1/assertions",
+   "phases_ms": {
+    "auth.token": 2.2,
+    "fga.binding_source": 97.3,
+    "plan.authorize": 106.0,
+    "plan.build": 180.9,
+    "plan.finalize": 1944.0,
+    "query.fetch": 202.8,
+    "schema.authority": 164.5
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "valid-at/warm": {
+  "client_ms": 2357.4,
+  "server": {
+   "backend_ms": {
+    "openfga": 107.2,
+    "terminus": 2362.4
+   },
+   "method": "GET",
+   "ms": 2352.5,
+   "path": "/v1/assertions",
+   "phases_ms": {
+    "auth.token": 1.5,
+    "fga.binding_source": 90.7,
+    "plan.authorize": 99.0,
+    "plan.build": 168.3,
+    "plan.finalize": 1973.0,
+    "query.fetch": 170.5,
+    "schema.authority": 141.9
+   },
+   "roundtrips": {
+    "openfga": 13,
+    "terminus": 10
+   },
+   "status": 200
+  },
+  "status": 200
+ },
+ "write-create-1": {
+  "apply_seconds": 15.58,
+  "gateway_timeout": false,
+  "operations": 1,
+  "seconds": 26.401,
+  "validate_seconds": 7.859
+ },
+ "write-create-twin": {
+  "apply_seconds": 29.786,
+  "gateway_timeout": false,
+  "operations": 97,
+  "seconds": 48.937,
+  "validate_seconds": 17.037
+ },
+ "write-replace-36": {
+  "apply_seconds": 24.585,
+  "gateway_timeout": false,
+  "operations": 36,
+  "seconds": 45.057,
+  "validate_seconds": 16.338
+ }
+}

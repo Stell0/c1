@@ -1,0 +1,17 @@
+# M14b finalize-gap diagnosis on makako (2026-10-08; repository at fb85979, C1 image built from 36b2f92)
+# Fresh S deployment (perf_probe prepare), backend calls timed in isolation from inside the C1 container (7 repeats).
+== before optimize
+workflow head (count=0)            median     70.8 ms  min     41.4  max     94.1
+knowledge head (count=0)           median     67.0 ms  min     44.0  max     69.0
+workflow log count=1               median     80.5 ms  min     58.1  max    107.4
+workflow listing WorkflowEntry     median    483.3 ms  min    483.2  max    620.4
+openfga read_changes(tail)         median      6.6 ms  min      5.7  max     47.6
+head || read_changes               median     78.5 ms  min     45.5  max     82.7
+{"knowledge":{"head_unchanged":true,"seconds":0.38},"system":{"seconds":0.05},"workflow":{"head_unchanged":true,"seconds":0.39}}
+== after optimize
+workflow head (count=0)            median     69.4 ms  min     34.7  max     87.4
+knowledge head (count=0)           median     72.9 ms  min     65.2  max     95.8
+workflow log count=1               median     48.1 ms  min     44.4  max    128.0
+workflow listing WorkflowEntry     median    291.2 ms  min    261.7  max    297.0
+openfga read_changes(tail)         median      5.1 ms  min      4.7  max      6.8
+head || read_changes               median     69.3 ms  min     26.8  max     75.9

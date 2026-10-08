@@ -1,0 +1,6 @@
+started_utc=2026-10-06T17:05:09Z
+--> 42d168d16b69
+Successfully tagged localhost/c1:0.1.0rc1
+42d168d16b69fc3bbfd1d1d49b7ed271e7725ed8d0e1f670abe3479ef96601d8
+image_id=42d168d16b69fc3bbfd1d1d49b7ed271e7725ed8d0e1f670abe3479ef96601d8
+source_revision=36b2f9297e1699d10a466c61d8c44d0ee4856bd7

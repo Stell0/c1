@@ -1,0 +1,1489 @@
+[
+ {
+  "id": "kw-any/battery",
+  "family": "keyword",
+  "params": {
+   "keywords_any": "battery"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/0a93653c-4436-41d3-8f1a-ad38a03444de",
+   "urn:c1:instance:dev:entity/115ed5fa-a197-40b7-a025-ccdd5fbbf746",
+   "urn:c1:instance:dev:entity/2d2ecebf-7a20-4130-9911-49df26fd691e",
+   "urn:c1:instance:dev:entity/30b20382-2b1c-4292-bcd5-22824b987a92",
+   "urn:c1:instance:dev:entity/32357b2c-b736-4a40-98c7-ac2d2334755c",
+   "urn:c1:instance:dev:entity/34d6e2f4-d649-4425-8d55-03752633bc94",
+   "urn:c1:instance:dev:entity/34f0c18f-27bf-4f19-9683-7712aa41bc7e",
+   "urn:c1:instance:dev:entity/431dfd09-c512-4378-9d9d-f4839be26530",
+   "urn:c1:instance:dev:entity/585681e8-d429-4df6-b6e1-f7a275bc3d28",
+   "urn:c1:instance:dev:entity/5f9fcaf9-1c12-4f75-afaf-c7c8783d119c",
+   "urn:c1:instance:dev:entity/6f19aa34-0c57-4414-907d-0e98cce835e5",
+   "urn:c1:instance:dev:entity/95acdd82-7624-4687-a1a6-e8b03791f175",
+   "urn:c1:instance:dev:entity/c018225b-010c-4653-acfe-dcd97c069874",
+   "urn:c1:instance:dev:entity/d31def4f-d0d8-45f9-a11b-f4755d0fcce9",
+   "urn:c1:instance:dev:entity/d7ff7e36-e6e9-4d53-991d-dd53656dd5ac",
+   "urn:c1:instance:dev:entity/df698d0b-e7fa-477d-8600-4888f3643d03"
+  ]
+ },
+ {
+  "id": "kw-any/bench-product",
+  "family": "keyword",
+  "params": {
+   "keywords_any": "bench-product"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/074e3b6f-cea7-43ca-9107-6c82a4d21727",
+   "urn:c1:instance:dev:entity/08c1a760-834c-4914-97a1-a82863fa9714",
+   "urn:c1:instance:dev:entity/0b73be69-9e26-45f4-8f49-987178a92c77",
+   "urn:c1:instance:dev:entity/10ee2472-af93-4feb-9a27-4f57e75ca4ef",
+   "urn:c1:instance:dev:entity/1c8676da-01b6-4fda-a634-28df3fe83c6d",
+   "urn:c1:instance:dev:entity/239be395-12cf-4971-94f5-469206ca146f",
+   "urn:c1:instance:dev:entity/2639b169-53b3-4610-994f-1688c48f71bb",
+   "urn:c1:instance:dev:entity/343f8601-e6f4-4c35-81bf-ffaf25b96b9c",
+   "urn:c1:instance:dev:entity/36935b07-9bf6-4c15-b6a9-92bbd1394d49",
+   "urn:c1:instance:dev:entity/36d46bec-b8f4-41db-8036-ceb25bcef820",
+   "urn:c1:instance:dev:entity/4e9bbafc-9770-4acb-b9fe-2a0ead170591",
+   "urn:c1:instance:dev:entity/56f64479-7505-44d2-afb5-7f840e23db1f",
+   "urn:c1:instance:dev:entity/63334aed-8747-4e74-a6bb-f5303993eb9e",
+   "urn:c1:instance:dev:entity/6762fd04-1fc3-48b4-b541-073178cf9de4",
+   "urn:c1:instance:dev:entity/67a21f42-2a84-4613-aa9b-8cde3e8f539f",
+   "urn:c1:instance:dev:entity/6af114cb-2311-4fac-ad7d-0a402daca6d1",
+   "urn:c1:instance:dev:entity/8acbd87a-1b80-42f9-b7af-66dbc8de0037",
+   "urn:c1:instance:dev:entity/926c9079-a7d3-420a-82dd-e0961b8228a2",
+   "urn:c1:instance:dev:entity/92b9fe01-c2a9-4beb-8b1d-12aa3bed5869",
+   "urn:c1:instance:dev:entity/93d19e2f-9a7c-4f96-8904-ebd83eedd5ca",
+   "urn:c1:instance:dev:entity/a3effc19-7991-455e-8c9b-81a664e5326b",
+   "urn:c1:instance:dev:entity/a89d0c64-82aa-479d-890b-e08b3652ae59",
+   "urn:c1:instance:dev:entity/b12cf695-ba48-4852-bfd2-73dd35d965a1",
+   "urn:c1:instance:dev:entity/b3283f6b-d25b-466d-946f-19a77f3ad37b",
+   "urn:c1:instance:dev:entity/c475e395-ebea-4d9b-ac7e-262eabf31249",
+   "urn:c1:instance:dev:entity/cebc6519-8d92-48d6-975a-3ef77c8531d3",
+   "urn:c1:instance:dev:entity/dc9cb551-ee49-4ca4-9fc1-7a73ab295d45",
+   "urn:c1:instance:dev:entity/f2b183d2-2b88-4f9d-851d-ed577ed086ae"
+  ]
+ },
+ {
+  "id": "kw-any/bench-company",
+  "family": "keyword",
+  "params": {
+   "keywords_any": "bench-company"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+   "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+   "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+   "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d"
+  ]
+ },
+ {
+  "id": "kw-any/bench-person",
+  "family": "keyword",
+  "params": {
+   "keywords_any": "bench-person"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/1a261914-d937-43ea-aac6-52a239427436",
+   "urn:c1:instance:dev:entity/1b61a79a-7df0-48de-9c94-a3b3fa5c424c",
+   "urn:c1:instance:dev:entity/21030462-a75e-4f43-a56c-14bab15327a4",
+   "urn:c1:instance:dev:entity/3470fbc8-fb55-4b58-be99-9225772bb960",
+   "urn:c1:instance:dev:entity/3b161e7b-ef13-4203-ae51-4d03a177d5d9",
+   "urn:c1:instance:dev:entity/3eebbb67-7788-4fdf-8f0a-542fb0eb02be",
+   "urn:c1:instance:dev:entity/43ebeadf-514f-4cfb-96ab-a097260ea45c",
+   "urn:c1:instance:dev:entity/59584d7f-45fa-4557-8e83-277155ec62bb",
+   "urn:c1:instance:dev:entity/6a928e4a-6145-429b-842f-c20628775804",
+   "urn:c1:instance:dev:entity/750c45dd-bb57-4fbb-b680-3efb67cfbe22",
+   "urn:c1:instance:dev:entity/7a702e7e-1f46-4fac-be64-b9e79a74172e",
+   "urn:c1:instance:dev:entity/7d16d40e-7e2e-4ea2-b665-e01c302c2aee",
+   "urn:c1:instance:dev:entity/8a49ce6b-8260-4c3e-83b8-84a242452201",
+   "urn:c1:instance:dev:entity/8b62992c-7412-4286-b7b4-dc610009ee4d",
+   "urn:c1:instance:dev:entity/a5c1ce50-6b93-4e9f-a629-baf95acb2784",
+   "urn:c1:instance:dev:entity/b3201f8d-a8b5-4e29-89f5-e90260ac407b",
+   "urn:c1:instance:dev:entity/b6819842-7ab9-43ca-ad62-2ea33c232837",
+   "urn:c1:instance:dev:entity/ba93d8ed-35d5-4614-8cf4-8b9d715d71eb",
+   "urn:c1:instance:dev:entity/d0219311-f95b-4894-844d-bc1bd3a1950e",
+   "urn:c1:instance:dev:entity/e47407ff-2698-47cb-87e7-411d69350f66",
+   "urn:c1:instance:dev:entity/f001b90a-780f-4ea7-94de-2c6fdd2d44a9",
+   "urn:c1:instance:dev:entity/f4c45f07-4de4-4f33-8d27-4c994da8e6f2",
+   "urn:c1:instance:dev:entity/f8efb17e-0c4c-4996-a2c1-ed9581e1f319",
+   "urn:c1:instance:dev:entity/f92bd490-f8fd-4e35-954b-b92b08389ea8"
+  ]
+ },
+ {
+  "id": "kw-any/company-00",
+  "family": "keyword",
+  "params": {
+   "keywords_any": "company-00"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178"
+  ]
+ },
+ {
+  "id": "kw-any/company-01",
+  "family": "keyword",
+  "params": {
+   "keywords_any": "company-01"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d"
+  ]
+ },
+ {
+  "id": "kw-any/company-02",
+  "family": "keyword",
+  "params": {
+   "keywords_any": "company-02"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62"
+  ]
+ },
+ {
+  "id": "kw-any/company-03",
+  "family": "keyword",
+  "params": {
+   "keywords_any": "company-03"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c"
+  ]
+ },
+ {
+  "id": "kw-all/bench-company+company-00",
+  "family": "keyword",
+  "params": {
+   "keywords_all": "bench-company,company-00"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178"
+  ]
+ },
+ {
+  "id": "kw-all/bench-company+company-01",
+  "family": "keyword",
+  "params": {
+   "keywords_all": "bench-company,company-01"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d"
+  ]
+ },
+ {
+  "id": "kw-all/bench-company+company-02",
+  "family": "keyword",
+  "params": {
+   "keywords_all": "bench-company,company-02"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62"
+  ]
+ },
+ {
+  "id": "kw-all/battery+bench-product",
+  "family": "keyword",
+  "params": {
+   "keywords_all": "battery,bench-product"
+  },
+  "gold": []
+ },
+ {
+  "id": "alias/BC00 Holdings",
+  "family": "alias",
+  "params": {
+   "alias": "BC00 Holdings"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178"
+  ]
+ },
+ {
+  "id": "alias/BC01 Holdings",
+  "family": "alias",
+  "params": {
+   "alias": "BC01 Holdings"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d"
+  ]
+ },
+ {
+  "id": "alias/BC02 Holdings",
+  "family": "alias",
+  "params": {
+   "alias": "BC02 Holdings"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62"
+  ]
+ },
+ {
+  "id": "alias/BC03 Holdings",
+  "family": "alias",
+  "params": {
+   "alias": "BC03 Holdings"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c"
+  ]
+ },
+ {
+  "id": "prefix/Bench Battery 01-",
+  "family": "label-prefix",
+  "params": {
+   "label": "Bench Battery 01-",
+   "label_mode": "prefix"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/0c87ffcc-1824-411b-8493-8c011841755c",
+   "urn:c1:instance:dev:entity/34f0c18f-27bf-4f19-9683-7712aa41bc7e",
+   "urn:c1:instance:dev:entity/76edf8d5-0916-4118-a87e-a6022d9826c7",
+   "urn:c1:instance:dev:entity/d31def4f-d0d8-45f9-a11b-f4755d0fcce9",
+   "urn:c1:instance:dev:entity/d7ff7e36-e6e9-4d53-991d-dd53656dd5ac",
+   "urn:c1:instance:dev:entity/df698d0b-e7fa-477d-8600-4888f3643d03",
+   "urn:c1:instance:dev:entity/f313a16b-c454-4ca0-b3dd-5d448600098d"
+  ]
+ },
+ {
+  "id": "prefix/Bench Battery 03-",
+  "family": "label-prefix",
+  "params": {
+   "label": "Bench Battery 03-",
+   "label_mode": "prefix"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/0a93653c-4436-41d3-8f1a-ad38a03444de",
+   "urn:c1:instance:dev:entity/115ed5fa-a197-40b7-a025-ccdd5fbbf746",
+   "urn:c1:instance:dev:entity/30b20382-2b1c-4292-bcd5-22824b987a92",
+   "urn:c1:instance:dev:entity/32357b2c-b736-4a40-98c7-ac2d2334755c",
+   "urn:c1:instance:dev:entity/5244a7d7-dfaf-454b-8195-6774ab9ea3ae",
+   "urn:c1:instance:dev:entity/85ea6ada-b8a5-47bc-ab92-d2035f2f038d",
+   "urn:c1:instance:dev:entity/939f77f5-3405-41ab-8b5b-05416d14c120"
+  ]
+ },
+ {
+  "id": "prefix/Bench Product 02-",
+  "family": "label-prefix",
+  "params": {
+   "label": "Bench Product 02-",
+   "label_mode": "prefix"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/074e3b6f-cea7-43ca-9107-6c82a4d21727",
+   "urn:c1:instance:dev:entity/08c1a760-834c-4914-97a1-a82863fa9714",
+   "urn:c1:instance:dev:entity/343f8601-e6f4-4c35-81bf-ffaf25b96b9c",
+   "urn:c1:instance:dev:entity/36d46bec-b8f4-41db-8036-ceb25bcef820",
+   "urn:c1:instance:dev:entity/93d19e2f-9a7c-4f96-8904-ebd83eedd5ca",
+   "urn:c1:instance:dev:entity/b12cf695-ba48-4852-bfd2-73dd35d965a1",
+   "urn:c1:instance:dev:entity/c475e395-ebea-4d9b-ac7e-262eabf31249"
+  ]
+ },
+ {
+  "id": "prefix/Bench Product 00-",
+  "family": "label-prefix",
+  "params": {
+   "label": "Bench Product 00-",
+   "label_mode": "prefix"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/239be395-12cf-4971-94f5-469206ca146f",
+   "urn:c1:instance:dev:entity/67a21f42-2a84-4613-aa9b-8cde3e8f539f",
+   "urn:c1:instance:dev:entity/6af114cb-2311-4fac-ad7d-0a402daca6d1",
+   "urn:c1:instance:dev:entity/a3effc19-7991-455e-8c9b-81a664e5326b",
+   "urn:c1:instance:dev:entity/a89d0c64-82aa-479d-890b-e08b3652ae59",
+   "urn:c1:instance:dev:entity/cebc6519-8d92-48d6-975a-3ef77c8531d3",
+   "urn:c1:instance:dev:entity/dc9cb551-ee49-4ca4-9fc1-7a73ab295d45"
+  ]
+ },
+ {
+  "id": "prefix/Bench Version 01-1-",
+  "family": "label-prefix",
+  "params": {
+   "label": "Bench Version 01-1-",
+   "label_mode": "prefix"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/1309711b-1438-418b-ac99-468d2d1c13f4",
+   "urn:c1:instance:dev:entity/4772c20c-a716-4afd-adef-160250e392bd",
+   "urn:c1:instance:dev:entity/e0b759e2-ee14-4caf-9a88-2f92b8afb89d"
+  ]
+ },
+ {
+  "id": "prefix/Bench Person 00",
+  "family": "label-prefix",
+  "params": {
+   "label": "Bench Person 00",
+   "label_mode": "prefix"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/1a261914-d937-43ea-aac6-52a239427436",
+   "urn:c1:instance:dev:entity/1b61a79a-7df0-48de-9c94-a3b3fa5c424c",
+   "urn:c1:instance:dev:entity/3470fbc8-fb55-4b58-be99-9225772bb960",
+   "urn:c1:instance:dev:entity/43ebeadf-514f-4cfb-96ab-a097260ea45c",
+   "urn:c1:instance:dev:entity/8a49ce6b-8260-4c3e-83b8-84a242452201",
+   "urn:c1:instance:dev:entity/a5c1ce50-6b93-4e9f-a629-baf95acb2784",
+   "urn:c1:instance:dev:entity/b6819842-7ab9-43ca-ad62-2ea33c232837",
+   "urn:c1:instance:dev:entity/f001b90a-780f-4ea7-94de-2c6fdd2d44a9",
+   "urn:c1:instance:dev:entity/f4c45f07-4de4-4f33-8d27-4c994da8e6f2",
+   "urn:c1:instance:dev:entity/f8efb17e-0c4c-4996-a2c1-ed9581e1f319"
+  ]
+ },
+ {
+  "id": "prefix/Bench Person 01",
+  "family": "label-prefix",
+  "params": {
+   "label": "Bench Person 01",
+   "label_mode": "prefix"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/21030462-a75e-4f43-a56c-14bab15327a4",
+   "urn:c1:instance:dev:entity/3b161e7b-ef13-4203-ae51-4d03a177d5d9",
+   "urn:c1:instance:dev:entity/3eebbb67-7788-4fdf-8f0a-542fb0eb02be",
+   "urn:c1:instance:dev:entity/59584d7f-45fa-4557-8e83-277155ec62bb",
+   "urn:c1:instance:dev:entity/750c45dd-bb57-4fbb-b680-3efb67cfbe22",
+   "urn:c1:instance:dev:entity/7a702e7e-1f46-4fac-be64-b9e79a74172e",
+   "urn:c1:instance:dev:entity/b3201f8d-a8b5-4e29-89f5-e90260ac407b",
+   "urn:c1:instance:dev:entity/ba93d8ed-35d5-4614-8cf4-8b9d715d71eb",
+   "urn:c1:instance:dev:entity/e47407ff-2698-47cb-87e7-411d69350f66",
+   "urn:c1:instance:dev:entity/f92bd490-f8fd-4e35-954b-b92b08389ea8"
+  ]
+ },
+ {
+  "id": "prefix/Bench Company",
+  "family": "label-prefix",
+  "params": {
+   "label": "Bench Company",
+   "label_mode": "prefix"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+   "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+   "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+   "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 00/2020",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+   "valid_at": "2020-06-01T00:00:00Z"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/2e479765-b1df-4c65-8005-855cce43b61e",
+   "urn:c1:instance:dev:assertion/380fd407-338f-4210-ac60-16deff890edf",
+   "urn:c1:instance:dev:assertion/7df89c4f-3ef4-4931-9e52-dbf2274ab18d"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 00/2020/unknown",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+   "valid_at": "2020-06-01T00:00:00Z",
+   "include_unknown": "true"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/2e479765-b1df-4c65-8005-855cce43b61e",
+   "urn:c1:instance:dev:assertion/380fd407-338f-4210-ac60-16deff890edf",
+   "urn:c1:instance:dev:assertion/48a282de-18e2-42b1-8397-444f727b8682",
+   "urn:c1:instance:dev:assertion/5411c339-5005-4837-8e79-086961516fea",
+   "urn:c1:instance:dev:assertion/7df89c4f-3ef4-4931-9e52-dbf2274ab18d",
+   "urn:c1:instance:dev:assertion/cec0ebf9-1c1d-486d-86e3-6066226f8032"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 00/2024",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+   "valid_at": "2024-01-01T00:00:00Z"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/06d24211-4d81-46c4-96a1-ac0e2b79fed7",
+   "urn:c1:instance:dev:assertion/d51becd2-e448-4445-b290-7bd6e693c34f"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 00/2024/unknown",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+   "valid_at": "2024-01-01T00:00:00Z",
+   "include_unknown": "true"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/06d24211-4d81-46c4-96a1-ac0e2b79fed7",
+   "urn:c1:instance:dev:assertion/48a282de-18e2-42b1-8397-444f727b8682",
+   "urn:c1:instance:dev:assertion/5411c339-5005-4837-8e79-086961516fea",
+   "urn:c1:instance:dev:assertion/cec0ebf9-1c1d-486d-86e3-6066226f8032",
+   "urn:c1:instance:dev:assertion/d51becd2-e448-4445-b290-7bd6e693c34f"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 01/2020",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+   "valid_at": "2020-06-01T00:00:00Z"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/a4b44ca5-87da-49b4-aa3f-ac779bb6a778"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 01/2020/unknown",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+   "valid_at": "2020-06-01T00:00:00Z",
+   "include_unknown": "true"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/4b565f2e-7464-4f4a-98f0-ba0d59408521",
+   "urn:c1:instance:dev:assertion/62b060a1-3c56-4879-a40d-93b39bdb36fc",
+   "urn:c1:instance:dev:assertion/a4b44ca5-87da-49b4-aa3f-ac779bb6a778",
+   "urn:c1:instance:dev:assertion/b23f7a86-7904-4982-ad63-a14eef33aadd",
+   "urn:c1:instance:dev:assertion/b2f76765-b0bb-4fa1-bf14-d1fb66a54575",
+   "urn:c1:instance:dev:assertion/b5d9b4b3-7939-4a26-8eb2-cecff7c07099",
+   "urn:c1:instance:dev:assertion/bef8dd59-f6e7-4d58-9bc0-9dd09eb50333",
+   "urn:c1:instance:dev:assertion/dcf81721-45b7-4a61-83f2-572399a93e8e"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 01/2024",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+   "valid_at": "2024-01-01T00:00:00Z"
+  },
+  "gold": []
+ },
+ {
+  "id": "valid-at/Bench Company 01/2024/unknown",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+   "valid_at": "2024-01-01T00:00:00Z",
+   "include_unknown": "true"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/4b565f2e-7464-4f4a-98f0-ba0d59408521",
+   "urn:c1:instance:dev:assertion/62b060a1-3c56-4879-a40d-93b39bdb36fc",
+   "urn:c1:instance:dev:assertion/b23f7a86-7904-4982-ad63-a14eef33aadd",
+   "urn:c1:instance:dev:assertion/b2f76765-b0bb-4fa1-bf14-d1fb66a54575",
+   "urn:c1:instance:dev:assertion/b5d9b4b3-7939-4a26-8eb2-cecff7c07099",
+   "urn:c1:instance:dev:assertion/bef8dd59-f6e7-4d58-9bc0-9dd09eb50333",
+   "urn:c1:instance:dev:assertion/dcf81721-45b7-4a61-83f2-572399a93e8e"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 02/2020",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+   "valid_at": "2020-06-01T00:00:00Z"
+  },
+  "gold": []
+ },
+ {
+  "id": "valid-at/Bench Company 02/2020/unknown",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+   "valid_at": "2020-06-01T00:00:00Z",
+   "include_unknown": "true"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/283f9e1e-860d-42da-bfde-8168d1225a9a",
+   "urn:c1:instance:dev:assertion/766eb2c7-c1c2-436a-93d8-ffb223bcb867"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 02/2024",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+   "valid_at": "2024-01-01T00:00:00Z"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/247243db-e74b-4d39-8649-edaa582f2e9f",
+   "urn:c1:instance:dev:assertion/34035dc2-a2da-434e-9377-c035b71c7958",
+   "urn:c1:instance:dev:assertion/4df54ff3-359d-43cf-91e5-4a64fc435ac6",
+   "urn:c1:instance:dev:assertion/74908e35-4a94-48ee-b737-2806be4aede3",
+   "urn:c1:instance:dev:assertion/77c3b4f8-bb7d-44e1-843b-680d6f8329e1",
+   "urn:c1:instance:dev:assertion/d540e885-9ac9-4e95-aa4f-60b8b43c6009"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 02/2024/unknown",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+   "valid_at": "2024-01-01T00:00:00Z",
+   "include_unknown": "true"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/247243db-e74b-4d39-8649-edaa582f2e9f",
+   "urn:c1:instance:dev:assertion/283f9e1e-860d-42da-bfde-8168d1225a9a",
+   "urn:c1:instance:dev:assertion/34035dc2-a2da-434e-9377-c035b71c7958",
+   "urn:c1:instance:dev:assertion/4df54ff3-359d-43cf-91e5-4a64fc435ac6",
+   "urn:c1:instance:dev:assertion/74908e35-4a94-48ee-b737-2806be4aede3",
+   "urn:c1:instance:dev:assertion/766eb2c7-c1c2-436a-93d8-ffb223bcb867",
+   "urn:c1:instance:dev:assertion/77c3b4f8-bb7d-44e1-843b-680d6f8329e1",
+   "urn:c1:instance:dev:assertion/d540e885-9ac9-4e95-aa4f-60b8b43c6009"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 03/2020",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+   "valid_at": "2020-06-01T00:00:00Z"
+  },
+  "gold": []
+ },
+ {
+  "id": "valid-at/Bench Company 03/2020/unknown",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+   "valid_at": "2020-06-01T00:00:00Z",
+   "include_unknown": "true"
+  },
+  "gold": []
+ },
+ {
+  "id": "valid-at/Bench Company 03/2024",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+   "valid_at": "2024-01-01T00:00:00Z"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/1e4ecbd7-d013-41b4-bfb0-6fbd164f3bf9",
+   "urn:c1:instance:dev:assertion/34de242a-29aa-46f3-a4d7-ef625030644e",
+   "urn:c1:instance:dev:assertion/4dc2909f-d9a6-4790-9366-39329eaa9403",
+   "urn:c1:instance:dev:assertion/73c95ee5-90ed-4bfb-a88d-3c394754c2d1",
+   "urn:c1:instance:dev:assertion/74514dd9-8403-4a76-b3c8-baa69702a8aa",
+   "urn:c1:instance:dev:assertion/91bea17e-5103-4916-b7e2-92a51a9e23e4",
+   "urn:c1:instance:dev:assertion/c6cbf849-0a43-4158-8236-62e591a35903",
+   "urn:c1:instance:dev:assertion/fef6f8f7-f638-474b-9199-11b59e89618f"
+  ]
+ },
+ {
+  "id": "valid-at/Bench Company 03/2024/unknown",
+  "family": "valid-at",
+  "params": {
+   "predicate": "urn:c1:ns:core#worksFor",
+   "object": "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+   "valid_at": "2024-01-01T00:00:00Z",
+   "include_unknown": "true"
+  },
+  "gold": [
+   "urn:c1:instance:dev:assertion/1e4ecbd7-d013-41b4-bfb0-6fbd164f3bf9",
+   "urn:c1:instance:dev:assertion/34de242a-29aa-46f3-a4d7-ef625030644e",
+   "urn:c1:instance:dev:assertion/4dc2909f-d9a6-4790-9366-39329eaa9403",
+   "urn:c1:instance:dev:assertion/73c95ee5-90ed-4bfb-a88d-3c394754c2d1",
+   "urn:c1:instance:dev:assertion/74514dd9-8403-4a76-b3c8-baa69702a8aa",
+   "urn:c1:instance:dev:assertion/91bea17e-5103-4916-b7e2-92a51a9e23e4",
+   "urn:c1:instance:dev:assertion/c6cbf849-0a43-4158-8236-62e591a35903",
+   "urn:c1:instance:dev:assertion/fef6f8f7-f638-474b-9199-11b59e89618f"
+  ]
+ },
+ {
+  "id": "graph/Bench Company 00",
+  "family": "graph",
+  "anchor": "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+  "keyword_strategy": {
+   "keywords_any": "battery"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/1267007d-6aac-4684-8f4f-b0cd2dc67fa0",
+   "urn:c1:instance:dev:entity/3d91a13a-98cb-434f-911b-5c5099448e81",
+   "urn:c1:instance:dev:entity/428cdc0d-3a9a-4e1c-b465-40e4fcd2c3ef",
+   "urn:c1:instance:dev:entity/697764ed-5721-4676-b3f2-6dc39a673293",
+   "urn:c1:instance:dev:entity/7870e635-b9f4-4949-a873-2af0b072b02f",
+   "urn:c1:instance:dev:entity/83b0164c-50d8-47f8-b9d3-c19bd3031cf8",
+   "urn:c1:instance:dev:entity/8a20b180-5a1f-4e2f-ad0d-c1f31e049356",
+   "urn:c1:instance:dev:entity/90784548-6f50-4df7-a211-40f5c2df5305",
+   "urn:c1:instance:dev:entity/9a180f70-d860-4d67-aafe-ae4355b8a1cb",
+   "urn:c1:instance:dev:entity/a4a8296e-3e0a-4ab4-8336-d74c42daf065",
+   "urn:c1:instance:dev:entity/a71c6f6b-c7a2-43f4-aac7-282f20479b52",
+   "urn:c1:instance:dev:entity/b3321007-192f-43e0-824d-44708b5be1f9",
+   "urn:c1:instance:dev:entity/bd43ee6b-a339-46de-a82d-495d65f7d4ce",
+   "urn:c1:instance:dev:entity/c6b0428d-147d-49b5-8c7b-11564c71fd2f",
+   "urn:c1:instance:dev:entity/c72b77bf-4e33-4638-8386-87f8e8252e66",
+   "urn:c1:instance:dev:entity/e21c71d7-4b5e-4310-8e0a-3d01ff683249",
+   "urn:c1:instance:dev:entity/e3f81621-448c-4a7e-b556-f254f81a9233",
+   "urn:c1:instance:dev:entity/e9dfd3bb-948e-4d45-b20a-ca068ae27d53",
+   "urn:c1:instance:dev:entity/eb6bfccb-76b4-496a-84c8-28b3e69a5461",
+   "urn:c1:instance:dev:entity/ec19e82b-800c-443b-8da5-5679f242b48e",
+   "urn:c1:instance:dev:entity/f2516954-c9d8-4520-87fb-d78c7fdc75f8"
+  ],
+  "gold_batteries": [
+   "urn:c1:instance:dev:entity/34d6e2f4-d649-4425-8d55-03752633bc94",
+   "urn:c1:instance:dev:entity/5f9fcaf9-1c12-4f75-afaf-c7c8783d119c",
+   "urn:c1:instance:dev:entity/6f19aa34-0c57-4414-907d-0e98cce835e5",
+   "urn:c1:instance:dev:entity/72e789a8-9abc-4eac-821a-b62ac31a8e0c",
+   "urn:c1:instance:dev:entity/79dea18e-ed12-4a5a-a08b-9a1162746d0b",
+   "urn:c1:instance:dev:entity/95acdd82-7624-4687-a1a6-e8b03791f175",
+   "urn:c1:instance:dev:entity/e0fbc87b-3b1a-482c-9b1a-40fc0aa88a9f"
+  ],
+  "gold_paths": [
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/6af114cb-2311-4fac-ad7d-0a402daca6d1",
+    "urn:c1:instance:dev:entity/34d6e2f4-d649-4425-8d55-03752633bc94",
+    "urn:c1:instance:dev:entity/ec19e82b-800c-443b-8da5-5679f242b48e"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/6af114cb-2311-4fac-ad7d-0a402daca6d1",
+    "urn:c1:instance:dev:entity/34d6e2f4-d649-4425-8d55-03752633bc94",
+    "urn:c1:instance:dev:entity/83b0164c-50d8-47f8-b9d3-c19bd3031cf8"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/6af114cb-2311-4fac-ad7d-0a402daca6d1",
+    "urn:c1:instance:dev:entity/34d6e2f4-d649-4425-8d55-03752633bc94",
+    "urn:c1:instance:dev:entity/e9dfd3bb-948e-4d45-b20a-ca068ae27d53"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/67a21f42-2a84-4613-aa9b-8cde3e8f539f",
+    "urn:c1:instance:dev:entity/72e789a8-9abc-4eac-821a-b62ac31a8e0c",
+    "urn:c1:instance:dev:entity/c72b77bf-4e33-4638-8386-87f8e8252e66"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/67a21f42-2a84-4613-aa9b-8cde3e8f539f",
+    "urn:c1:instance:dev:entity/72e789a8-9abc-4eac-821a-b62ac31a8e0c",
+    "urn:c1:instance:dev:entity/b3321007-192f-43e0-824d-44708b5be1f9"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/67a21f42-2a84-4613-aa9b-8cde3e8f539f",
+    "urn:c1:instance:dev:entity/72e789a8-9abc-4eac-821a-b62ac31a8e0c",
+    "urn:c1:instance:dev:entity/90784548-6f50-4df7-a211-40f5c2df5305"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/a3effc19-7991-455e-8c9b-81a664e5326b",
+    "urn:c1:instance:dev:entity/5f9fcaf9-1c12-4f75-afaf-c7c8783d119c",
+    "urn:c1:instance:dev:entity/8a20b180-5a1f-4e2f-ad0d-c1f31e049356"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/a3effc19-7991-455e-8c9b-81a664e5326b",
+    "urn:c1:instance:dev:entity/5f9fcaf9-1c12-4f75-afaf-c7c8783d119c",
+    "urn:c1:instance:dev:entity/eb6bfccb-76b4-496a-84c8-28b3e69a5461"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/a3effc19-7991-455e-8c9b-81a664e5326b",
+    "urn:c1:instance:dev:entity/5f9fcaf9-1c12-4f75-afaf-c7c8783d119c",
+    "urn:c1:instance:dev:entity/a71c6f6b-c7a2-43f4-aac7-282f20479b52"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/dc9cb551-ee49-4ca4-9fc1-7a73ab295d45",
+    "urn:c1:instance:dev:entity/e0fbc87b-3b1a-482c-9b1a-40fc0aa88a9f",
+    "urn:c1:instance:dev:entity/bd43ee6b-a339-46de-a82d-495d65f7d4ce"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/dc9cb551-ee49-4ca4-9fc1-7a73ab295d45",
+    "urn:c1:instance:dev:entity/e0fbc87b-3b1a-482c-9b1a-40fc0aa88a9f",
+    "urn:c1:instance:dev:entity/7870e635-b9f4-4949-a873-2af0b072b02f"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/dc9cb551-ee49-4ca4-9fc1-7a73ab295d45",
+    "urn:c1:instance:dev:entity/e0fbc87b-3b1a-482c-9b1a-40fc0aa88a9f",
+    "urn:c1:instance:dev:entity/c6b0428d-147d-49b5-8c7b-11564c71fd2f"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/cebc6519-8d92-48d6-975a-3ef77c8531d3",
+    "urn:c1:instance:dev:entity/6f19aa34-0c57-4414-907d-0e98cce835e5",
+    "urn:c1:instance:dev:entity/428cdc0d-3a9a-4e1c-b465-40e4fcd2c3ef"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/cebc6519-8d92-48d6-975a-3ef77c8531d3",
+    "urn:c1:instance:dev:entity/6f19aa34-0c57-4414-907d-0e98cce835e5",
+    "urn:c1:instance:dev:entity/a4a8296e-3e0a-4ab4-8336-d74c42daf065"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/cebc6519-8d92-48d6-975a-3ef77c8531d3",
+    "urn:c1:instance:dev:entity/6f19aa34-0c57-4414-907d-0e98cce835e5",
+    "urn:c1:instance:dev:entity/f2516954-c9d8-4520-87fb-d78c7fdc75f8"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/239be395-12cf-4971-94f5-469206ca146f",
+    "urn:c1:instance:dev:entity/95acdd82-7624-4687-a1a6-e8b03791f175",
+    "urn:c1:instance:dev:entity/697764ed-5721-4676-b3f2-6dc39a673293"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/239be395-12cf-4971-94f5-469206ca146f",
+    "urn:c1:instance:dev:entity/95acdd82-7624-4687-a1a6-e8b03791f175",
+    "urn:c1:instance:dev:entity/9a180f70-d860-4d67-aafe-ae4355b8a1cb"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/239be395-12cf-4971-94f5-469206ca146f",
+    "urn:c1:instance:dev:entity/95acdd82-7624-4687-a1a6-e8b03791f175",
+    "urn:c1:instance:dev:entity/3d91a13a-98cb-434f-911b-5c5099448e81"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/a89d0c64-82aa-479d-890b-e08b3652ae59",
+    "urn:c1:instance:dev:entity/79dea18e-ed12-4a5a-a08b-9a1162746d0b",
+    "urn:c1:instance:dev:entity/e3f81621-448c-4a7e-b556-f254f81a9233"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/a89d0c64-82aa-479d-890b-e08b3652ae59",
+    "urn:c1:instance:dev:entity/79dea18e-ed12-4a5a-a08b-9a1162746d0b",
+    "urn:c1:instance:dev:entity/1267007d-6aac-4684-8f4f-b0cd2dc67fa0"
+   ],
+   [
+    "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+    "urn:c1:instance:dev:entity/a89d0c64-82aa-479d-890b-e08b3652ae59",
+    "urn:c1:instance:dev:entity/79dea18e-ed12-4a5a-a08b-9a1162746d0b",
+    "urn:c1:instance:dev:entity/e21c71d7-4b5e-4310-8e0a-3d01ff683249"
+   ]
+  ]
+ },
+ {
+  "id": "graph/Bench Company 01",
+  "family": "graph",
+  "anchor": "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+  "keyword_strategy": {
+   "keywords_any": "battery"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/1309711b-1438-418b-ac99-468d2d1c13f4",
+   "urn:c1:instance:dev:entity/22c418fb-7a7d-47c5-8edc-cdc9dff8d540",
+   "urn:c1:instance:dev:entity/3e4aa1e7-5748-438f-a828-8208c2a09d15",
+   "urn:c1:instance:dev:entity/4772c20c-a716-4afd-adef-160250e392bd",
+   "urn:c1:instance:dev:entity/511f4ff4-a777-47a2-ad2e-c183ffcbf927",
+   "urn:c1:instance:dev:entity/540e0b75-2b03-4abc-b146-f751729f11ec",
+   "urn:c1:instance:dev:entity/56d82f8d-c7e6-4d76-862b-0c95347f647e",
+   "urn:c1:instance:dev:entity/580c0cf1-6421-4e5e-97c1-a10f9f7668a9",
+   "urn:c1:instance:dev:entity/62514270-72c1-4765-9a4b-73527786a5b6",
+   "urn:c1:instance:dev:entity/993f722e-697c-47a1-b0f6-fc59f63e3211",
+   "urn:c1:instance:dev:entity/ad4ad4b9-087d-42ff-8682-4ea76cdf6675",
+   "urn:c1:instance:dev:entity/b9cd64f7-f949-42af-8bbb-c928b00bb232",
+   "urn:c1:instance:dev:entity/bce87237-2275-40d5-8bf0-e5d6b6542c5c",
+   "urn:c1:instance:dev:entity/e0b759e2-ee14-4caf-9a88-2f92b8afb89d",
+   "urn:c1:instance:dev:entity/e7b2604f-9725-4ad2-9b92-ebaa42e19572",
+   "urn:c1:instance:dev:entity/e8cbc3c4-ecd8-4b41-aa74-8b787264e32b",
+   "urn:c1:instance:dev:entity/f1fb13b8-7df1-4ba5-9c5c-87b23c088c24",
+   "urn:c1:instance:dev:entity/f57773bc-3617-47de-9164-57d69f989f79",
+   "urn:c1:instance:dev:entity/fd335254-8d89-4b8d-b8ba-e0a45be267d5",
+   "urn:c1:instance:dev:entity/fe0bbf28-7acf-41de-a262-14219b895c5c",
+   "urn:c1:instance:dev:entity/ff1f5b40-73d1-4862-98ab-d5b48b0af8db"
+  ],
+  "gold_batteries": [
+   "urn:c1:instance:dev:entity/0c87ffcc-1824-411b-8493-8c011841755c",
+   "urn:c1:instance:dev:entity/34f0c18f-27bf-4f19-9683-7712aa41bc7e",
+   "urn:c1:instance:dev:entity/76edf8d5-0916-4118-a87e-a6022d9826c7",
+   "urn:c1:instance:dev:entity/d31def4f-d0d8-45f9-a11b-f4755d0fcce9",
+   "urn:c1:instance:dev:entity/d7ff7e36-e6e9-4d53-991d-dd53656dd5ac",
+   "urn:c1:instance:dev:entity/df698d0b-e7fa-477d-8600-4888f3643d03",
+   "urn:c1:instance:dev:entity/f313a16b-c454-4ca0-b3dd-5d448600098d"
+  ],
+  "gold_paths": [
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/2639b169-53b3-4610-994f-1688c48f71bb",
+    "urn:c1:instance:dev:entity/df698d0b-e7fa-477d-8600-4888f3643d03",
+    "urn:c1:instance:dev:entity/f57773bc-3617-47de-9164-57d69f989f79"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/2639b169-53b3-4610-994f-1688c48f71bb",
+    "urn:c1:instance:dev:entity/df698d0b-e7fa-477d-8600-4888f3643d03",
+    "urn:c1:instance:dev:entity/e8cbc3c4-ecd8-4b41-aa74-8b787264e32b"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/2639b169-53b3-4610-994f-1688c48f71bb",
+    "urn:c1:instance:dev:entity/df698d0b-e7fa-477d-8600-4888f3643d03",
+    "urn:c1:instance:dev:entity/fd335254-8d89-4b8d-b8ba-e0a45be267d5"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/926c9079-a7d3-420a-82dd-e0961b8228a2",
+    "urn:c1:instance:dev:entity/76edf8d5-0916-4118-a87e-a6022d9826c7",
+    "urn:c1:instance:dev:entity/e0b759e2-ee14-4caf-9a88-2f92b8afb89d"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/926c9079-a7d3-420a-82dd-e0961b8228a2",
+    "urn:c1:instance:dev:entity/76edf8d5-0916-4118-a87e-a6022d9826c7",
+    "urn:c1:instance:dev:entity/1309711b-1438-418b-ac99-468d2d1c13f4"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/926c9079-a7d3-420a-82dd-e0961b8228a2",
+    "urn:c1:instance:dev:entity/76edf8d5-0916-4118-a87e-a6022d9826c7",
+    "urn:c1:instance:dev:entity/4772c20c-a716-4afd-adef-160250e392bd"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/56f64479-7505-44d2-afb5-7f840e23db1f",
+    "urn:c1:instance:dev:entity/d7ff7e36-e6e9-4d53-991d-dd53656dd5ac",
+    "urn:c1:instance:dev:entity/540e0b75-2b03-4abc-b146-f751729f11ec"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/56f64479-7505-44d2-afb5-7f840e23db1f",
+    "urn:c1:instance:dev:entity/d7ff7e36-e6e9-4d53-991d-dd53656dd5ac",
+    "urn:c1:instance:dev:entity/fe0bbf28-7acf-41de-a262-14219b895c5c"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/56f64479-7505-44d2-afb5-7f840e23db1f",
+    "urn:c1:instance:dev:entity/d7ff7e36-e6e9-4d53-991d-dd53656dd5ac",
+    "urn:c1:instance:dev:entity/56d82f8d-c7e6-4d76-862b-0c95347f647e"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/b3283f6b-d25b-466d-946f-19a77f3ad37b",
+    "urn:c1:instance:dev:entity/f313a16b-c454-4ca0-b3dd-5d448600098d",
+    "urn:c1:instance:dev:entity/e7b2604f-9725-4ad2-9b92-ebaa42e19572"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/b3283f6b-d25b-466d-946f-19a77f3ad37b",
+    "urn:c1:instance:dev:entity/f313a16b-c454-4ca0-b3dd-5d448600098d",
+    "urn:c1:instance:dev:entity/62514270-72c1-4765-9a4b-73527786a5b6"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/b3283f6b-d25b-466d-946f-19a77f3ad37b",
+    "urn:c1:instance:dev:entity/f313a16b-c454-4ca0-b3dd-5d448600098d",
+    "urn:c1:instance:dev:entity/22c418fb-7a7d-47c5-8edc-cdc9dff8d540"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/36935b07-9bf6-4c15-b6a9-92bbd1394d49",
+    "urn:c1:instance:dev:entity/34f0c18f-27bf-4f19-9683-7712aa41bc7e",
+    "urn:c1:instance:dev:entity/f1fb13b8-7df1-4ba5-9c5c-87b23c088c24"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/36935b07-9bf6-4c15-b6a9-92bbd1394d49",
+    "urn:c1:instance:dev:entity/34f0c18f-27bf-4f19-9683-7712aa41bc7e",
+    "urn:c1:instance:dev:entity/580c0cf1-6421-4e5e-97c1-a10f9f7668a9"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/36935b07-9bf6-4c15-b6a9-92bbd1394d49",
+    "urn:c1:instance:dev:entity/34f0c18f-27bf-4f19-9683-7712aa41bc7e",
+    "urn:c1:instance:dev:entity/511f4ff4-a777-47a2-ad2e-c183ffcbf927"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/63334aed-8747-4e74-a6bb-f5303993eb9e",
+    "urn:c1:instance:dev:entity/d31def4f-d0d8-45f9-a11b-f4755d0fcce9",
+    "urn:c1:instance:dev:entity/3e4aa1e7-5748-438f-a828-8208c2a09d15"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/63334aed-8747-4e74-a6bb-f5303993eb9e",
+    "urn:c1:instance:dev:entity/d31def4f-d0d8-45f9-a11b-f4755d0fcce9",
+    "urn:c1:instance:dev:entity/bce87237-2275-40d5-8bf0-e5d6b6542c5c"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/63334aed-8747-4e74-a6bb-f5303993eb9e",
+    "urn:c1:instance:dev:entity/d31def4f-d0d8-45f9-a11b-f4755d0fcce9",
+    "urn:c1:instance:dev:entity/ff1f5b40-73d1-4862-98ab-d5b48b0af8db"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/6762fd04-1fc3-48b4-b541-073178cf9de4",
+    "urn:c1:instance:dev:entity/0c87ffcc-1824-411b-8493-8c011841755c",
+    "urn:c1:instance:dev:entity/ad4ad4b9-087d-42ff-8682-4ea76cdf6675"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/6762fd04-1fc3-48b4-b541-073178cf9de4",
+    "urn:c1:instance:dev:entity/0c87ffcc-1824-411b-8493-8c011841755c",
+    "urn:c1:instance:dev:entity/b9cd64f7-f949-42af-8bbb-c928b00bb232"
+   ],
+   [
+    "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+    "urn:c1:instance:dev:entity/6762fd04-1fc3-48b4-b541-073178cf9de4",
+    "urn:c1:instance:dev:entity/0c87ffcc-1824-411b-8493-8c011841755c",
+    "urn:c1:instance:dev:entity/993f722e-697c-47a1-b0f6-fc59f63e3211"
+   ]
+  ]
+ },
+ {
+  "id": "graph/Bench Company 02",
+  "family": "graph",
+  "anchor": "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+  "keyword_strategy": {
+   "keywords_any": "battery"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/0a7a4301-1db8-4957-8cd9-c205f3a2795f",
+   "urn:c1:instance:dev:entity/1219ddeb-5497-4e0a-8e4a-93a57e04579b",
+   "urn:c1:instance:dev:entity/135ae155-4afc-4a8b-a931-053510632e7d",
+   "urn:c1:instance:dev:entity/18b18e24-1498-410e-b751-9bad613aebb1",
+   "urn:c1:instance:dev:entity/1bb8fdc8-3562-4d3d-85bb-8f3260999ab9",
+   "urn:c1:instance:dev:entity/267f6d3b-f95d-41f0-8fae-455ea9dcb78d",
+   "urn:c1:instance:dev:entity/30cf6c86-3301-4889-9dc0-540d607ea53f",
+   "urn:c1:instance:dev:entity/32d6b87a-593a-4840-a410-7ae7f6507cb6",
+   "urn:c1:instance:dev:entity/43b11da2-681c-4fe5-a095-6d8f714fe48b",
+   "urn:c1:instance:dev:entity/45166a28-63af-468c-9005-c8d494075780",
+   "urn:c1:instance:dev:entity/4c1724ed-ec15-4670-ba96-657dbf22df91",
+   "urn:c1:instance:dev:entity/5ffc5789-2e5d-40e2-9e5f-d4444e7bb67b",
+   "urn:c1:instance:dev:entity/6e7ccd90-e942-492b-bade-b2c58da65092",
+   "urn:c1:instance:dev:entity/837a1a00-19ca-42b8-9802-62403a6c6809",
+   "urn:c1:instance:dev:entity/83ae183f-0cc3-4f0f-8eb7-c8dc6b5d1abe",
+   "urn:c1:instance:dev:entity/b445891e-026e-4255-97e3-4d3ac833e3b6",
+   "urn:c1:instance:dev:entity/c1f6a741-8e6b-4757-aa63-506ed0164d94",
+   "urn:c1:instance:dev:entity/cf968e3d-7134-45fe-ae06-79b2251b2673",
+   "urn:c1:instance:dev:entity/d11fd231-51b9-4cbc-8012-af1af0160a7c",
+   "urn:c1:instance:dev:entity/e9533b4c-a4f4-470d-9465-bc21b6dd6c4a",
+   "urn:c1:instance:dev:entity/ff5e460f-a4df-449a-9ebc-ad78c5832107"
+  ],
+  "gold_batteries": [
+   "urn:c1:instance:dev:entity/07edb94c-7b29-4b36-8be7-d19f54639475",
+   "urn:c1:instance:dev:entity/2d2ecebf-7a20-4130-9911-49df26fd691e",
+   "urn:c1:instance:dev:entity/431dfd09-c512-4378-9d9d-f4839be26530",
+   "urn:c1:instance:dev:entity/585681e8-d429-4df6-b6e1-f7a275bc3d28",
+   "urn:c1:instance:dev:entity/c018225b-010c-4653-acfe-dcd97c069874",
+   "urn:c1:instance:dev:entity/ec935f02-8056-49bc-a3f2-e0b13f5b6d8f",
+   "urn:c1:instance:dev:entity/fc53a00a-372e-46b3-b692-fc1d0b9178f2"
+  ],
+  "gold_paths": [
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/93d19e2f-9a7c-4f96-8904-ebd83eedd5ca",
+    "urn:c1:instance:dev:entity/c018225b-010c-4653-acfe-dcd97c069874",
+    "urn:c1:instance:dev:entity/1219ddeb-5497-4e0a-8e4a-93a57e04579b"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/93d19e2f-9a7c-4f96-8904-ebd83eedd5ca",
+    "urn:c1:instance:dev:entity/c018225b-010c-4653-acfe-dcd97c069874",
+    "urn:c1:instance:dev:entity/c1f6a741-8e6b-4757-aa63-506ed0164d94"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/93d19e2f-9a7c-4f96-8904-ebd83eedd5ca",
+    "urn:c1:instance:dev:entity/c018225b-010c-4653-acfe-dcd97c069874",
+    "urn:c1:instance:dev:entity/18b18e24-1498-410e-b751-9bad613aebb1"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/36d46bec-b8f4-41db-8036-ceb25bcef820",
+    "urn:c1:instance:dev:entity/fc53a00a-372e-46b3-b692-fc1d0b9178f2",
+    "urn:c1:instance:dev:entity/45166a28-63af-468c-9005-c8d494075780"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/36d46bec-b8f4-41db-8036-ceb25bcef820",
+    "urn:c1:instance:dev:entity/fc53a00a-372e-46b3-b692-fc1d0b9178f2",
+    "urn:c1:instance:dev:entity/30cf6c86-3301-4889-9dc0-540d607ea53f"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/36d46bec-b8f4-41db-8036-ceb25bcef820",
+    "urn:c1:instance:dev:entity/fc53a00a-372e-46b3-b692-fc1d0b9178f2",
+    "urn:c1:instance:dev:entity/267f6d3b-f95d-41f0-8fae-455ea9dcb78d"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/074e3b6f-cea7-43ca-9107-6c82a4d21727",
+    "urn:c1:instance:dev:entity/2d2ecebf-7a20-4130-9911-49df26fd691e",
+    "urn:c1:instance:dev:entity/b445891e-026e-4255-97e3-4d3ac833e3b6"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/074e3b6f-cea7-43ca-9107-6c82a4d21727",
+    "urn:c1:instance:dev:entity/2d2ecebf-7a20-4130-9911-49df26fd691e",
+    "urn:c1:instance:dev:entity/43b11da2-681c-4fe5-a095-6d8f714fe48b"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/074e3b6f-cea7-43ca-9107-6c82a4d21727",
+    "urn:c1:instance:dev:entity/2d2ecebf-7a20-4130-9911-49df26fd691e",
+    "urn:c1:instance:dev:entity/837a1a00-19ca-42b8-9802-62403a6c6809"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/c475e395-ebea-4d9b-ac7e-262eabf31249",
+    "urn:c1:instance:dev:entity/ec935f02-8056-49bc-a3f2-e0b13f5b6d8f",
+    "urn:c1:instance:dev:entity/32d6b87a-593a-4840-a410-7ae7f6507cb6"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/c475e395-ebea-4d9b-ac7e-262eabf31249",
+    "urn:c1:instance:dev:entity/ec935f02-8056-49bc-a3f2-e0b13f5b6d8f",
+    "urn:c1:instance:dev:entity/d11fd231-51b9-4cbc-8012-af1af0160a7c"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/c475e395-ebea-4d9b-ac7e-262eabf31249",
+    "urn:c1:instance:dev:entity/ec935f02-8056-49bc-a3f2-e0b13f5b6d8f",
+    "urn:c1:instance:dev:entity/1bb8fdc8-3562-4d3d-85bb-8f3260999ab9"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/343f8601-e6f4-4c35-81bf-ffaf25b96b9c",
+    "urn:c1:instance:dev:entity/431dfd09-c512-4378-9d9d-f4839be26530",
+    "urn:c1:instance:dev:entity/ff5e460f-a4df-449a-9ebc-ad78c5832107"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/343f8601-e6f4-4c35-81bf-ffaf25b96b9c",
+    "urn:c1:instance:dev:entity/431dfd09-c512-4378-9d9d-f4839be26530",
+    "urn:c1:instance:dev:entity/83ae183f-0cc3-4f0f-8eb7-c8dc6b5d1abe"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/343f8601-e6f4-4c35-81bf-ffaf25b96b9c",
+    "urn:c1:instance:dev:entity/431dfd09-c512-4378-9d9d-f4839be26530",
+    "urn:c1:instance:dev:entity/e9533b4c-a4f4-470d-9465-bc21b6dd6c4a"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/08c1a760-834c-4914-97a1-a82863fa9714",
+    "urn:c1:instance:dev:entity/585681e8-d429-4df6-b6e1-f7a275bc3d28",
+    "urn:c1:instance:dev:entity/cf968e3d-7134-45fe-ae06-79b2251b2673"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/08c1a760-834c-4914-97a1-a82863fa9714",
+    "urn:c1:instance:dev:entity/585681e8-d429-4df6-b6e1-f7a275bc3d28",
+    "urn:c1:instance:dev:entity/4c1724ed-ec15-4670-ba96-657dbf22df91"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/08c1a760-834c-4914-97a1-a82863fa9714",
+    "urn:c1:instance:dev:entity/585681e8-d429-4df6-b6e1-f7a275bc3d28",
+    "urn:c1:instance:dev:entity/5ffc5789-2e5d-40e2-9e5f-d4444e7bb67b"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/b12cf695-ba48-4852-bfd2-73dd35d965a1",
+    "urn:c1:instance:dev:entity/07edb94c-7b29-4b36-8be7-d19f54639475",
+    "urn:c1:instance:dev:entity/135ae155-4afc-4a8b-a931-053510632e7d"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/b12cf695-ba48-4852-bfd2-73dd35d965a1",
+    "urn:c1:instance:dev:entity/07edb94c-7b29-4b36-8be7-d19f54639475",
+    "urn:c1:instance:dev:entity/0a7a4301-1db8-4957-8cd9-c205f3a2795f"
+   ],
+   [
+    "urn:c1:instance:dev:entity/52d4174b-5872-4675-b590-74bc42ea8d62",
+    "urn:c1:instance:dev:entity/b12cf695-ba48-4852-bfd2-73dd35d965a1",
+    "urn:c1:instance:dev:entity/07edb94c-7b29-4b36-8be7-d19f54639475",
+    "urn:c1:instance:dev:entity/6e7ccd90-e942-492b-bade-b2c58da65092"
+   ]
+  ]
+ },
+ {
+  "id": "graph/Bench Company 03",
+  "family": "graph",
+  "anchor": "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+  "keyword_strategy": {
+   "keywords_any": "battery"
+  },
+  "gold": [
+   "urn:c1:instance:dev:entity/12efe78a-7474-4d3d-b4e6-000c998b20e5",
+   "urn:c1:instance:dev:entity/165f5381-3b29-456c-9965-2c9075231cda",
+   "urn:c1:instance:dev:entity/18d63f53-93d4-4983-be97-fc55441f6464",
+   "urn:c1:instance:dev:entity/2085feac-0106-4ec2-822e-b5b9d1e54963",
+   "urn:c1:instance:dev:entity/26dcb87b-d236-46af-9582-40e52ce7f51b",
+   "urn:c1:instance:dev:entity/2ad5d45c-b8fd-4139-bd99-e9696aecff0f",
+   "urn:c1:instance:dev:entity/424e8cf7-ca17-4eb5-a8f7-5d40632b454e",
+   "urn:c1:instance:dev:entity/4dfc1d3f-b6d0-4ee7-a8e4-5f13630f2161",
+   "urn:c1:instance:dev:entity/4e3aeeb4-fbb7-47d3-bf4b-87638e8c70c2",
+   "urn:c1:instance:dev:entity/5b42dfcc-3a78-4ec1-b9ea-fe75fa44c8df",
+   "urn:c1:instance:dev:entity/5de90113-ff75-4177-aefa-84f179a06c9a",
+   "urn:c1:instance:dev:entity/71d5ffca-70a1-4f1d-b04f-c11e655e5914",
+   "urn:c1:instance:dev:entity/8792c865-d54b-44b3-a18c-d6e801fe295a",
+   "urn:c1:instance:dev:entity/be276f6e-e855-4d07-b607-62340acc2042",
+   "urn:c1:instance:dev:entity/be7c94db-06fa-4ed7-9d24-66822e51a4be",
+   "urn:c1:instance:dev:entity/c4873ff4-6345-4584-bd1e-72a5f5070b96",
+   "urn:c1:instance:dev:entity/c8527dc1-278d-49b5-a244-37debfd128cc",
+   "urn:c1:instance:dev:entity/d66022c1-b75c-430d-9264-a0407392ad48",
+   "urn:c1:instance:dev:entity/e1a10d03-b0a3-41e6-8532-f565062a499b",
+   "urn:c1:instance:dev:entity/ed2a64ba-f9ae-44f2-8bc4-bf3fd4c79d85",
+   "urn:c1:instance:dev:entity/f0141a95-1e11-476f-abd1-5b71e06c66d7"
+  ],
+  "gold_batteries": [
+   "urn:c1:instance:dev:entity/0a93653c-4436-41d3-8f1a-ad38a03444de",
+   "urn:c1:instance:dev:entity/115ed5fa-a197-40b7-a025-ccdd5fbbf746",
+   "urn:c1:instance:dev:entity/30b20382-2b1c-4292-bcd5-22824b987a92",
+   "urn:c1:instance:dev:entity/32357b2c-b736-4a40-98c7-ac2d2334755c",
+   "urn:c1:instance:dev:entity/5244a7d7-dfaf-454b-8195-6774ab9ea3ae",
+   "urn:c1:instance:dev:entity/85ea6ada-b8a5-47bc-ab92-d2035f2f038d",
+   "urn:c1:instance:dev:entity/939f77f5-3405-41ab-8b5b-05416d14c120"
+  ],
+  "gold_paths": [
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/0b73be69-9e26-45f4-8f49-987178a92c77",
+    "urn:c1:instance:dev:entity/0a93653c-4436-41d3-8f1a-ad38a03444de",
+    "urn:c1:instance:dev:entity/2ad5d45c-b8fd-4139-bd99-e9696aecff0f"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/0b73be69-9e26-45f4-8f49-987178a92c77",
+    "urn:c1:instance:dev:entity/0a93653c-4436-41d3-8f1a-ad38a03444de",
+    "urn:c1:instance:dev:entity/5de90113-ff75-4177-aefa-84f179a06c9a"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/0b73be69-9e26-45f4-8f49-987178a92c77",
+    "urn:c1:instance:dev:entity/0a93653c-4436-41d3-8f1a-ad38a03444de",
+    "urn:c1:instance:dev:entity/5b42dfcc-3a78-4ec1-b9ea-fe75fa44c8df"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/92b9fe01-c2a9-4beb-8b1d-12aa3bed5869",
+    "urn:c1:instance:dev:entity/5244a7d7-dfaf-454b-8195-6774ab9ea3ae",
+    "urn:c1:instance:dev:entity/ed2a64ba-f9ae-44f2-8bc4-bf3fd4c79d85"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/92b9fe01-c2a9-4beb-8b1d-12aa3bed5869",
+    "urn:c1:instance:dev:entity/5244a7d7-dfaf-454b-8195-6774ab9ea3ae",
+    "urn:c1:instance:dev:entity/be7c94db-06fa-4ed7-9d24-66822e51a4be"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/92b9fe01-c2a9-4beb-8b1d-12aa3bed5869",
+    "urn:c1:instance:dev:entity/5244a7d7-dfaf-454b-8195-6774ab9ea3ae",
+    "urn:c1:instance:dev:entity/424e8cf7-ca17-4eb5-a8f7-5d40632b454e"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/f2b183d2-2b88-4f9d-851d-ed577ed086ae",
+    "urn:c1:instance:dev:entity/115ed5fa-a197-40b7-a025-ccdd5fbbf746",
+    "urn:c1:instance:dev:entity/18d63f53-93d4-4983-be97-fc55441f6464"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/f2b183d2-2b88-4f9d-851d-ed577ed086ae",
+    "urn:c1:instance:dev:entity/115ed5fa-a197-40b7-a025-ccdd5fbbf746",
+    "urn:c1:instance:dev:entity/2085feac-0106-4ec2-822e-b5b9d1e54963"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/f2b183d2-2b88-4f9d-851d-ed577ed086ae",
+    "urn:c1:instance:dev:entity/115ed5fa-a197-40b7-a025-ccdd5fbbf746",
+    "urn:c1:instance:dev:entity/4dfc1d3f-b6d0-4ee7-a8e4-5f13630f2161"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/10ee2472-af93-4feb-9a27-4f57e75ca4ef",
+    "urn:c1:instance:dev:entity/85ea6ada-b8a5-47bc-ab92-d2035f2f038d",
+    "urn:c1:instance:dev:entity/e1a10d03-b0a3-41e6-8532-f565062a499b"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/10ee2472-af93-4feb-9a27-4f57e75ca4ef",
+    "urn:c1:instance:dev:entity/85ea6ada-b8a5-47bc-ab92-d2035f2f038d",
+    "urn:c1:instance:dev:entity/71d5ffca-70a1-4f1d-b04f-c11e655e5914"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/10ee2472-af93-4feb-9a27-4f57e75ca4ef",
+    "urn:c1:instance:dev:entity/85ea6ada-b8a5-47bc-ab92-d2035f2f038d",
+    "urn:c1:instance:dev:entity/f0141a95-1e11-476f-abd1-5b71e06c66d7"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/4e9bbafc-9770-4acb-b9fe-2a0ead170591",
+    "urn:c1:instance:dev:entity/32357b2c-b736-4a40-98c7-ac2d2334755c",
+    "urn:c1:instance:dev:entity/12efe78a-7474-4d3d-b4e6-000c998b20e5"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/4e9bbafc-9770-4acb-b9fe-2a0ead170591",
+    "urn:c1:instance:dev:entity/32357b2c-b736-4a40-98c7-ac2d2334755c",
+    "urn:c1:instance:dev:entity/c4873ff4-6345-4584-bd1e-72a5f5070b96"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/4e9bbafc-9770-4acb-b9fe-2a0ead170591",
+    "urn:c1:instance:dev:entity/32357b2c-b736-4a40-98c7-ac2d2334755c",
+    "urn:c1:instance:dev:entity/d66022c1-b75c-430d-9264-a0407392ad48"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/8acbd87a-1b80-42f9-b7af-66dbc8de0037",
+    "urn:c1:instance:dev:entity/30b20382-2b1c-4292-bcd5-22824b987a92",
+    "urn:c1:instance:dev:entity/c8527dc1-278d-49b5-a244-37debfd128cc"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/8acbd87a-1b80-42f9-b7af-66dbc8de0037",
+    "urn:c1:instance:dev:entity/30b20382-2b1c-4292-bcd5-22824b987a92",
+    "urn:c1:instance:dev:entity/8792c865-d54b-44b3-a18c-d6e801fe295a"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/8acbd87a-1b80-42f9-b7af-66dbc8de0037",
+    "urn:c1:instance:dev:entity/30b20382-2b1c-4292-bcd5-22824b987a92",
+    "urn:c1:instance:dev:entity/be276f6e-e855-4d07-b607-62340acc2042"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/1c8676da-01b6-4fda-a634-28df3fe83c6d",
+    "urn:c1:instance:dev:entity/939f77f5-3405-41ab-8b5b-05416d14c120",
+    "urn:c1:instance:dev:entity/165f5381-3b29-456c-9965-2c9075231cda"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/1c8676da-01b6-4fda-a634-28df3fe83c6d",
+    "urn:c1:instance:dev:entity/939f77f5-3405-41ab-8b5b-05416d14c120",
+    "urn:c1:instance:dev:entity/4e3aeeb4-fbb7-47d3-bf4b-87638e8c70c2"
+   ],
+   [
+    "urn:c1:instance:dev:entity/499283a0-361d-4e8d-84b2-3b685fc3fe3c",
+    "urn:c1:instance:dev:entity/1c8676da-01b6-4fda-a634-28df3fe83c6d",
+    "urn:c1:instance:dev:entity/939f77f5-3405-41ab-8b5b-05416d14c120",
+    "urn:c1:instance:dev:entity/26dcb87b-d236-46af-9582-40e52ce7f51b"
+   ]
+  ]
+ },
+ {
+  "id": "doc/tok002",
+  "family": "document",
+  "params": {
+   "text_contains": "tok002"
+  },
+  "gold": [
+   "urn:c1:instance:dev:document/2de661d9-f919-40c2-a310-793b9cde3f47"
+  ]
+ },
+ {
+  "id": "doc/tok012",
+  "family": "document",
+  "params": {
+   "text_contains": "tok012"
+  },
+  "gold": [
+   "urn:c1:instance:dev:document/5711ab13-adac-40cf-82fb-c0e438a98a1c"
+  ]
+ },
+ {
+  "id": "doc/tok022",
+  "family": "document",
+  "params": {
+   "text_contains": "tok022"
+  },
+  "gold": [
+   "urn:c1:instance:dev:document/fc0deff2-c4c2-434b-827d-98302520e552"
+  ]
+ },
+ {
+  "id": "context/Bench Company 00/8192",
+  "family": "context",
+  "anchor": "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+  "budget": 8192,
+  "required_units": [
+   "urn:c1:instance:dev:assertion/1559fbd4-5f24-4d04-b9b9-64b66e9d8f9e",
+   "urn:c1:instance:dev:assertion/193b9d76-b2ce-4c3e-b1cc-1883d7477691",
+   "urn:c1:instance:dev:assertion/1a8c052a-ab19-4e17-8e71-fadb998a3daf",
+   "urn:c1:instance:dev:assertion/4cc6fc4d-9560-4bad-9762-fc7589699f02",
+   "urn:c1:instance:dev:assertion/4d007995-8258-45c1-95dc-5f384c0f2a5f",
+   "urn:c1:instance:dev:assertion/54a07d5d-7a72-49a2-81ea-289f6b274243",
+   "urn:c1:instance:dev:assertion/62268992-0c3e-4ed6-b54c-8806ffa8f187",
+   "urn:c1:instance:dev:assertion/720559f3-2520-41a4-8560-60b75d4dd5a8",
+   "urn:c1:instance:dev:assertion/af87d7ef-ecdf-47a9-96da-86d74c16c71a",
+   "urn:c1:instance:dev:assertion/d08c3bac-c5ae-420a-9bb1-434e9bc25139"
+  ],
+  "gold": [
+   "urn:c1:instance:dev:assertion/1559fbd4-5f24-4d04-b9b9-64b66e9d8f9e",
+   "urn:c1:instance:dev:assertion/193b9d76-b2ce-4c3e-b1cc-1883d7477691",
+   "urn:c1:instance:dev:assertion/1a8c052a-ab19-4e17-8e71-fadb998a3daf",
+   "urn:c1:instance:dev:assertion/4cc6fc4d-9560-4bad-9762-fc7589699f02",
+   "urn:c1:instance:dev:assertion/4d007995-8258-45c1-95dc-5f384c0f2a5f",
+   "urn:c1:instance:dev:assertion/54a07d5d-7a72-49a2-81ea-289f6b274243",
+   "urn:c1:instance:dev:assertion/62268992-0c3e-4ed6-b54c-8806ffa8f187",
+   "urn:c1:instance:dev:assertion/720559f3-2520-41a4-8560-60b75d4dd5a8",
+   "urn:c1:instance:dev:assertion/af87d7ef-ecdf-47a9-96da-86d74c16c71a",
+   "urn:c1:instance:dev:assertion/d08c3bac-c5ae-420a-9bb1-434e9bc25139"
+  ]
+ },
+ {
+  "id": "context/Bench Company 00/32768",
+  "family": "context",
+  "anchor": "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+  "budget": 32768,
+  "required_units": [
+   "urn:c1:instance:dev:assertion/1559fbd4-5f24-4d04-b9b9-64b66e9d8f9e",
+   "urn:c1:instance:dev:assertion/193b9d76-b2ce-4c3e-b1cc-1883d7477691",
+   "urn:c1:instance:dev:assertion/1a8c052a-ab19-4e17-8e71-fadb998a3daf",
+   "urn:c1:instance:dev:assertion/4cc6fc4d-9560-4bad-9762-fc7589699f02",
+   "urn:c1:instance:dev:assertion/4d007995-8258-45c1-95dc-5f384c0f2a5f",
+   "urn:c1:instance:dev:assertion/54a07d5d-7a72-49a2-81ea-289f6b274243",
+   "urn:c1:instance:dev:assertion/62268992-0c3e-4ed6-b54c-8806ffa8f187",
+   "urn:c1:instance:dev:assertion/720559f3-2520-41a4-8560-60b75d4dd5a8",
+   "urn:c1:instance:dev:assertion/af87d7ef-ecdf-47a9-96da-86d74c16c71a",
+   "urn:c1:instance:dev:assertion/d08c3bac-c5ae-420a-9bb1-434e9bc25139"
+  ],
+  "gold": [
+   "urn:c1:instance:dev:assertion/1559fbd4-5f24-4d04-b9b9-64b66e9d8f9e",
+   "urn:c1:instance:dev:assertion/193b9d76-b2ce-4c3e-b1cc-1883d7477691",
+   "urn:c1:instance:dev:assertion/1a8c052a-ab19-4e17-8e71-fadb998a3daf",
+   "urn:c1:instance:dev:assertion/4cc6fc4d-9560-4bad-9762-fc7589699f02",
+   "urn:c1:instance:dev:assertion/4d007995-8258-45c1-95dc-5f384c0f2a5f",
+   "urn:c1:instance:dev:assertion/54a07d5d-7a72-49a2-81ea-289f6b274243",
+   "urn:c1:instance:dev:assertion/62268992-0c3e-4ed6-b54c-8806ffa8f187",
+   "urn:c1:instance:dev:assertion/720559f3-2520-41a4-8560-60b75d4dd5a8",
+   "urn:c1:instance:dev:assertion/af87d7ef-ecdf-47a9-96da-86d74c16c71a",
+   "urn:c1:instance:dev:assertion/d08c3bac-c5ae-420a-9bb1-434e9bc25139"
+  ]
+ },
+ {
+  "id": "context/Bench Company 00/65536",
+  "family": "context",
+  "anchor": "urn:c1:instance:dev:entity/558e8a6f-f6cd-4501-a51c-eb8c2e414178",
+  "budget": 65536,
+  "required_units": [
+   "urn:c1:instance:dev:assertion/1559fbd4-5f24-4d04-b9b9-64b66e9d8f9e",
+   "urn:c1:instance:dev:assertion/193b9d76-b2ce-4c3e-b1cc-1883d7477691",
+   "urn:c1:instance:dev:assertion/1a8c052a-ab19-4e17-8e71-fadb998a3daf",
+   "urn:c1:instance:dev:assertion/4cc6fc4d-9560-4bad-9762-fc7589699f02",
+   "urn:c1:instance:dev:assertion/4d007995-8258-45c1-95dc-5f384c0f2a5f",
+   "urn:c1:instance:dev:assertion/54a07d5d-7a72-49a2-81ea-289f6b274243",
+   "urn:c1:instance:dev:assertion/62268992-0c3e-4ed6-b54c-8806ffa8f187",
+   "urn:c1:instance:dev:assertion/720559f3-2520-41a4-8560-60b75d4dd5a8",
+   "urn:c1:instance:dev:assertion/af87d7ef-ecdf-47a9-96da-86d74c16c71a",
+   "urn:c1:instance:dev:assertion/d08c3bac-c5ae-420a-9bb1-434e9bc25139"
+  ],
+  "gold": [
+   "urn:c1:instance:dev:assertion/1559fbd4-5f24-4d04-b9b9-64b66e9d8f9e",
+   "urn:c1:instance:dev:assertion/193b9d76-b2ce-4c3e-b1cc-1883d7477691",
+   "urn:c1:instance:dev:assertion/1a8c052a-ab19-4e17-8e71-fadb998a3daf",
+   "urn:c1:instance:dev:assertion/4cc6fc4d-9560-4bad-9762-fc7589699f02",
+   "urn:c1:instance:dev:assertion/4d007995-8258-45c1-95dc-5f384c0f2a5f",
+   "urn:c1:instance:dev:assertion/54a07d5d-7a72-49a2-81ea-289f6b274243",
+   "urn:c1:instance:dev:assertion/62268992-0c3e-4ed6-b54c-8806ffa8f187",
+   "urn:c1:instance:dev:assertion/720559f3-2520-41a4-8560-60b75d4dd5a8",
+   "urn:c1:instance:dev:assertion/af87d7ef-ecdf-47a9-96da-86d74c16c71a",
+   "urn:c1:instance:dev:assertion/d08c3bac-c5ae-420a-9bb1-434e9bc25139"
+  ]
+ },
+ {
+  "id": "context/Bench Company 01/8192",
+  "family": "context",
+  "anchor": "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+  "budget": 8192,
+  "required_units": [
+   "urn:c1:instance:dev:assertion/20c5dad3-a9d6-4b30-9186-f8bd34baf4e6",
+   "urn:c1:instance:dev:assertion/266b8eb4-a9ae-4374-8d68-e629f2590862",
+   "urn:c1:instance:dev:assertion/5c07ef92-ac61-4940-a996-a1b1726a0450",
+   "urn:c1:instance:dev:assertion/648680ac-0fc2-42a0-a374-627be1db152f",
+   "urn:c1:instance:dev:assertion/72a02ad4-a270-4478-9b41-847dd8def62f",
+   "urn:c1:instance:dev:assertion/bd46a654-03d3-4bd7-8620-9120d90e78e5",
+   "urn:c1:instance:dev:assertion/ca8e46d6-570d-4db3-83f0-7fb24ec3d40d",
+   "urn:c1:instance:dev:assertion/db4c0d83-077e-444c-a4a7-24cdaf3b7385",
+   "urn:c1:instance:dev:assertion/e47415e5-cab2-44ab-9074-d906b0a54f2e",
+   "urn:c1:instance:dev:assertion/f3c180c3-d4f0-4124-8120-b7dc54f81a5d"
+  ],
+  "gold": [
+   "urn:c1:instance:dev:assertion/20c5dad3-a9d6-4b30-9186-f8bd34baf4e6",
+   "urn:c1:instance:dev:assertion/266b8eb4-a9ae-4374-8d68-e629f2590862",
+   "urn:c1:instance:dev:assertion/5c07ef92-ac61-4940-a996-a1b1726a0450",
+   "urn:c1:instance:dev:assertion/648680ac-0fc2-42a0-a374-627be1db152f",
+   "urn:c1:instance:dev:assertion/72a02ad4-a270-4478-9b41-847dd8def62f",
+   "urn:c1:instance:dev:assertion/bd46a654-03d3-4bd7-8620-9120d90e78e5",
+   "urn:c1:instance:dev:assertion/ca8e46d6-570d-4db3-83f0-7fb24ec3d40d",
+   "urn:c1:instance:dev:assertion/db4c0d83-077e-444c-a4a7-24cdaf3b7385",
+   "urn:c1:instance:dev:assertion/e47415e5-cab2-44ab-9074-d906b0a54f2e",
+   "urn:c1:instance:dev:assertion/f3c180c3-d4f0-4124-8120-b7dc54f81a5d"
+  ]
+ },
+ {
+  "id": "context/Bench Company 01/32768",
+  "family": "context",
+  "anchor": "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+  "budget": 32768,
+  "required_units": [
+   "urn:c1:instance:dev:assertion/20c5dad3-a9d6-4b30-9186-f8bd34baf4e6",
+   "urn:c1:instance:dev:assertion/266b8eb4-a9ae-4374-8d68-e629f2590862",
+   "urn:c1:instance:dev:assertion/5c07ef92-ac61-4940-a996-a1b1726a0450",
+   "urn:c1:instance:dev:assertion/648680ac-0fc2-42a0-a374-627be1db152f",
+   "urn:c1:instance:dev:assertion/72a02ad4-a270-4478-9b41-847dd8def62f",
+   "urn:c1:instance:dev:assertion/bd46a654-03d3-4bd7-8620-9120d90e78e5",
+   "urn:c1:instance:dev:assertion/ca8e46d6-570d-4db3-83f0-7fb24ec3d40d",
+   "urn:c1:instance:dev:assertion/db4c0d83-077e-444c-a4a7-24cdaf3b7385",
+   "urn:c1:instance:dev:assertion/e47415e5-cab2-44ab-9074-d906b0a54f2e",
+   "urn:c1:instance:dev:assertion/f3c180c3-d4f0-4124-8120-b7dc54f81a5d"
+  ],
+  "gold": [
+   "urn:c1:instance:dev:assertion/20c5dad3-a9d6-4b30-9186-f8bd34baf4e6",
+   "urn:c1:instance:dev:assertion/266b8eb4-a9ae-4374-8d68-e629f2590862",
+   "urn:c1:instance:dev:assertion/5c07ef92-ac61-4940-a996-a1b1726a0450",
+   "urn:c1:instance:dev:assertion/648680ac-0fc2-42a0-a374-627be1db152f",
+   "urn:c1:instance:dev:assertion/72a02ad4-a270-4478-9b41-847dd8def62f",
+   "urn:c1:instance:dev:assertion/bd46a654-03d3-4bd7-8620-9120d90e78e5",
+   "urn:c1:instance:dev:assertion/ca8e46d6-570d-4db3-83f0-7fb24ec3d40d",
+   "urn:c1:instance:dev:assertion/db4c0d83-077e-444c-a4a7-24cdaf3b7385",
+   "urn:c1:instance:dev:assertion/e47415e5-cab2-44ab-9074-d906b0a54f2e",
+   "urn:c1:instance:dev:assertion/f3c180c3-d4f0-4124-8120-b7dc54f81a5d"
+  ]
+ },
+ {
+  "id": "context/Bench Company 01/65536",
+  "family": "context",
+  "anchor": "urn:c1:instance:dev:entity/9055f365-5e66-4dd3-82f5-1fde5315e00d",
+  "budget": 65536,
+  "required_units": [
+   "urn:c1:instance:dev:assertion/20c5dad3-a9d6-4b30-9186-f8bd34baf4e6",
+   "urn:c1:instance:dev:assertion/266b8eb4-a9ae-4374-8d68-e629f2590862",
+   "urn:c1:instance:dev:assertion/5c07ef92-ac61-4940-a996-a1b1726a0450",
+   "urn:c1:instance:dev:assertion/648680ac-0fc2-42a0-a374-627be1db152f",
+   "urn:c1:instance:dev:assertion/72a02ad4-a270-4478-9b41-847dd8def62f",
+   "urn:c1:instance:dev:assertion/bd46a654-03d3-4bd7-8620-9120d90e78e5",
+   "urn:c1:instance:dev:assertion/ca8e46d6-570d-4db3-83f0-7fb24ec3d40d",
+   "urn:c1:instance:dev:assertion/db4c0d83-077e-444c-a4a7-24cdaf3b7385",
+   "urn:c1:instance:dev:assertion/e47415e5-cab2-44ab-9074-d906b0a54f2e",
+   "urn:c1:instance:dev:assertion/f3c180c3-d4f0-4124-8120-b7dc54f81a5d"
+  ],
+  "gold": [
+   "urn:c1:instance:dev:assertion/20c5dad3-a9d6-4b30-9186-f8bd34baf4e6",
+   "urn:c1:instance:dev:assertion/266b8eb4-a9ae-4374-8d68-e629f2590862",
+   "urn:c1:instance:dev:assertion/5c07ef92-ac61-4940-a996-a1b1726a0450",
+   "urn:c1:instance:dev:assertion/648680ac-0fc2-42a0-a374-627be1db152f",
+   "urn:c1:instance:dev:assertion/72a02ad4-a270-4478-9b41-847dd8def62f",
+   "urn:c1:instance:dev:assertion/bd46a654-03d3-4bd7-8620-9120d90e78e5",
+   "urn:c1:instance:dev:assertion/ca8e46d6-570d-4db3-83f0-7fb24ec3d40d",
+   "urn:c1:instance:dev:assertion/db4c0d83-077e-444c-a4a7-24cdaf3b7385",
+   "urn:c1:instance:dev:assertion/e47415e5-cab2-44ab-9074-d906b0a54f2e",
+   "urn:c1:instance:dev:assertion/f3c180c3-d4f0-4124-8120-b7dc54f81a5d"
+  ]
+ }
+]

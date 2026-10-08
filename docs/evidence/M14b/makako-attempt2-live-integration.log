@@ -1,0 +1,62 @@
+........................................................................ [ 59%]
+...................................FFAILED tests/integration/m11/test_t04_lineage.py::test_t04_draft_lineage [call]
+tests/integration/m11/test_t04_lineage.py:59: in test_t04_draft_lineage
+    asyncio.run(run())
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:196: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:119: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/integration/m11/test_t04_lineage.py:55: in run
+    assert (await case.request("GET", history_path, actor="dave")).json() == history
+E   AssertionError: assert {'count': 1, ...r': None, ...} == {'count': 1, ...r': None, ...}
+E     
+E     Omitting 4 identical items, use -vv to show
+E     Differing items:
+E     {'revision': 'branch:r4k0qnwrxzcj9lpmqlkoepebb877dv0'} != {'revision': 'branch:0yapn17dz9p0gm4j9vsd9l2cg61uhkw'}
+E     Use -v to get more diff
+
+=================================== FAILURES ===================================
+____________________________ test_t04_draft_lineage ____________________________
+tests/integration/m11/test_t04_lineage.py:59: in test_t04_draft_lineage
+    asyncio.run(run())
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:196: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/runners.py:119: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.uv-python/cpython-3.13.14-linux-x86_64-gnu/lib/python3.13/asyncio/base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/integration/m11/test_t04_lineage.py:55: in run
+    assert (await case.request("GET", history_path, actor="dave")).json() == history
+E   AssertionError: assert {'count': 1, ...r': None, ...} == {'count': 1, ...r': None, ...}
+E     
+E     Omitting 4 identical items, use -vv to show
+E     Differing items:
+E     {'revision': 'branch:r4k0qnwrxzcj9lpmqlkoepebb877dv0'} != {'revision': 'branch:0yapn17dz9p0gm4j9vsd9l2cg61uhkw'}
+E     Use -v to get more diff
+=============================== warnings summary ===============================
+tests/integration/m01/test_t07_interchange.py: 3 warnings
+tests/integration/m02/test_install_guards.py: 1 warning
+tests/integration/m02/test_t01_roundtrip.py: 2 warnings
+tests/integration/m02/test_t02_conflicts.py: 1 warning
+tests/integration/m02/test_t03_no_partial.py: 1 warning
+tests/integration/m02/test_t04_identity.py: 2 warnings
+tests/integration/m02/test_t07_extension.py: 2 warnings
+tests/integration/m03/test_journal_contract.py: 1 warning
+tests/integration/m05/test_backend_fetch.py: 1 warning
+  /root/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/integration/m11/test_t04_lineage.py::test_t04_draft_lineage - As...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 107 passed, 14 warnings in 11790.93s (3:16:30)
+uv failed with exit status 1.
