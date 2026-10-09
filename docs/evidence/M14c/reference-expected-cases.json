@@ -1,0 +1,10 @@
+[
+  "tests/integration/m13/test_t01_clean.py::test_t01_isolation_no_ai_and_published_ports",
+  "tests/integration/m13/test_t01_clean.py::test_t01_api_workflows_documents_and_every_context_profile",
+  "tests/integration/m13/test_t01_clean.py::test_t01_browser_flows_over_tls",
+  "tests/integration/m13/test_t03_knowledge_restore.py::test_t03_knowledge_only_restore_keeps_current_security",
+  "tests/integration/m13/test_t04_disaster_recovery.py::test_t04_guarded_disaster_recovery",
+  "tests/integration/m13/test_t05_failures.py::test_t05_service_faults_fail_closed",
+  "tests/integration/m13/test_t06_portability.py::test_t06_export_roundtrip_refusals_and_repeatable_schema",
+  "tests/integration/m13/test_t08_audit.py::test_t08_release_audit_and_license_inventory"
+]

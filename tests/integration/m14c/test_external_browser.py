@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from urllib.parse import quote
+from urllib.parse import parse_qs, quote, urlsplit
 
 import httpx
 from playwright.sync_api import sync_playwright
@@ -29,6 +29,27 @@ def test_t01_t02_t04_t05_t07_t09_external_browser(external: External) -> None:
                 data={"grant_type": grant},
             )
             assert response.status_code == 400
+        for response_type in ("token", "id_token", "code id_token"):
+            refused = client.get(
+                external.env["C1_ISSUER"] + "/oauth2/auth",
+                params={
+                    "client_id": external.env["C1_EXPLORER_CLIENT_ID"],
+                    "response_type": response_type,
+                    "scope": "openid",
+                    "redirect_uri": origin + "/explorer/callback",
+                    "state": "unsupported-grant-check",
+                    "nonce": "unsupported-grant-check",
+                    "code_challenge": "x" * 43,
+                    "code_challenge_method": "S256",
+                },
+            )
+            redirected = parse_qs(urlsplit(refused.headers.get("location", "")).query)
+            redirected.update(parse_qs(urlsplit(refused.headers.get("location", "")).fragment))
+            assert refused.status_code == 400 or (
+                refused.status_code in {302, 303}
+                and "error" in redirected
+                and not any(key in redirected for key in ("code", "access_token", "id_token"))
+            ), {"status": refused.status_code, "error": redirected.get("error")}
     external.operator(
         "enrollment-approve",
         "--issuer",

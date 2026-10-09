@@ -28,11 +28,11 @@ case "${1:?Specify check, external, regression or reference}" in
     ;;
   external)
     export C1_EXTERNAL=1
-    uv run --locked pytest --assert=plain -q -s -x \
+    flock /tmp/c1-m14c-dev-gate.lock uv run --locked pytest --assert=plain -q -s -x \
       --junitxml="$c1_gate_output/external.xml" tests/integration/m14c
     ;;
   regression)
-    uv run --locked pytest --assert=plain -q -s -x \
+    flock /tmp/c1-m14c-dev-gate.lock uv run --locked pytest --assert=plain -q -s -x \
       --junitxml="$c1_gate_output/regression.xml" \
       tests/integration/m01 tests/integration/m02 tests/integration/m03 \
       tests/integration/m04 tests/integration/m05 tests/integration/m06 \

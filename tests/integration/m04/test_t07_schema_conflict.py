@@ -288,6 +288,9 @@ def test_t07_schema_commit_crash_blocks_reads_until_recovery() -> None:
                     # before starting recovery. Startup is intentionally not
                     # run for this read-only inspection app.
                     inspection_runtime = Runtime(case.settings)
+                    # M14c verifies the namespace before exposing any route;
+                    # retain read-only inspection without applying recovery.
+                    await inspection_runtime.verify_identity()
                     inspection_app = create_app(case.settings, runtime=inspection_runtime)
                     try:
                         async with httpx.AsyncClient(

@@ -207,9 +207,9 @@ async def _consistency(runtime: Runtime) -> dict[str, Any]:
         kind = obj.split(":", 1)[0]
         relations[f"{kind}#{relation}"] = relations.get(f"{kind}#{relation}", 0) + 1
     return {
-        "security_sha256": __import__("hashlib")
-        .sha256(json.dumps(sorted(tuples), separators=(",", ":")).encode())
-        .hexdigest(),
+        "security_sha256": hashlib.sha256(
+            json.dumps(sorted(tuples), separators=(",", ":")).encode()
+        ).hexdigest(),
         "workflow_head": await runtime.journal.head(),
         "active_bindings": len(expected),
         "binding_mismatches": len(missing),

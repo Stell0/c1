@@ -11,6 +11,7 @@ import argparse
 import ast
 import io
 import json
+import os
 import re
 import subprocess
 import sys
@@ -21,7 +22,10 @@ from typing import Any
 
 import yaml  # type: ignore[import-untyped]
 
+from c1 import __version__
+
 ROOT = Path(__file__).resolve().parents[1]
+ENGINE = os.environ.get("C1_ENGINE", "podman")
 AI_PACKAGES = re.compile(
     r"^(openai|anthropic|google-generativeai|google-genai|transformers|torch|tensorflow|"
     r"sentence-transformers|langchain.*|llama.*|cohere|mistralai|ollama|huggingface-hub|"
@@ -44,15 +48,15 @@ def _run(*argv: str, input: bytes | None = None) -> bytes:
 
 def image_checks(image: str) -> dict[str, Any]:
     findings: list[str] = []
-    info = json.loads(_run("podman", "image", "inspect", image))[0]
+    info = json.loads(_run(ENGINE, "image", "inspect", image))[0]
     config = info["Config"]
     if config.get("User") not in (None, "", "0", "root"):
         pass
-    name = _run("podman", "create", image).decode().strip()
+    name = _run(ENGINE, "create", image).decode().strip()
     try:
-        archive = _run("podman", "export", name)
+        archive = _run(ENGINE, "export", name)
     finally:
-        subprocess.run(["podman", "rm", "-f", name], capture_output=True)
+        subprocess.run([ENGINE, "rm", "-f", name], capture_output=True)
     members = tarfile.open(fileobj=io.BytesIO(archive)).getmembers()
     paths = [m.name for m in members]
     for path in paths:
@@ -63,7 +67,7 @@ def image_checks(image: str) -> dict[str, Any]:
             findings.append(f"image contains test material {path}")
     packages = json.loads(
         _run(
-            "podman",
+            ENGINE,
             "run",
             "--rm",
             "--entrypoint",
@@ -187,7 +191,7 @@ def deployment_checks(project: str) -> dict[str, Any]:
     findings: list[str] = []
     names = (
         _run(
-            "podman",
+            ENGINE,
             "ps",
             "--filter",
             f"label=com.docker.compose.project={project}",
@@ -201,11 +205,11 @@ def deployment_checks(project: str) -> dict[str, Any]:
         return {"running": False, "findings": []}
     ports = {}
     for name in names:
-        info = json.loads(_run("podman", "inspect", name))[0]
+        info = json.loads(_run(ENGINE, "inspect", name))[0]
         bindings = info["HostConfig"].get("PortBindings") or {}
         if bindings:
             ports[name] = sorted(bindings)
-        if name.endswith("_c1_1") or "_c1_" in name:
+        if info["Config"].get("Labels", {}).get("com.docker.compose.service") == "c1":
             for item in info["Config"]["Env"]:
                 key = item.split("=", 1)[0]
                 if re.search(r"(PASSWORD|TOKEN|SECRET)", key) and not key.endswith("_FILE"):
@@ -217,8 +221,8 @@ def deployment_checks(project: str) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image", default="localhost/c1:0.1.0rc1")
-    parser.add_argument("--project", default="c1-ref")
+    parser.add_argument("--image", default="localhost/c1:" + __version__)
+    parser.add_argument("--project", default=os.environ.get("C1_REFERENCE_PROJECT", "c1-ref"))
     parser.add_argument("--out", default=str(ROOT / "docs/evidence/M13/release-audit.json"))
     args = parser.parse_args()
     report: dict[str, Any] = {

@@ -109,42 +109,9 @@ class Runtime:
         try:
             # M14b D4: move ID-only journal kinds before anything reads them.
             await self.journal.migrate_records()
-            # Establish identity and recovery guards before an unavailable FGA
-            # can interrupt startup. Recovery never implies namespace trust.
-            self.guarded = restore_guarded(await self.journal.list("Restore"))
-            self._identity_verified = False
-            from c1.admin.initialization import identity
-
-            binding = await self.journal.get("Restore", "application-identity")
-            self._legacy_reference = bool(
-                binding is None
-                and self.settings.identity_mode == "reference"
-                and (
-                    self.settings.initialization_file is None
-                    or not self.settings.initialization_file.exists()
-                )
-            )
-            if self._legacy_reference:
-                self._enrollment_verified = True
-            self._identity_verified = (
-                binding is None and self.settings.identity_mode == "reference"
-            ) or bool(
-                binding
-                and binding.get("identity") == identity(self.settings)
-                and binding.get("fga_store") == self.settings.fga_store
-                and binding.get("fga_model") == self.settings.fga_model
-            )
-            if self.settings.initialization_file is not None and not self._legacy_reference:
-                from c1.admin.initialization import checked
-
-                state = checked(self.settings)
-                receipt = await self.journal.get("Restore", "initial-enrollment")
-                self._enrollment_verified = bool(
-                    state
-                    and state.get("state") == "complete"
-                    and receipt
-                    and receipt.get("principal") == state.get("administrator")
-                )
+            await self.verify_identity()
+            if not self._identity_verified:
+                return
             await self.operations.recover()
             try:
                 self.registry = await detect_installed_registry(self.knowledge)
@@ -168,6 +135,43 @@ class Runtime:
             # dependencies return. No credential/backend text is logged.
             self.audit.emit(
                 "system", "startup_recovery", outcome="unavailable", reason="recovery_pending"
+            )
+
+    async def verify_identity(self) -> None:
+        """Verify namespace/enrollment and load restore guards without write recovery."""
+        self._identity_verified = False
+        self.guarded = restore_guarded(await self.journal.list("Restore"))
+        from c1.admin.initialization import identity
+
+        binding = await self.journal.get("Restore", "application-identity")
+        self._legacy_reference = bool(
+            binding is None
+            and self.settings.identity_mode == "reference"
+            and (
+                self.settings.initialization_file is None
+                or not self.settings.initialization_file.exists()
+            )
+        )
+        if self._legacy_reference:
+            self._enrollment_verified = True
+        self._identity_verified = (
+            binding is None and self.settings.identity_mode == "reference"
+        ) or bool(
+            binding
+            and binding.get("identity") == identity(self.settings)
+            and binding.get("fga_store") == self.settings.fga_store
+            and binding.get("fga_model") == self.settings.fga_model
+        )
+        if self.settings.initialization_file is not None and not self._legacy_reference:
+            from c1.admin.initialization import checked
+
+            state = checked(self.settings)
+            receipt = await self.journal.get("Restore", "initial-enrollment")
+            self._enrollment_verified = bool(
+                state
+                and state.get("state") == "complete"
+                and receipt
+                and receipt.get("principal") == state.get("administrator")
             )
 
     async def close(self) -> None:
