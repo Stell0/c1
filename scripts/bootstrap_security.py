@@ -21,10 +21,8 @@ from c1.authorization.journal import Journal
 from c1.model.profiles import ProfileRegistry
 from c1.storage.schema import assert_installed_profiles
 from c1.storage.terminus import BackendError, StorageConfig, Terminus
-from probes.config import ENV_FILE, ROOT, environment
+from probes.config import ENV_FILE, FGA_URL, KEYCLOAK_URL, ROOT, TERMINUS_URL, environment
 
-KEYCLOAK_URL = "http://127.0.0.1:18090"
-FGA_URL = "http://127.0.0.1:18080"
 USERS = ("alice", "bob", "carol", "dave", "erin", "frank")
 CLIENT_SECRETS = {
     "c1-api": "C1_API_CLIENT_SECRET",
@@ -57,11 +55,11 @@ DEFAULTS = {
     "C1_ISSUER_ALIAS": "c1-dev",
     "C1_AUDIENCE": "c1-api",
     "C1_FGA_URL": FGA_URL,
-    "C1_TERMINUS_URL": "http://127.0.0.1:16363",
+    "C1_TERMINUS_URL": TERMINUS_URL,
     "C1_ORGANIZATION": "admin",
     "C1_KNOWLEDGE_DATABASE": "c1_m03_dev_knowledge",
     "C1_WORKFLOW_DATABASE": "c1_m03_dev_workflow",
-    "C1_LOCK_PATH": str(ROOT / "deployment/.state/m03-writer.lock"),
+    "C1_LOCK_PATH": str(ENV_FILE.parent / ".state/m03-writer.lock"),
     "C1_INDEPENDENT_REVIEW": "true",
     "C1_ENABLE_PROBE_ROUTES": "false",
 }

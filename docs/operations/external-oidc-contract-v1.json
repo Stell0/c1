@@ -1,0 +1,253 @@
+{
+  "enrollment_approval": {
+    "additionalProperties": false,
+    "properties": {
+      "expires_in": {
+        "maximum": 86400,
+        "minimum": 60,
+        "title": "Expires In",
+        "type": "integer"
+      },
+      "issuer": {
+        "maxLength": 2048,
+        "minLength": 1,
+        "title": "Issuer",
+        "type": "string"
+      },
+      "operator": {
+        "maxLength": 255,
+        "minLength": 1,
+        "title": "Operator",
+        "type": "string"
+      },
+      "subject": {
+        "maxLength": 16384,
+        "minLength": 1,
+        "title": "Subject",
+        "type": "string"
+      }
+    },
+    "required": [
+      "issuer",
+      "subject",
+      "operator",
+      "expires_in"
+    ],
+    "title": "EnrollmentApprovalInput",
+    "type": "object"
+  },
+  "external_backup_manifest": {
+    "additionalProperties": false,
+    "properties": {
+      "contract_version": {
+        "const": 1,
+        "title": "Contract Version",
+        "type": "integer"
+      },
+      "created_at": {
+        "maxLength": 40,
+        "minLength": 20,
+        "title": "Created At",
+        "type": "string"
+      },
+      "fga_model": {
+        "minLength": 1,
+        "title": "Fga Model",
+        "type": "string"
+      },
+      "fga_store": {
+        "minLength": 1,
+        "title": "Fga Store",
+        "type": "string"
+      },
+      "files": {
+        "additionalProperties": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "title": "Files",
+        "type": "object"
+      },
+      "identity": {
+        "additionalProperties": true,
+        "title": "Identity",
+        "type": "object"
+      },
+      "knowledge_head": {
+        "minLength": 1,
+        "title": "Knowledge Head",
+        "type": "string"
+      },
+      "manifest_version": {
+        "const": 2,
+        "title": "Manifest Version",
+        "type": "integer"
+      },
+      "model_sha256": {
+        "pattern": "^[a-f0-9]{64}$",
+        "title": "Model Sha256",
+        "type": "string"
+      },
+      "namespace_id": {
+        "maxLength": 255,
+        "minLength": 1,
+        "title": "Namespace Id",
+        "type": "string"
+      },
+      "operator": {
+        "maxLength": 255,
+        "minLength": 1,
+        "title": "Operator",
+        "type": "string"
+      },
+      "profiles": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "title": "Profiles",
+        "type": "object"
+      },
+      "security_sha256": {
+        "pattern": "^[a-f0-9]{64}$",
+        "title": "Security Sha256",
+        "type": "string"
+      },
+      "type": {
+        "const": "external-full",
+        "title": "Type",
+        "type": "string"
+      },
+      "workflow_head": {
+        "minLength": 1,
+        "title": "Workflow Head",
+        "type": "string"
+      }
+    },
+    "required": [
+      "contract_version",
+      "manifest_version",
+      "type",
+      "created_at",
+      "operator",
+      "identity",
+      "namespace_id",
+      "fga_store",
+      "fga_model",
+      "model_sha256",
+      "knowledge_head",
+      "workflow_head",
+      "profiles",
+      "security_sha256",
+      "files"
+    ],
+    "title": "ExternalBackupManifest",
+    "type": "object"
+  },
+  "initialize": {
+    "additionalProperties": false,
+    "properties": {
+      "namespace_id": {
+        "maxLength": 255,
+        "minLength": 1,
+        "title": "Namespace Id",
+        "type": "string"
+      }
+    },
+    "required": [
+      "namespace_id"
+    ],
+    "title": "InitializeInput",
+    "type": "object"
+  },
+  "namespace_evidence": {
+    "additionalProperties": false,
+    "properties": {
+      "client_id": {
+        "title": "Client Id",
+        "type": "string"
+      },
+      "continuity_verified": {
+        "const": true,
+        "title": "Continuity Verified",
+        "type": "boolean"
+      },
+      "contract_version": {
+        "const": 1,
+        "title": "Contract Version",
+        "type": "integer"
+      },
+      "evidence_sha256": {
+        "pattern": "^[a-f0-9]{64}$",
+        "title": "Evidence Sha256",
+        "type": "string"
+      },
+      "instance_id": {
+        "title": "Instance Id",
+        "type": "string"
+      },
+      "issuer": {
+        "title": "Issuer",
+        "type": "string"
+      },
+      "namespace_id": {
+        "title": "Namespace Id",
+        "type": "string"
+      },
+      "operator": {
+        "maxLength": 255,
+        "minLength": 1,
+        "title": "Operator",
+        "type": "string"
+      },
+      "subject": {
+        "title": "Subject",
+        "type": "string"
+      },
+      "verified_at": {
+        "title": "Verified At",
+        "type": "number"
+      }
+    },
+    "required": [
+      "contract_version",
+      "issuer",
+      "namespace_id",
+      "instance_id",
+      "client_id",
+      "subject",
+      "operator",
+      "continuity_verified",
+      "verified_at",
+      "evidence_sha256"
+    ],
+    "title": "NamespaceEvidence",
+    "type": "object"
+  },
+  "operator_result": {
+    "additionalProperties": true,
+    "properties": {
+      "contract_version": {
+        "const": 1,
+        "title": "Contract Version",
+        "type": "integer"
+      },
+      "error": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Error"
+      }
+    },
+    "required": [
+      "contract_version"
+    ],
+    "title": "OperatorResult",
+    "type": "object"
+  }
+}

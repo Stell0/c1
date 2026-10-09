@@ -1,4 +1,4 @@
-# C1 application image (M13 D1). Built locally; never pushed by the project.
+# C1 application image. Release publication requires the active milestone gate.
 # Pins are amd64 platform digests; see images.json for index digests and licenses.
 FROM ghcr.io/astral-sh/uv@sha256:596e7ea716217d76ff7ddfb8695833f7cb2a8d6589af32114a1b4a95c081fd4d AS uv
 
@@ -28,7 +28,11 @@ ENV PATH=/opt/c1/bin:/usr/local/bin:/usr/bin:/bin \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     FORWARDED_ALLOW_IPS=127.0.0.1
+ARG C1_VERSION=0.1.0rc2
+ARG C1_REVISION=unknown
 LABEL org.opencontainers.image.title="C1" \
+      org.opencontainers.image.version=$C1_VERSION \
+      org.opencontainers.image.revision=$C1_REVISION \
       org.opencontainers.image.licenses="Apache-2.0" \
       org.opencontainers.image.source="https://github.com/Stell0/c1"
 EXPOSE 8000

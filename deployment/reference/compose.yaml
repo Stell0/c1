@@ -21,6 +21,7 @@ x-c1-environment: &c1-environment
   C1_KNOWLEDGE_DATABASE: c1_knowledge
   C1_WORKFLOW_DATABASE: c1_workflow
   C1_LOCK_PATH: /run/c1/writer.lock
+  C1_INITIALIZATION_FILE: /var/lib/c1/private/initialization.json
   C1_TERMINUS_PASSWORD_FILE: /run/c1/secrets/terminus_password
   C1_FGA_TOKEN_FILE: /run/c1/secrets/fga_token
   C1_CURSOR_SECRET_FILE: /run/c1/secrets/cursor_secret
@@ -53,11 +54,11 @@ services:
     cpus: 0.5
 
   c1:
-    image: localhost/c1:${C1_VERSION:-0.1.0rc1}
+    image: localhost/c1:${C1_VERSION:-0.1.0rc2}
     env_file: [./state/c1.env]
     environment: *c1-environment
     secrets: [terminus_password, fga_token, cursor_secret, explorer_client_secret]
-    volumes: ["./certs/ca.pem:/etc/c1-certs/ca.pem:ro"]
+    volumes: ["./certs/ca.pem:/etc/c1-certs/ca.pem:ro", "application-state:/var/lib/c1:ro"]
     extra_hosts: ["auth.c1.test:${C1_REF_NET_PREFIX:-10.89.251}.2"]
     read_only: true
     tmpfs: [/run/c1, /tmp]
@@ -78,7 +79,7 @@ services:
 
   # One-shot administration commands (`c1-admin` runs them); never started by `up`.
   tools:
-    image: localhost/c1:${C1_VERSION:-0.1.0rc1}
+    image: localhost/c1:${C1_VERSION:-0.1.0rc2}
     profiles: [tools]
     entrypoint: ["/usr/local/bin/c1-entrypoint"]
     env_file: [./state/c1.env]
@@ -95,7 +96,7 @@ services:
       - explorer_client_secret
       - keycloak_admin_password
       - admin_password
-    volumes: ["./certs/ca.pem:/etc/c1-certs/ca.pem:ro"]
+    volumes: ["./certs/ca.pem:/etc/c1-certs/ca.pem:ro", "application-state:/var/lib/c1"]
     extra_hosts: ["auth.c1.test:${C1_REF_NET_PREFIX:-10.89.251}.2"]
     read_only: true
     tmpfs: [/run/c1, /tmp]
@@ -232,6 +233,7 @@ secrets:
   admin_password: {file: ./secrets/admin_password}
 
 volumes:
+  application-state:
   terminus-data: {}
   postgres-data: {}
 

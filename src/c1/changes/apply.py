@@ -78,15 +78,15 @@ def _now() -> str:
 
 def _principal(identifier: str) -> Principal:
     """Recreate only the stable issuer/subject for a fresh policy check."""
-    if not identifier.startswith("user:") or "." not in identifier[5:]:
-        raise SecurityError(503, "invalid_journal_principal")
-    alias, subject = identifier[5:].split(".", 1)
-    return Principal(alias, subject, "human")
+    try:
+        return Principal.from_id(identifier)
+    except ValueError:
+        raise SecurityError(503, "invalid_journal_principal") from None
 
 
 def _actor_iri(identifier: str) -> str:
     principal = _principal(identifier)
-    return f"urn:c1:principal:{principal.issuer_alias}:{principal.subject}"
+    return f"urn:c1:principal:{principal.issuer_alias}:{principal.subject_component}"
 
 
 def _public(changeset: ChangeSet) -> dict[str, Any]:

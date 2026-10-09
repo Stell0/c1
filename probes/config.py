@@ -7,7 +7,10 @@ from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ENV_FILE = ROOT / "deployment/.env"
+ENV_FILE = Path(os.environ.get("C1_PROBE_ENV_FILE", str(ROOT / "deployment/.env")))
+TERMINUS_URL = os.environ.get("C1_PROBE_TERMINUS_URL", "http://127.0.0.1:16363")
+FGA_URL = os.environ.get("C1_PROBE_FGA_URL", "http://127.0.0.1:18080")
+KEYCLOAK_URL = os.environ.get("C1_PROBE_KEYCLOAK_URL", "http://127.0.0.1:18090")
 
 
 def environment() -> dict[str, str]:
@@ -22,9 +25,9 @@ def environment() -> dict[str, str]:
 
 @dataclass(frozen=True, repr=False)
 class Settings:
-    terminus_url: str = "http://127.0.0.1:16363"
-    fga_url: str = "http://127.0.0.1:18080"
-    keycloak_url: str = "http://127.0.0.1:18090"
+    terminus_url: str = TERMINUS_URL
+    fga_url: str = FGA_URL
+    keycloak_url: str = KEYCLOAK_URL
     terminus_password: str = ""
     fga_token: str = ""
 

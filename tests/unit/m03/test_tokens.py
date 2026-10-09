@@ -155,7 +155,7 @@ def test_valid_human_service_and_ec_tokens() -> None:
         {"aud": "other-api"},
         {"typ": "ID"},
         {"c1_principal_kind": "robot"},
-        {"sub": "admin:reader"},
+        {"sub": "admin\nreader"},
         {"sub": ""},
         {"exp": None},
         {"iat": None},

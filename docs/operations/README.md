@@ -1,6 +1,6 @@
 # C1 operations
 
-These documents describe how to run release candidate `0.1.0rc1` with the reference deployment in `deployment/reference/`. They describe measured, tested behavior; the [M13 report](../milestones/M13-report.md) records the evidence.
+These documents describe the reference deployment in `deployment/reference/` and the M14c external-provider candidate `0.1.0rc2`. Historical reference qualification is in [M13](../milestones/M13-report.md); current candidate qualification and release status are in [M14c](../milestones/M14c-report.md). Performance measurements retain their reported source/version.
 
 | Document | Covers |
 |---|---|
@@ -13,5 +13,7 @@ These documents describe how to run release candidate `0.1.0rc1` with the refere
 | [import-export.md](import-export.md) | Snapshot export versus backup, JSON-LD import rules |
 | [limits.md](limits.md) | Configured limits and the measured behavior on the declared machine |
 | [maintenance.md](maintenance.md) | Scheduled storage maintenance (TerminusDB optimize) |
+| [external-oidc.md](external-oidc.md) | M14c candidate provider, token, initialization and enrollment contract; check qualification evidence |
+| [external-oidc-recovery.md](external-oidc-recovery.md) | M14c candidate external-provider maintenance, application-owned backup and guarded recovery |
 
 C1 needs no AI provider, model or key. It does need its identity provider (Keycloak), authorization service (OpenFGA), knowledge store (TerminusDB) and their database (PostgreSQL).

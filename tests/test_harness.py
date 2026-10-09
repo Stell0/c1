@@ -20,7 +20,7 @@ NO_AI_ENVIRONMENT_KEYS = (
 
 
 def test_package_version_is_the_declared_harness_version() -> None:
-    assert __version__ == "0.1.0rc1"
+    assert __version__ == "0.1.0rc2"
     assert importlib.metadata.version("c1") == __version__
 
 

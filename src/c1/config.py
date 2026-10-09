@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 import re
 import ssl
@@ -116,8 +117,57 @@ class Settings:
     fga_read_concurrency: int = 16
     # M13: a private CA bundle that identity (issuer, JWKS) requests trust.
     issuer_ca_file: Path | None = None
+    oidc_token_profile: str = "c1-v1"
+    oidc_endpoint_urls: tuple[str, ...] = ()
+    principal_kind_claim: str = "c1_principal_kind"
+    principal_kind_mapping: tuple[tuple[str, str], ...] = (
+        ("human", "human"),
+        ("service", "service"),
+    )
+    initialization_file: Path | None = None
+    identity_mode: str = "reference"
+    oidc_config_version: int = 1
+    explorer_client_id: str | None = None
 
     def __post_init__(self) -> None:
+        if self.explorer_client_id is not None and not re.fullmatch(
+            r"[A-Za-z0-9._-]{1,64}", self.explorer_client_id
+        ):
+            raise ValueError("C1_EXPLORER_CLIENT_ID is invalid")
+        if self.oidc_config_version != 1:
+            raise ValueError("Unsupported C1_OIDC_CONFIG_VERSION")
+        if self.identity_mode not in {"reference", "external"}:
+            raise ValueError("Unsupported C1_IDENTITY_MODE")
+        if self.identity_mode == "external" and self.initialization_file is None:
+            raise ValueError("External identity requires C1_INITIALIZATION_FILE")
+        if self.initialization_file is not None and not self.initialization_file.is_absolute():
+            raise ValueError("C1_INITIALIZATION_FILE must be absolute")
+        if self.oidc_token_profile not in {"c1-v1", "rfc9068-v1", "hydra-jwt-v1"}:
+            raise ValueError("Unsupported C1_OIDC_TOKEN_PROFILE")
+        if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{0,63}", self.principal_kind_claim):
+            raise ValueError("Invalid C1_PRINCIPAL_KIND_CLAIM")
+        mapping = dict(self.principal_kind_mapping)
+        if (
+            not mapping
+            or len(mapping) != len(self.principal_kind_mapping)
+            or len(mapping) > 16
+            or any(
+                not key or len(key) > 128 or value not in {"human", "service"}
+                for key, value in mapping.items()
+            )
+        ):
+            raise ValueError("Invalid C1_PRINCIPAL_KIND_MAPPING")
+        if self.oidc_token_profile == "c1-v1" and (
+            self.principal_kind_claim != "c1_principal_kind"
+            or mapping != {"human": "human", "service": "service"}
+        ):
+            raise ValueError("The c1-v1 principal-kind contract cannot be overridden")
+        if len(self.oidc_endpoint_urls) > 16:
+            raise ValueError("Too many C1_OIDC_ENDPOINT_URLS")
+        for endpoint in self.oidc_endpoint_urls:
+            _url(endpoint, "C1_OIDC_ENDPOINT_URLS", allow_path=True)
+            if urlsplit(endpoint).scheme != "https":
+                raise ValueError("Cross-origin OIDC endpoints require HTTPS")
         if not _NAME.fullmatch(self.instance_id):
             raise ValueError("C1_INSTANCE_ID is invalid")
         validate_iri(self.instance_base)
@@ -126,10 +176,18 @@ class Settings:
         if not _ALIAS.fullmatch(self.issuer_alias):
             raise ValueError("C1_ISSUER_ALIAS is invalid")
         _url(self.issuer, "C1_ISSUER", allow_path=True)
+        if (
+            self.identity_mode == "external"
+            and urlsplit(self.issuer).scheme != "https"
+            and urlsplit(self.issuer).hostname not in _LOOPBACK_HOSTS
+        ):
+            raise ValueError("External OIDC issuer requires HTTPS except on loopback")
         _url(self.fga_url, "C1_FGA_URL")
         _url(self.terminus_url, "C1_TERMINUS_URL")
         if not self.audience or any(char.isspace() for char in self.audience):
             raise ValueError("C1_AUDIENCE is invalid")
+        if self.explorer_client_id == self.audience:
+            raise ValueError("C1_AUDIENCE must differ from C1_EXPLORER_CLIENT_ID")
         if not self.fga_token or not self.terminus_password:
             raise ValueError("Backend credentials are required")
         if not self.fga_store or not self.fga_model:
@@ -165,7 +223,7 @@ class Settings:
             raise ValueError("C1_CURSOR_SECRET must contain at least 32 characters")
 
     @classmethod
-    def from_env(cls) -> Settings:
+    def from_env(cls, *, for_initialization: bool = False) -> Settings:
         """Read only startup-owned C1_* process environment variables."""
         required = (
             "C1_ISSUER",
@@ -180,6 +238,7 @@ class Settings:
         missing = [
             name
             for name in required
+            if not (for_initialization and name in {"C1_FGA_STORE", "C1_FGA_MODEL"})
             if not (secret_value(name) if name in SECRET_NAMES else os.environ.get(name))
         ]
         if missing:
@@ -193,8 +252,8 @@ class Settings:
             audience=get("C1_AUDIENCE", "c1-api"),
             fga_url=get("C1_FGA_URL", "http://127.0.0.1:18080"),
             fga_token=secret_value("C1_FGA_TOKEN") or "",
-            fga_store=os.environ["C1_FGA_STORE"],
-            fga_model=os.environ["C1_FGA_MODEL"],
+            fga_store=get("C1_FGA_STORE") or ("pending" if for_initialization else ""),
+            fga_model=get("C1_FGA_MODEL") or ("pending" if for_initialization else ""),
             terminus_url=get("C1_TERMINUS_URL", "http://127.0.0.1:16363"),
             terminus_password=secret_value("C1_TERMINUS_PASSWORD") or "",
             organization=get("C1_ORGANIZATION", "admin"),
@@ -215,6 +274,23 @@ class Settings:
             backend_timeout_s=float(get("C1_BACKEND_TIMEOUT_S", "5")),
             fga_read_concurrency=int(get("C1_FGA_READ_CONCURRENCY", "16")),
             issuer_ca_file=Path(get("C1_ISSUER_CA_FILE", "")) if get("C1_ISSUER_CA_FILE") else None,
+            oidc_token_profile=get("C1_OIDC_TOKEN_PROFILE", "c1-v1"),
+            oidc_endpoint_urls=_endpoint_urls(get("C1_OIDC_ENDPOINT_URLS", "[]")),
+            principal_kind_claim=get("C1_PRINCIPAL_KIND_CLAIM", "c1_principal_kind"),
+            principal_kind_mapping=_kind_mapping(
+                get("C1_PRINCIPAL_KIND_MAPPING", '{"human":"human","service":"service"}')
+            ),
+            initialization_file=Path(get("C1_INITIALIZATION_FILE", ""))
+            if get("C1_INITIALIZATION_FILE")
+            else None,
+            identity_mode=get("C1_IDENTITY_MODE", "reference"),
+            oidc_config_version=int(get("C1_OIDC_CONFIG_VERSION", "1")),
+            explorer_client_id=get("C1_EXPLORER_CLIENT_ID")
+            or (
+                "c1-explorer"
+                if _boolean(get("C1_EXPLORER_ENABLED", "false"), "C1_EXPLORER_ENABLED")
+                else None
+            ),
         )
 
     def issuer_verify(self) -> ssl.SSLContext | bool:
@@ -227,6 +303,28 @@ class Settings:
 _LOOPBACK_HOSTS = frozenset({"127.0.0.1", "localhost", "::1"})
 
 
+def _endpoint_urls(value: str) -> tuple[str, ...]:
+    try:
+        parsed = json.loads(value)
+    except ValueError:
+        raise ValueError("Invalid C1_OIDC_ENDPOINT_URLS JSON") from None
+    if not isinstance(parsed, list) or any(not isinstance(v, str) for v in parsed):
+        raise ValueError("C1_OIDC_ENDPOINT_URLS must be an array of exact URLs")
+    return tuple(parsed)
+
+
+def _kind_mapping(value: str) -> tuple[tuple[str, str], ...]:
+    try:
+        parsed = json.loads(value)
+    except ValueError:
+        raise ValueError("Invalid C1_PRINCIPAL_KIND_MAPPING JSON") from None
+    if not isinstance(parsed, dict) or any(
+        not isinstance(k, str) or not isinstance(v, str) for k, v in parsed.items()
+    ):
+        raise ValueError("C1_PRINCIPAL_KIND_MAPPING must be a string mapping")
+    return tuple(parsed.items())
+
+
 @dataclass(frozen=True)
 class ExplorerSettings:
     """Browser Explorer startup configuration (M12 D12); never from a request."""
@@ -236,8 +334,22 @@ class ExplorerSettings:
     client_secret: str = field(repr=False)
     session_idle_s: int = 1800
     session_max_s: int = 28800
+    scopes: str = "openid"
+    audience_parameter: str = "none"
+    logout_mode: str = "backchannel"
 
     def __post_init__(self) -> None:
+        if self.logout_mode not in {"local", "backchannel", "rp-initiated"}:
+            raise ValueError("Invalid C1_EXPLORER_LOGOUT_MODE")
+        scopes = self.scopes.split(" ")
+        if (
+            "openid" not in scopes
+            or len(scopes) > 16
+            or any(not re.fullmatch(r"[A-Za-z0-9._:/-]{1,128}", value) for value in scopes)
+        ):
+            raise ValueError("Invalid C1_EXPLORER_SCOPES")
+        if self.audience_parameter not in {"none", "audience", "resource"}:
+            raise ValueError("Invalid C1_EXPLORER_AUDIENCE_PARAMETER")
         _url(self.origin, "C1_EXPLORER_ORIGIN")
         parsed = urlsplit(self.origin)
         if parsed.path not in {""} or self.origin.endswith("/"):
@@ -280,4 +392,7 @@ class ExplorerSettings:
             client_secret=secret_value("C1_EXPLORER_CLIENT_SECRET") or "",
             session_idle_s=int(get("C1_EXPLORER_SESSION_IDLE_S", "1800")),
             session_max_s=int(get("C1_EXPLORER_SESSION_MAX_S", "28800")),
+            scopes=get("C1_EXPLORER_SCOPES", "openid"),
+            audience_parameter=get("C1_EXPLORER_AUDIENCE_PARAMETER", "none"),
+            logout_mode=get("C1_EXPLORER_LOGOUT_MODE", "backchannel"),
         )

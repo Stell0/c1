@@ -1,0 +1,22 @@
+# Build only the application image inputs. Operator credentials, state,
+# local tool caches and ingested/evidence files never enter the build context.
+*
+!pyproject.toml
+!uv.lock
+!README.md
+!LICENSE
+!NOTICE
+!THIRD_PARTY_NOTICES
+!src/
+!src/**
+!profiles/
+!profiles/**
+!deployment/
+deployment/*
+!deployment/openfga/
+!deployment/openfga/c1-v1.json
+!deployment/reference/
+deployment/reference/*
+!deployment/reference/c1-entrypoint.sh
+**/__pycache__/
+**/*.pyc

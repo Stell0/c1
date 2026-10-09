@@ -23,9 +23,9 @@ from c1.model.literals import LiteralValue
 from c1.model.nodes import NodeRecord
 from c1.model.profiles import ProfileRegistry
 from c1.storage.terminus import StorageConfig, Terminus
-from probes.config import environment
+from probes.config import FGA_URL, KEYCLOAK_URL, TERMINUS_URL, environment
 
-KEYCLOAK = "http://127.0.0.1:18090"
+KEYCLOAK = KEYCLOAK_URL
 REALM = "c1-dev"
 TOKEN_URL = f"{KEYCLOAK}/realms/{REALM}/protocol/openid-connect/token"
 ROOT = Path(__file__).resolve().parents[3]
@@ -385,7 +385,7 @@ async def live_case(template: CaseTemplate | None = None) -> AsyncIterator[LiveC
     if not password or not fga_token:
         raise RuntimeError("M03 real stack credentials are missing")
     suffix = uuid.uuid4().hex
-    async with FGA("http://127.0.0.1:18080", fga_token, timeout=backend_timeout_s()) as fga:
+    async with FGA(FGA_URL, fga_token, timeout=backend_timeout_s()) as fga:
         await fga.create_store("c1-m03-" + suffix)
         try:
             settings = Settings(
@@ -394,11 +394,11 @@ async def live_case(template: CaseTemplate | None = None) -> AsyncIterator[LiveC
                 issuer=KEYCLOAK + "/realms/c1-dev",
                 issuer_alias="c1-dev",
                 audience="c1-api",
-                fga_url="http://127.0.0.1:18080",
+                fga_url=FGA_URL,
                 fga_token=fga_token,
                 fga_store=fga.store_id,
                 fga_model=fga.model_id,
-                terminus_url="http://127.0.0.1:16363",
+                terminus_url=TERMINUS_URL,
                 terminus_password=password,
                 organization="admin",
                 knowledge_database="c1_m03_k_" + suffix,

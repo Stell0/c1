@@ -29,6 +29,25 @@ class WebApp:
             await self._lifespan(receive, send)
             return
         path = scope.get("path", "")
+        runtime = self.api.state.runtime
+        guarded = getattr(runtime, "guarded", False)
+        pending = getattr(runtime, "enrollment_pending", lambda: False)()
+        allowed = path in {
+            "/explorer/login",
+            "/explorer/callback",
+            "/explorer/enroll",
+            "/explorer/logout",
+            "/explorer/signed-out",
+            "/explorer/static/explorer.css",
+        }
+        if path.startswith("/explorer") and (guarded or (pending and not allowed)):
+            from starlette.responses import HTMLResponse
+
+            from c1.explorer.app import _plain_page, secured
+
+            response = secured(HTMLResponse(_plain_page("C1 setup is pending."), status_code=503))
+            await response(scope, receive, send)
+            return
         if path == "/explorer" or path.startswith("/explorer/"):
             await self.explorer(scope, receive, send)
         else:
@@ -60,6 +79,10 @@ def create_web_app(
     api = create_app(settings, runtime=runtime)
     if explorer_settings is None:
         return api
+    if settings.identity_mode == "external" and (
+        settings.explorer_client_id != explorer_settings.client_id
+    ):
+        raise ValueError("Explorer client does not match the trusted identity configuration")
     return WebApp(api, create_explorer(settings, explorer_settings, api))
 
 

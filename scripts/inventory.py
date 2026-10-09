@@ -7,6 +7,7 @@ import json
 import re
 import subprocess
 import sys
+import tarfile
 import tempfile
 import tomllib
 import uuid
@@ -64,12 +65,16 @@ def _image_inventory(name: str, item: dict[str, Any]) -> dict[str, Any]:
     index_digest = str(item["digest"])
     reference = image + "@" + index_digest
     # Format at the runtime boundary so image Config.Env never enters inventory data.
+    engine = runtime()
+    docker = Path(engine).name == "docker"
     inspected = _command(
-        runtime(),
+        engine,
         "image",
         "inspect",
         "--format",
-        "{{.Id}}\t{{.Digest}}\t{{json .RepoDigests}}\t{{.Os}}\t{{.Architecture}}",
+        "{{.Id}}\t"
+        + ("docker" if docker else "{{.Digest}}")
+        + "\t{{json .RepoDigests}}\t{{.Os}}\t{{.Architecture}}",
         reference,
     ).split("\t")
     if len(inspected) != 5:
@@ -77,9 +82,33 @@ def _image_inventory(name: str, item: dict[str, Any]) -> dict[str, Any]:
     image_id, actual_index, digest_json, image_os, architecture = inspected
     repo_digests = set(json.loads(digest_json))
     expected = {reference, image + "@" + str(item["platform_digest"])}
-    if not expected.issubset(repo_digests) or actual_index != index_digest:
-        raise RuntimeError(f"Image index/platform digest mismatch: {name}")
-    config_digest = "sha256:" + image_id.removeprefix("sha256:")
+    if docker:
+        # Docker's containerd image store reports the index as Id and omits
+        # Digest. Verify the actual local OCI content, without reading Config.Env
+        # into diagnostic output or fetching mutable registry metadata.
+        normalized = {
+            value.removeprefix("docker.io/").removeprefix("library/") for value in repo_digests
+        }
+        if reference.removeprefix("docker.io/").removeprefix("library/") not in normalized:
+            raise RuntimeError(f"Image index digest mismatch: {name}")
+        with tempfile.TemporaryDirectory(prefix="c1-image-content-") as directory:
+            archive = Path(directory) / "image.tar"
+            _command(engine, "image", "save", "--output", str(archive), reference)
+            with tarfile.open(archive) as contents:
+                for digest in (index_digest, item["platform_digest"], item["config_digest"]):
+                    blob = contents.extractfile("blobs/sha256/" + digest.removeprefix("sha256:"))
+                    if blob is None or _digest(blob.read()) != digest:
+                        raise RuntimeError(f"Image content digest mismatch: {name}")
+                manifest_blob = contents.extractfile(
+                    "blobs/sha256/" + item["platform_digest"].removeprefix("sha256:")
+                )
+                if manifest_blob is None:
+                    raise RuntimeError(f"Image platform manifest missing: {name}")
+                config_digest = str(json.load(manifest_blob)["config"]["digest"])
+    else:
+        if not expected.issubset(repo_digests) or actual_index != index_digest:
+            raise RuntimeError(f"Image index/platform digest mismatch: {name}")
+        config_digest = "sha256:" + image_id.removeprefix("sha256:")
     if config_digest != item["config_digest"]:
         raise RuntimeError(f"Image config digest mismatch: {name}")
     platform = image_os + "/" + architecture

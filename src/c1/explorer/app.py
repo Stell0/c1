@@ -175,13 +175,26 @@ def view(explorer: Explorer, handler: View, *, post: bool = False) -> Callable[[
                         status_code=303,
                     )
                 )
-        if session.tokens.access_expires_at - time.monotonic() < REFRESH_MARGIN_S:
+        remaining = session.tokens.access_expires_at - time.monotonic()
+        if remaining <= 0 and session.tokens.refresh_token is None:
+            explorer.sessions.delete(request.cookies.get(SESSION_COOKIE))
+            response = RedirectResponse("/explorer/login", status_code=303)
+            _expire(response, SESSION_COOKIE)
+            return secured(response)
+        if remaining < REFRESH_MARGIN_S and session.tokens.refresh_token is not None:
             try:
                 session.tokens = await explorer.oidc.refresh(session.tokens)
             except LoginError:
                 explorer.sessions.delete(request.cookies.get(SESSION_COOKIE))
                 response = RedirectResponse("/explorer/login", status_code=303)
+                _expire(response, SESSION_COOKIE)
                 return secured(response)
+            identity = await explorer.api.call(
+                session.tokens.access_token, "GET", "/v1/setup/identity"
+            )
+            if not identity.ok or identity.body.get("subject") != session.subject:
+                explorer.sessions.delete(request.cookies.get(SESSION_COOKIE))
+                return secured(HTMLResponse(_plain_page("Sign-in failed."), status_code=401))
         ctx = Ctx(explorer, request, session, form)
         try:
             return await handler(ctx)
@@ -248,6 +261,11 @@ async def callback(explorer: Explorer, request: Request) -> Response:
     except LoginError:
         return failed
     name = claims.get("preferred_username")
+    identity = await explorer.api.call(tokens.access_token, "GET", "/v1/setup/identity")
+    if not identity.ok or identity.body.get("subject") != claims.get("sub"):
+        return failed
+    if identity.body.get("enrollment_pending"):
+        transaction.return_to = "/explorer/enroll"
     session_id = explorer.sessions.create(
         tokens,
         subject=str(claims.get("sub", "")),
@@ -275,8 +293,12 @@ async def logout(explorer: Explorer, request: Request) -> Response:
     if session is None or not csrf_matches(session, token):
         return secured(HTMLResponse("Forbidden: invalid form token", status_code=403))
     explorer.sessions.delete(session_id)
-    await explorer.oidc.logout(session.tokens)
-    response = secured(HTMLResponse(explorer.renderer.render("signed_out.html")))
+    target = await explorer.oidc.logout(session.tokens)
+    # A top-level link supports RP logout without weakening the page's
+    # form-action 'self' policy to permit cross-origin POST redirects.
+    response = secured(
+        HTMLResponse(explorer.renderer.render("signed_out.html", provider_logout=target))
+    )
     _expire(response, SESSION_COOKIE)
     return response
 
@@ -312,6 +334,8 @@ def create_explorer(
             explorer_settings,
             timeout_s=settings.backend_timeout_s,
             verify=settings.issuer_verify(),
+            allowed_endpoints=settings.oidc_endpoint_urls,
+            api_audience=settings.audience,
         ),
         sessions=SessionStore(
             idle_s=explorer_settings.session_idle_s, max_s=explorer_settings.session_max_s
@@ -336,6 +360,40 @@ def create_explorer(
     async def logout_endpoint(request: Request) -> Response:
         return await logout(explorer, request)
 
+    async def signed_out_endpoint(_request: Request) -> Response:
+        # The CSRF-protected POST already ended the local session. A public
+        # provider-return GET must never log an active C1 browser out.
+        if explorer.sessions.get(_request.cookies.get(SESSION_COOKIE)) is not None:
+            return secured(RedirectResponse("/explorer/", status_code=303))
+        return secured(
+            HTMLResponse(explorer.renderer.render("signed_out.html", provider_logout=None))
+        )
+
+    async def enrollment(ctx: Ctx) -> Response:
+        from html import escape
+
+        identity = await ctx.api("GET", "/v1/setup/identity")
+        if not identity.ok or not identity.body.get("enrollment_pending"):
+            return secured(HTMLResponse(_plain_page("Enrollment is unavailable."), status_code=403))
+        if ctx.request.method == "POST":
+            result = await ctx.api("POST", "/v1/setup/confirm", json={})
+            if not result.ok:
+                return secured(
+                    HTMLResponse(
+                        _plain_page("Enrollment did not complete."), status_code=result.status
+                    )
+                )
+            return secured(RedirectResponse("/explorer/", status_code=303))
+        html = (
+            '<!doctype html><html lang="en"><meta charset="utf-8"><title>C1 setup</title>'
+            "<main><h1>Confirm C1 administration</h1>"
+            "<p>Confirm enrollment of your approved identity as the initial C1 administrator.</p>"
+            '<form method="post" action="/explorer/enroll">'
+            f'<input type="hidden" name="csrf" value="{escape(ctx.session.csrf, quote=True)}">'
+            '<button type="submit">Confirm enrollment</button></form></main></html>'
+        )
+        return secured(HTMLResponse(html))
+
     async def root_redirect(_request: Request) -> Response:
         return secured(RedirectResponse("/explorer/", status_code=308))
 
@@ -344,7 +402,10 @@ def create_explorer(
         Route("/explorer/login", login_endpoint),
         Route("/explorer/callback", callback_endpoint),
         Route("/explorer/logout", logout_endpoint, methods=["POST"]),
+        Route("/explorer/signed-out", signed_out_endpoint),
         Route("/explorer/static/{name}", static),
+        Route("/explorer/enroll", view(explorer, enrollment)),
+        Route("/explorer/enroll", view(explorer, enrollment, post=True), methods=["POST"]),
     ]
     for path, handler, post in pages.ROUTES:
         routes.append(

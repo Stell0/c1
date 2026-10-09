@@ -1,7 +1,8 @@
 """Server-side sessions and login transactions (M12 D3).
 
-Tokens never leave the process: the browser holds only an opaque random
-session ID in an ``HttpOnly`` cookie. A restart ends every session.
+Access and refresh tokens stay server-side: the browser holds an opaque random
+session ID in an ``HttpOnly`` cookie. A validated ID token may be an RP logout
+hint for the identity provider. A restart ends every C1 session.
 """
 
 from __future__ import annotations
@@ -24,6 +25,7 @@ class Tokens:
     access_expires_at: float
     refresh_token: str | None = field(default=None, repr=False)
     refresh_expires_at: float | None = None
+    identity_token: str | None = field(default=None, repr=False)
 
 
 @dataclass

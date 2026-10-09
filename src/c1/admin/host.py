@@ -150,6 +150,81 @@ class Deployment:
             raise HostError(str(payload["error"]))
         return payload
 
+    def export_volume(self, volume: str, target: Path) -> None:
+        if Path(self.engine).name != "docker":
+            self.run([self.engine, "volume", "export", volume, "--output", str(target)])
+            target.chmod(0o600)
+            return
+        from c1 import __version__
+
+        image = self.env.get("C1_VOLUME_HELPER_IMAGE", "localhost/c1:" + __version__)
+        fd = os.open(target, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(fd, "wb") as stream:
+            result = subprocess.run(
+                [
+                    self.engine,
+                    "run",
+                    "--rm",
+                    "--network",
+                    "none",
+                    "--read-only",
+                    "--mount",
+                    f"type=volume,src={volume},dst=/snapshot,readonly",
+                    "--entrypoint",
+                    "/bin/tar",
+                    image,
+                    "-C",
+                    "/snapshot",
+                    "-cf",
+                    "-",
+                    ".",
+                ],
+                stdout=stream,
+                stderr=subprocess.PIPE,
+                env=self.env,
+                timeout=300,
+                check=False,
+            )
+        if result.returncode:
+            raise HostError("application volume export failed")
+
+    def import_volume(self, volume: str, source: Path) -> None:
+        if Path(self.engine).name != "docker":
+            self.run([self.engine, "volume", "import", volume, str(source)])
+            return
+        from c1 import __version__
+
+        image = self.env.get("C1_VOLUME_HELPER_IMAGE", "localhost/c1:" + __version__)
+        with source.open("rb") as stream:
+            result = subprocess.run(
+                [
+                    self.engine,
+                    "run",
+                    "--rm",
+                    "-i",
+                    "--network",
+                    "none",
+                    "--read-only",
+                    "--mount",
+                    f"type=volume,src={volume},dst=/snapshot",
+                    "--entrypoint",
+                    "/bin/tar",
+                    image,
+                    "-C",
+                    "/snapshot",
+                    "-xf",
+                    "-",
+                ],
+                stdin=stream,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.PIPE,
+                env=self.env,
+                timeout=300,
+                check=False,
+            )
+        if result.returncode:
+            raise HostError("application volume import failed")
+
 
 def _write_secret(path: Path, value: str, mode: int = 0o444) -> None:
     # Third-party images read secret files as non-root users inside their own
@@ -276,7 +351,7 @@ def _export_terminus(d: Deployment, target: Path) -> None:
     volume = _terminus_volume(d)
     d.compose("stop", "terminusdb")
     try:
-        d.run([d.engine, "volume", "export", volume, "--output", str(target)])
+        d.export_volume(volume, target)
     finally:
         d.compose("start", "terminusdb")
         d.wait_healthy(("terminusdb",))
@@ -301,6 +376,10 @@ def backup(args: argparse.Namespace) -> dict[str, Any]:
         _export_terminus(d, storage)
         files[storage.name] = _sha256(storage)
         if not args.knowledge_only:
+            application = target / "application-state.tar"
+            d.export_volume(f"{d.project}_application-state", application)
+            application.chmod(0o600)
+            files[application.name] = _sha256(application)
             pg = d.container("postgres")
             for database in ("openfga", "keycloak"):
                 dump = d.run(
@@ -358,9 +437,17 @@ def _restore_source(d: Deployment, storage: Path, prefix: str) -> tuple[str, str
     """A temporary, unpublished TerminusDB serving the backup's storage."""
     tag = f"{d.project}-restore-src-{int(time.time())}"
     d.run([d.engine, "volume", "create", tag])
-    d.run([d.engine, "volume", "import", tag, str(storage)])
+    d.import_volume(tag, storage)
     image = (
-        d.run([d.engine, "inspect", d.container("terminusdb"), "--format", "{{.ImageName}}"])
+        d.run(
+            [
+                d.engine,
+                "inspect",
+                d.container("terminusdb"),
+                "--format",
+                "{{.Config.Image}}" if Path(d.engine).name == "docker" else "{{.ImageName}}",
+            ]
+        )
         .stdout.decode()
         .strip()
     )
@@ -524,8 +611,13 @@ def restore_full(args: argparse.Namespace) -> dict[str, Any]:
     )
     started = time.monotonic()
     storage_volume = f"{d.project}_terminus-data"
+    if "application-state.tar" not in manifest["files"]:
+        raise HostError("backup has no application initialization state; migration required")
+    application_volume = f"{d.project}_application-state"
+    d.run([d.engine, "volume", "create", application_volume])
+    d.import_volume(application_volume, source / "application-state.tar")
     d.run([d.engine, "volume", "create", storage_volume])
-    d.run([d.engine, "volume", "import", storage_volume, str(source / "terminusdb-storage.tar")])
+    d.import_volume(storage_volume, source / "terminusdb-storage.tar")
     d.compose("up", "-d", "postgres", "terminusdb")
     d.wait_healthy(("postgres", "terminusdb"))
     pg = d.container("postgres")
@@ -626,7 +718,9 @@ def build_parser(sub: Any) -> None:
     def common(parser: argparse.ArgumentParser) -> None:
         parser.add_argument("--dir", default="deployment/reference")
         parser.add_argument("--project", default="c1-ref")
-        parser.add_argument("--net-prefix", default="10.89.251")
+        parser.add_argument(
+            "--net-prefix", default=os.environ.get("C1_REF_NET_PREFIX", "10.89.251")
+        )
         parser.add_argument("--operator")
 
     boot = sub.add_parser("bootstrap", help="first start of an empty deployment")

@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import asyncio
+import math
 import ssl
-from typing import Any
-from urllib.parse import urlsplit
+from typing import Any, Literal, cast
 
 import httpx
 import jwt
@@ -14,6 +14,7 @@ from jwt import PyJWKClient
 from c1 import roundtrips
 from c1.authorization.principal import Principal
 from c1.config import Settings
+from c1.oidc import trusted_endpoint
 
 _ALGORITHMS = ("RS256", "ES256")
 _MAX_TOKEN_BYTES = 16_384
@@ -43,11 +44,6 @@ class _TrustedJWKClient(PyJWKClient):
         if not isinstance(data, dict):
             raise ValueError("JWKS must be an object")
         return data
-
-
-def _origin(url: str) -> tuple[str, str, int | None]:
-    parsed = urlsplit(url)
-    return parsed.scheme, parsed.hostname or "", parsed.port
 
 
 class TokenValidator:
@@ -80,17 +76,7 @@ class TokenValidator:
         jwks_uri = document.get("jwks_uri")
         if not isinstance(jwks_uri, str):
             raise AuthenticationError("untrusted_discovery")
-        parsed = urlsplit(jwks_uri)
-        issuer_path = urlsplit(self.settings.issuer).path.rstrip("/") + "/"
-        if (
-            parsed.scheme not in {"http", "https"}
-            or _origin(jwks_uri) != _origin(self.settings.issuer)
-            or not parsed.path.startswith(issuer_path)
-            or parsed.username is not None
-            or parsed.password is not None
-            or parsed.query
-            or parsed.fragment
-        ):
+        if not trusted_endpoint(jwks_uri, self.settings.issuer, self.settings.oidc_endpoint_urls):
             raise AuthenticationError("untrusted_discovery")
         return jwks_uri
 
@@ -143,6 +129,16 @@ class TokenValidator:
                 or signing_key.public_key_use not in (None, "sig")
             ):
                 raise AuthenticationError()
+            required = list(_REQUIRED_CLAIMS)
+            if self.settings.oidc_token_profile in {"rfc9068-v1", "hydra-jwt-v1"}:
+                types = (
+                    {"at+jwt", "application/at+jwt"}
+                    if (self.settings.oidc_token_profile == "rfc9068-v1")
+                    else {"JWT"}
+                )
+                if not isinstance(header.get("typ"), str) or header["typ"] not in types:
+                    raise AuthenticationError("wrong_token_type")
+                required.extend(["client_id", "jti"])
             claims = jwt.decode(
                 token,
                 signing_key.key,
@@ -150,25 +146,52 @@ class TokenValidator:
                 audience=self.settings.audience,
                 issuer=self.settings.issuer,
                 leeway=30,
-                options={"require": _REQUIRED_CLAIMS, "verify_nbf": True},
+                options={"require": required, "verify_nbf": True},
             )
-            if claims.get("typ") != "Bearer":
+            if self.settings.oidc_token_profile == "c1-v1" and claims.get("typ") != "Bearer":
                 raise AuthenticationError("wrong_token_type")
+            if claims.get("typ") == "ID" or claims.get("token_use") == "id":
+                raise AuthenticationError("wrong_token_type")
+            if self.settings.oidc_token_profile in {"rfc9068-v1", "hydra-jwt-v1"} and any(
+                not isinstance(claims[name], str) or not claims[name]
+                for name in ("client_id", "jti")
+            ):
+                raise AuthenticationError()
             for name in ("exp", "iat", "nbf"):
-                if name in claims and type(claims[name]) not in (int, float):
+                if name in claims and (
+                    type(claims[name]) not in (int, float) or not math.isfinite(claims[name])
+                ):
                     raise AuthenticationError()
             if claims["exp"] <= claims["iat"]:
                 raise AuthenticationError()
             subject = claims.get("sub")
-            kind = claims.get("c1_principal_kind")
+            kind_claims = claims
+            if self.settings.oidc_token_profile == "hydra-jwt-v1":
+                extra = claims.get("ext")
+                if not isinstance(extra, dict) or extra.get("token_use") != "access":
+                    raise AuthenticationError("wrong_token_type")
+                kind_claims = extra
+            raw_kind = kind_claims.get(self.settings.principal_kind_claim)
+            if not isinstance(raw_kind, str):
+                raise AuthenticationError()
+            kind = dict(self.settings.principal_kind_mapping).get(raw_kind)
             if not isinstance(subject, str) or kind not in {"human", "service"}:
                 raise AuthenticationError()
-            return Principal(
-                issuer_alias=self.settings.issuer_alias,
-                subject=subject,
-                kind=kind,
-            )
-        except (AuthenticationError, jwt.PyJWTError, httpx.HTTPError, ValueError) as exc:
+            try:
+                return Principal(
+                    issuer_alias=self.settings.issuer_alias,
+                    subject=subject,
+                    kind=cast(Literal["human", "service"], kind),
+                )
+            except ValueError:
+                raise AuthenticationError("unsupported_subject") from None
+        except (
+            AuthenticationError,
+            jwt.PyJWTError,
+            httpx.HTTPError,
+            ValueError,
+            OverflowError,
+        ) as exc:
             if isinstance(exc, AuthenticationError):
                 raise
             raise AuthenticationError() from None
@@ -189,8 +212,11 @@ class TokenValidator:
                     self._client.verify = self._verify
                     self._jwks_uri = uri
                 client = self._client
-            await asyncio.to_thread(client.get_jwk_set, refresh=True)
-            return True
+            keys = await asyncio.to_thread(client.get_jwk_set, refresh=True)
+            return any(
+                key.algorithm_name in _ALGORITHMS and key.public_key_use in (None, "sig")
+                for key in keys.keys
+            )
         except (AuthenticationError, jwt.PyJWTError, httpx.HTTPError, ValueError):
             return False
 

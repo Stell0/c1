@@ -69,6 +69,8 @@ def _api(calls: list[tuple[str, str, str]]) -> Any:
                 body += b'"knowledge_revision":"branch:abc"}'
             elif scope["path"] == "/v1/whoami":
                 body = b'{"issuer_alias":"dev","subject":"s","kind":"human"}'
+            elif scope["path"] == "/v1/setup/identity":
+                body = b'{"subject":"s","kind":"human","enrollment_pending":false}'
             elif scope["path"] == "/v1/changesets/cs-1/withdraw":
                 body = b'{"id":"cs-1","state":"withdrawn"}'
             await send(
@@ -376,7 +378,7 @@ def test_templates_and_code_never_mark_data_safe() -> None:
 
 
 def test_explorer_imports_no_privileged_c1_module() -> None:
-    allowed = ("c1.config", "c1.model", "c1.explorer")
+    allowed = ("c1.config", "c1.model", "c1.explorer", "c1.oidc")
     for path in EXPLORER.rglob("*.py"):
         tree = ast.parse(path.read_text(encoding="utf-8"))
         for node in ast.walk(tree):

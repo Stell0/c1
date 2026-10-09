@@ -94,4 +94,4 @@ def test_principal_encoding_is_injective_and_safe() -> None:
     with pytest.raises(ValueError):
         Principal("issuer.one", "abc", "human")
     with pytest.raises(ValueError):
-        Principal("issuer-one", "abc:reader", "human")
+        Principal("issuer-one", "abc\nreader", "human")

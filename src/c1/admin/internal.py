@@ -7,6 +7,7 @@ on stdout; nothing printed contains a secret value.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -22,9 +23,8 @@ from c1.authorization.journal import Journal
 from c1.authorization.principal import Principal
 from c1.changes.profiles import detect_installed_registry
 from c1.config import SECRET_NAMES, Settings, secret_value
-from c1.model.profiles import ProfileRegistry
 from c1.runtime import Runtime, restore_guarded, storage_config
-from c1.storage.terminus import BackendError, StorageConfig, Terminus
+from c1.storage.terminus import Terminus
 
 
 class AdminError(Exception):
@@ -111,38 +111,47 @@ async def bootstrap(args: argparse.Namespace) -> dict[str, Any]:
         )
         if reset.status_code != 204:
             raise AdminError("first administrator password could not be set")
+    from dataclasses import replace
+
+    from c1.admin.initialization import initialize, load, save
+
+    settings = Settings.from_env(for_initialization=True)
+    initialized = await initialize(settings, "bundled-keycloak:" + instance_id)
+    settings = replace(
+        settings, fga_store=initialized["fga_store"], fga_model=initialized["fga_model"]
+    )
     principal = Principal(issuer_alias=issuer_alias, subject=subject, kind="human")
-    async with FGA(_required("C1_FGA_URL"), _required("C1_FGA_TOKEN")) as fga:
-        await fga.create_store("c1-" + instance_id)
+    # Preserve the supported reference bootstrap: the operator explicitly
+    # requested and provisioned this account. External initialization never
+    # calls this provider-specific provisioning wrapper or grants a principal.
+    async with FGA(
+        settings.fga_url, settings.fga_token, settings.fga_store, settings.fga_model
+    ) as fga:
         instance = "instance:" + instance_id
-        await fga.write(
-            [(principal.id, "access_admin", instance), (principal.id, "schema_admin", instance)]
+        for relation in ("access_admin", "schema_admin"):
+            await fga.ensure_tuple(principal.id, relation, instance, grant=True)
+    async with Journal(storage_config(settings, workflow=True)) as journal:
+        await journal.save_many(
+            [
+                (
+                    "Restore",
+                    "initial-enrollment",
+                    {
+                        "type": "enrollment",
+                        "principal": principal.id,
+                        "operator": "reference-bootstrap",
+                        "recorded_at": _now(),
+                    },
+                )
+            ]
         )
-        store, model = fga.store_id, fga.model_id
-    for database in (_required("C1_KNOWLEDGE_DATABASE"), _required("C1_WORKFLOW_DATABASE")):
-        config = StorageConfig(
-            url=_required("C1_TERMINUS_URL"),
-            password=_required("C1_TERMINUS_PASSWORD"),
-            organization=os.environ.get("C1_ORGANIZATION", "admin"),
-            database=database,
-            instance_base=_required("C1_INSTANCE_IRI_BASE"),
-        )
-        if database == os.environ["C1_WORKFLOW_DATABASE"]:
-            async with Journal(config) as journal:
-                await journal.initialize(deployment=True)
-        else:
-            async with Terminus(config) as knowledge:
-                try:
-                    await knowledge.head()
-                    raise AdminError("knowledge database already exists")
-                except BackendError as exc:
-                    if exc.status_code != 404:
-                        raise
-                await knowledge.create_for_deployment()
-                await knowledge.install_profile(ProfileRegistry())
+    assert settings.initialization_file is not None
+    state = load(settings.initialization_file)
+    state.update(state="complete", administrator=principal.id, enrolled_at=_now())
+    save(settings.initialization_file, state)
     return {
-        "fga_store": store,
-        "fga_model": model,
+        "fga_store": settings.fga_store,
+        "fga_model": settings.fga_model,
         "first_admin_principal": principal.id,
         "model_sha256": _model_digest(),
         "bootstrapped_at": _now(),
@@ -150,7 +159,6 @@ async def bootstrap(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _model_digest() -> str:
-    import hashlib
 
     text = json.dumps(model_definition(), sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(text.encode()).hexdigest()
@@ -199,6 +207,9 @@ async def _consistency(runtime: Runtime) -> dict[str, Any]:
         kind = obj.split(":", 1)[0]
         relations[f"{kind}#{relation}"] = relations.get(f"{kind}#{relation}", 0) + 1
     return {
+        "security_sha256": __import__("hashlib")
+        .sha256(json.dumps(sorted(tuples), separators=(",", ":")).encode())
+        .hexdigest(),
         "workflow_head": await runtime.journal.head(),
         "active_bindings": len(expected),
         "binding_mismatches": len(missing),
@@ -211,9 +222,23 @@ async def _consistency(runtime: Runtime) -> dict[str, Any]:
 
 async def _runtime(*, recover: bool) -> Runtime:
     runtime = Runtime(Settings.from_env())
-    if recover:
-        await runtime.start()
-    return runtime
+    try:
+        if runtime.settings.initialization_file is not None:
+            from c1.admin.initialization import checked
+
+            binding = await runtime.journal.get("Restore", "application-identity")
+            if not (
+                runtime.settings.identity_mode == "reference"
+                and binding is None
+                and not runtime.settings.initialization_file.exists()
+            ):
+                checked(runtime.settings)
+        if recover:
+            await runtime.start()
+        return runtime
+    except BaseException:
+        await runtime.close()
+        raise
 
 
 async def optimize(_args: argparse.Namespace) -> dict[str, Any]:
@@ -239,7 +264,10 @@ async def optimize(_args: argparse.Namespace) -> dict[str, Any]:
 
 
 async def state(_args: argparse.Namespace) -> dict[str, Any]:
-    settings = Settings.from_env()
+    return await inspect_state(Settings.from_env())
+
+
+async def inspect_state(settings: Settings) -> dict[str, Any]:
     async with Terminus(storage_config(settings)) as knowledge:
         knowledge_head = await knowledge.head()
         registry = await detect_installed_registry(knowledge)
@@ -360,8 +388,23 @@ async def dr_verify(_args: argparse.Namespace) -> dict[str, Any]:
     """Reconcile pending operations, then compare bindings; record the outcome."""
     runtime = await _runtime(recover=True)
     try:
+        if runtime.settings.identity_mode == "external":
+            from pathlib import Path
+
+            from c1.admin import recovery
+            from c1.admin.initialization import InitializationError
+
+            evidence = getattr(_args, "namespace_evidence", None)
+            token = getattr(_args, "continuity_token_file", None)
+            if not evidence or not token:
+                raise InitializationError("namespace_continuity_required")
+            return await recovery.verify(runtime, Path(evidence), Path(token))
         result = await _consistency(runtime)
         guard = await _guard(runtime.journal)
+        if str(guard.get("id", "")).startswith("external-dr-") and (
+            runtime.settings.identity_mode != "external"
+        ):
+            raise AdminError("external recovery requires external identity configuration")
         guard["verify"] = {**result, "verified_at": _now()}
         await runtime.journal.save_many([("Restore", guard["id"], guard)])
         return result
@@ -376,12 +419,34 @@ async def dr_release(args: argparse.Namespace) -> dict[str, Any]:
         raise AdminError("--accept-security-as-of needs a time zone")
     runtime = await _runtime(recover=False)
     try:
+        if runtime.settings.identity_mode == "external":
+            from pathlib import Path
+
+            from c1.admin import recovery
+            from c1.admin.initialization import InitializationError
+
+            evidence = getattr(args, "namespace_evidence", None)
+            token = getattr(args, "continuity_token_file", None)
+            if not evidence or not token:
+                raise InitializationError("namespace_continuity_required")
+            await recovery.release_check(
+                runtime, Path(evidence), Path(token), args.accept_security_as_of
+            )
         guard = await _guard(runtime.journal)
         if not (guard.get("verify") or {}).get("consistent"):
             raise AdminError("dr verify has not passed for this restore")
+        if str(guard.get("id", "")).startswith("external-dr-") and (
+            runtime.settings.identity_mode != "external"
+        ):
+            raise AdminError("external recovery requires external identity configuration")
         fresh = await _consistency(runtime)
         if not fresh["consistent"]:
             raise AdminError("security state is no longer consistent; run dr verify again")
+        if runtime.settings.identity_mode == "external" and (
+            fresh["security_sha256"] != guard["verify"].get("security_sha256")
+            or not await runtime.tokens.ready()
+        ):
+            raise AdminError("external recovery verification is no longer current")
         guard.update(
             {
                 "released": True,

@@ -82,9 +82,11 @@ def state_errors(root: Path) -> list[str]:
     rows = (
         []
         if not milestone_map
-        else re.findall(r"^\| (M\d{2}) \|.*?\| ([A-Z_]+) \|$", milestone_map.group(1), re.MULTILINE)
+        else re.findall(
+            r"^\| (M\d{2}[a-z]?) \|.*?\| ([A-Z_]+) \|$", milestone_map.group(1), re.MULTILINE
+        )
     )
-    if {row[0] for row in rows} != {f"M{number:02}" for number in range(19)}:
+    if not {f"M{number:02}" for number in range(19)} <= {row[0] for row in rows}:
         errors.append("PLAN.md:1: milestone map must contain M00–M18")
     statuses = {
         "NOT_PLANNED",
@@ -102,7 +104,7 @@ def state_errors(root: Path) -> list[str]:
         # Only a completion claim requires a completed evidence report.
         if status == "VERIFIED":
             report = read(root, f"docs/milestones/{milestone}-report.md")
-            if not re.search(r"^\*\*Gate:\*\* VERIFIED\s*$", report, re.MULTILINE):
+            if not re.search(r"^\*\*Gate:\*\* VERIFIED(?:\.|\s*$)", report, re.MULTILINE):
                 errors.append(f"PLAN.md:1: {milestone} {status} requires a VERIFIED report")
     readme = read(root, "README.md")
     section = re.search(r"^## What exists today\s*\n(.*?)(?=^## |\Z)", readme, re.M | re.S)

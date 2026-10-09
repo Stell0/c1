@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import time
+
 from c1.authorization.audit import Audit
 from c1.authorization.fga import FGA
 from c1.authorization.journal import Journal
@@ -84,6 +86,9 @@ class Runtime:
         # M13 D8: an unreleased disaster-recovery guard keeps the API unready.
         # It is read once at startup; releasing it requires a restart.
         self.guarded = False
+        self._enrollment_verified = settings.initialization_file is None
+        self._identity_verified = False
+        self._legacy_reference = False
 
     def context_catalog(self) -> ContextProfileCatalog:
         """Validate trusted data again; changed definitions require a restart."""
@@ -104,6 +109,42 @@ class Runtime:
         try:
             # M14b D4: move ID-only journal kinds before anything reads them.
             await self.journal.migrate_records()
+            # Establish identity and recovery guards before an unavailable FGA
+            # can interrupt startup. Recovery never implies namespace trust.
+            self.guarded = restore_guarded(await self.journal.list("Restore"))
+            self._identity_verified = False
+            from c1.admin.initialization import identity
+
+            binding = await self.journal.get("Restore", "application-identity")
+            self._legacy_reference = bool(
+                binding is None
+                and self.settings.identity_mode == "reference"
+                and (
+                    self.settings.initialization_file is None
+                    or not self.settings.initialization_file.exists()
+                )
+            )
+            if self._legacy_reference:
+                self._enrollment_verified = True
+            self._identity_verified = (
+                binding is None and self.settings.identity_mode == "reference"
+            ) or bool(
+                binding
+                and binding.get("identity") == identity(self.settings)
+                and binding.get("fga_store") == self.settings.fga_store
+                and binding.get("fga_model") == self.settings.fga_model
+            )
+            if self.settings.initialization_file is not None and not self._legacy_reference:
+                from c1.admin.initialization import checked
+
+                state = checked(self.settings)
+                receipt = await self.journal.get("Restore", "initial-enrollment")
+                self._enrollment_verified = bool(
+                    state
+                    and state.get("state") == "complete"
+                    and receipt
+                    and receipt.get("principal") == state.get("administrator")
+                )
             await self.operations.recover()
             try:
                 self.registry = await detect_installed_registry(self.knowledge)
@@ -118,7 +159,6 @@ class Runtime:
             self.operations.registry = self.registry
             self.changes.registry = self.registry
             self.changes.history_service.registry = self.registry
-            self.guarded = restore_guarded(await self.journal.list("Restore"))
             # M14a: verify the authorization model's read shape once at startup.
             await self.fga.ready()
             # M14b D3: the finalize shortcut only with an immediate change log.
@@ -139,7 +179,7 @@ class Runtime:
         self._started = False
 
     async def ready(self) -> bool:
-        if self.guarded:
+        if self.guarded or self.enrollment_pending():
             return False
         try:
             self.context_catalog()
@@ -153,6 +193,11 @@ class Runtime:
             if set(installed.profiles) != set(self.registry.profiles):
                 return False
             await assert_installed_profiles(self.knowledge, self.registry)
+            if self.settings.identity_mode == "external":
+                from c1.admin.internal import _consistency
+
+                if not (await _consistency(self)).get("consistent"):
+                    return False
             if self.operations.writer.fd is None:
                 return False
             return not any(
@@ -160,6 +205,84 @@ class Runtime:
             )
         except Exception:
             return False
+
+    def enrollment_pending(self) -> bool:
+        from c1.admin.initialization import guarded
+
+        return (
+            not self._identity_verified
+            or not self._enrollment_verified
+            or (not self._legacy_reference and guarded(self.settings))
+        )
+
+    async def setup_identity(self, principal: Principal) -> dict[str, object]:
+        from c1.admin.initialization import InitializationError, checked
+
+        state = None if self._legacy_reference else checked(self.settings)
+        pending = state is not None and state.get("state") != "complete"
+        if principal.kind != "human":
+            raise InitializationError("human_browser_identity_required")
+        if pending:
+            assert state is not None
+            approval = state.get("approval", {})
+            if (
+                state.get("state") not in {"approved", "enrolling"}
+                or approval.get("issuer") != self.settings.issuer
+                or approval.get("subject") != principal.subject
+                or approval.get("expires_at", 0) <= time.time()
+            ):
+                raise InitializationError("enrollment_not_approved")
+        return {"subject": principal.subject, "kind": principal.kind, "enrollment_pending": pending}
+
+    async def confirm_enrollment(self, principal: Principal) -> None:
+        from c1.admin.initialization import InitializationError, checked, lock, save
+        from c1.admin.internal import _consistency
+
+        path = self.settings.initialization_file
+        if path is None:
+            raise InitializationError("enrollment_not_available")
+        async with self.operations.writer.hold():
+            with lock(path):
+                await self.setup_identity(principal)
+                state = checked(self.settings)
+                if state is None or state.get("state") == "complete":
+                    raise InitializationError("enrollment_not_available")
+                state["state"] = "enrolling"
+                save(path, state)
+                obj = "instance:" + self.settings.instance_id
+                for relation in ("access_admin", "schema_admin"):
+                    await self.fga.ensure_tuple(principal.id, relation, obj, grant=True)
+                result = await _consistency(self)
+                if not result.get("consistent") or not await self.tokens.ready():
+                    raise InitializationError("enrollment_consistency_unavailable")
+                if not all(
+                    [
+                        await self.fga.check(principal.id, relation, obj)
+                        for relation in ("access_admin", "schema_admin")
+                    ]
+                ):
+                    raise InitializationError("enrollment_grants_unavailable")
+                await assert_installed_profiles(self.knowledge, self.registry)
+                state["state"] = "complete"
+                state["administrator"] = principal.id
+                state["enrolled_at"] = time.time()
+                # Durable audit before releasing the local guard.
+                await self.journal.save_many(
+                    [
+                        (
+                            "Restore",
+                            "initial-enrollment",
+                            {
+                                "type": "enrollment",
+                                "principal": principal.id,
+                                "operator": state["approval"]["operator"],
+                                "recorded_at": state["enrolled_at"],
+                            },
+                        )
+                    ]
+                )
+                save(path, state)
+                self._enrollment_verified = True
 
     async def read(
         self, principal: Principal, id: str, revision: str | None = None

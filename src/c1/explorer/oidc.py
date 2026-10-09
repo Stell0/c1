@@ -15,7 +15,7 @@ import ssl
 import time
 from dataclasses import dataclass
 from typing import Any
-from urllib.parse import urlencode, urlsplit
+from urllib.parse import quote_plus, urlencode
 
 import httpx
 import jwt
@@ -23,6 +23,7 @@ from jwt import PyJWKSet
 
 from c1.config import ExplorerSettings
 from c1.explorer.sessions import LoginTransaction, Tokens
+from c1.oidc import trusted_endpoint
 
 _ALGORITHMS = ["RS256", "ES256"]
 
@@ -35,26 +36,13 @@ class LoginError(Exception):
 class Endpoints:
     authorization: str
     token: str
-    end_session: str
+    end_session: str | None
     jwks: str
 
 
 def code_challenge(verifier: str) -> str:
     digest = hashlib.sha256(verifier.encode("ascii")).digest()
     return base64.urlsafe_b64encode(digest).rstrip(b"=").decode("ascii")
-
-
-def _same_origin(url: str, issuer: str) -> bool:
-    left, right = urlsplit(url), urlsplit(issuer)
-    return (
-        left.scheme == right.scheme
-        and left.hostname == right.hostname
-        and left.port == right.port
-        and left.path.startswith(right.path.rstrip("/") + "/")
-        and left.username is None
-        and not left.query
-        and not left.fragment
-    )
 
 
 class OIDCClient:
@@ -65,8 +53,12 @@ class OIDCClient:
         *,
         timeout_s: float,
         verify: ssl.SSLContext | bool = True,
+        allowed_endpoints: tuple[str, ...] = (),
+        api_audience: str = "",
     ) -> None:
         self.issuer, self.settings = issuer, settings
+        self.allowed_endpoints = allowed_endpoints
+        self.api_audience = api_audience
         self._http = httpx.AsyncClient(
             timeout=timeout_s, trust_env=False, follow_redirects=False, verify=verify
         )
@@ -91,23 +83,47 @@ class OIDCClient:
                     raise LoginError("identity_unavailable") from None
                 if not isinstance(document, dict) or document.get("issuer") != self.issuer:
                     raise LoginError("untrusted_discovery")
+                for field, required in (
+                    ("response_types_supported", "code"),
+                    ("token_endpoint_auth_methods_supported", "client_secret_basic"),
+                    ("code_challenge_methods_supported", "S256"),
+                ):
+                    advertised = document.get(field)
+                    if advertised is not None and (
+                        not isinstance(advertised, list)
+                        or not all(isinstance(value, str) for value in advertised)
+                        or required not in advertised
+                    ):
+                        raise LoginError("unsupported_" + field)
+                signing = document.get("id_token_signing_alg_values_supported")
+                if signing is not None and (
+                    not isinstance(signing, list)
+                    or not all(isinstance(value, str) for value in signing)
+                    or not any(value in _ALGORITHMS for value in signing)
+                ):
+                    raise LoginError("unsupported_id_token_signing_algorithm")
                 values = {
                     key: document.get(key)
                     for key in (
                         "authorization_endpoint",
                         "token_endpoint",
-                        "end_session_endpoint",
                         "jwks_uri",
                     )
                 }
                 if not all(
-                    isinstance(v, str) and _same_origin(v, self.issuer) for v in values.values()
+                    trusted_endpoint(v, self.issuer, self.allowed_endpoints)
+                    for v in values.values()
+                ):
+                    raise LoginError("untrusted_discovery")
+                end_session = document.get("end_session_endpoint")
+                if end_session is not None and not trusted_endpoint(
+                    end_session, self.issuer, self.allowed_endpoints
                 ):
                     raise LoginError("untrusted_discovery")
                 self._endpoints = Endpoints(
                     authorization=str(values["authorization_endpoint"]),
                     token=str(values["token_endpoint"]),
-                    end_session=str(values["end_session_endpoint"]),
+                    end_session=end_session,
                     jwks=str(values["jwks_uri"]),
                 )
         assert self._endpoints is not None
@@ -120,11 +136,16 @@ class OIDCClient:
                 "response_type": "code",
                 "client_id": self.settings.client_id,
                 "redirect_uri": self.settings.redirect_uri,
-                "scope": "openid",
+                "scope": self.settings.scopes,
                 "state": login.state,
                 "nonce": login.nonce,
                 "code_challenge": code_challenge(login.verifier),
                 "code_challenge_method": "S256",
+                **(
+                    {self.settings.audience_parameter: self.api_audience}
+                    if self.settings.audience_parameter != "none"
+                    else {}
+                ),
             }
         )
         return endpoints.authorization + "?" + query
@@ -135,7 +156,7 @@ class OIDCClient:
             response = await self._http.post(
                 endpoints.token,
                 data=form,
-                auth=(self.settings.client_id, self.settings.client_secret),
+                auth=self._client_auth(),
             )
         except httpx.HTTPError:
             raise LoginError("identity_unavailable") from None
@@ -145,15 +166,27 @@ class OIDCClient:
             body = response.json()
         except ValueError:
             raise LoginError("token_rejected") from None
-        if not isinstance(body, dict) or body.get("token_type", "").lower() != "bearer":
+        if (
+            not isinstance(body, dict)
+            or not isinstance(body.get("token_type"), str)
+            or body["token_type"].lower() != "bearer"
+        ):
             raise LoginError("token_rejected")
         return body
+
+    def _client_auth(self) -> httpx.BasicAuth:
+        # OAuth client_secret_basic encodes each credential as form data before
+        # applying HTTP Basic (RFC 6749 2.3.1), including reserved characters.
+        return httpx.BasicAuth(
+            quote_plus(self.settings.client_id, safe=""),
+            quote_plus(self.settings.client_secret, safe=""),
+        )
 
     @staticmethod
     def _tokens(body: dict[str, Any], now: float) -> Tokens:
         access = body.get("access_token")
         expires = body.get("expires_in")
-        if not isinstance(access, str) or not access or type(expires) is not int:
+        if not isinstance(access, str) or not access or type(expires) is not int or expires <= 0:
             raise LoginError("token_rejected")
         refresh = body.get("refresh_token")
         refresh_expires = body.get("refresh_expires_in")
@@ -181,30 +214,61 @@ class OIDCClient:
             }
         )
         claims = await self._id_claims(body.get("id_token"), login.nonce)
-        return self._tokens(body, now), claims
+        tokens = self._tokens(body, now)
+        tokens.identity_token = str(body["id_token"])
+        return tokens, claims
 
     async def refresh(self, tokens: Tokens) -> Tokens:
-        if tokens.refresh_token is None:
+        if tokens.refresh_token is None or (
+            tokens.refresh_expires_at is not None and tokens.refresh_expires_at <= time.monotonic()
+        ):
             raise LoginError("no_refresh")
         now = time.monotonic()
         body = await self._token_request(
             {"grant_type": "refresh_token", "refresh_token": tokens.refresh_token}
         )
-        return self._tokens(body, now)
+        refreshed = self._tokens(body, now)
+        if "refresh_token" not in body:
+            refreshed.refresh_token = tokens.refresh_token
+            refreshed.refresh_expires_at = tokens.refresh_expires_at
+        # Keep the original validated ID token as the RP logout hint; a refresh
+        # response's ID token is not used without its own complete validation.
+        refreshed.identity_token = tokens.identity_token
+        return refreshed
 
-    async def logout(self, tokens: Tokens) -> None:
-        """End the identity-provider session server-side; failure still ends ours."""
-        if tokens.refresh_token is None:
-            return
+    async def logout(self, tokens: Tokens) -> str | None:
+        """Return a trusted RP target or perform supported backchannel logout."""
+        if self.settings.logout_mode == "local":
+            return None
         try:
             endpoints = await self.endpoints()
+            if endpoints.end_session is None:
+                return None
+            if self.settings.logout_mode == "rp-initiated":
+                if tokens.identity_token is None:
+                    return None
+                return (
+                    endpoints.end_session
+                    + "?"
+                    + urlencode(
+                        {
+                            "id_token_hint": tokens.identity_token,
+                            "client_id": self.settings.client_id,
+                            "post_logout_redirect_uri": self.settings.origin
+                            + "/explorer/signed-out",
+                        }
+                    )
+                )
+            if tokens.refresh_token is None:
+                return None
             await self._http.post(
                 endpoints.end_session,
                 data={"refresh_token": tokens.refresh_token},
-                auth=(self.settings.client_id, self.settings.client_secret),
+                auth=self._client_auth(),
             )
         except (httpx.HTTPError, LoginError):
-            return
+            return None
+        return None
 
     async def _id_claims(self, id_token: object, nonce: str) -> dict[str, Any]:
         if not isinstance(id_token, str) or not id_token or len(id_token) > 16384:
@@ -214,6 +278,7 @@ class OIDCClient:
             kid = header.get("kid")
             if (
                 header.get("alg") not in _ALGORITHMS
+                or header.get("typ") not in (None, "JWT", "application/jwt")
                 or not isinstance(kid, str)
                 or any(name in header for name in ("jku", "x5u", "jwk"))
             ):
@@ -221,6 +286,12 @@ class OIDCClient:
             key = (await self._key_set(refresh=False))[kid] if await self._has(kid) else None
             if key is None:
                 key = (await self._key_set(refresh=True))[kid]
+            if (
+                key.algorithm_name != header["alg"]
+                or key.key_type != ("RSA" if header["alg"] == "RS256" else "EC")
+                or key.public_key_use not in (None, "sig")
+            ):
+                raise LoginError("invalid_id_token")
             claims = jwt.decode(
                 id_token,
                 key.key,
@@ -235,6 +306,20 @@ class OIDCClient:
         except (jwt.PyJWTError, ValueError, KeyError, httpx.HTTPError):
             raise LoginError("invalid_id_token") from None
         if claims.get("typ") not in (None, "ID") or claims.get("nonce") != nonce:
+            raise LoginError("invalid_id_token")
+        audience = claims.get("aud")
+        if (
+            not isinstance(claims.get("sub"), str)
+            or not claims["sub"]
+            or any(type(claims.get(name)) not in (int, float) for name in ("exp", "iat"))
+            or claims["exp"] <= claims["iat"]
+            or ("azp" in claims and claims["azp"] != self.settings.client_id)
+            or (
+                isinstance(audience, list)
+                and len(audience) > 1
+                and claims.get("azp") != self.settings.client_id
+            )
+        ):
             raise LoginError("invalid_id_token")
         return dict(claims)
 

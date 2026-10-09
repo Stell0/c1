@@ -255,6 +255,14 @@ class BoundaryMiddleware:
             await problem(status)(scope, receive, send)
 
         public = request.method == "GET" and request.url.path == "/v1/readyz"
+        pending = getattr(self.runtime, "enrollment_pending", lambda: False)()
+        setup = (request.method, request.url.path) in {
+            ("GET", "/v1/setup/identity"),
+            ("POST", "/v1/setup/confirm"),
+        }
+        if pending and not public and not setup:
+            await reject(503)
+            return
         if not public and getattr(self.runtime, "guarded", False):
             # M13 D8: a restored deployment serves nothing until an operator
             # verifies security freshness and releases the guard.
@@ -419,6 +427,27 @@ def create_app(settings: Settings, *, runtime: Runtime | None = None) -> FastAPI
         lifespan=lifespan,
     )
     app.state.runtime = service
+
+    @app.get("/v1/setup/identity")
+    async def setup_identity(request: Request) -> JSONResponse:
+        from c1.admin.initialization import InitializationError
+
+        try:
+            return JSONResponse(await service.setup_identity(request.state.principal))
+        except InitializationError:
+            return problem(403)
+
+    @app.post("/v1/setup/confirm")
+    async def setup_confirm(request: Request) -> JSONResponse:
+        from c1.admin.initialization import InitializationError
+
+        try:
+            await service.confirm_enrollment(request.state.principal)
+            return JSONResponse({"enrolled": True})
+        except InitializationError:
+            return problem(403)
+        except Exception:
+            return problem(503)
 
     app.add_middleware(BoundaryMiddleware, runtime=service)
 

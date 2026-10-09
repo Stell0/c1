@@ -4,5 +4,8 @@
 <link rel="stylesheet" href="/explorer/static/explorer.css"></head>
 <body><main id="main"><h1>Signed out</h1>
 <p>Your Explorer session has ended.</p>
+{% if provider_logout %}
+<p><a href="{{ provider_logout }}" rel="noreferrer">Sign out of identity provider</a></p>
+{% endif %}
 <p><a href="/explorer/">Sign in again</a></p></main></body>
 </html>

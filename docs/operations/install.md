@@ -12,7 +12,7 @@ The deployment pulls these images by digest; nothing else is fetched at runtime:
 ## Build the C1 image
 
 ```sh
-podman build -f deployment/reference/Containerfile -t localhost/c1:0.1.0rc1 .
+podman build -f deployment/reference/Containerfile -t localhost/c1:0.1.0rc2 .
 ```
 
 The image contains only the locked runtime dependencies and the `c1` package. It runs as UID 10001 with a read-only root filesystem; its entrypoint copies mounted secrets to a private tmpfs and drops root privileges. The project does not publish images.

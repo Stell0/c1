@@ -11,6 +11,9 @@ if [ "$(id -u)" = 0 ]; then
       install -m 0400 -o 10001 -g 10001 "$file" "/run/c1/secrets/$(basename "$file")"
     done
   fi
+  if [ -n "${C1_INITIALIZATION_FILE:-}" ] && [ ! -d /var/lib/c1/private ] && [ -w /var/lib/c1 ]; then
+    install -d -m 0700 -o 10001 -g 10001 /var/lib/c1/private
+  fi
   exec setpriv --reuid=10001 --regid=10001 --clear-groups --no-new-privs -- "$@"
 fi
 exec "$@"

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "c1"
-version = "0.1.0rc1"
+version = "0.1.0rc2"
 description = "C1 canonical knowledge model and development harness"
 requires-python = ">=3.13,<3.14"
 license = "Apache-2.0"

@@ -6,7 +6,7 @@ services:
       TERMINUSDB_ADMIN_PASS: ${C1_TERMINUS_PASSWORD:?run make stack-up}
       TERMINUSDB_SERVER_PORT: "6363"
       TERMINUSDB_PLUGINS_PATH: /nonexistent-c1-probe-plugins
-    ports: ["127.0.0.1:16363:6363"]
+    ports: ["127.0.0.1:${C1_DEV_TERMINUS_PORT:-16363}:6363"]
     volumes: ["terminus-data:/app/terminusdb/storage"]
     mem_limit: 1536m
     healthcheck:
@@ -62,7 +62,7 @@ services:
       OPENFGA_REQUEST_TIMEOUT: "${C1_FGA_DEADLINE:-3s}"
     depends_on:
       openfga-migrate: {condition: service_completed_successfully}
-    ports: ["127.0.0.1:18080:8080"]
+    ports: ["127.0.0.1:${C1_DEV_FGA_PORT:-18080}:8080"]
     mem_limit: 384m
     healthcheck:
       test: ["CMD", "/usr/local/bin/grpc_health_probe", "-addr=:8081"]
@@ -81,10 +81,10 @@ services:
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${C1_KEYCLOAK_ADMIN_PASSWORD:?run make stack-up}
       KC_HEALTH_ENABLED: "true"
       KC_HTTP_ENABLED: "true"
-      KC_HOSTNAME: http://127.0.0.1:18090
+      KC_HOSTNAME: http://127.0.0.1:${C1_DEV_KEYCLOAK_PORT:-18090}
     depends_on:
       postgres: {condition: service_healthy}
-    ports: ["127.0.0.1:18090:8080"]
+    ports: ["127.0.0.1:${C1_DEV_KEYCLOAK_PORT:-18090}:8080"]
     volumes: ["./keycloak:/opt/keycloak/data/import:ro"]
     mem_limit: 1024m
     healthcheck:

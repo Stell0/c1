@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M14, M09a, M14a and M14b VERIFIED. M15–M18 remain unimplemented.
+**Status:** M00–M14, M09a, M14a and M14b VERIFIED. M14c is approved and IN_PROGRESS; M15–M18 remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -88,12 +88,15 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M14 | Retrieval and storage benchmark | M13 | Reproducible quality, security-isolation, fidelity, and performance baselines for C1 retrieval | VERIFIED |
 | M14a | Performance hardening (owner-approved insertion, 2026-10-05) | M14 | Fewer backend round trips on reads, contexts and writes with unchanged security, fidelity and outputs | VERIFIED |
 | M14b | Performance hardening, part 2 (owner-approved insertion, 2026-10-06) | M14a | Explained per-phase latency; fresh-but-cheaper finalize, lean journal listing, history index; M14a targets met on the measurement host | VERIFIED |
-| M15 | Semantic Seed Index (optional extension) | M14 | Authorization-safe semantic candidate discovery through a rebuildable vector projection | NOT_PLANNED |
+| M14c | External OIDC Provider Support (owner-approved insertion, 2026-10-09) | M14b | Provider-independent initialization, guarded administrator enrollment, browser/API authentication, and qualified application-owned recovery | IN_PROGRESS |
+| M15 | Semantic Seed Index (optional extension) | M14, M14c | Authorization-safe semantic candidate discovery through a rebuildable vector projection | NOT_PLANNED |
 | M16 | Decision Gate (optional extension) | M14 | Generic bounded decision interface with optional Jev/Kev providers and calibrated evaluation | NOT_PLANNED |
 | M17 | Non-generative enrichment (optional extension) | M16 | Reviewed entity/type/keyword/resolution proposals from deterministic candidates plus optional bounded decisions | NOT_PLANNED |
 | M18 | Adaptive hybrid context (optional extension) | M15, M16 | Optional semantic/gated seed selection feeding deterministic graph reconstruction with bounded sufficiency retries | NOT_PLANNED |
 
 The baseline's four broad delivery phases are decomposed here rather than discarded: foundations in M00–M03; durable knowledge in M04–M06; context in M07 and M08–M11; Explorer/operations in M12–M13. M14 establishes a post-release benchmark baseline. M15–M18 are optional extensions: none is required for the C1 release contract or for operation of the canonical deterministic path.
+
+M14c is a core deployment and interoperability improvement after M14b. The owner approved its [plan](docs/milestones/M14c.md) and explicitly authorized implementation on 2026-10-09 ("Approved—update documents and implement"). M15 must not start before M14c completes Gate A, Gate B, required verification, and release of a compatible upstream artifact. M14c does not depend on M15–M18 or a platform-specific integration. Completed milestones remain closed.
 
 ## 4. Shared fixtures and test rules
 
@@ -567,7 +570,47 @@ Security semantics, outputs and quality are unchanged. The owner approved the pl
 
 **Plan separately:** [docs/milestones/M14b.md](docs/milestones/M14b.md).
 
+## M14c — External OIDC Provider Support (owner-approved insertion)
+
+**Status:** IN_PROGRESS. Owner approval and implementation authorization recorded on 2026-10-09. No passing interoperability gate or release is implied.
+
+**Goal:** make C1 installable, usable, maintainable, and recoverable with a pre-existing, independently managed OIDC provider, without C1 owning or administering that provider. Keycloak remains the reference provider; NethServer 8 IdP is a downstream test target, never an architectural dependency.
+
+**Verifiable outputs**
+
+- Versioned provider-independent configuration and public operator contracts with sanitized JSON, stable failures, bounded timeouts, credential requirements, compatibility rules, and explicit initialization/enrollment states.
+- One retry-safe application initializer for TerminusDB, the core profile, workflow journal, and OpenFGA, shared by external deployments and reference bootstrap; durable intent and ownership reconciliation precede resource creation.
+- Guarded enrollment of one operator-approved exact issuer/subject after validated browser authentication and explicit confirmation, granting only instance `access_admin` and `schema_admin`.
+- Existing Explorer and APIs interoperating with explicitly supported JWT access-token profiles and stable, collision-free subject representations that preserve legacy principal IDs. ID tokens remain unusable as API credentials.
+- Qualified application-owned maintenance, backup, and guarded recovery without external identity-provider databases or administrator credentials; identity-namespace continuity and explicit authorization-snapshot acceptance precede release.
+- Pinned real-service tests, installation/recovery documentation, a reproducible report, and a released compatible upstream artifact.
+
+**Scope boundaries:** no identity-provider provisioning, dynamic client registration, authentication proxy, Explorer replacement, separate agent protocol/endpoints, machine-identity provisioning, automatic identity migration, opaque-token fallback, or mandatory AI/vector capability. Existing service-principal validation and regressions remain intact. Provider administrative roles confer no C1 permissions; a user token retains user attribution regardless of who operates it.
+
+**Specific tests**
+
+- **M14c-T01 — External initialization:** initialize without IdP administration calls or Keycloak administrator credentials.
+- **M14c-T02 — Explicit enrollment:** only the approved issuer/subject enrolls; wrong identities, arbitrary first logins, and provider administrators receive no implicit grants.
+- **M14c-T03 — Interrupted boundaries:** interrupt every durable initialization/enrollment boundary; retry preserves identity, resources, and grants without duplication or escalation.
+- **M14c-T04 — Reconfiguration:** repeated initialization/configuration preserves knowledge, stores, credentials, enrollment, and stable identifiers.
+- **M14c-T05 — Browser sessions:** real external login, callback, sessions, optional refresh, expiry, and documented local/provider logout work.
+- **M14c-T06 — Authentication negatives:** reject invalid issuer, audience, signature, lifetime, purpose, classification, state, PKCE, and nonce; reject ID tokens as API bearer tokens.
+- **M14c-T07 — Browser grants:** the registered Explorer client rejects unsupported grants; human browser authentication introduces no password, implicit, or client-credentials flow.
+- **M14c-T08 — Authorized workflows:** external users exercise least privilege, denied administration, next-request revocation, independent ChangeSet review, and normal Context Builder workflows through Explorer/API.
+- **M14c-T09 — Enrollment guard:** only the guarded setup surface is accessible; protected operations remain unavailable and readiness false until enrollment and consistency verification complete.
+- **M14c-T10 — Isolation and outages:** isolate instances/namespaces; handle restart, IdP outage, delayed backends, TLS, and signing-key rotation without weakened validation.
+- **M14c-T11 — Interoperability:** verify reference Keycloak and an independently managed provider with materially different characteristics; unsupported capabilities fail actionably.
+- **M14c-T12 — Public operations:** maintenance/consistency work without reference Compose or external IdP administration ownership.
+- **M14c-T13 — Recovery:** interrupted/corrupt backup, fresh-node restore, identity mismatch, stale verification, and unreleased guards fail safely; verified explicit release succeeds.
+- **M14c-T14 — Regressions:** reference deployment and applicable M03, M04, M12, M13, M14a, M14b, and current write-path regressions pass without AI credentials.
+
+**Plan separately:** [docs/milestones/M14c.md](docs/milestones/M14c.md), including token-purpose profiles, trusted endpoint policy, subject encoding, initialization ownership, enrollment lifetime, namespace-continuity evidence, provider pins, and executable test mapping.
+
+**Exit gates:** Gate A requires W1–W4, T01–T11, and applicable T14 with real services, permitting external-provider development/integration only. Gate B additionally requires W5, T12–T13, full lifecycle/security qualification, and a released pinned compatible artifact, permitting downstream production qualification. Mandatory `FAIL` or `NOT_RUN` blocks the relevant gate. No receipt or generic `force-ready` switch bypasses real consistency. M14c is `VERIFIED` only after both gates, reproducible evidence, and release; M15 remains blocked until then.
+
 ## M15 — Semantic Seed Index (optional extension)
+
+**Prerequisites:** M14 and M14c. Do not begin until M14c is verified and its compatible upstream artifact is released.
 
 **Goal:** optionally add semantic candidate discovery without making the vector store a knowledge database, authorization authority, or required C1 dependency.
 
@@ -722,6 +765,8 @@ Exact dependency versions, HTTP/frontend framework, concrete OpenFGA model, dura
 
 For the post-MVP sequence, M14 defines the measurement baseline before choosing semantic/index or decision-model details. M15–M18 must remain optional extensions. Vector backends, embedding models, and decision providers such as Jev/Kev are selected only in their separate plans; no later plan may make them prerequisites for canonical storage, authorization, deterministic query/context behavior, history, import/export, or Explorer use.
 
+M14c precedes M15 as a core external-identity deployment improvement. Its implementation and release cannot depend on an optional extension or platform-specific integration.
+
 Source priority and applicability must be defined for the consumer task, not as a universal “documentation always wins” or “code always wins” rule. Completeness is always relative to selected, authorized, successfully ingested sources. Unknown compatibility and missing data stay explicit.
 
 The detailed planner must resolve any conflict between these choices and the source requirements before implementation. Do not solve uncertainty by introducing mandatory models, new graph databases, project partitions, or unreviewed policy shortcuts.
@@ -738,4 +783,6 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S4 — Current planning instruction.** Produce AGENTS.md and PLAN.md; divide work into milestones with verifiable outputs and specific tests, and plan each milestone separately. This is the authority for the execution policy and delivery structure in this file.
 
-No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was drafted. M00–M09 are now VERIFIED as recorded in their milestone reports; the owner authorized M07 implementation after revalidating its provisional plan against the M06 report. M08–M14 remain NOT_PLANNED. M15–M18 are additional NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.
+**S5 — External OIDC Provider Support draft supplied by the owner (2026-10-09).** Defines M14c after M14b, its provider-independent boundaries, W1–W5, T01–T14, Gate A/Gate B, and verification/release before M15. The supplied draft is recorded in [docs/milestones/M14c.md](docs/milestones/M14c.md); it does not itself record approval or successful integration.
+
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was originally drafted. M00–M14, M09a, M14a and M14b are now VERIFIED as recorded in their milestone reports. M14c is IN_PROGRESS following owner approval and implementation authorization on 2026-10-09. M15–M18 remain NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.

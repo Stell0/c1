@@ -16,14 +16,14 @@ from collections.abc import Iterator
 import httpx
 import pytest
 
-from probes.config import environment
+from probes.config import TERMINUS_URL, environment
 from tests.integration.software import (  # noqa: F401  (shared session fixtures)
     software,
     software_template,
     software_twin_template,
 )
 
-_TERMINUS_URL = "http://127.0.0.1:16363"
+_TERMINUS_URL = TERMINUS_URL
 
 
 @pytest.fixture(autouse=True)

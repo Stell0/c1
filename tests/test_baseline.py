@@ -93,6 +93,23 @@ def test_verified_roadmap_state_requires_a_verified_report(tmp_path: Path) -> No
     assert any("M00" in error and "PLAN.md" in error for error in errors)
 
 
+def test_submilestone_completion_cannot_bypass_evidence_checks(tmp_path: Path) -> None:
+    fixture = _copy_baseline_tree(tmp_path)
+    plan = fixture / "PLAN.md"
+    contents, changed = re.subn(
+        r"(^\| M14c \|.*\| )[A-Z_]+( \|$)",
+        r"\g<1>VERIFIED\2",
+        plan.read_text(),
+        flags=re.M,
+    )
+    assert changed == 1
+    plan.write_text(contents)
+    (fixture / "docs/milestones/M14c-report.md").write_text("**Gate:** NOT_RUN\n")
+    assert any(
+        "M14c VERIFIED requires a VERIFIED report" in error for error in state_errors(fixture)
+    )
+
+
 @pytest.mark.parametrize("status", ["IN_PROGRESS", "VERIFYING"])
 def test_active_roadmap_status_does_not_require_a_report(
     tmp_path: Path,

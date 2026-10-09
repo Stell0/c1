@@ -27,8 +27,8 @@ from c1.admin.net import mapped_client
 from c1.authorization.principal import Principal
 
 ROOT = Path(__file__).resolve().parents[3]
-DIR = ROOT / "deployment/reference"
-PROJECT = "c1-ref"
+DIR = Path(os.environ.get("C1_REFERENCE_DIR", str(ROOT / "deployment/reference")))
+PROJECT = os.environ.get("C1_REFERENCE_PROJECT", "c1-ref")
 BASE = "https://c1.test:18443"
 AUTH = "https://auth.c1.test:18443/realms/c1"
 MAPPING = {"c1.test": "127.0.0.1", "auth.c1.test": "127.0.0.1"}
@@ -61,7 +61,12 @@ def ca_file(directory: Path = DIR) -> Path:
 
 
 def engine(*argv: str, input: bytes | None = None, check: bool = True) -> str:
-    result = subprocess.run(["podman", *argv], input=input, capture_output=True, check=False)
+    result = subprocess.run(
+        [os.environ.get("C1_ENGINE", "podman"), *argv],
+        input=input,
+        capture_output=True,
+        check=False,
+    )
     if check and result.returncode != 0:
         raise RuntimeError(f"podman {argv[0]} failed: {result.stderr.decode()[-500:]}")
     return result.stdout.decode()
@@ -101,7 +106,14 @@ def admin_internal_state() -> dict[str, Any]:
 
 def compose(*argv: str, directory: Path = DIR, project: str = PROJECT) -> None:
     subprocess.run(
-        ["podman-compose", "-p", project, "-f", str(directory / "compose.yaml"), *argv],
+        [
+            os.environ.get("C1_COMPOSE", "podman-compose"),
+            "-p",
+            project,
+            "-f",
+            str(directory / "compose.yaml"),
+            *argv,
+        ],
         cwd=directory,
         capture_output=True,
         check=True,
@@ -110,7 +122,15 @@ def compose(*argv: str, directory: Path = DIR, project: str = PROJECT) -> None:
 
 def teardown(directory: Path = DIR, project: str = PROJECT) -> None:
     subprocess.run(
-        ["podman-compose", "-p", project, "-f", str(directory / "compose.yaml"), "down", "-v"],
+        [
+            os.environ.get("C1_COMPOSE", "podman-compose"),
+            "-p",
+            project,
+            "-f",
+            str(directory / "compose.yaml"),
+            "down",
+            "-v",
+        ],
         cwd=directory,
         capture_output=True,
         check=False,
@@ -127,7 +147,20 @@ def fresh_deployment() -> dict[str, Any]:
         subprocess.run(["rm", "-rf", str(DIR / name)], check=True)
     (DIR / ".env").write_text(DEPLOYMENT_SETTINGS)
     result = subprocess.run(
-        ["uv", "run", "--locked", "c1-admin", "bootstrap", "--no-temporary-password"],
+        [
+            "uv",
+            "run",
+            "--locked",
+            "c1-admin",
+            "bootstrap",
+            "--no-temporary-password",
+            "--dir",
+            str(DIR),
+            "--project",
+            PROJECT,
+            "--net-prefix",
+            os.environ.get("C1_REF_NET_PREFIX", "10.89.251"),
+        ],
         cwd=ROOT,
         capture_output=True,
         check=False,

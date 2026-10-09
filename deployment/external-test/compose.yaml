@@ -1,0 +1,59 @@
+# Isolated M14c verification services. This is a supervisor-owned fixture,
+# not C1 production infrastructure or an external-provider provisioning API.
+name: c1-m14c-external
+services:
+  terminusdb:
+    image: docker.io/terminusdb/terminusdb-server@sha256:385faf298ad77aaf2d4d6df5e84a4cbe3596d01dab2e3b991af905639ae56388
+    environment:
+      TERMINUSDB_ADMIN_PASS: ${C1_EXTERNAL_TERMINUS_PASSWORD:?fixture environment required}
+      TERMINUSDB_SERVER_PORT: "6363"
+    ports: ["127.0.0.1:${C1_EXTERNAL_TERMINUS_PORT:-26363}:6363"]
+    volumes: ["terminus-data:/app/terminusdb/storage"]
+  postgres:
+    image: docker.io/library/postgres@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_USER: openfga
+      POSTGRES_DB: openfga
+      POSTGRES_PASSWORD: ${C1_EXTERNAL_PG_PASSWORD:?fixture environment required}
+    volumes: ["postgres-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "openfga", "-d", "openfga"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  openfga-migrate:
+    image: docker.io/openfga/openfga@sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55
+    command: ["migrate"]
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga:${C1_EXTERNAL_PG_PASSWORD}@postgres:5432/openfga?sslmode=disable
+    depends_on:
+      postgres: {condition: service_healthy}
+  openfga:
+    image: docker.io/openfga/openfga@sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55
+    command: ["run"]
+    environment:
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga:${C1_EXTERNAL_PG_PASSWORD}@postgres:5432/openfga?sslmode=disable
+      OPENFGA_AUTHN_METHOD: preshared
+      OPENFGA_AUTHN_PRESHARED_KEYS: ${C1_EXTERNAL_FGA_TOKEN:?fixture environment required}
+      OPENFGA_CHANGELOG_HORIZON_OFFSET: "0"
+    ports: ["127.0.0.1:${C1_EXTERNAL_FGA_PORT:-28080}:8080"]
+    depends_on:
+      openfga-migrate: {condition: service_completed_successfully}
+  hydra:
+    image: docker.io/oryd/hydra@sha256:b94007e19a1f7f78157e7f4ea340da8a55b5f104a0f1198755c256f38ef32b4b
+    command: ["serve", "all", "--dev"]
+    environment:
+      DSN: memory
+      URLS_SELF_ISSUER: http://127.0.0.1:29090
+      URLS_LOGIN: http://127.0.0.1:29092/login
+      URLS_CONSENT: http://127.0.0.1:29092/consent
+      URLS_LOGOUT: http://127.0.0.1:29092/logout
+      SECRETS_SYSTEM: ${C1_EXTERNAL_HYDRA_SECRET:?fixture environment required}
+      STRATEGIES_ACCESS_TOKEN: jwt
+      OAUTH2_PKCE_ENFORCED: "true"
+    ports: ["127.0.0.1:29090:4444", "127.0.0.1:29091:4445"]
+volumes:
+  terminus-data:
+  postgres-data:
