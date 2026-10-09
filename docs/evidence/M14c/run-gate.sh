@@ -32,13 +32,16 @@ case "${1:?Specify check, external, regression or reference}" in
       --junitxml="$c1_gate_output/external.xml" tests/integration/m14c
     ;;
   regression)
+    shift
+    if [[ $# == 0 ]]; then
+      set -- tests/integration/m01 tests/integration/m02 tests/integration/m03 \
+        tests/integration/m04 tests/integration/m05 tests/integration/m06 \
+        tests/integration/m07 tests/integration/m08 tests/integration/m09 \
+        tests/integration/m09a tests/integration/m10 tests/integration/m11 \
+        tests/integration/m12 tests/integration/m14b
+    fi
     flock /tmp/c1-m14c-dev-gate.lock uv run --locked pytest --assert=plain -q -s -x \
-      --junitxml="$c1_gate_output/regression.xml" \
-      tests/integration/m01 tests/integration/m02 tests/integration/m03 \
-      tests/integration/m04 tests/integration/m05 tests/integration/m06 \
-      tests/integration/m07 tests/integration/m08 tests/integration/m09 \
-      tests/integration/m09a tests/integration/m10 tests/integration/m11 \
-      tests/integration/m12 tests/integration/m14b
+      --junitxml="$c1_gate_output/regression.xml" "$@"
     ;;
   reference)
     export C1_REFERENCE=1

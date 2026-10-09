@@ -1,0 +1,389 @@
+uv run --locked ruff check .
+All checks passed!
+uv run --locked ruff format --check .
+638 files already formatted
+uv run --locked mypy
+Success: no issues found in 420 source files
+uv run --locked pytest
+============================= test session starts ==============================
+platform linux -- Python 3.13.14, pytest-9.0.2, pluggy-1.6.0
+rootdir: /home/tux/build/c1/c1
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1
+collected 1249 items
+
+tests/integration/m01/test_t01_inventory.py s                            [  0%]
+tests/integration/m01/test_t02_atomic.py s                               [  0%]
+tests/integration/m01/test_t03_stale_and_reconcile.py s                  [  0%]
+tests/integration/m01/test_t04_revisions.py s                            [  0%]
+tests/integration/m01/test_t05_freshness.py ss                           [  0%]
+tests/integration/m01/test_t06_publication.py ssss                       [  0%]
+tests/integration/m01/test_t07_interchange.py ss                         [  0%]
+tests/integration/m02/test_install_guards.py ss                          [  1%]
+tests/integration/m02/test_t01_roundtrip.py s                            [  1%]
+tests/integration/m02/test_t02_conflicts.py s                            [  1%]
+tests/integration/m02/test_t03_no_partial.py ss                          [  1%]
+tests/integration/m02/test_t04_identity.py s                             [  1%]
+tests/integration/m02/test_t07_extension.py ss                           [  1%]
+tests/integration/m03/test_authority_contract.py ss                      [  1%]
+tests/integration/m03/test_cascade.py s                                  [  1%]
+tests/integration/m03/test_journal_contract.py sss                       [  2%]
+tests/integration/m03/test_t01_tokens.py s                               [  2%]
+tests/integration/m03/test_t02_separation.py s                           [  2%]
+tests/integration/m03/test_t03_independent.py s                          [  2%]
+tests/integration/m03/test_t04_historical.py s                           [  2%]
+tests/integration/m03/test_t05_bindings.py ss                            [  2%]
+tests/integration/m03/test_t06_crash.py sss                              [  2%]
+tests/integration/m03/test_t07_boundary.py sss                           [  3%]
+tests/integration/m04/test_storage_paging.py s                           [  3%]
+tests/integration/m04/test_t01_reviewed_apply.py s                       [  3%]
+tests/integration/m04/test_t02_invalidation.py s                         [  3%]
+tests/integration/m04/test_t03_cross_scope.py s                          [  3%]
+tests/integration/m04/test_t04_retry_crash.py sssss                      [  3%]
+tests/integration/m04/test_t05_revision.py s                             [  3%]
+tests/integration/m04/test_t06_restore_security.py s                     [  4%]
+tests/integration/m04/test_t07_schema_conflict.py sss                    [  4%]
+tests/integration/m05/test_backend_fetch.py s                            [  4%]
+tests/integration/m05/test_t01_directory.py s                            [  4%]
+tests/integration/m05/test_t02_filters.py ss                             [  4%]
+tests/integration/m05/test_t03_noninterference.py s                      [  4%]
+tests/integration/m05/test_t04_identity_m05.py s                         [  4%]
+tests/integration/m05/test_t05_cursors.py ss                             [  4%]
+tests/integration/m05/test_t06_limits.py sss                             [  5%]
+tests/integration/m05/test_t07_views.py s                                [  5%]
+tests/integration/m06/test_t01_ordered_views.py s                        [  5%]
+tests/integration/m06/test_t02_no_hidden_structure.py s                  [  5%]
+tests/integration/m06/test_t03_search_export.py s                        [  5%]
+tests/integration/m06/test_t04_historical_rescope.py s                   [  5%]
+tests/integration/m06/test_t05_content_integrity.py s                    [  5%]
+tests/integration/m06/test_t06_structure.py s                            [  5%]
+tests/integration/m06/test_t07_safe_rendering.py s                       [  5%]
+tests/integration/m07/test_t01_reuse.py s                                [  5%]
+tests/integration/m07/test_t02_graph_vs_keywords.py s                    [  5%]
+tests/integration/m07/test_t03_authorized_paths.py s                     [  6%]
+tests/integration/m07/test_t04_evidence.py s                             [  6%]
+tests/integration/m07/test_t05_parity.py s                               [  6%]
+tests/integration/m07/test_t06_determinism_budget.py s                   [  6%]
+tests/integration/m07/test_t07_ambiguity_revocation.py s                 [  6%]
+tests/integration/m08/test_t01_identities.py s                           [  6%]
+tests/integration/m08/test_t02_targets.py s                              [  6%]
+tests/integration/m08/test_t03_evidence.py s                             [  6%]
+tests/integration/m08/test_t04_partial.py s                              [  6%]
+tests/integration/m08/test_t05_idempotent.py s                           [  6%]
+tests/integration/m08/test_t06_relationships.py s                        [  6%]
+tests/integration/m08/test_t07_protected.py s                            [  6%]
+tests/integration/m09/test_t01_required.py s                             [  6%]
+tests/integration/m09/test_t02_discrepancy.py s                          [  7%]
+tests/integration/m09/test_t03_runs.py s                                 [  7%]
+tests/integration/m09/test_t04_mock.py s                                 [  7%]
+tests/integration/m09/test_t05_consumer.py s                             [  7%]
+tests/integration/m09/test_t06_restricted.py s                           [  7%]
+tests/integration/m09a/test_t01_equivalence.py ss                        [  7%]
+tests/integration/m09a/test_t02_fresh.py s                               [  7%]
+tests/integration/m09a/test_t03_fail_closed.py s                         [  7%]
+tests/integration/m09a/test_t04_counters.py s                            [  7%]
+tests/integration/m09a/test_t05_profiles.py s                            [  7%]
+tests/integration/m10/test_t01_applicability.py s                        [  7%]
+tests/integration/m10/test_t02_fallback.py s                             [  8%]
+tests/integration/m10/test_t03_same_target.py s                          [  8%]
+tests/integration/m10/test_t04_labels.py s                               [  8%]
+tests/integration/m10/test_t05_escalation.py s                           [  8%]
+tests/integration/m10/test_t06_no_oracle.py s                            [  8%]
+tests/integration/m11/test_t01_both_sides.py s                           [  8%]
+tests/integration/m11/test_t02_relative.py s                             [  8%]
+tests/integration/m11/test_t03_candidate.py s                            [  8%]
+tests/integration/m11/test_t04_lineage.py s                              [  8%]
+tests/integration/m11/test_t05_publication.py s                          [  8%]
+tests/integration/m11/test_t06_audience.py s                             [  8%]
+tests/integration/m11/test_t07_history.py s                              [  8%]
+tests/integration/m12/test_api_additions.py s                            [  8%]
+tests/integration/m12/test_t01_parity.py s                               [  9%]
+tests/integration/m12/test_t02_no_workspace.py s                         [  9%]
+tests/integration/m12/test_t03_hidden_absence.py s                       [  9%]
+tests/integration/m12/test_t04_roles.py s                                [  9%]
+tests/integration/m12/test_t05_safe_presentation.py s                    [  9%]
+tests/integration/m12/test_t06_clarity.py s                              [  9%]
+tests/integration/m12/test_t07_revocation.py s                           [  9%]
+tests/integration/m13/test_t01_clean.py sss                              [  9%]
+tests/integration/m13/test_t03_knowledge_restore.py s                    [  9%]
+tests/integration/m13/test_t04_disaster_recovery.py s                    [  9%]
+tests/integration/m13/test_t05_failures.py s                             [ 10%]
+tests/integration/m13/test_t06_portability.py s                          [ 10%]
+tests/integration/m13/test_t08_audit.py s                                [ 10%]
+tests/integration/m14/test_t01_fidelity.py s                             [ 10%]
+tests/integration/m14/test_t02_quality.py s                              [ 10%]
+tests/integration/m14/test_t03_security.py s                             [ 10%]
+tests/integration/m14/test_t04_revocation.py s                           [ 10%]
+tests/integration/m14/test_t05_performance.py s                          [ 10%]
+tests/integration/m14/test_t06_ablations.py s                            [ 10%]
+tests/integration/m14b/test_t02_freshness.py s                           [ 10%]
+tests/integration/m14b/test_t03_journal_migration.py s                   [ 10%]
+tests/integration/m14b/test_t04_history_index.py s                       [ 10%]
+tests/integration/m14c/test_enrollment_crashes.py ssssss                 [ 11%]
+tests/integration/m14c/test_external_browser.py s                        [ 11%]
+tests/integration/m14c/test_external_recovery.py s                       [ 11%]
+tests/integration/m14c/test_failures.py ssss                             [ 11%]
+tests/integration/m14c/test_initialization_crashes.py ssssssssssssss     [ 12%]
+tests/integration/m14c/test_legacy_reference.py s                        [ 13%]
+tests/integration/m14c/test_sessions.py ssss                             [ 13%]
+tests/integration/m14c/test_startup_guard.py s                           [ 13%]
+tests/test_baseline.py ...........                                       [ 14%]
+tests/test_harness.py ...                                                [ 14%]
+tests/test_interchange.py .....                                          [ 14%]
+tests/test_secret_hygiene.py ........                                    [ 15%]
+tests/test_terminus_contract.py ....                                     [ 15%]
+tests/unit/m02/test_export.py .....                                      [ 16%]
+tests/unit/m02/test_extension.py ..........                              [ 17%]
+tests/unit/m02/test_identity_values.py ..........                        [ 17%]
+tests/unit/m02/test_keywords.py ..                                       [ 18%]
+tests/unit/m02/test_literals.py ........................                 [ 20%]
+tests/unit/m02/test_records.py .....                                     [ 20%]
+tests/unit/m02/test_storage_guard.py .................                   [ 21%]
+tests/unit/m02/test_time.py ........                                     [ 22%]
+tests/unit/m02/test_unsupported.py ........                              [ 23%]
+tests/unit/m02/test_validation.py ......                                 [ 23%]
+tests/unit/m03/test_api_boundary.py ...                                  [ 23%]
+tests/unit/m03/test_config.py .........                                  [ 24%]
+tests/unit/m03/test_journal.py .........                                 [ 25%]
+tests/unit/m03/test_plane.py ....                                        [ 25%]
+tests/unit/m03/test_probe_canonical.py .                                 [ 25%]
+tests/unit/m03/test_provision_privacy.py .....                           [ 26%]
+tests/unit/m03/test_record_confirmation.py .......                       [ 26%]
+tests/unit/m03/test_recovery_authority.py ..........                     [ 27%]
+tests/unit/m03/test_tokens.py ..............                             [ 28%]
+tests/unit/m04/test_changeset_validation.py ..........                   [ 29%]
+tests/unit/m04/test_digest.py ....                                       [ 29%]
+tests/unit/m04/test_history.py ......                                    [ 30%]
+tests/unit/m04/test_idempotency.py ..                                    [ 30%]
+tests/unit/m04/test_models.py ............                               [ 31%]
+tests/unit/m04/test_profiles.py ........                                 [ 31%]
+tests/unit/m04/test_routes.py ...                                        [ 32%]
+tests/unit/m04/test_storage.py .....                                     [ 32%]
+tests/unit/m05/test_compile.py .....                                     [ 32%]
+tests/unit/m05/test_cursor.py ..                                         [ 33%]
+tests/unit/m05/test_directory_fixture.py ..                              [ 33%]
+tests/unit/m05/test_filters.py ...................                       [ 34%]
+tests/unit/m05/test_identity.py .....                                    [ 35%]
+tests/unit/m05/test_neighborhood_service.py .                            [ 35%]
+tests/unit/m05/test_plan.py .......                                      [ 35%]
+tests/unit/m05/test_traverse.py .....                                    [ 36%]
+tests/unit/m06/test_changes_wiring.py .................                  [ 37%]
+tests/unit/m06/test_document_history.py ..............                   [ 38%]
+tests/unit/m06/test_document_routes.py ....................              [ 40%]
+tests/unit/m06/test_history_authority_prefetch.py ..............         [ 41%]
+tests/unit/m06/test_history_concurrency.py .....                         [ 41%]
+tests/unit/m06/test_history_fetch.py ........                            [ 42%]
+tests/unit/m06/test_history_manifest.py .................                [ 43%]
+tests/unit/m06/test_history_types.py ......                              [ 44%]
+tests/unit/m06/test_order.py ...................                         [ 45%]
+tests/unit/m06/test_render.py ....                                       [ 46%]
+tests/unit/m06/test_search.py ...                                        [ 46%]
+tests/unit/m06/test_service_limits.py .                                  [ 46%]
+tests/unit/m06/test_text.py .......                                      [ 46%]
+tests/unit/m07/test_api.py ......                                        [ 47%]
+tests/unit/m07/test_cold_index.py .....                                  [ 47%]
+tests/unit/m07/test_compile_fallback.py ..........                       [ 48%]
+tests/unit/m07/test_entities_concurrency.py .........                    [ 49%]
+tests/unit/m07/test_entity_kind.py ...........                           [ 50%]
+tests/unit/m07/test_fetch_authority.py .....                             [ 50%]
+tests/unit/m07/test_finalize_concurrency.py ..............               [ 51%]
+tests/unit/m07/test_fixture_loader.py ...                                [ 52%]
+tests/unit/m07/test_guarded_finalize.py .........................        [ 54%]
+tests/unit/m07/test_historical_preparation.py .....................      [ 55%]
+tests/unit/m07/test_historical_projection.py ....                        [ 56%]
+tests/unit/m07/test_history_cohort.py ............                       [ 57%]
+tests/unit/m07/test_history_prefetch.py ................                 [ 58%]
+tests/unit/m07/test_plan_concurrency.py ......                           [ 58%]
+tests/unit/m07/test_profile_install_boundary.py ...                      [ 59%]
+tests/unit/m07/test_profile_reads.py ........                            [ 59%]
+tests/unit/m07/test_profiles.py .......................................  [ 62%]
+tests/unit/m07/test_provisional_index.py ............................... [ 65%]
+........                                                                 [ 65%]
+tests/unit/m07/test_read_retry_authorization.py ...                      [ 66%]
+tests/unit/m07/test_render_budget.py ......................              [ 67%]
+tests/unit/m07/test_request.py ...............................           [ 70%]
+tests/unit/m07/test_resolution.py .....                                  [ 70%]
+tests/unit/m07/test_selection.py ...........                             [ 71%]
+tests/unit/m07/test_service.py .........                                 [ 72%]
+tests/unit/m07/test_storage_preflight.py ................                [ 73%]
+tests/unit/m07/test_terminus_read_retry.py ............................. [ 75%]
+                                                                         [ 75%]
+tests/unit/m07/test_topic_references.py ......                           [ 76%]
+tests/unit/m07/test_units.py ..............................              [ 78%]
+tests/unit/m08/test_journal_snapshot.py .                                [ 78%]
+tests/unit/m08/test_producer.py .......                                  [ 79%]
+tests/unit/m08/test_software_profile.py ........                         [ 80%]
+tests/unit/m09/test_request.py ........                                  [ 80%]
+tests/unit/m09/test_software_selection.py .......                        [ 81%]
+tests/unit/m09/test_timeouts.py ....                                     [ 81%]
+tests/unit/m09a/test_view_and_scan.py ............                       [ 82%]
+tests/unit/m10/test_support.py ...                                       [ 82%]
+tests/unit/m11/test_m11.py .....................                         [ 84%]
+tests/unit/m12/test_api_additions.py ......                              [ 85%]
+tests/unit/m12/test_explorer.py ..............                           [ 86%]
+tests/unit/m13/test_history_scale.py ..                                  [ 86%]
+tests/unit/m13/test_m13.py ........                                      [ 86%]
+tests/unit/m14/test_compare.py .....                                     [ 87%]
+tests/unit/m14/test_corpus_metrics.py .........                          [ 88%]
+tests/unit/m14a/test_budget_early_exit.py .............................. [ 90%]
+...                                                                      [ 90%]
+tests/unit/m14a/test_derived_read.py ................................    [ 93%]
+tests/unit/m14a/test_read_cache.py ....                                  [ 93%]
+tests/unit/m14a/test_write_batching.py .                                 [ 93%]
+tests/unit/m14b/test_finalize_changes.py ........                        [ 94%]
+tests/unit/m14b/test_history_index.py ...                                [ 94%]
+tests/unit/m14b/test_journal_records.py ....                             [ 94%]
+tests/unit/m14b/test_roundtrips.py ..                                    [ 95%]
+tests/unit/m14c/test_authentication.py ................................. [ 97%]
+....                                                                     [ 97%]
+tests/unit/m14c/test_enrollment.py .....                                 [ 98%]
+tests/unit/m14c/test_oidc_browser.py ...............                     [ 99%]
+tests/unit/m14c/test_operator.py .....                                   [100%]
+
+=============================== warnings summary ===============================
+tests/test_interchange.py: 4 warnings
+tests/unit/m02/test_export.py: 5 warnings
+tests/unit/m02/test_extension.py: 4 warnings
+tests/unit/m02/test_validation.py: 1 warning
+tests/unit/m04/test_storage.py: 2 warnings
+tests/unit/m07/test_entity_kind.py: 1 warning
+  /home/tux/build/c1/c1/.venv/lib/python3.13/site-packages/rdflib/plugins/parsers/jsonld.py:159: DeprecationWarning: ConjunctiveGraph is deprecated, use Dataset instead.
+    conj_sink = ConjunctiveGraph(store=sink.store, identifier=sink.identifier)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m01/test_t01_inventory.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m01/test_t02_atomic.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m01/test_t03_stale_and_reconcile.py: M01 live stack requires C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m01/test_t04_revisions.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] ../../../personalbuild/c1/tests/integration/m01/test_t05_freshness.py: M01 live stack requires C1_STACK=1
+SKIPPED [3] ../../../personalbuild/c1/tests/integration/m01/test_t06_publication.py:58: M01 live stack requires C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m01/test_t06_publication.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] ../../../personalbuild/c1/tests/integration/m01/test_t07_interchange.py: M01 live stack requires C1_STACK=1
+SKIPPED [2] ../../../personalbuild/c1/tests/integration/m02/test_install_guards.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m02/test_t01_roundtrip.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m02/test_t02_conflicts.py: M02 live stack requires C1_STACK=1
+SKIPPED [2] ../../../personalbuild/c1/tests/integration/m02/test_t03_no_partial.py: M02 live stack requires C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m02/test_t04_identity.py: M02 live stack requires C1_STACK=1
+SKIPPED [2] ../../../personalbuild/c1/tests/integration/m02/test_t07_extension.py: M02 live stack requires C1_STACK=1
+SKIPPED [2] ../../../personalbuild/c1/tests/integration/m03/test_authority_contract.py: M03 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m03/test_cascade.py: M03 real services require C1_STACK=1
+SKIPPED [3] ../../../personalbuild/c1/tests/integration/m03/test_journal_contract.py: M03 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m03/test_t01_tokens.py: M03 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m03/test_t02_separation.py: M03 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m03/test_t03_independent.py: M03 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m03/test_t04_historical.py: M03 real services require C1_STACK=1
+SKIPPED [2] ../../../personalbuild/c1/tests/integration/m03/test_t05_bindings.py: M03 real services require C1_STACK=1
+SKIPPED [3] ../../../personalbuild/c1/tests/integration/m03/test_t06_crash.py:54: M03 real services require C1_STACK=1
+SKIPPED [3] ../../../personalbuild/c1/tests/integration/m03/test_t07_boundary.py: M03 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m04/test_storage_paging.py: requires pinned live stack
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m04/test_t01_reviewed_apply.py: M04 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m04/test_t02_invalidation.py: M04 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m04/test_t03_cross_scope.py: M04 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m04/test_t04_retry_crash.py: M04 real services require C1_STACK=1
+SKIPPED [4] ../../../personalbuild/c1/tests/integration/m04/test_t04_retry_crash.py:108: M04 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m04/test_t05_revision.py: M04 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m04/test_t06_restore_security.py: M04 real services require C1_STACK=1
+SKIPPED [3] tests/integration/m04/test_t07_schema_conflict.py: M04 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_backend_fetch.py:33: M05 real TerminusDB required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t01_directory.py:131: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t02_filters.py:78: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t02_filters.py:218: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t03_noninterference.py:82: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t04_identity_m05.py:45: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t05_cursors.py:33: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t05_cursors.py:133: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t06_limits.py:20: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t06_limits.py:53: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t06_limits.py:75: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m05/test_t07_views.py:36: M05 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m06/test_t01_ordered_views.py: M06 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m06/test_t02_no_hidden_structure.py: M06 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m06/test_t03_search_export.py: M06 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m06/test_t04_historical_rescope.py: M06 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m06/test_t05_content_integrity.py: M06 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m06/test_t06_structure.py: M06 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m06/test_t07_safe_rendering.py: M06 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m07/test_t01_reuse.py: M07 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m07/test_t02_graph_vs_keywords.py: M07 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m07/test_t03_authorized_paths.py: M07 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m07/test_t04_evidence.py: M07 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m07/test_t05_parity.py: M07 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m07/test_t06_determinism_budget.py: M07 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m07/test_t07_ambiguity_revocation.py: M07 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m08/test_t01_identities.py: M08 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m08/test_t02_targets.py: M08 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m08/test_t03_evidence.py: M08 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m08/test_t04_partial.py: M08 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m08/test_t05_idempotent.py: M08 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m08/test_t06_relationships.py: M08 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m08/test_t07_protected.py: M08 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09/test_t01_required.py: M09 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09/test_t02_discrepancy.py: M09 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09/test_t03_runs.py: M09 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09/test_t04_mock.py: M09 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09/test_t05_consumer.py: M09 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09/test_t06_restricted.py: M09 real services require C1_STACK=1
+SKIPPED [2] ../../../personalbuild/c1/tests/integration/m09a/test_t01_equivalence.py:16: M09a real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09a/test_t02_fresh.py: M09a real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09a/test_t03_fail_closed.py: M09a real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09a/test_t04_counters.py: M09a real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m09a/test_t05_profiles.py: M09a real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m10/test_t01_applicability.py: M10 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m10/test_t02_fallback.py: M10 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m10/test_t03_same_target.py: M10 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m10/test_t04_labels.py: M10 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m10/test_t05_escalation.py: M10 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m10/test_t06_no_oracle.py: M10 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m11/test_t01_both_sides.py: M11 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m11/test_t02_relative.py: M11 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m11/test_t03_candidate.py: M11 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m11/test_t04_lineage.py: M11 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m11/test_t05_publication.py: M11 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m11/test_t06_audience.py: M11 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m11/test_t07_history.py: M11 real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m12/test_api_additions.py:40: M12 real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m12/test_t01_parity.py:163: M12 browser and real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m12/test_t02_no_workspace.py:72: M12 browser and real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m12/test_t03_hidden_absence.py:144: M12 browser and real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m12/test_t04_roles.py:104: M12 browser and real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m12/test_t05_safe_presentation.py:208: M12 browser and real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m12/test_t06_clarity.py:107: M12 browser and real services required
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m12/test_t07_revocation.py:71: M12 browser and real services required
+SKIPPED [3] ../../../personalbuild/c1/tests/integration/m13/test_t01_clean.py: M13 reference deployment requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m13/test_t03_knowledge_restore.py: M13 reference deployment requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m13/test_t04_disaster_recovery.py: M13 reference deployment requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m13/test_t05_failures.py: M13 reference deployment requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m13/test_t06_portability.py: M13 reference deployment requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m13/test_t08_audit.py: M13 reference deployment requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14/test_t01_fidelity.py: M14 benchmark requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14/test_t02_quality.py: M14 benchmark requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14/test_t03_security.py: M14 benchmark requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14/test_t04_revocation.py: M14 benchmark requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14/test_t05_performance.py: M14 benchmark requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14/test_t06_ablations.py: M14 benchmark requires C1_REFERENCE=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14b/test_t02_freshness.py: M14b real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14b/test_t03_journal_migration.py: M14b real services require C1_STACK=1
+SKIPPED [1] ../../../personalbuild/c1/tests/integration/m14b/test_t04_history_index.py: M14b real services require C1_STACK=1
+SKIPPED [6] tests/integration/m14c/test_enrollment_crashes.py:18: M14c requires C1_EXTERNAL=1 and pinned services
+SKIPPED [1] tests/integration/m14c/test_external_browser.py: M14c requires C1_EXTERNAL=1 and pinned services
+SKIPPED [1] tests/integration/m14c/test_external_recovery.py: M14c requires C1_EXTERNAL=1 and pinned services
+SKIPPED [4] tests/integration/m14c/test_failures.py: M14c requires C1_EXTERNAL=1 and pinned services
+SKIPPED [14] tests/integration/m14c/test_initialization_crashes.py:17: M14c requires C1_EXTERNAL=1 and pinned services
+SKIPPED [1] tests/integration/m14c/test_legacy_reference.py:17: M14c requires C1_EXTERNAL=1 and pinned services
+SKIPPED [2] tests/integration/m14c/test_sessions.py:22: M14c requires C1_EXTERNAL=1 and pinned services
+SKIPPED [2] tests/integration/m14c/test_sessions.py: M14c requires C1_EXTERNAL=1 and pinned services
+SKIPPED [1] tests/integration/m14c/test_startup_guard.py: M14c requires C1_EXTERNAL=1 and pinned services
+========== 1081 passed, 168 skipped, 17 warnings in 64.35s (0:01:04) ===========
+uv run --locked python scripts/check_secrets.py
+Secret check passed for 1773 tracked/nonignored files (offline).
+uv run --locked python scripts/check_baseline.py
+Baseline checks passed (local integrity and claims; not cloud equivalence).
+uv run --locked python scripts/build_profile.py --check
+uv run --locked python scripts/build_software_profile.py --check
+software profile is current
+uv run --locked python scripts/openapi.py --check
+openapi: current
+uv run --locked python scripts/license_inventory.py --check
+python distributions: 30; images: 7; problems: 0

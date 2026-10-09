@@ -13,7 +13,7 @@ from c1.admin.initialization import InitializationError, save
 from c1.admin.recovery import ARTIFACTS, digest, verify_manifest
 
 
-def test_operator_contract_has_versioned_schemas_and_no_qualification_claim(
+def test_operator_contract_separates_implemented_and_qualified_profiles(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     assert main(["application", "contract"]) == 0
@@ -22,7 +22,13 @@ def test_operator_contract_has_versioned_schemas_and_no_qualification_claim(
     assert {"initialize", "enrollment_approval", "namespace_evidence", "operator_result"} <= (
         result["schemas"].keys()
     )
-    assert result["capabilities"]["production_qualified"] is False
+    assert result["capabilities"]["production_qualified"] is True
+    assert result["capabilities"]["gate_a_qualified"] is True
+    assert result["capabilities"]["gate_b_qualified"] is True
+    assert set(result["qualified_token_profiles"]) == {"c1-v1", "hydra-jwt-v1"}
+    assert "rfc9068-v1" in result["token_profiles"]
+    assert "rfc9068-v1" not in result["qualified_token_profiles"]
+    assert result["qualification_release"] == "v0.1.0rc2"
 
 
 def test_argument_errors_are_machine_readable_and_do_not_echo_values(

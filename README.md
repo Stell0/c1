@@ -37,7 +37,7 @@ flowchart LR
     API --> CTX[Context Builder]
     API --> SW[Software knowledge service]
 
-    AUTH --> OIDC[OIDC / Keycloak]
+    AUTH --> OIDC[OIDC provider / reference Keycloak]
     AUTH --> FGA[OpenFGA]
 
     CHANGE --> DB[TerminusDB]
@@ -796,47 +796,61 @@ flowchart LR
     M09A --> M10[M10<br/>VERIFIED]
     M10 --> M11[M11<br/>VERIFIED]
 
-    M11 --> M12[M12<br/>FUTURE]
-    M12 --> M13[M13<br/>FUTURE]
-    M13 --> M14[M14<br/>FUTURE]
+    M11 --> M12[M12<br/>VERIFIED]
+    M12 --> M13[M13<br/>VERIFIED]
+    M13 --> M14[M14<br/>VERIFIED]
+    M14 --> M14A[M14a<br/>VERIFIED]
+    M14A --> M14B[M14b<br/>VERIFIED]
+    M14B --> M14C[M14c<br/>IN_PROGRESS]
 
     M14 --> M15[M15<br/>FUTURE]
+    M14C --> M15
     M14 --> M16[M16<br/>FUTURE]
     M16 --> M17[M17<br/>FUTURE]
     M15 --> M18[M18<br/>FUTURE]
     M16 --> M18
 ```
 
-M00 through M11, including M09a, have implementation and verification evidence.
+M00 through M14, including M09a, M14a and M14b, have implementation and verification evidence in their milestone reports.
 
-M12 through M18 remain roadmap work.
+M14c is approved and in progress. M15 through M18 remain optional roadmap work;
+M15 requires verified and released M14c. See [PLAN.md](PLAN.md) for current status.
 
-### [FUTURE] M12 — Human Explorer
+### [VERIFIED] M12 — Human Explorer
 
-M12 is intended to add browser workflows for C1.
+M12 added browser workflows using the same secured APIs and context packages.
 
-The Explorer is expected to use the same secured APIs and context packages as other clients.
+See the [M12 report](docs/milestones/M12-report.md).
 
-No complete M12 implementation plan exists.
+### [VERIFIED] M13 — Release hardening and operational acceptance
 
-### [FUTURE] M13 — Release hardening and operational acceptance
+M13 qualified the reference deployment, recovery and operational acceptance.
+See the [M13 report](docs/milestones/M13-report.md).
 
-M13 is intended to complete release-level operational work.
+### [VERIFIED] M14 — Retrieval and storage benchmark
 
-Its roadmap goal includes independently repeatable deployment, recovery, and complete acceptance evidence.
-
-No complete M13 implementation plan exists.
-
-### [FUTURE] M14 — Retrieval and storage benchmark
-
-M14 is intended to establish reproducible baselines for:
+M14 established reproducible baselines for:
 
 - retrieval quality;
 - security isolation;
 - data fidelity;
 - performance.
 
-No complete M14 implementation plan exists.
+See the [M14 report](docs/milestones/M14-report.md). Performance hardening is
+recorded separately in [M14a](docs/milestones/M14a-report.md) and
+[M14b](docs/milestones/M14b-report.md); their measured limits still apply.
+
+### [IN_PROGRESS] M14c — External OIDC Provider Support
+
+M14c adds provider-independent initialization, explicit approved-user enrollment,
+external browser/API authentication, and application-owned guarded recovery.
+The reference Keycloak deployment remains supported. Provider administrator roles
+never grant C1 permissions.
+
+Read the [installation contract](docs/operations/external-oidc.md),
+[recovery procedures](docs/operations/external-oidc-recovery.md), and
+[qualification report](docs/milestones/M14c-report.md). Gate A, Gate B and a
+released compatible artifact are required before M14c completion or M15 work.
 
 ### [FUTURE] M15 — Semantic Seed Index
 

@@ -67,4 +67,4 @@ To rotate a C1 secret, change it at its source (for example the OpenFGA preshare
 
 ## Health
 
-`GET /v1/readyz` is the only unauthenticated route. It is 200 only when identity discovery and keys, OpenFGA, the journal, the installed profiles and the writer lock are all available and no security operation is pending; otherwise 503. The container health check tests only that the service listens.
+`GET /v1/readyz` is the unauthenticated readiness probe. It is 200 only when identity discovery and keys, OpenFGA, the journal, the installed profiles and the writer lock are all available, enrollment is complete, and no security or recovery guard is pending; otherwise 503. Explorer login and required setup assets can remain accessible while enrollment is pending. The container health check tests only that the service listens.

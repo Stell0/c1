@@ -1,0 +1,187 @@
+{
+  "tested_application_source": "git:3789ce467c37cae70fe66e5c796f7777d715ca74",
+  "fixture_endpoint_fix": "git:3417859a029165b5cd28f312f4f88d40589452b4",
+  "tested_image_id": "sha256:75dd59a5d14e9182fec5665578e31e3f4f7e3873b1348b9a944be975e0005873",
+  "host_python": "Python 3.13.14",
+  "container_python": "Python 3.13.16",
+  "dependency_lock_sha256": "sha256:96eeb3b0e554229a2acf6341fc674432bc7dba81b36b69ff6f7fd621bbbfa3b5",
+  "docker": "29.1.3",
+  "compose": "2.39.4",
+  "image_pins": {
+    "terminusdb": {
+      "image": "docker.io/terminusdb/terminusdb-server",
+      "tag": "v12.0.7",
+      "digest": "sha256:385faf298ad77aaf2d4d6df5e84a4cbe3596d01dab2e3b991af905639ae56388",
+      "platform_digest": "sha256:c5c70435f944a0e91b6846fa6a70c8b6956cb36e5712e60789cd7a45a7084f73",
+      "config_digest": "sha256:3308827f2e9e76d259fdd1fa04d546330b24d3b912363172f6ced84a4e2b8243",
+      "platform": "linux/amd64",
+      "license": "Apache-2.0",
+      "source": "https://github.com/terminusdb/terminusdb/tree/v12.0.7",
+      "license_source": "https://raw.githubusercontent.com/terminusdb/terminusdb/v12.0.7/LICENSE",
+      "license_artifact": "terminusdb-LICENSE",
+      "license_sha256": "sha256:d6f15456b303e6be4ac8796b969f3e402f3bddd9699bf302ad08b2a1abc9434f",
+      "embedded_license_paths": [
+        "/LICENSE",
+        "/app/terminusdb/LICENSE",
+        "/usr/share/doc/terminusdb/copyright"
+      ],
+      "embedded_notice_paths": [
+        "/NOTICE",
+        "/app/terminusdb/NOTICE"
+      ]
+    },
+    "openfga": {
+      "image": "docker.io/openfga/openfga",
+      "tag": "v1.21.0",
+      "digest": "sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55",
+      "platform_digest": "sha256:51bece5c31783bfeb150eae0f1c818ae804c50d39e0a311c43ff5357fed6debd",
+      "config_digest": "sha256:e7bc1233d821701d8f39b1c837fc1c09eb863637ce81b0cf7db3368d72c0d69b",
+      "platform": "linux/amd64",
+      "license": "Apache-2.0",
+      "source": "https://github.com/openfga/openfga/tree/v1.21.0",
+      "license_source": "https://raw.githubusercontent.com/openfga/openfga/v1.21.0/LICENSE",
+      "license_artifact": "openfga-LICENSE",
+      "license_sha256": "sha256:1c46d7b2bed94d457d745f28cabeb31f8d6c81dd9035bc5d24039989ee1e1bff",
+      "embedded_license_paths": [
+        "/LICENSE",
+        "/LICENSE.txt",
+        "/usr/share/licenses/openfga/LICENSE"
+      ],
+      "embedded_notice_paths": [
+        "/NOTICE",
+        "/NOTICE.txt"
+      ]
+    },
+    "keycloak": {
+      "image": "quay.io/keycloak/keycloak",
+      "tag": "26.7.4",
+      "digest": "sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c",
+      "platform_digest": "sha256:3d911baa186f352563854039b95f21a7e2c01c76b527fdc64f24a0885b927bdf",
+      "config_digest": "sha256:b2f3e1b85071d17a1da8d2cbcc54707853d19c74ae027071789ea1bb12b3ec89",
+      "platform": "linux/amd64",
+      "license": "Apache-2.0",
+      "source": "https://github.com/keycloak/keycloak/tree/26.7.4",
+      "license_source": "https://raw.githubusercontent.com/keycloak/keycloak/26.7.4/LICENSE.txt",
+      "license_artifact": "keycloak-LICENSE.txt",
+      "license_sha256": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "embedded_license_paths": [
+        "/opt/keycloak/LICENSE.txt",
+        "/LICENSE.txt"
+      ],
+      "embedded_notice_paths": [
+        "/opt/keycloak/NOTICE",
+        "/opt/keycloak/NOTICE.txt"
+      ]
+    },
+    "postgres": {
+      "image": "docker.io/library/postgres",
+      "tag": "17-alpine",
+      "digest": "sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24",
+      "platform_digest": "sha256:aa90e97ee862e558111d34cfb8b2c4bec768c2b039fb791341686928560263b3",
+      "config_digest": "sha256:79bd7c99e923138f136f8009d6bffa66e21e9d4fda5c0c561b00fc9c90cfe537",
+      "platform": "linux/amd64",
+      "license": "PostgreSQL",
+      "source": "https://github.com/postgres/postgres/tree/REL_17_11",
+      "license_source": "https://raw.githubusercontent.com/postgres/postgres/REL_17_11/COPYRIGHT",
+      "license_artifact": "postgres-COPYRIGHT",
+      "license_sha256": "sha256:3d6af92ff8a4c2cdf69afb1cf44edea727922f5cd0cf8b5f72b11cdecac8fdfd",
+      "embedded_license_paths": [
+        "/usr/share/doc/postgresql/COPYRIGHT",
+        "/usr/share/doc/postgresql-17/copyright",
+        "/usr/share/licenses/postgresql/COPYRIGHT"
+      ],
+      "embedded_notice_paths": [
+        "/NOTICE",
+        "/usr/share/doc/postgresql/NOTICE"
+      ]
+    }
+  },
+  "reference_image_pins": {
+    "python-runtime": {
+      "image": "docker.io/library/python",
+      "tag": "3.13-slim",
+      "platform": "linux/amd64",
+      "platform_digest": "sha256:b92e6b9bb1ea9d826e9956fd8d30bf18bc384c130231d74fdf0ba3460c290b0b",
+      "index_digest": "sha256:bb2988715db2cf7ace7b53f38f3cffbef7c7046a656bee66245eb0ed386e2e81",
+      "base": "Debian 13.7",
+      "role": "base of the C1 runtime image (shipped)",
+      "license": "PSF-2.0 (CPython); Debian packages under their own licenses",
+      "license_paths": [
+        "/usr/local/lib/python3.13/LICENSE.txt"
+      ]
+    },
+    "uv-builder": {
+      "image": "ghcr.io/astral-sh/uv",
+      "tag": "0.12.2",
+      "platform": "linux/amd64",
+      "platform_digest": "sha256:596e7ea716217d76ff7ddfb8695833f7cb2a8d6589af32114a1b4a95c081fd4d",
+      "index_digest": "sha256:069a51314a7bb6031777a9273205fe1b0b19e914ef418207d1338b268df641dd",
+      "role": "build stage only; not present in the runtime image",
+      "license": "MIT OR Apache-2.0",
+      "license_paths": []
+    },
+    "nginx": {
+      "image": "docker.io/library/nginx",
+      "tag": "stable-alpine (1.30.5, Alpine 3.24.2)",
+      "platform": "linux/amd64",
+      "platform_digest": "sha256:8f84ed99befc3891b8f329c5c202785278a2cfb7c25107d57fb2a134a3117433",
+      "index_digest": "sha256:0985e772fb9f729e6fa0980da05fca5d9c468e870eed43071545afa9d2e27d94",
+      "role": "TLS reverse proxy of the reference deployment (shipped as a pinned image reference)",
+      "license": "BSD-2-Clause (nginx); Alpine packages under their own licenses",
+      "license_paths": [
+        "/usr/share/licenses/nginx/COPYRIGHT"
+      ]
+    }
+  },
+  "hydra_digest": "sha256:b94007e19a1f7f78157e7f4ea340da8a55b5f104a0f1198755c256f38ef32b4b",
+  "docker_host": {
+    "os": "linux",
+    "architecture": "x86_64",
+    "kernel": "7.0.0-38-generic",
+    "cpus": 16,
+    "memory_bytes": 13024821248
+  },
+  "runtime_dependencies": {
+    "anyio": "4.15.1",
+    "httpcore": "1.0.9",
+    "annotated-types": "0.8.0",
+    "c1": "0.1.0rc2",
+    "rdflib": "7.6.0",
+    "packaging": "26.3",
+    "starlette": "1.7.0",
+    "uvicorn": "0.54.0",
+    "pycparser": "3.0",
+    "cryptography": "50.0.1",
+    "httpx": "0.28.1",
+    "pydantic": "2.13.5",
+    "typing_extensions": "4.16.0",
+    "prettytable": "3.18.0",
+    "MarkupSafe": "3.0.4",
+    "html5rdf": "1.2.1",
+    "idna": "3.20",
+    "Jinja2": "3.1.6",
+    "annotated-doc": "0.0.5",
+    "pydantic_core": "2.46.5",
+    "fastapi": "0.141.1",
+    "wcwidth": "0.9.1",
+    "typing-inspection": "0.4.4",
+    "pyparsing": "3.3.3",
+    "pyshacl": "0.40.1",
+    "owlrl": "7.6.2",
+    "certifi": "2026.7.22",
+    "cffi": "2.1.1",
+    "click": "8.5.0",
+    "h11": "0.16.0",
+    "PyJWT": "2.15.0"
+  },
+  "observed_service_versions": {
+    "postgres": {
+      "exit": 0,
+      "version": "postgres (PostgreSQL) 17.11"
+    },
+    "keycloak": {
+      "exit": 0,
+      "version": "Keycloak 26.7.4\nJVM: 21.0.12.1 (Red Hat, Inc. OpenJDK 64-Bit Server VM 21.0.12.1+1-LTS)\nOS: Linux 7.0.0-38-generic amd64"
+    }
+  }
+}

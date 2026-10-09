@@ -1,0 +1,49 @@
+{
+  "external": {
+    "expected": 32,
+    "executed": 32,
+    "missing": [],
+    "unexpected": [],
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "duplicates": 0,
+    "result": "PASS"
+  },
+  "reference": {
+    "expected": 8,
+    "executed": 8,
+    "missing": [],
+    "unexpected": [],
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "duplicates": 0,
+    "result": "PASS"
+  },
+  "regression": {
+    "expected": 122,
+    "passed": 122,
+    "missing": [],
+    "unexpected": [],
+    "duplicates": 0,
+    "failed_final_cases": 0,
+    "skipped": 0,
+    "result": "PASS",
+    "attempts": [
+      {
+        "cases_passed": 79,
+        "setup_errors": 1,
+        "exit": 1,
+        "source": "git:3789ce467c37cae70fe66e5c796f7777d715ca74"
+      },
+      {
+        "cases_passed": 43,
+        "errors": 0,
+        "exit": 0,
+        "fixture_correction": "git:3417859",
+        "application_changes": false
+      }
+    ]
+  }
+}

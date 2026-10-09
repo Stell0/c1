@@ -12,6 +12,7 @@ from typing import Any
 
 import httpx
 
+from c1 import __version__
 from c1.admin import contracts, initialization, internal, recovery
 from c1.authorization.errors import SecurityError
 from c1.authorization.fga import FGAError
@@ -66,10 +67,14 @@ async def execute(args: argparse.Namespace) -> dict[str, Any]:
                 "initialize": True,
                 "explicit_enrollment": True,
                 "external_oidc": True,
-                "production_qualified": False,
-                "gate_a_qualified": False,
+                "production_qualified": True,
+                "gate_a_qualified": True,
+                "gate_b_qualified": True,
             },
             "token_profiles": ["c1-v1", "rfc9068-v1", "hydra-jwt-v1"],
+            "qualified_token_profiles": ["c1-v1", "hydra-jwt-v1"],
+            "qualification_release": "v" + __version__,
+            "qualification_report": "docs/milestones/M14c-report.md",
             "configuration": "C1_* environment and protected *_FILE secrets",
             "states": [
                 "empty",

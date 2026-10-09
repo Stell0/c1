@@ -190,6 +190,10 @@ means refused/invalid input, 3 means inconsistent state, and 4 means unavailable
 or failed operation. The contract exposes schemas and qualification capabilities.
 `state` inventories do not establish readiness: check live `/v1/readyz`. A
 bootstrap receipt, model ID, or apparent browser login alone never passes a gate.
+Qualification flags describe the pinned release and its `qualified_token_profiles`,
+not every implemented profile or a particular installation. A supervisor must
+verify `qualification_release` is published, match its compatible provider/backend
+profile, and check the live installation state/readiness before enabling functions.
 `C1_OPERATOR_TIMEOUT_S` bounds a command to 30–3,600 seconds (default 300);
 uncertain writes retain durable intent for reconciliation rather than blind retries.
 

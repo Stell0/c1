@@ -1,0 +1,9 @@
+{
+  "baseline_application_source": "git:3789ce467c37cae70fe66e5c796f7777d715ca74",
+  "changed_product_files": [
+    "src/c1/admin/application.py"
+  ],
+  "change_scope": "public contract qualification metadata and static version import only",
+  "all_other_src_files_unchanged": true,
+  "non_contract_application_code_unchanged": true
+}

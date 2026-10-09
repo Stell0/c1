@@ -1,0 +1,76 @@
+{
+  "compose": {
+    "findings": [],
+    "published": [
+      "proxy"
+    ],
+    "services": [
+      "c1",
+      "keycloak",
+      "openfga",
+      "openfga-migrate",
+      "postgres",
+      "proxy",
+      "terminusdb",
+      "tools"
+    ]
+  },
+  "deployment": {
+    "findings": [],
+    "published": {
+      "c1-m14c-reference-proxy-1": [
+        "18443/tcp"
+      ]
+    },
+    "running": true
+  },
+  "findings": [],
+  "image": {
+    "entrypoint": [
+      "/usr/local/bin/c1-entrypoint"
+    ],
+    "file_count": 8385,
+    "findings": [],
+    "image": "localhost/c1:0.1.0rc2",
+    "image_id": "sha256:75dd59a5d14e9182fec5665578e31e3f4f7e3873b1348b9a944be975e0005873",
+    "image_scan_counts": {},
+    "python_distributions": [
+      "Jinja2",
+      "MarkupSafe",
+      "PyJWT",
+      "annotated-doc",
+      "annotated-types",
+      "anyio",
+      "c1",
+      "certifi",
+      "cffi",
+      "click",
+      "cryptography",
+      "fastapi",
+      "h11",
+      "html5rdf",
+      "httpcore",
+      "httpx",
+      "idna",
+      "owlrl",
+      "packaging",
+      "prettytable",
+      "pycparser",
+      "pydantic",
+      "pydantic_core",
+      "pyparsing",
+      "pyshacl",
+      "rdflib",
+      "starlette",
+      "typing-inspection",
+      "typing_extensions",
+      "uvicorn",
+      "wcwidth"
+    ],
+    "user_in_image_config": "root (entrypoint drops to 10001)"
+  },
+  "source": {
+    "dynamic_imports": [],
+    "findings": []
+  }
+}

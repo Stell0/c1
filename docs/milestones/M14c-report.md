@@ -1,97 +1,178 @@
 # M14c — External OIDC Provider Support: execution report
 
-**Gate:** NOT_RUN — complete Gate A and Gate B have not passed.
-**Status:** IN_PROGRESS; partial development verification only. No released
-compatible artifact or downstream production qualification is claimed.
+**Gate:** Gate A PASS; Gate B PENDING publication of the qualified artifact.
+**Status:** IN_PROGRESS. All mandatory executed tests pass; release completion is required for Gate B.
 
-## Authority and revisions
+## Authority and immutable revisions
 
 The owner approved [M14c](M14c.md) and implementation on 2026-10-09:
-"Approved—update documents and implement". The prerequisite M14b remains
-VERIFIED. M15 remains blocked through M14c verification and release.
+“Approved—update documents and implement”. M14b remains VERIFIED; completed
+milestones were not reopened. No M15–M18 implementation was undertaken.
 
-Starting source: `ebad219926f547926d9e24059f2129d5970022ff`.
-Implementation is currently an uncommitted working-tree candidate; immutable
-implementation/source/image pins will be recorded before final qualification.
-No completed earlier milestone has been reopened.
+Approved plan is recorded in `78def435a9e020c56d2596f5e4e7d48d990463c7`.
+Starting revision: `ebad219926f547926d9e24059f2129d5970022ff`.
+Application candidate: `3789ce467c37cae70fe66e5c796f7777d715ca74`.
+The subsequent fixture-only endpoint correction is recorded in
+[tested-environment.json](../evidence/M14c/tested-environment.json).
+Tested amd64 image: `localhost/c1:0.1.0rc2`,
+`sha256:75dd59a5d14e9182fec5665578e31e3f4f7e3873b1348b9a944be975e0005873`.
+The image OCI revision identifies the application candidate. Published release
+and final artifact checksums remain pending; no downstream production claim is made.
 
-## Development verification obtained so far
+## Delivered contracts and behavior
 
-| Check | Command / observation | Result |
+[ADR-0027](../decisions/ADR-0027-external-oidc.md) records the choices.
+[Installation](../operations/external-oidc.md),
+[schemas](../operations/external-oidc-contract-v1.json), and
+[recovery](../operations/external-oidc-recovery.md) document public interfaces.
+
+- Version-1 `C1_*` configuration and public `c1-admin application` JSON operations
+  replace dependence on reference Compose or IdP administration.
+- Initialization persists intent before backend resources, reconciles uncertain
+  responses, and preserves owned store/model/database and namespace identifiers.
+  Reference bootstrap provisions its own Keycloak, then uses the same initializer.
+- Exact operator-approved issuer/subject, protected expiry/cancellation, authenticated
+  confirmation, and durable guards prevent first-login administration. Only
+  `access_admin` and `schema_admin` are granted; live consistency precedes readiness.
+- Exact endpoint trust, TLS, signed access-purpose profiles, ID/access separation,
+  reversible opaque subjects, and optional refresh/logout support external providers
+  while retaining legacy principal identifiers and service behavior.
+- Version-2 application-only backups, guarded fresh-node restore, independent
+  namespace attestation plus normal user-token proof, explicit snapshot acceptance,
+  fresh consistency and bounded release retain fail-closed recovery.
+
+## Reproducible environment and commands
+
+Exact pins, lock checksum and runtime versions are in
+[tested-environment.json](../evidence/M14c/tested-environment.json).
+Host Python is 3.13.14; image Python is 3.13.16. Docker 29.1.3 and Compose
+2.39.4 execute committed amd64 image digests. The downloaded official Compose
+binary SHA-256 is `7af95166a730b87e172d4fc9aefea8725d3c6c7327d59149267b452114ddb7d4`.
+Locked Playwright 1.63.0 supplies real Chromium.
+
+| Service | Version / profile |
+|---|---|
+| TerminusDB | 12.0.7; real knowledge/workflow storage and cold-storage backup. |
+| OpenFGA | 1.21.0; PostgreSQL persistence, real checks/grants/revocations. |
+| PostgreSQL | 17.11 (pinned 17-alpine); custom-format application authorization dump. |
+| Keycloak | 26.7.4; reference `c1-v1`, confidential Code+S256 client. |
+| Ory Hydra | 2.3.0; `hydra-jwt-v1`, confidential Basic Code+S256, explicit API audience and access-only signed `ext` claims. |
+
+Hydra is independently managed by the supervisor fixture. Its synthetic delegated
+login/consent UI supplies identities; the real provider performs discovery,
+PKCE, signatures, access/ID issuance, refresh, logout and key rotation. C1 cannot
+contact its administration port or container-engine sockets. No provider database,
+signing key or administrator credential is a C1 external backup requirement.
+The tagged Hydra [license](../evidence/M14c/licenses/hydra-LICENSE) was inspected.
+
+Fixtures use projects `c1-dev`, `c1-m14c-external`, `c1-m14c-reference`, and an
+isolated fresh recovery target. Original occupied development ports/configuration
+are untouched. See [reproduction instructions](../evidence/M14c/README.md).
+The reference harness always starts fresh; it does not reuse an existing deployment.
+
+```sh
+make bootstrap
+PLAYWRIGHT_BROWSERS_PATH="$PWD/.playwright" uv run --locked playwright install chromium
+docker build -f deployment/reference/Containerfile \
+  --build-arg C1_REVISION="$(git rev-parse HEAD)" -t localhost/c1:0.1.0rc2 .
+bash docs/evidence/M14c/run-gate.sh check
+bash docs/evidence/M14c/run-gate.sh external
+bash docs/evidence/M14c/run-gate.sh regression
+bash docs/evidence/M14c/run-gate.sh reference
+```
+
+The runner uses locked dependencies, clears AI credential variables, sets bounded
+30-second backend deadlines, serializes shared development fixtures, and runs
+pytest with plain assertions and private logs. Sanitized transcripts, JUnit,
+exits and expected-case comparisons are retained in `docs/evidence/M14c/`.
+Tokens, confidential secrets, backup payloads and private continuity proofs are excluded.
+
+## Executed qualification
+
+| Check | Result / evidence |
+|---|---|
+| Local `make check` | PASS, exit 0: 1,081 tests; 168 real-service cases intentionally skipped. Ruff, strict mypy, secret/baseline/profile checks, OpenAPI and licenses pass. Skips establish no integration claim. [Candidate transcript](../evidence/M14c/check.log) and [release-metadata rerun](../evidence/M14c/check-release.log) both pass, exit 0. |
+| External provider | PASS, exit 0: all 32 expected cases, 507.89 seconds; zero failures/errors/skips. [JUnit](../evidence/M14c/external.xml), [transcript](../evidence/M14c/external.log). |
+| Fresh reference | PASS, exit 0: all 8 expected M13 cases, 1,504.91 seconds; real bootstrap, Explorer, fixture loads, backups, recovery and release audit. [JUnit](../evidence/M14c/reference.xml), [transcript](../evidence/M14c/reference.log). |
+| Applicable regressions | PASS: 122 distinct expected cases. First attempt: 79 passed, one fixture setup error, exit 1 (1,757.62 s). Corrected continuation: 43 passed, exit 0 (2,319.04 s). [Combined successful JUnit](../evidence/M14c/regression-combined.xml), [first attempt](../evidence/M14c/regression-part1.xml), [continuation](../evidence/M14c/regression-part2.xml). |
+| Built candidate workflow | PASS, exit 0: fresh initialization, approved browser enrollment, normal API/ChangeSet/context/revocation inside the built candidate image with a read-only root filesystem. [Result](../evidence/M14c/image-workflow-tested.json), [runner](../evidence/M14c/release-image-workflow.py). |
+| Image/security audit | PASS on tested image; no findings, no AI/development packages or dynamic imports. [Audit](../evidence/M14c/release-audit-tested.json). |
+| Real TLS trust | PASS: reference `oidc-check` exit 0 with explicit CA; a fresh process without it rejects the certificate with sanitized `oidc_identity_unavailable`, exit 4. [Positive](../evidence/M14c/oidc-reference.json), [negative](../evidence/M14c/oidc-untrusted-ca.json). |
+
+[Case comparison](../evidence/M14c/case-comparison.json) checks actual node IDs
+against lists captured before execution. The corrected continuation used
+`bash /tmp/c1-m14c-regression-tail.sh regression`, generated from the runner
+with paths M08, M09, M09a, M10, M11, M12 and M14b only. The committed runner
+now accepts those explicit paths after `regression` to reproduce the same
+continuation. Both original and continuation transcripts/exits are retained.
+Mandatory failures/skips/missing cases
+block qualification. Unit and real-service evidence are recorded separately.
+
+## Acceptance mapping
+
+| ID | Result | Executed evidence |
 |---|---|---|
-| Initial local checking pass | `make check`, with locked Python 3.13 environment; 1,047 pytest cases passed, 137 real-service cases skipped; Ruff, strict mypy, secrets, baseline/profile checks, OpenAPI and license inventory passed. Subsequent product changes require a final rerun. | PASS for that development candidate; skipped cases do not establish T14. |
-| Real initialization retry | Pinned TerminusDB 12.0.7 and OpenFGA 1.21.0; repeated initialization preserved store/model/database identity. Source-level probe, not a complete crash matrix. | PASS for the observed retry; T03 remains incomplete. |
-| Real Hydra/browser/API workflow | `C1_EXTERNAL=1 PLAYWRIGHT_BROWSERS_PATH="$PWD/.playwright" UV_CACHE_DIR="$PWD/.uv-cache" uv run --locked pytest --assert=plain -q -s tests/integration/m14c/test_external_browser.py`; one combined live case passed in 21.79 s with the initial memory-backed OpenFGA fixture. | PASS for this case only. Persistent-backend rerun and the remaining scenarios are required. |
-| Network dependency boundary | Fixture C1 processes deny administrative provider/engine connections via an audit hook; the supervisor alone configures the real Hydra client/login/consent fixture. | Included in the live case, not a production networking feature. |
+| T01 | PASS | External browser fixture initializes real backends without provider administration; C1 network boundary denies provider-admin/engine connections. |
+| T02 | PASS | Wrong first login/provider admin denied; approved explicit browser confirmation; concurrent confirmation and exact-identity crash recovery. |
+| T03 | PASS | 14 initialization and 6 enrollment SIGKILL boundaries: real resource creation, lost responses, durable checkpoints; retries preserve resources/grants. |
+| T04 | PASS | Repeated initialization, populated restart, immutable namespace/configuration binding; absent state cannot select legacy mode. |
+| T05 | PASS | Real Chrome Code callback, refresh enabled/absent, access/session expiry, local CSRF logout, optional provider logout, independent bearer lifetime. |
+| T06 | PASS | Signed unit signature/issuer/audience/time/purpose/kind/ID-nonce negatives; real ID-token API rejection, state/PKCE and JWKS/unknown-key failures. |
+| T07 | PASS | Real registered browser client rejects password/client-credentials and implicit/hybrid grants; only Code+S256 human login. |
+| T08 | PASS | External least privilege, denied admin, create/modify ChangeSets, separate submit/review, self-review denial, context/reads, next-request revocation. |
+| T09 | PASS | Pending setup allowlist/503 readiness; expired/wrong approvals, concurrent/crashed confirmation; live consistency required before publication. |
+| T10 | PASS | Isolated instances/namespaces, restart/outages/delays, real CA trust and signing-key rotation with unchanged identity namespace. |
+| T11 | PASS | Real Hydra external and fresh Keycloak reference; unsupported metadata/token capabilities fail explicitly. |
+| T12 | PASS | Public state/consistency/online optimize and exclusive recovery operations with standalone application-owned backends. |
+| T13 | PASS | Actual cold Terminus storage/PostgreSQL dump, fresh-node restore and guard persistence; backup/guard/verify/release crashes, corruption/version/namespace/stale-proof/outage/changed-grant rejection, explicit verified release. |
+| T14 | PASS | All 122 M01–M12/M14b regressions, fresh 8-case M13, legacy-reference compatibility and local M14a/M14b checks pass without AI credentials. |
 
-The live case covers wrong-account enrollment rejection, pending readiness,
-explicit approved browser confirmation, ordinary Explorer access, API ID-token
-rejection, denied administration, scope grants, independent review, ChangeSet
-apply, context retrieval, and next-request revocation. It does not establish
-all session/expiry/rotation/fault/recovery scenarios.
+## Review findings and corrections
 
-### Findings corrected during development
+This is an implementation self-review, not an independent-agent review.
 
-- Reconciliation must request verbose TerminusDB database metadata and compare
-  the exact database path/ownership comment.
-- OpenFGA emits empty protobuf defaults; exact model comparison now removes only
-  semantically empty defaults while retaining relation/condition semantics.
-- Applying an opaque-subject ChangeSet initially reconstructed its encoded
-  principal as another raw subject. Canonical decoding and safe actor URIs now
-  preserve the original identity and legacy provenance.
-- A test fixture initially supplied a non-UUID resource ID unsupported by the
-  pinned storage profile; the fixture now supplies a normal canonical ID.
-- Initial direct pytest invocation lacked the managed tool PATH/cache settings;
-  `make check` uses the repository's locked environment correctly.
+- OpenFGA protobuf empty defaults and TerminusDB verbose ownership metadata
+  required exact semantic/resource reconciliation rather than blindly recreating.
+- Opaque-subject ChangeSet attribution needed canonical principal decoding and
+  safe provenance IRIs; legacy identifiers remain unchanged.
+- Startup identity/restore guards must precede authorization write recovery.
+  Read-only schema-crash inspection now explicitly verifies identity first.
+- OAuth Basic credentials require form encoding before Basic encoding. Real
+  browser tests include reserved-character secrets. Direct provider logout
+  redirects conflicted with secure CSP; a trusted signed-out link preserves CSP.
+- A first concurrent fixture run interfered with development service outages;
+  shared suites now take a process lock. One setup exceeded the old short FGA
+  deadline; qualified fixtures explicitly use bounded 30-second deadlines.
+- A reference attempt reached 7 passes before audit selected hardcoded Podman/rc1.
+  Engine/version detection and a dynamic hashing import were corrected. The
+  subsequent fresh reference run passes all 8 cases and the audit.
+- An earlier regression run found read-only schema-crash readiness expectations
+  needed explicit identity verification; original denied/history assertions remain.
+- The later regression run passed 79 cases, then a software loader contacted its
+  hardcoded original Keycloak port. The shared configured probe endpoint now
+  isolates token acquisition. The failed setup remains an unsuccessful attempt;
+  the corrected 43-case continuation passed. The 122 successful cases exactly
+  match the expected list, with no duplicates or skipped mandatory cases.
 
-Raw OAuth tokens are excluded from public evidence. Temporary diagnostic logs
-stay private; final evidence will contain sanitized transcripts, exits, JUnit,
-expected-case lists and artifact pins. No test failure is a gate pass.
+## Compatibility limits and gate outcomes
 
-## Provider and dependency matrix
+Only the real tested `c1-v1` Keycloak and `hydra-jwt-v1` Hydra configurations are
+provider-qualified. `rfc9068-v1` has signed unit coverage; no real-provider gate
+is claimed for it. OIDC compliance alone is insufficient. Public clients,
+opaque access tokens, automatic namespace/user migration, agent credentials and
+new delegation remain excluded. Optional provider capabilities are explicit;
+logout does not promise global invalidation of already-issued bearer tokens.
 
-| Component | Pin / characteristics | Qualification |
-|---|---|---|
-| Python | Locked 3.13 environment; installed interpreter 3.13.14 | Local development checking only. |
-| TerminusDB | 12.0.7, committed digest `sha256:385faf298ad77aaf2d4d6df5e84a4cbe3596d01dab2e3b991af905639ae56388` | Real initializer and live workflow used this image. |
-| OpenFGA | 1.21.0, committed digest `sha256:2113c664a486b5da8d7a2cdab479e0d4e30639c80fd2c000540f645c1dbc1e55` | Initial memory-backed live workflow passed; PostgreSQL persistence fixture added for recovery qualification. |
-| Ory Hydra | 2.3.0, `sha256:b94007e19a1f7f78157e7f4ea340da8a55b5f104a0f1198755c256f38ef32b4b`; Code+S256, confidential Basic client, explicit API audience and signed access-only `ext` purpose/kind claims | One real Chromium/API case passed. Hydra delegates identity UI/consent to the supervisor fixture; C1 does not provision it. Full profile/lifecycle matrix pending. |
-| Reference Keycloak | 26.7.4, existing committed digest | M14c reference bootstrap/Explorer/recovery regressions pending. |
-| PostgreSQL | Existing committed 17-alpine digest in the external test fixture | Backup/fresh-node restore qualification pending. |
+Qualified full-storage transport requires dedicated application backend
+persistence and supervisor writer quiescence. Shared-backend scoped transports,
+pre-M14c backup migration, other provider/version/client profiles and NS8-specific
+packaging require their own qualification. NS8 is a downstream consumer; its
+fixture hostnames are never C1 defaults. No incompatible-storage image rollback
+or implicit identity remapping is provided.
 
-Loopback HTTP is limited to isolated tests; external production issuers require
-HTTPS with system or explicitly configured CA trust. `rfc9068-v1` has signed
-unit coverage; real-provider qualification is not yet claimed. Provider-wide
-logout/global invalidation is not claimed. Rootless Podman cannot clone namespaces
-in this workspace; Docker is available for isolated services. Docker Compose
-2.39.4 was downloaded from its official release and verified with SHA-256
-`7af95166a730b87e172d4fc9aefea8725d3c6c7327d59149267b452114ddb7d4`.
-
-## Required acceptance results
-
-| ID | Full-contract result | Remaining qualification |
-|---|---|---|
-| T01 | NOT_RUN (partial real initialization evidence) | Final pinned provider-independent initialization and boundary evidence. |
-| T02 | NOT_RUN (approved/wrong browser identities exercised) | Complete enrollment negative/concurrency/provider-admin matrix. |
-| T03 | NOT_RUN | Every durable initialization/enrollment boundary, actual crashes and uncertain responses. |
-| T04 | NOT_RUN (repeated initialization exercised) | Final populated-state/configuration/restart preservation matrix. |
-| T05 | NOT_RUN (real login/callback/session creation exercised) | Refresh capabilities, session/token expiry and documented logout matrix. |
-| T06 | NOT_RUN (signed unit negatives and real ID/API confusion case) | Complete real provider/JWKS/browser negative matrix. |
-| T07 | NOT_RUN (token grant negatives exercised) | Complete registered-client authorization/grant rejection checks. |
-| T08 | NOT_RUN (real API scope/review/context/revocation workflow exercised) | Final least-privilege browser/API and modification coverage. |
-| T09 | NOT_RUN (pending guard/readiness exercised) | Complete setup surface and restart/expiry guard matrix. |
-| T10 | NOT_RUN | Multiple instances/namespaces, outages/delays, real TLS/key rotation. |
-| T11 | NOT_RUN (real non-Keycloak fixture exercised) | Full Hydra/reference Keycloak matrix and actionable unsupported capabilities. |
-| T12 | NOT_RUN | Qualified public maintenance/consistency schemas and exclusive/online operation checks. |
-| T13 | NOT_RUN | Complete real backup/fresh-node recovery and failure matrix. |
-| T14 | NOT_RUN | Final full reference, relevant M03/M04/M12/M13/M14a/M14b and write regressions without AI credentials. |
-
-## Gate outcomes and next work
-
-**Gate A:** NOT_RUN; partial evidence only. **Gate B:** NOT_RUN. Neither gate
-may pass while mandatory cases remain failed or unexecuted. Release/publication
-and downstream consumption remain pending.
-
-Continue W1–W5 qualification, persistent-backend recovery and reference regressions;
-complete review and sanitized reproducible evidence; publish/pin only the verified
-compatible artifact. Do not begin M15.
+**Gate A:** PASS. **Gate B:** all tests PASS; publication and immutable artifact
+pins remain required. [Source equivalence](../evidence/M14c/source-equivalence.json) confirms final
+release metadata only adds qualification reporting;
+authentication, enrollment, recovery and authorization behavior are unchanged.
+Verify the final image/package, publish the upstream artifact, then record Gate B
+and milestone closure. M15 remains blocked and unimplemented.
