@@ -1,6 +1,6 @@
 # PLAN.md — C1 MVP roadmap
 
-**Status:** M00–M14, M09a, M14a and M14b VERIFIED. M14c is approved and IN_PROGRESS; M15–M18 remain unimplemented.
+**Status:** M00–M14, M09a, M14a and M14b VERIFIED. M14c is VERIFIED; M15–M18 remain unimplemented.
 **Baseline:** C1 project specification v0.2 and MVP architecture v0.2, plus the software-code/documentation use-case extension discussed afterward.  
 **Execution policy:** each milestone is planned separately before implementation. This roadmap defines outcomes and tests, not every milestone's internal task breakdown.  
 **Development instructions:** [AGENTS.md](AGENTS.md).
@@ -88,7 +88,7 @@ The order below deliberately separates the three software-agent workflows. Each 
 | M14 | Retrieval and storage benchmark | M13 | Reproducible quality, security-isolation, fidelity, and performance baselines for C1 retrieval | VERIFIED |
 | M14a | Performance hardening (owner-approved insertion, 2026-10-05) | M14 | Fewer backend round trips on reads, contexts and writes with unchanged security, fidelity and outputs | VERIFIED |
 | M14b | Performance hardening, part 2 (owner-approved insertion, 2026-10-06) | M14a | Explained per-phase latency; fresh-but-cheaper finalize, lean journal listing, history index; M14a targets met on the measurement host | VERIFIED |
-| M14c | External OIDC Provider Support (owner-approved insertion, 2026-10-09) | M14b | Provider-independent initialization, guarded administrator enrollment, browser/API authentication, and qualified application-owned recovery | IN_PROGRESS |
+| M14c | External OIDC Provider Support (owner-approved insertion, 2026-10-09) | M14b | Provider-independent initialization, guarded administrator enrollment, browser/API authentication, and qualified application-owned recovery | VERIFIED |
 | M15 | Semantic Seed Index (optional extension) | M14, M14c | Authorization-safe semantic candidate discovery through a rebuildable vector projection | NOT_PLANNED |
 | M16 | Decision Gate (optional extension) | M14 | Generic bounded decision interface with optional Jev/Kev providers and calibrated evaluation | NOT_PLANNED |
 | M17 | Non-generative enrichment (optional extension) | M16 | Reviewed entity/type/keyword/resolution proposals from deterministic candidates plus optional bounded decisions | NOT_PLANNED |
@@ -785,4 +785,4 @@ The detailed planner must resolve any conflict between these choices and the sou
 
 **S5 — External OIDC Provider Support draft supplied by the owner (2026-10-09).** Defines M14c after M14b, its provider-independent boundaries, W1–W5, T01–T14, Gate A/Gate B, and verification/release before M15. The supplied draft is recorded in [docs/milestones/M14c.md](docs/milestones/M14c.md); it does not itself record approval or successful integration.
 
-No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was originally drafted. M00–M14, M09a, M14a and M14b are now VERIFIED as recorded in their milestone reports. M14c is IN_PROGRESS following owner approval and implementation authorization on 2026-10-09. M15–M18 remain NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.
+No product code, backend proof, security test, or milestone implementation had been executed when this roadmap was originally drafted. M00–M14, M09a, M14a and M14b are now VERIFIED as recorded in their milestone reports. M14c is VERIFIED following owner approval, implementation, both qualification gates and the pinned upstream artifact. M15–M18 remain NOT_PLANNED optional extensions and do not change the mandatory no-AI/no-vector C1 release contract.

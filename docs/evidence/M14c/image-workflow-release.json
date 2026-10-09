@@ -1,0 +1,1 @@
+{"result": "PASS", "workflow": "image enrollment/browser/API/ChangeSet/context/revocation", "image_id": "sha256:b1546cbbf032eedf7c3c58cb1b4e371d9aab62aa054a1515aa092ef7a3b0b653", "container_user": 1000, "read_only_rootfs": true}

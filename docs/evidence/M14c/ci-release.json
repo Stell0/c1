@@ -1,0 +1,16 @@
+[
+  {
+    "conclusion": "success",
+    "databaseId": 37941491506,
+    "headSha": "git:d6d9f8614c8dfd52591ec1d2402438f7b6a626f7",
+    "status": "completed",
+    "url": "https://github.com/Stell0/c1/actions/runs/37941491506"
+  },
+  {
+    "conclusion": "success",
+    "databaseId": 37941491497,
+    "headSha": "git:d6d9f8614c8dfd52591ec1d2402438f7b6a626f7",
+    "status": "completed",
+    "url": "https://github.com/Stell0/c1/actions/runs/37941491497"
+  }
+]

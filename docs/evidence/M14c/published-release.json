@@ -1,0 +1,60 @@
+{
+  "assets": [
+    {
+      "name": "artifact-pins.json",
+      "size": 934,
+      "state": "uploaded",
+      "digest": "sha256:3aa7a81d1b9cc28f1f4fabcf028c271ae706961058c8c1ee3470562a2b51593d",
+      "url": "https://github.com/Stell0/c1/releases/download/v0.1.0rc2/artifact-pins.json"
+    },
+    {
+      "name": "c1-0.1.0rc2-linux-amd64.docker.tar.gz",
+      "size": 63661797,
+      "state": "uploaded",
+      "digest": "sha256:5ebc8262e21a6d9d62042ce6181a2c165147c0cf1c7d7c6d893b8b261146ecb9",
+      "url": "https://github.com/Stell0/c1/releases/download/v0.1.0rc2/c1-0.1.0rc2-linux-amd64.docker.tar.gz"
+    },
+    {
+      "name": "c1-0.1.0rc2-py3-none-any.whl",
+      "size": 367115,
+      "state": "uploaded",
+      "digest": "sha256:73f89619c8ba4a012b47f1929918cc957737d77d0484c187f9fd1f7311d9b96b",
+      "url": "https://github.com/Stell0/c1/releases/download/v0.1.0rc2/c1-0.1.0rc2-py3-none-any.whl"
+    },
+    {
+      "name": "c1-0.1.0rc2.tar.gz",
+      "size": 4461523,
+      "state": "uploaded",
+      "digest": "sha256:4c2857c6101107eddb0064572cb80ed613344e7ce4bff9155bd7a391593ba6f6",
+      "url": "https://github.com/Stell0/c1/releases/download/v0.1.0rc2/c1-0.1.0rc2.tar.gz"
+    },
+    {
+      "name": "COMPATIBILITY.md",
+      "size": 2163,
+      "state": "uploaded",
+      "digest": "sha256:1271a8bed822f898d25978357016c9739a5034128b4018be03905a5ee95aca71",
+      "url": "https://github.com/Stell0/c1/releases/download/v0.1.0rc2/COMPATIBILITY.md"
+    },
+    {
+      "name": "runtime-requirements.txt",
+      "size": 13718,
+      "state": "uploaded",
+      "digest": "sha256:9acb193c7ed42e312264ff0aec5feb31aedef964577f40f8ffad3bfc13bb521c",
+      "url": "https://github.com/Stell0/c1/releases/download/v0.1.0rc2/runtime-requirements.txt"
+    },
+    {
+      "name": "SHA256SUMS",
+      "size": 543,
+      "state": "uploaded",
+      "digest": "sha256:ce7aebec254934c8234bdba31682d9102f6b9d0c20411575cd9482edc3b522f5",
+      "url": "https://github.com/Stell0/c1/releases/download/v0.1.0rc2/SHA256SUMS"
+    }
+  ],
+  "isDraft": false,
+  "isPrerelease": true,
+  "publishedAt": "2026-10-09T14:05:36Z",
+  "tagName": "v0.1.0rc2",
+  "url": "https://github.com/Stell0/c1/releases/tag/v0.1.0rc2",
+  "server_digests_match_local_assets": true,
+  "downloaded_checksums_and_pins_match": true
+}

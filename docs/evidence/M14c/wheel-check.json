@@ -1,0 +1,7 @@
+{
+  "result": "PASS",
+  "installed_wheel": "c1-0.1.0rc2-py3-none-any.whl",
+  "contract_version": 1,
+  "qualification_release": "v0.1.0rc2",
+  "all_30_installed_runtime_distribution_versions_match_tested_image": true
+}

@@ -801,7 +801,7 @@ flowchart LR
     M13 --> M14[M14<br/>VERIFIED]
     M14 --> M14A[M14a<br/>VERIFIED]
     M14A --> M14B[M14b<br/>VERIFIED]
-    M14B --> M14C[M14c<br/>IN_PROGRESS]
+    M14B --> M14C[M14c<br/>VERIFIED]
 
     M14 --> M15[M15<br/>FUTURE]
     M14C --> M15
@@ -813,7 +813,7 @@ flowchart LR
 
 M00 through M14, including M09a, M14a and M14b, have implementation and verification evidence in their milestone reports.
 
-M14c is approved and in progress. M15 through M18 remain optional roadmap work;
+M14c is verified with both gates and a pinned upstream artifact. M15 through M18 remain optional roadmap work;
 M15 requires verified and released M14c. See [PLAN.md](PLAN.md) for current status.
 
 ### [VERIFIED] M12 — Human Explorer
@@ -840,7 +840,7 @@ See the [M14 report](docs/milestones/M14-report.md). Performance hardening is
 recorded separately in [M14a](docs/milestones/M14a-report.md) and
 [M14b](docs/milestones/M14b-report.md); their measured limits still apply.
 
-### [IN_PROGRESS] M14c — External OIDC Provider Support
+### [VERIFIED] M14c — External OIDC Provider Support
 
 M14c adds provider-independent initialization, explicit approved-user enrollment,
 external browser/API authentication, and application-owned guarded recovery.
@@ -849,8 +849,8 @@ never grant C1 permissions.
 
 Read the [installation contract](docs/operations/external-oidc.md),
 [recovery procedures](docs/operations/external-oidc-recovery.md), and
-[qualification report](docs/milestones/M14c-report.md). Gate A, Gate B and a
-released compatible artifact are required before M14c completion or M15 work.
+[qualification report](docs/milestones/M14c-report.md). Gate A and Gate B passed; the report pins the compatible artifact. M15 remains
+unimplemented.
 
 ### [FUTURE] M15 — Semantic Seed Index
 

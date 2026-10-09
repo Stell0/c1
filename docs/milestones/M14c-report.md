@@ -1,7 +1,7 @@
 # M14c — External OIDC Provider Support: execution report
 
-**Gate:** Gate A PASS; Gate B PENDING publication of the qualified artifact.
-**Status:** IN_PROGRESS. All mandatory executed tests pass; release completion is required for Gate B.
+**Gate:** VERIFIED. Gate A PASS; Gate B PASS. T01–T14 and release requirements pass.
+**Status:** VERIFIED. The compatible upstream artifact is published and pinned; downstream deployments still require qualification of their own configuration and lifecycle.
 
 ## Authority and immutable revisions
 
@@ -16,8 +16,15 @@ The subsequent fixture-only endpoint correction is recorded in
 [tested-environment.json](../evidence/M14c/tested-environment.json).
 Tested amd64 image: `localhost/c1:0.1.0rc2`,
 `sha256:75dd59a5d14e9182fec5665578e31e3f4f7e3873b1348b9a944be975e0005873`.
-The image OCI revision identifies the application candidate. Published release
-and final artifact checksums remain pending; no downstream production claim is made.
+The image OCI revision identifies the application candidate. Released source/tag: `d6d9f8614c8dfd52591ec1d2402438f7b6a626f7`,
+[`v0.1.0rc2`](https://github.com/Stell0/c1/releases/tag/v0.1.0rc2) (published pre-release).
+Imported release image: `sha256:b1546cbbf032eedf7c3c58cb1b4e371d9aab62aa054a1515aa092ef7a3b0b653`.
+[Artifact pins](../evidence/M14c/artifact-pins.json), [checksums](../evidence/M14c/SHA256SUMS)
+and [publication verification](../evidence/M14c/published-release.json) identify
+the wheel, source archive and complete amd64 Docker archive. All seven uploaded
+asset digests/sizes match local files; downloaded checksum/pin files match.
+The tag/source archive records the candidate before publication; this report
+closes publication on main afterward. No tag or artifact was moved/replaced.
 
 ## Delivered contracts and behavior
 
@@ -97,6 +104,8 @@ Tokens, confidential secrets, backup payloads and private continuity proofs are 
 | Applicable regressions | PASS: 122 distinct expected cases. First attempt: 79 passed, one fixture setup error, exit 1 (1,757.62 s). Corrected continuation: 43 passed, exit 0 (2,319.04 s). [Combined successful JUnit](../evidence/M14c/regression-combined.xml), [first attempt](../evidence/M14c/regression-part1.xml), [continuation](../evidence/M14c/regression-part2.xml). |
 | Built candidate workflow | PASS, exit 0: fresh initialization, approved browser enrollment, normal API/ChangeSet/context/revocation inside the built candidate image with a read-only root filesystem. [Result](../evidence/M14c/image-workflow-tested.json), [runner](../evidence/M14c/release-image-workflow.py). |
 | Image/security audit | PASS on tested image; no findings, no AI/development packages or dynamic imports. [Audit](../evidence/M14c/release-audit-tested.json). |
+| Released artifact | PASS: complete seven-layer amd64 archive was imported; its real browser/API workflow and security audit pass. [Workflow](../evidence/M14c/image-workflow-release.json), [audit](../evidence/M14c/release-audit-release.json). Wheel installation/contract passes and all 30 runtime versions match the tested image: [wheel check](../evidence/M14c/wheel-check.json). |
+| Upstream CI | PASS: both main/tag Development checks runs at released source complete successfully. [Run evidence](../evidence/M14c/ci-release.json). CI does not substitute for the retained real-service gates. |
 | Real TLS trust | PASS: reference `oidc-check` exit 0 with explicit CA; a fresh process without it rejects the certificate with sanitized `oidc_identity_unavailable`, exit 4. [Positive](../evidence/M14c/oidc-reference.json), [negative](../evidence/M14c/oidc-untrusted-ca.json). |
 
 [Case comparison](../evidence/M14c/case-comparison.json) checks actual node IDs
@@ -170,9 +179,49 @@ packaging require their own qualification. NS8 is a downstream consumer; its
 fixture hostnames are never C1 defaults. No incompatible-storage image rollback
 or implicit identity remapping is provided.
 
-**Gate A:** PASS. **Gate B:** all tests PASS; publication and immutable artifact
-pins remain required. [Source equivalence](../evidence/M14c/source-equivalence.json) confirms final
-release metadata only adds qualification reporting;
-authentication, enrollment, recovery and authorization behavior are unchanged.
-Verify the final image/package, publish the upstream artifact, then record Gate B
-and milestone closure. M15 remains blocked and unimplemented.
+**Gate A:** PASS. **Gate B:** PASS, including the published pinned artifact.
+All mandatory cases passed; no outstanding gate failure or unexecuted mandatory
+case remains. [Source equivalence](../evidence/M14c/source-equivalence.json) confirms
+the release changes only contract qualification metadata; authentication,
+enrollment, recovery and authorization code matches the full-service candidate.
+M14c is VERIFIED. M15 remains unimplemented; no next milestone was started.
+
+## Artifact packaging and publication
+
+The first classic Docker 29 archive export contained manifest references but
+omitted layer payloads; it was rejected before publication. The final artifact
+uses official Docker Buildx 0.38.0, verified against its release checksum
+`4fe4cc38adf48169132749b6ca22a990928db0118e3407584ee553723115d287`.
+Its tagged [Apache-2.0 license](../evidence/M14c/licenses/buildx-LICENSE) is retained.
+Builder/client configuration lives under private `/tmp` directories because
+the normal home configuration is read-only; no global settings were changed.
+
+```sh
+DOCKER_CONFIG=/tmp/c1-m14c-tools/docker-config \
+BUILDX_CONFIG=/tmp/c1-m14c-tools/buildx-config \
+/tmp/c1-m14c-tools/buildx-v0.38.0.linux-amd64 build \
+  --platform linux/amd64 --provenance=false \
+  -f deployment/reference/Containerfile \
+  --build-arg C1_REVISION=d6d9f8614c8dfd52591ec1d2402438f7b6a626f7 \
+  --tag localhost/c1:0.1.0rc2 \
+  --output type=docker,dest=/tmp/c1-m14c-release/release-image.raw.tar .
+docker image load --input /tmp/c1-m14c-release/release-image.raw.tar
+gzip -nc /tmp/c1-m14c-release/release-image.raw.tar > IMAGE_ARCHIVE
+PYTHONPATH="$PWD" PLAYWRIGHT_BROWSERS_PATH="$PWD/.playwright" \
+  C1_RELEASE_IMAGE=sha256:b1546cbbf032eedf7c3c58cb1b4e371d9aab62aa054a1515aa092ef7a3b0b653 \
+  uv run --locked python docs/evidence/M14c/release-image-workflow.py
+C1_ENGINE=docker C1_REFERENCE_PROJECT=c1-m14c-reference \
+  uv run --locked python scripts/release_audit.py --out RELEASE_AUDIT_JSON
+UV_CACHE_DIR="$PWD/.uv-cache" uv build --out-dir /tmp/c1-m14c-release
+```
+
+The wheel is installed into an isolated Python 3.13 environment using exported
+locked runtime requirements and `uv pip install --no-deps`. The packaged operator
+contract and all installed versions are verified. The source/wheel archives were
+inspected to exclude private configuration, secrets, caches and browser runtimes.
+`gh release create --verify-tag --prerelease` published the seven listed assets;
+publication verification compares every server-reported SHA-256 and byte size.
+The image is delivered as a pinned downloadable archive, without a registry-tag
+claim. [Compatibility instructions](../evidence/M14c/release-compatibility.md)
+describe consumption. Artifact availability completes Gate B; downstream host
+configuration and production lifecycle remain its supervisor responsibility.

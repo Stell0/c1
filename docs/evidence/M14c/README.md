@@ -76,3 +76,13 @@ Dedicated application persistence is required by the qualified full-storage
 backup transport. An external IdP database or signing key is never a C1 backup
 artifact. The production/recovery qualification is distinct from implementing
 an interface or passing an individual development test.
+
+## Published artifact
+
+The final [release pins](artifact-pins.json) identify the downloadable amd64 archive,
+wheel and source package. Buildx 0.38.0 exports a complete Docker archive directly;
+the report records the exact command, binary checksum, imported-image workflow and
+audit. The first classic Docker export omitted layer blobs and was rejected.
+Verify `SHA256SUMS` and use the imported immutable image ID. Tagged source captures
+the candidate before publication; the report on main records final Gate B closure
+without moving the tag or replacing any artifact.

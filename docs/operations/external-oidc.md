@@ -1,10 +1,10 @@
 # External OIDC installation and interoperability
 
-M14c adds provider-independent application interfaces. Qualification is recorded
-in [the M14c report](../milestones/M14c-report.md); until both gates and release
-are recorded, these interfaces are a development candidate. Gate A permits
-external-provider integration testing. Gate B is required for downstream
-production qualification. No semantic extension or AI credential is required.
+M14c provides provider-independent application interfaces. Both gates and the
+pinned `0.1.0rc2` artifact are recorded in [the M14c report](../milestones/M14c-report.md).
+Gate B permits downstream production qualification for the documented provider,
+backend and transport profiles; supervisors must qualify their own deployment.
+No semantic extension or AI credential is required.
 
 ## Ownership and provider checklist
 

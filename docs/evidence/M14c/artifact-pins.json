@@ -1,0 +1,27 @@
+{
+  "contract_version": 1,
+  "version": "0.1.0rc2",
+  "tag": "v0.1.0rc2",
+  "source_revision": "git:d6d9f8614c8dfd52591ec1d2402438f7b6a626f7",
+  "image": {
+    "id": "sha256:b1546cbbf032eedf7c3c58cb1b4e371d9aab62aa054a1515aa092ef7a3b0b653",
+    "platform": "linux/amd64",
+    "archive": "c1-0.1.0rc2-linux-amd64.docker.tar.gz",
+    "config_sha256": "sha256:d3d2f8c47461865dfecda5f4b9c27eb5d07c1de0d6c7f52b135a2fb750738127",
+    "layers": 7
+  },
+  "qualified_token_profiles": [
+    "c1-v1",
+    "hydra-jwt-v1"
+  ],
+  "configuration_version": 1,
+  "external_backup_manifest_version": 2,
+  "runtime_dependency_lock_sha256": "sha256:96eeb3b0e554229a2acf6341fc674432bc7dba81b36b69ff6f7fd621bbbfa3b5",
+  "builder": {
+    "name": "Docker Buildx",
+    "version": "0.38.0",
+    "binary_sha256": "sha256:4fe4cc38adf48169132749b6ca22a990928db0118e3407584ee553723115d287",
+    "platform": "linux/amd64",
+    "provenance_attestation": false
+  }
+}

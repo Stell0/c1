@@ -1,9 +1,9 @@
 # External-provider maintenance and recovery
 
-This is the M14c candidate contract. Gate B, full lifecycle tests, and a released
-pinned compatible artifact are required for production qualification. Check
-[M14c evidence](../milestones/M14c-report.md); do not treat these procedures as
-a successful recovery claim.
+This is the qualified M14c contract for the pinned `0.1.0rc2` artifact and
+documented dedicated-backend transport. [M14c evidence](../milestones/M14c-report.md)
+records Gate B lifecycle/recovery results and exact pins. Each deployment supervisor
+must qualify its own persistence, transport and lifecycle procedures.
 
 ## Maintenance and snapshot ownership
 
