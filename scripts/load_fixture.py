@@ -17,10 +17,9 @@ from urllib.parse import quote
 import httpx
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from probes.config import ROOT, environment  # noqa: E402
+from probes.config import KEYCLOAK_URL, ROOT, environment  # noqa: E402
 
 API_URL = "http://127.0.0.1:18000"
-KEYCLOAK_URL = "http://127.0.0.1:18090"
 REALM = "c1-dev"
 FIXTURE_PATH = ROOT / "fixtures/directory/fixture.json"
 
